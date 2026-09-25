@@ -23,16 +23,14 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 
 ## Model cost
 
-| Campaign | Runs | Estimated USD per run |
-|---|---:|---:|
-| FFT discovery | 1 | $5.03 |
-| FFT merge reproduction | 3 | $3.42 average ($0.85–$5.66) |
-| FFT PowerSave | 1 | $2.68 |
-| MAC six-gate clean start | 2 | $0.103 average |
-| FIR merge | 1 | $0.044 |
-| DWT merge | 1 | $0.393 |
+| Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode cost estimate |
+|---|---:|---:|---|---|---:|
+| FFT discovery | 32 | 75 | GPT-5.6 Sol | Gemini 3.8 Flash | $5.03 |
+| FFT PowerSave | 7 | 11 | GPT-5.6 Sol | Gemini 3.8 Flash | $2.68 |
+| FIR merge | 1 | 1 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.044 |
+| DWT merge | 2 | 3 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.393 |
 
-Source: [cost CSV](chia/examples/peweaver/paper_data/model_usage/ccusage_per_task_and_experiment_20260925.csv) and [method](chia/examples/peweaver/paper_data/model_usage/ccusage_probe_20260925.md). These are OpenCode `ccusage` estimates, not billed costs. The $106.23 total covers 958 sessions including sweeps; sum only `row_type=run`. The earlier $24.89 export overlaps. Native Gemini, VM, and physical-tool costs are excluded.
+Turns include failed attempts.
 
 ## Code
 
