@@ -1,6 +1,6 @@
 # PEWeaver
 
-Code for *PEWeaver: CHIA-Governed RTL Sharing for BCI-Inspired Signal Processing*.
+Code for *PEWeaver: Enabling Agentic Hardware Optimization for Efficient Brain Implants using CHIA*.
 
 PEWeaver uses CHIA to propose shared RTL. A separate evaluator checks behavior and hardware cost before accepting a design.
 
