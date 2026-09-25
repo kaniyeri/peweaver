@@ -26,11 +26,12 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 | Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode cost estimate |
 |---|---:|---:|---|---|---:|
 | FFT discovery | 32 | 75 | GPT-5.6 Sol | Gemini 3.8 Flash | $5.03 |
+| MAC clean starts (2) | 1 | 6 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.103 |
 | FFT PowerSave | 7 | 11 | GPT-5.6 Sol | Gemini 3.8 Flash | $2.68 |
 | FIR merge | 1 | 1 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.044 |
 | DWT merge | 2 | 3 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.393 |
 
-Turns include failed attempts.
+Turns include failed attempts. Costs are ccusage estimates from OpenCode session records, not a billed project total; see [the cost CSV](chia/examples/peweaver/paper_data/model_usage/ccusage_per_task_and_experiment_20260925.csv) and its [reading guide](chia/examples/peweaver/paper_data/model_usage/ccusage_probe_20260925.md).
 
 ## Code
 
@@ -48,3 +49,14 @@ cd chia
 ```
 
 This runs local checks without a model call or physical design run. See [measurement data](chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/canonical_comparison.json) and [evidence pointers](chia/examples/peweaver/REVIEWER_GUIDE.md).
+
+## Run the FFT merge loop
+
+From `chia/examples/peweaver/`, with the physical toolchain (Yosys/Verilator/Icarus, OpenROAD, volare sky130A) installed and `opencode auth login` done:
+
+```sh
+./run-fft-chiamerge.sh --dry-run   # preflight only; no model calls
+./run-fft-chiamerge.sh             # full ChiaMerge loop; about 1 h of physical flow per turn
+```
+
+`PLANNER_MODEL`, `WORKER_MODEL`, and `TURNS` configure the loop. The evaluator gates decide acceptance, and it is not guaranteed.

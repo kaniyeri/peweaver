@@ -117,8 +117,10 @@ def tool_env() -> dict:
     env["PEWEAVER_VERILATOR"] = f"{OSS}/verilator"
     env["PEWEAVER_IVERILOG"] = f"{OSS}/iverilog"
     env["PEWEAVER_VVP"] = f"{OSS}/vvp"
-    env["PEWEAVER_OPENROAD"] = "/work/peweaver/toolchains/openroad/usr/bin/openroad"
-    env["PEWEAVER_VOLARE_VENV"] = "/work/peweaver/toolchains/physical-venv"
+    env["PEWEAVER_OPENROAD"] = os.environ.get(
+        "PEWEAVER_OPENROAD", "/work/peweaver/toolchains/openroad/usr/bin/openroad")
+    env["PEWEAVER_VOLARE_VENV"] = os.environ.get(
+        "PEWEAVER_VOLARE_VENV", "/work/peweaver/toolchains/physical-venv")
     env["PEWEAVER_PDK_ROOT"] = PDK_ROOT
     return env
 
