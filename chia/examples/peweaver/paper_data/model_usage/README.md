@@ -1,5 +1,11 @@
 # Model Usage / Token-Cost Data Pack
 
+## Current ccusage estimate (2026-09-25)
+
+The [cost CSV](ccusage_per_task_and_experiment_20260925.csv) covers 958 OpenCode sessions, including the named FFT, MAC, FIR, and DWT campaigns. Its estimated total is $106.23. Filter `row_type=run` before summing. The [reading guide](ccusage_probe_20260925.md) explains the groupings, 19 unpriced sessions, and the unexplained difference between reported total tokens and the listed components. These estimates overlap the earlier export below and are not billed project costs.
+
+## Earlier adapter export (2026-09-24)
+
 Aggregated: 2026-09-24, from the project VM (`peweaver-vm`) under
 `/work/peweaver/runs/`. Sources are per-call usage records written by the
 OpenCode CHIA adapter (`*.usage.jsonl`, one JSON object per call attempt) and
