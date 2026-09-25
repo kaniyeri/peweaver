@@ -23,7 +23,7 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 
 ## Model cost
 
-| Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode cost estimate |
+| Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode Advisor cost estimate |
 |---|---:|---:|---|---|---:|
 | FFT discovery | 32 | 75 | GPT-5.6 Sol | Gemini 3.8 Flash | $5.03 |
 | MAC clean starts (2) | 1 | 6 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.103 |
@@ -31,7 +31,7 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 | FIR merge | 1 | 1 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.044 |
 | DWT merge | 2 | 3 | GPT-5.6 Sol | Gemini 3.8 Flash | $0.393 |
 
-Turns include failed attempts. Costs are ccusage estimates from OpenCode session records, not a billed project total; see [the cost CSV](chia/examples/peweaver/paper_data/model_usage/ccusage_per_task_and_experiment_20260925.csv) and its [reading guide](chia/examples/peweaver/paper_data/model_usage/ccusage_probe_20260925.md).
+Turns include failed attempts. Costs are ccusage estimates from OpenCode session records.
 
 ## Code
 
@@ -39,16 +39,6 @@ Turns include failed attempts. Costs are ccusage estimates from OpenCode session
 - The [FFT driver](chia/examples/peweaver/orchestration/peweaver_chia_graph.py) sets the checks. The accepted [S0 RTL](chia/examples/peweaver/orchestration/runs/merge_clean_1/peweaver_shared_fft.mergerun1.v) is the main design.
 - Accepted [MAC RTL](chia/examples/peweaver/orchestration/runs/mac-merge-2/best/shared_mac.v) and [DWT RTL](chia/examples/peweaver/orchestration/runs/dwt-merge-1/best/dwt_shared.v) are also included.
 
-## Quick start
-
-With Python dependencies from `chia/pyproject.toml`, Yosys, and Verilator installed:
-
-```sh
-cd chia
-./examples/peweaver/run-local.sh
-```
-
-This runs local checks without a model call or physical design run. See [measurement data](chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/canonical_comparison.json) and [evidence pointers](chia/examples/peweaver/REVIEWER_GUIDE.md).
 
 ## Run the FFT merge loop
 
@@ -59,4 +49,4 @@ From `chia/examples/peweaver/`, with the physical toolchain (Yosys/Verilator/Ica
 ./run-fft-chiamerge.sh             # full ChiaMerge loop; about 1 h of physical flow per turn
 ```
 
-`PLANNER_MODEL`, `WORKER_MODEL`, and `TURNS` configure the loop. The evaluator gates decide acceptance, and it is not guaranteed.
+`PLANNER_MODEL`, `WORKER_MODEL`, and `TURNS` configure the loop. 
