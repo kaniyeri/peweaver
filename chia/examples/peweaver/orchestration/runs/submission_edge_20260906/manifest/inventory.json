@@ -1,0 +1,77 @@
+{
+  "generated_at": "2026-09-08",
+  "environment": {
+    "host": "local_linux",
+    "working_dir": "/home/peweaver-user/Documents/chialoop",
+    "gcp_vm": {
+      "project": "peweaver-gcp-project",
+      "zone": "peweaver-zone",
+      "instance": "peweaver-vm",
+      "status": "stopped_after_variant_b_and_finalization_checks"
+    }
+  },
+  "tools": {
+    "local": {
+      "python3": "/usr/bin/python3",
+      "yosys": "/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/bin/yosys",
+      "iverilog": "/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/bin/iverilog",
+      "pdk": "/home/peweaver-user/.volare/sky130A"
+    },
+    "vm_target_paths": {
+      "python_env": "/work/peweaver/toolchains/miniforge3/envs/chia_env",
+      "openroad": "/work/peweaver/toolchains/openroad/bin/openroad",
+      "oss_cad_suite": "/work/peweaver/toolchains/oss-cad-suite/bin",
+      "pdk": "/work/peweaver/toolchains/.volare",
+      "volare_venv": "/work/peweaver/toolchains/physical-venv"
+    }
+  },
+  "designs": {
+    "S0": {
+      "name": "peweaver_shared_fft (mergerun1 / S0)",
+      "local_path": "chia/examples/peweaver/orchestration/runs/merge_clean_1/peweaver_shared_fft.mergerun1.v",
+      "vm_path": "/work/peweaver/runs/merge-repro-1/best/peweaver_shared_fft.v",
+      "sha256": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e"
+    },
+    "S1": {
+      "name": "peweaver_shared_fft (ps-fft-6 promoted / S1)",
+      "local_path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/best/peweaver_shared_fft.v",
+      "vm_path": "/work/peweaver/runs/ps-fft-6/best/peweaver_shared_fft.v",
+      "sha256": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700"
+    },
+    "A": {
+      "name": "peweaver_ppa_dual_fft (ungated dual)",
+      "local_path": "chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft.v",
+      "vm_path": "/work/peweaver/source/chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft.v",
+      "sha256": "27a4fe51709ede28365ac10a966394f550b6a339e6676b9957f2cb1ec3e55099"
+    },
+    "F": {
+      "name": "peweaver_shared_fft (fallback / F)",
+      "local_path": "chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v",
+      "vm_path": "/work/peweaver/source/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v",
+      "sha256": "6a56b8326993d091cd989fc45a68ac341e5a25a33aaace47e81fa42a1ab78499"
+    },
+    "B": {
+      "name": "peweaver_power_managed_dual_fft64_fft128_reference",
+      "local_path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/rtl/peweaver_ppa_dual_fft_icg.v",
+      "vm_path": "/work/peweaver/source/chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft_icg.v",
+      "sha256": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb"
+    }
+  },
+  "artifacts_on_disk": {
+    "dual_baseline_json": true,
+    "shared_baseline_json": true,
+    "dual_b_attempt2_result": true,
+    "dual_b_attempt2_artifacts": 42,
+    "ps_fft_campaign_dir": true,
+    "merge_repro_dirs": [
+      "mac-merge-1-reeval6",
+      "mac-merge-3",
+      "mac-merge-2",
+      "merge_clean_1",
+      "merge-repro-3",
+      "mac-merge-1",
+      "merge-repro-1",
+      "merge-repro-2"
+    ]
+  }
+}

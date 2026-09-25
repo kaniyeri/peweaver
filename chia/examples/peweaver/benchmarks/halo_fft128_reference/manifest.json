@@ -1,0 +1,64 @@
+{
+  "name": "halo_fft128_reference",
+  "schema_version": 1,
+  "tier": "reference",
+  "oracle_label": "reference",
+  "description": "HALO-inspired stateful FFT proxy (Phase A2): curated third-party r22sdf 128-point R2^2SDF streaming FFT reference under a PEWeaver-owned name-isolation wrapper. Reference-only fixture: it has no sharing miter and no expected-equivalence contract, so it is deliberately excluded from the formal-equivalence and synthesis-proxy corpora and is verified by the dedicated directed Verilator regression (fft128_regression.py) with an independent pure-Python bit-accurate arithmetic oracle (fft128_oracle.py). No formal proof and no HALO, clinical, or PPA claim.",
+  "sources": [
+    "peweaver_halo_fft128_reference.v",
+    "../../third_party/r22sdf/FFT128.v",
+    "../../third_party/r22sdf/SdfUnit.v",
+    "../../third_party/r22sdf/SdfUnit2.v",
+    "../../third_party/r22sdf/Butterfly.v",
+    "../../third_party/r22sdf/DelayBuffer.v",
+    "../../third_party/r22sdf/Multiply.v",
+    "../../third_party/r22sdf/Twiddle128.v"
+  ],
+  "directed_testbench": "fft128_directed_tb.sv",
+  "directed_top": "peweaver_fft128_directed_tb",
+  "directed_command": "python3 examples/peweaver/fft128_regression.py examples/peweaver/benchmarks/halo_fft128_reference",
+  "independent_oracle": "../../fft128_oracle.py",
+  "upstream": {
+    "url": "https://github.com/nanamake/r22sdf",
+    "revision": "f7dca6e548e1370b69a09382d30609ee14ba4a57",
+    "license": "MIT, Copyright (c) 2017 Nanamaru Namake",
+    "role": "HALO-inspired stateful FFT proxy; not HALO RTL",
+    "vector_files": {
+      "vectors/input4.txt": "b8d2d555c07608b054acb238141a7d6ac851bfda91d443a1a3e0f59a5b2cd36b",
+      "vectors/input5.txt": "f0d2837424dc4d7e9e19e550ebcfec7852d85b096dc5e3cff9d26203223cb0e1",
+      "vectors/output4.txt": "e7e0e7029d0d63be9f4abac4123e3ee7cd9a8be0b6547f1f2e9e7f753a82c5da",
+      "vectors/output5.txt": "aa5eabb5a1e76ead7f34c05aacd12c90709972c45a3392be231a46c2b9d79f61"
+    }
+  },
+  "contract": {
+    "task_modes": [
+      {"name": "fft128_streaming", "components": ["peweaver_halo_fft128_reference"], "parallel_groups": []}
+    ],
+    "top_level_mutual_exclusion": true,
+    "legal_overlap": [],
+    "interfaces": {
+      "clock": "single clock; all state updates on posedge; asynchronous active-high reset",
+      "reset": "active-high asynchronous; clears control state; delay-line state drains while di_en is low",
+      "input": "di_en with 16-bit two's-complement di_re/di_im; exactly 128 consecutive valid samples per transaction, natural order",
+      "output": "do_en with 16-bit two's-complement do_re/do_im; exactly 128 consecutive valid samples per transaction, bit-reversed order, scaled by 1/128",
+      "fixed_point": "signed Q1.15 (WIDTH=16) samples and twiddles; per-stage arithmetic right shift by 1 with alternating round-half-up bias; modulo wrap on accumulator paths",
+      "backpressure": "none; streaming interface with no ready/stall handshake"
+    },
+    "performance": {"latency_cycles": 137, "sustained_throughput": "one 128-sample transaction per 128 input cycles in streaming use"},
+    "mode_switch": {
+      "preconditions": "no new input acceptance while reset is asserted; in-flight transaction must be abandoned or drained before the next one starts",
+      "drain_inflight": true,
+      "reset_on_switch": true,
+      "state_isolation": true
+    },
+    "stimulus": {
+      "source": "vectors/input4.txt, vectors/input5.txt, vectors/output4.txt, vectors/output5.txt",
+      "provenance": "Upstream r22sdf sim/fft_128 vectors at pinned revision f7dca6e548e1370b69a09382d30609ee14ba4a57 (ModelSim goldens); SHA-256 recorded in upstream.vector_files and third_party/r22sdf/README.md. Used here for interface/control validation and golden reproduction; the goldens are upstream ModelSim captures, not an independent numerical FFT oracle."
+    },
+    "objective": {
+      "primary": "establish a verified stateful reference instance for later sharing experiments; no optimization claim in Phase A2",
+      "constraints": {"correctness": "directed regression reproduces upstream goldens with documented 137-cycle latency", "schedule": "transactions are separated by reset plus idle drain, or stream back-to-back"}
+    }
+  },
+  "formal_boundary": "No formal equivalence proof exists for this fixture. The full 128-point fixed-point arithmetic is not formally proved; verification is the directed Verilator regression plus the independent arithmetic oracle fft128_oracle.py (a simulation model, not a proof)."
+}

@@ -1,0 +1,76 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0120] Large net zero_ has 175 pins which may impact routing performance. Consider optimization.
+[WARNING DRT-0422] No routing tracks pass through the center of Term VSS.
+[WARNING DRT-0422] No routing tracks pass through the center of Term VDD.
+[INFO DRT-0167] List of default vias:
+  Layer via
+    default via: M1M2_PR
+  Layer via2
+    default via: M2M3_PR
+  Layer via3
+    default via: M3M4_PR
+  Layer via4
+    default via: M4M5_PR
+[INFO DRT-0168] Init region query.
+[INFO DRT-0033] FR_MASTERSLICE shape region query size = 0.
+[INFO DRT-0033] licon shape region query size = 0.
+[INFO DRT-0033] li1 shape region query size = 808909.
+[INFO DRT-0033] mcon shape region query size = 0.
+[INFO DRT-0033] met1 shape region query size = 129960.
+[INFO DRT-0033] via shape region query size = 41040.
+[INFO DRT-0033] met2 shape region query size = 24624.
+[INFO DRT-0033] via2 shape region query size = 32832.
+[INFO DRT-0033] met3 shape region query size = 24693.
+[INFO DRT-0033] via3 shape region query size = 32832.
+[INFO DRT-0033] met4 shape region query size = 9890.
+[INFO DRT-0033] via4 shape region query size = 1625.
+[INFO DRT-0033] met5 shape region query size = 1739.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0036] FR_MASTERSLICE guide region query size = 0.
+[INFO DRT-0036] licon guide region query size = 0.
+[INFO DRT-0036] li1 guide region query size = 69699.
+[INFO DRT-0036] mcon guide region query size = 0.
+[INFO DRT-0036] met1 guide region query size = 45542.
+[INFO DRT-0036] via guide region query size = 0.
+[INFO DRT-0036] met2 guide region query size = 19299.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] met3 guide region query size = 980.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] met4 guide region query size = 413.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] met5 guide region query size = 0.
+[INFO DRT-0179] Init gr pin query.
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /work/peweaver/runs/s0-independent-repeat-20260909/examples/peweaver/physical/pdk/sky130hd/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation peweaver_ppa_shared_fft (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 95318 rc segments
+[INFO RCX-0439] Coupling Cap extraction peweaver_ppa_shared_fft ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 55% of 195053 wires extracted
+[INFO RCX-0442] 100% of 195053 wires extracted
+[INFO RCX-0045] Extract 31314 nets, 126632 rsegs, 126632 caps, 201095 ccs
+[INFO RCX-0443] 31314 nets finished
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 89643 pin activities.
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 89643 pin activities.
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 89643 pin activities.
+Design area 286970 u^2 47% utilization.
+PEWEAVER_PHYSICAL_FLOW_DONE

@@ -1,0 +1,199 @@
+{
+ "turn": 13,
+ "accepted": true,
+ "best_level": 4,
+ "best_hash": "eee9f1bf5df09892ad9926169255c25e3b69ff9d7460977060a730bc898f0f2b",
+ "best_manifest": {
+  "inputs/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+  "inputs/CONTRACT.md": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+  "inputs/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+  "inputs/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+  "inputs/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+  "inputs/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+  "inputs/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+  "inputs/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+  "inputs/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+  "inputs/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+  "peweaver_shared_fft.v": "150d5b25712e269040a17571c4ee6379de1c2c2deb0d2f649fb0824d4020504f"
+ },
+ "architecture": "## 1. Architecture\n\n### Top-level organization\n\nUse one configurable radix-\\(2^2\\) SDF pipeline sized for the 128-point case:\n\n```text\ninput\n  -> shared configurable R2\u00b2 stage P0\n  -> shared configurable R2\u00b2 stage P1\n  -> shared configurable R2\u00b2 stage P2\n  -> 128-only radix-2 stage P3\n  -> mode-selected output\n```\n\n- **64-point mode:** `P0/P1/P2` use \\(M=64/16/4\\); output bypasses `P3`.\n- **128-point mode:** the same physical `P0/P1/P2` use \\(M=128/32/8\\), followed by `P3` with \\(M=2\\).\n- This is not two cores behind a mux: both modes use the same three butterfly pipelines, feedback stores, multipliers, coefficient logic, and valid pipeline.\n- No output-reordering RAM is needed. The SDF schedule naturally consumes natural order and emits bit-reversed order.\n\n### Shared arithmetic\n\nEach shared R2\u00b2 stage contains:\n\n- Two complex butterflies:\n  - `BF1`: four signed 17-bit add/sub operations, `(value + 0) >>> 1`.\n  - `BF2`: four signed 17-bit add/sub operations, `(value + 1) >>> 1`.\n- Two complex feedback delays, implemented as programmable-depth circular buffers rather than maximum-depth shift chains.\n- The `-j` path after `BF1`: `{re,im} = {db1_im, -db1_re}` with 16-bit modular negation.\n- One complex multiplier after `BF2`, with four exact signed 16\u00d716 products. Each product is independently arithmetically shifted by 15 before the final 16-bit modular add/sub.\n- Registered coefficient lookup and the same bypass alignment as the references: address zero bypasses multiplication.\n\nThree complex multipliers are retained because all three SDF stages process a sample concurrently during sustained one-sample-per-cycle operation. Time-sharing them would violate throughput.\n\n`P2`\u2019s multiplier is clock/data-disabled in 64-point mode because \\(M=4\\) requires no multiplication, but the same multiplier is active for \\(M=8\\) in 128-point mode.\n\n### Twiddle storage\n\nUse the literal 128-point Q1.15 table as the canonical coefficient set. Every required 64-point coefficient is the corresponding even entry:\n\n```text\nW64[a] == W128[2*a]\n```\n\nThus:\n\n```text\nrom_addr = mode_q ? addr128 : {addr64, 1'b0}\n```\n\nEach active R2\u00b2 stage needs a coefficient read every cycle, so provide three registered read ports/decoders into one canonical literal table definition. Do not calculate coefficients from trigonometric approximations. Unreachable `xxxx` reference entries need not be selected; all reachable entries must use the exact literals.\n\n### Mode and state ownership\n\nControl registers include:\n\n- `mode_q`: latched only with the first accepted sample while idle.\n- `busy_q`: set on that acceptance and held until the final output-valid sample drains.\n- Uniform 7-bit sample/count state; bit 6 is masked/forced clear in 64-point mode.\n- Per-stage valid flags, counters, circular-buffer pointers, ROM alignment registers, and multiplier-bypass flags.\n\nWhile `busy_q=1`, `mode_q` cannot change. Consecutive same-mode frames may overlap normally; their valid windows abut. A mode transition is legal only after drain and reset, as required.\n\nActive-high asynchronous reset must immediately:\n\n- Clear `busy_q`, `do_en`, all stage valid flags, counters, pointers, butterfly phase state, coefficient-valid/bypass state, and the `P3` valid state.\n- Prevent any pre-reset transaction from reasserting output valid.\n- Permit `mode_q` to be selected again by the first post-reset accepted sample.\n\nThe data arrays and arithmetic pipeline data registers need not be reset. In every stage, the initial store phase overwrites each selected feedback location before that location is consumed by a valid butterfly. Resetting validity and pointers therefore prevents stale mode/frame data from becoming observable while avoiding a large reset network.\n\n---\n\n## 2. Resource and schedule table\n\n### Physical resources\n\n| Resource | Physical capacity | 64-point configuration | 128-point configuration |\n|---|---:|---:|---:|\n| `P0.DB1` | 64 complex words | depth 32 | depth 64 |\n| `P0.DB2` | 32 complex words | depth 16 | depth 32 |\n| `P1.DB1` | 16 complex words | depth 8 | depth 16 |\n| `P1.DB2` | 8 complex words | depth 4 | depth 8 |\n| `P2.DB1` | 4 complex words | depth 2 | depth 4 |\n| `P2.DB2` | 2 complex words | depth 1 | depth 2 |\n| `P3.DB` | 1 complex word | bypassed/inactive | depth 1 |\n| R2\u00b2 butterflies | 3 \u00d7 (`BF1`,`BF2`) | all shared | all shared |\n| Radix-2 butterfly | 1 | inactive | active, RH=0 |\n| Complex multipliers | 3 | P0/P1 active as scheduled; P2 bypass | P0/P1/P2 active as scheduled |\n| Twiddle literals | 128 complex constants | even-address subset | native addresses |\n\nA \u201ccomplex word\u201d is 32 bits: 16-bit real plus 16-bit imaginary.\n\n### Per-stage parameters and latency\n\nLatency is measured from a stage\u2019s accepted sample 0 to its first valid output.\n\n| Mode | Stage | \\(N\\) | \\(M\\) | `DB1` | `DB2` | Stage latency | Twiddle |\n|---|---|---:|---:|---:|---:|---:|---|\n| 64 | P0 | 64 | 64 | 32 | 16 | 51 = 3M/4+3 | W64 |\n| 64 | P1 | 64 | 16 | 8 | 4 | 15 = 3M/4+3 | W64 |\n| 64 | P2 | 64 | 4 | 2 | 1 | 5 = 3M/4+2 | bypass |\n| 64 | Total | | | | | **71** | |\n| 128 | P0 | 128 | 128 | 64 | 32 | 99 = 3M/4+3 | W128 |\n| 128 | P1 | 128 | 32 | 16 | 8 | 27 = 3M/4+3 | W128 |\n| 128 | P2 | 128 | 8 | 4 | 2 | 9 = 3M/4+3 | W128 |\n| 128 | P3 | 128 | 2 | 1 | \u2014 | 2 | none |\n| 128 | Total | | | | | **137** | |\n\nThese boundaries preserve the reference register placement: feedback output, butterfly output, registered twiddle, multiplier/bypass output, and final radix-2 output.\n\n### R2\u00b2 stage schedule\n\nFor a stage with `LM=log2(M)` and a 7-bit local accepted-stream counter:\n\n- Input counter period: `N` accepted samples.\n- `BF1` feedback/add-sub phase:\n\n```text\nbf1_bf = di_count[LM-1]\n```\n\nIt stores during the first `M/2` samples and butterflies during the second `M/2`, repeating over the frame.\n\n- `BF1` output-valid sequence starts when:\n\n```text\ndi_count == M/2 - 1\n```\n\nand lasts exactly `N` stage cycles.\n\n- `-j` is selected when:\n\n```text\nbf1_count[LM-1:LM-2] == 2'b11\n```\n\n- `BF2` phase is the registered value of:\n\n```text\nbf1_count[LM-2]\n```\n\n- `BF2` output sequence starts from the registered comparison:\n\n```text\nbf1_sp_en && (bf1_count == M/4 - 1)\n```\n\nand lasts `N` cycles.\n\n- Both valid counters wrap at `N-1`; a broken/nonconsecutive input sequence resets the input count, matching the reference assumptions.\n\n### Twiddle addressing\n\nFor each R2\u00b2 stage:\n\n```text\ntw_sel = {bf2_count[LM-2], bf2_count[LM-1]}\ntw_addr = tw_num * tw_sel       // modulo N\n```\n\nMode/stage-specific `tw_num` values are:\n\n| Mode/stage | `tw_num` before multiplication |\n|---|---|\n| 64/P0, M=64 | `bf2_count[3:0]` |\n| 64/P1, M=16 | `{bf2_count[1:0],2'b00}` |\n| 64/P2, M=4 | `0`; multiplier always bypassed |\n| 128/P0, M=128 | `bf2_count[4:0]` |\n| 128/P1, M=32 | `{bf2_count[2:0],2'b00}` |\n| 128/P2, M=8 | `{bf2_count[0],4'b0000}` |\n\nFor 64-point operation, zero-extend the 6-bit modular result and double it to address the 128-entry literal table. Register `tw_addr!=0` alongside the registered coefficient; use that delayed flag to select multiplication versus the correspondingly delayed unmodified sample.\n\n### `P3` schedule\n\nIn 128-point mode:\n\n- `bf_en` toggles on every valid input to `P3`.\n- Even phase writes the one-word feedback register.\n- Odd phase performs the RH=0 butterfly.\n- `do_en` is the input valid delayed by two registers.\n\nIn 64-point mode, `P3` is disabled and output comes directly from `P2`.\n\n---\n\n## 3. Exact interface and timing\n\n```verilog\nmodule peweaver_shared_fft (\n    input         clock,\n    input         reset,\n    input         mode,\n    input         di_en,\n    input  [15:0] di_re,\n    input  [15:0] di_im,\n    output        do_en,\n    output [15:0] do_re,\n    output [15:0] do_im\n);\n```\n\nThere are no other external ports.\n\n- `reset` has active-high asynchronous assertion.\n- `mode=0`: exactly 64 consecutive enabled samples form a frame.\n- `mode=1`: exactly 128 consecutive enabled samples form a frame.\n- One sample is accepted on every rising edge with `di_en=1`; there is no backpressure.\n- If the sample-0 acceptance edge is cycle 0:\n  - 64-point `do_en` first asserts at cycle 71.\n  - 128-point `do_en` first asserts at cycle 137.\n- A standalone frame produces exactly `N` consecutive valid outputs and then deasserts.\n- In continuous same-mode traffic, adjacent frame-valid windows may directly abut, maintaining one output per cycle.\n- Output words are Q1.15, scaled by \\(1/N\\), and emitted in bit-reversed index order.\n- `mode_q` is captured with the first sample of an idle transaction and remains fixed through drain. A different mode requires idle drain followed by reset.\n\n---\n\n## 4. Ranked implementation and verification risks\n\n1. **Cycle alignment and exact latency**  \n   Implement control/valid logic first, initially with tagged dummy samples. Verify every stage latency and the totals 71/137, including consecutive frames, reset on every possible pipeline cycle, and back-to-back valid windows.\n\n2. **Signed arithmetic and truncation points**  \n   Implement butterflies and multiplication next. Explicitly use signed 17-bit butterfly intermediates and signed 32-bit products. Verify negative odd values, `-32768`, overflow wrap, arithmetic shifts, RH=0/1, and independent per-product truncation before complex add/sub.\n\n3. **Twiddle address and ROM-register alignment**  \n   Compare `tw_sel`, `tw_num`, address, bypass flag, and selected literals cycle-by-cycle against each reference stage. Exhaustively enumerate reachable addresses in every `(N,M)` configuration and prove the 64-point/even-128-table equivalence.\n\n4. **Programmable feedback-buffer semantics**  \n   Verify read-before-write behavior and exact delays 1,2,4,8,16,32,64. Compare each buffer output and butterfly input against the reference shift buffers over multiple continuous frames.\n\n5. **Reset and mode ownership**  \n   Assert reset asynchronously during fill, butterfly, multiply, and output phases. Confirm immediate `do_en=0`, no later stale valid, pointer restart, overwrite-before-read, and immutable `mode_q` while busy.\n\n6. **Continuous-frame boundary behavior**  \n   Test at least three frames without gaps in each mode. Pay special attention to counter wrap, simultaneous end/start conditions, and feedback locations reused at frame boundaries.\n\n7. **Physical implementation**  \n   After bit-exact RTL equivalence, synthesize early. Preserve pipeline boundaries around coefficient lookup and multipliers, use circular memories instead of deep shift muxes, disable unused `P3/P2-multiply` logic by mode, and constrain the 10 ns path. The shared design removes three duplicate R2\u00b2 stages and all 64-core feedback storage versus the combined baseline, providing the main area margin below 424,885 \u00b5m\u00b2.",
+ "advice": "### Highest-value instruction: optimize the registered complex-multiplier cone without adding latency\n\nThe only failing gate is timing, and the most likely critical combinational path is a signed `16\u00d716` product followed by an accidentally widened add/sub. Keep the existing multiplier-output register and exact cycle schedule, but make the truncation and modular arithmetic widths explicit:\n\n```text\nrr_full = $signed(data_re) * $signed(tw_re)\nii_full = $signed(data_im) * $signed(tw_im)\nri_full = $signed(data_re) * $signed(tw_im)\nir_full = $signed(data_im) * $signed(tw_re)\n\nrr_q15 = rr_full[30:15]\nii_q15 = ii_full[30:15]\nri_q15 = ri_full[30:15]\nir_q15 = ir_full[30:15]\n\nmul_re_q <= rr_q15 - ii_q15   // 16-bit modular result\nmul_im_q <= ri_q15 + ir_q15   // 16-bit modular result\n```\n\nDeclare each `*_full` as signed 32-bit and each `*_q15` as signed 16-bit. Ensure the final operations are only 16 bits, discarding carry/borrow. Do **not** write a single expression such as `(rr_full >>> 15) - (ii_full >>> 15)`, because width propagation can infer a 32-bit adder after the multipliers. Do not replace the four products with a three-multiply identity; independent truncation makes that potentially non-equivalent.\n\nPreserve these alignment rules:\n\n- `tw_re_q`, `tw_im_q`, `tw_nonzero_q`, and the corresponding delayed sample must refer to the same `bf2_count`.\n- If `tw_nonzero_q==0`, `mul_re_q/mul_im_q` select the delayed unmodified sample.\n- In 64-point `P2`, multiplication is always bypassed.\n- No register may be added or removed: first `do_en` must remain cycle 71 or 137.\n\nBefore moving on, verify:\n\n1. Cycle-by-cycle multiplier results against a software model that separately shifts each 32-bit product by 15 and then performs 16-bit modular add/sub.\n2. Directed operands including `16'h8000`, `16'hffff`, odd negative products, and overflowing final sums.\n3. Full-frame output equality and unchanged `do_en` windows for both modes, including three continuous frames and asynchronous reset during multiplication.\n4. Resynthesis with the timing report showing the multiplier endpoint now uses 16-bit final adders and meets the 10 ns constraint. If the reported worst path is not in this cone, do not speculate further\u2014apply the same width/retiming discipline to the actual reported startpoint and endpoint while preserving the fixed register boundaries.",
+ "feedback": "",
+ "history": [
+  {
+   "ts": 1788521618.5892909,
+   "turn": 1,
+   "status": "promoted",
+   "level": 1,
+   "hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  {
+   "ts": 1788521879.579451,
+   "turn": 2,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788522436.28955,
+   "turn": 3,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788522834.8276386,
+   "turn": 4,
+   "status": "stall",
+   "hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  {
+   "ts": 1788523188.5599883,
+   "turn": 5,
+   "status": "stall",
+   "hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  {
+   "ts": 1788523495.386715,
+   "turn": 6,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788523835.895169,
+   "turn": 7,
+   "status": "stall",
+   "hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  {
+   "ts": 1788524197.5541487,
+   "turn": 8,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788525278.5422215,
+   "turn": 9,
+   "status": "promoted",
+   "level": 3,
+   "hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  {
+   "ts": 1788525622.760141,
+   "turn": 10,
+   "status": "stall",
+   "hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  {
+   "ts": 1788526160.7218978,
+   "turn": 11,
+   "status": "stall",
+   "hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  {
+   "ts": 1788526633.213456,
+   "turn": 12,
+   "status": "stall",
+   "hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  {
+   "ts": 1788527809.8310127,
+   "turn": 13,
+   "status": "accepted",
+   "level": 4,
+   "hash": "eee9f1bf5df09892ad9926169255c25e3b69ff9d7460977060a730bc898f0f2b"
+  }
+ ],
+ "model_status": {
+  "1": {
+   "advise_chars": 10745,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656",
+   "verdict": "IMPROVE",
+   "level": 1
+  },
+  "2": {
+   "advise_chars": 1477,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "e1a0b614b48cd32ecd3face060b3d883e8b35812e2f9b7e119775ab945fdaf36",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "3": {
+   "advise_chars": 2062,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "12fbd9eb9854a487a2877ba4f69cd77436821bb7e038f5a11a84eee57537d39b",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "4": {
+   "advise_chars": 1398,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  "5": {
+   "advise_chars": 1541,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  "6": {
+   "advise_chars": 1476,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "efe9a2d34cf3c6f2a11063afb844976444309f58eebc4040857727b1e6764b6e",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "7": {
+   "advise_chars": 1096,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "a0297a1ded4813f3686a10a624589a554d4d6d3f3bfd4b35d7d903739f070656"
+  },
+  "8": {
+   "advise_chars": 1058,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "c63fada78898d0e7011d8251f335f73dacd0719b10a68740ef55b8989074ecc4",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "9": {
+   "advise_chars": 1410,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2",
+   "verdict": "IMPROVE",
+   "level": 3
+  },
+  "10": {
+   "advise_chars": 1665,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: {\"code\":400,\"message\":\"Corrupted thought signature.\",\"metadata\":{\"error_type\":\"invalid_request\"}}",
+   "manifest_hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  "11": {
+   "advise_chars": 2086,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  "12": {
+   "advise_chars": 2136,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "e561b24209f9e7bdef08c0b08f905de38bc1bc384e262201d73fa722e6e205b2"
+  },
+  "13": {
+   "advise_chars": 2368,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "eee9f1bf5df09892ad9926169255c25e3b69ff9d7460977060a730bc898f0f2b",
+   "verdict": "ACCEPT",
+   "level": 4
+  }
+ }
+}

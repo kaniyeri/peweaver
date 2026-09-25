@@ -1,0 +1,67 @@
+{
+  "design": "peweaver_ppa_dual_fft_icg (Variant B)",
+  "date": "2026-09-07",
+  "verification_phase": "Pre-PnR Cheap Checks",
+  "checks": {
+    "yosys_synthesis": {
+      "status": "PASS",
+      "icg_cells_mapped": 2,
+      "icg_cell_type": "sky130_fd_sc_hd__dlclkp_4",
+      "unmapped_cells": 0,
+      "clock_targets": ["clock_64", "clock_128"]
+    },
+    "verilator_rtl_simulation": {
+      "status": "PASS",
+      "simulation_marker": "PEWEAVER_ACTIVITY_DONE",
+      "errors": 0
+    },
+    "icarus_gate_level_simulation": {
+      "scenario_run": "PASS",
+      "streaming_64_run": "PASS",
+      "streaming_128_run": "PASS",
+      "functional_mismatches": 0
+    },
+    "vcd_clock_gating_audit": {
+      "mode_64_streaming": {
+        "clock_64_transitions": 589,
+        "clock_128_transitions": 2,
+        "inactive_core_silenced": true
+      },
+      "mode_128_streaming": {
+        "clock_64_transitions": 2,
+        "clock_128_transitions": 1105,
+        "inactive_core_silenced": true
+      }
+    },
+    "latency_verification": {
+      "mode_64_first_valid_latency_cycles": 71,
+      "mode_128_first_valid_latency_cycles": 137,
+      "contract_equivalent": true
+    },
+    "openroad_frontend": {
+      "status": "PASS",
+      "placement_density": 0.50,
+      "checkpoint_odb": "dual_b_frontend.odb (38.6 MB; attempt 2 hold-repair run)",
+      "cts_timing_closed": true
+    },
+    "physical_attempt2": {
+      "status": "PASS",
+      "result": "physical_attempt2/dual_b_sky130.json",
+      "placed_cell_area_um2": 429655.0,
+      "setup_slack_ns": 0.444672,
+      "hold_slack_ns": 0.178312,
+      "total_negative_slack_max_ns": 0.0,
+      "drc_violation_lines": 0,
+      "p64_streaming_mw": 23.38694,
+      "p128_streaming_mw": 41.7117,
+      "e64_3frame_nj": 22.9192012,
+      "e128_3frame_nj": 76.749528,
+      "activity_annotations": {
+        "scenario": 127481,
+        "streaming_64": 127481,
+        "streaming_128": 127481
+      },
+      "sparse_idle_measurement": false
+    }
+  }
+}

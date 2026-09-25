@@ -1,0 +1,83 @@
+{
+ "campaign": "peweaver-final-campaign",
+ "created": 1788583296.9647691,
+ "created_date": "2026-09-05",
+ "author": "model-free controller (operator asleep; pre-registered before any new outcome was viewed)",
+ "frozen_inputs_manifest": "input_manifest.json",
+ "frozen_inputs_manifest_sha256": "b79d2e76c4760e338af1728a5f17b66c00efe1ed2a310fa3ec2bf19f8639eced",
+ "experiments": [
+  {
+   "id": "mac-merge-2",
+   "id3": "mac-merge-3",
+   "composition": "ChiaMerge (clean-room, reply-mode implementer, inlined-source architecture advice)",
+   "models": {
+    "adviser": "openrouter/openai/gpt-5.6-sol",
+    "implementer": "gemini/gemini-3.8-flash via DirectGeminiLLM (Gemini Developer API, credit-funded key, env-only)"
+   },
+   "budget": {
+    "turns_per_run": 16,
+    "clean_starts": 2,
+    "full_physical_runs": 0,
+    "note": "MAC second-domain experiment is synthesis-level only per plan section 8"
+   },
+   "gate_ladder": [
+    "lint",
+    "functional (1200-cycle randomized oracle)",
+    "corners (directed signed corners)",
+    "structure (exactly one 8x8 multiplier, post-opt)",
+    "area (below two-reference synthesis sum)",
+    "formal (SymbiYosys BMC depth 12, BOUNDED bounded-model-checking evidence, symbolic operands, protocol assumptions: initial reset + mode changes only while en=0; mirror-level holds are mirror-internal by construction \u2014 documented limitation)"
+   ],
+   "acceptance": "all six gates pass",
+   "negative_controls": [
+    "naive_two_mult (structure fail)",
+    "double_product_tdm (functional fail)",
+    "mutation suite mac_mutants.py: each applicable mutant fails >=1 gate"
+   ],
+   "stop_conditions": [
+    "protected hash change",
+    "candidate budget exhausted",
+    "infrastructure failures exhaust retries"
+   ]
+  },
+  {
+   "id": "mac-mutation-suite",
+   "description": "verification of the verifier: six deliberate corruptions of a known-good MAC candidate must each fail >=1 gate",
+   "budget": {
+    "runs": 1,
+    "full_physical_runs": 0
+   }
+  },
+  {
+   "id": "dual-baseline-physical",
+   "description": "ungated dual-core FFT reference (variant A): matched physical measurement against the shared candidate",
+   "models": "none (model-free)",
+   "budget": {
+    "full_physical_runs": 2,
+    "note": "one run + one independent model-free repeat"
+   },
+   "gates": [
+    "synthesis completes",
+    "RTL activity scenario DONE",
+    "mapped GLS DONE (64 and 128 streaming)",
+    "timing met TNS 0 DRC 0 no STA-1452",
+    "activity annotation nonzero both windows"
+   ],
+   "matched_schedule": "exact shared_activity_tb.sv schedule mirror (dual_activity_tb.sv)"
+  }
+ ],
+ "ladder_change_note": "mac-merge-1 is PILOT evidence accepted under the 4-gate ladder (lint, functional, structure, area). It cannot retrospectively become a clean 6-gate start. This campaign re-evaluates the mac-merge-1 candidate under the 6-gate ladder and reports that result separately (pass or fail). Clean 6-gate success k/n is computed only from preregistered starts mac-merge-2/3.",
+ "prohibited": [
+  "editing evaluator/gate code after outcomes are viewed",
+  "weighted-score acceptance",
+  "relaxing constraints",
+  "printing or copying provider credentials"
+ ],
+ "known_limitations": [
+  "MAC 'area' gate compares unweighted generic Yosys cell counts, not mapped library area",
+  "BMC depth 12 is bounded evidence; arithmetic beyond the bound is covered by the independent pure-Python oracle judge",
+  "formal mirror hold properties are mirror-internal; DUT internal-state corruption is externally observable only within the bound",
+  "mirror and DUT share the multiply expression (common-mode risk partially mitigated by the independent Python oracle judge)"
+ ],
+ "manifest_refrozen_note": "input_manifest.json re-frozen after the Sol integration review and fixes, BEFORE any new campaign outcome was viewed or any start 2/3 ran. 103 unit tests green at freeze."
+}

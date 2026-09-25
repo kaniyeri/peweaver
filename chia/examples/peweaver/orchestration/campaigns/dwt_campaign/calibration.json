@@ -1,0 +1,216 @@
+{
+ "schema": "peweaver-dwt-calibration-1",
+ "date": "2026-09-17",
+ "tool": {
+  "yosys": "0.68+136 (git sha1 c30457480-dirty, Release, Clang)",
+  "verilator": "5.051 devel v5.050-281-g1ad9acd22",
+  "iverilog": "oss-cad-suite (local toolchain)",
+  "python": "3.10"
+ },
+ "method": {
+  "cell_count_script": "read_verilog -sv <file>; synth -top <top> -flatten; stat -json",
+  "cell_count_field": "modules.<top>.num_cells",
+  "normalization_script": "read_verilog -sv <file>; hierarchy -check -top <top>; proc; flatten; opt_expr; opt_clean; stat -json",
+  "normalized_mul_field": "modules.<top>.num_cells_by_type keys containing 'mul' or 'macc'",
+  "generic_cell_count_is_not_mapped_area": true,
+  "source": "local model-free selftest run, all gates executed"
+ },
+ "measured": {
+  "ref_dwt_a_cells": 6179,
+  "ref_dwt_b_cells": 12391,
+  "two_reference_sum_cells": 18570,
+  "naive_wrapper_cells": 16968,
+  "naive_normalized_muls": 24,
+  "fold_control_cells": 6521,
+  "fold_control_normalized_muls": 8,
+  "fold_control_reduction_pct": 64.9,
+  "cheater_cells": 6417,
+  "cheater_normalized_muls": 8
+ },
+ "thresholds": {
+  "normalized_mul_cap": 8,
+  "area_ratio_of_reference_sum": 0.6,
+  "area_threshold_cells": 11142.0,
+  "pilot_origin": "disclosed model-free pilot calibration; final counts above replace pilot values and reproduce"
+ },
+ "controls": {
+  "fold": {
+   "all_pass": true,
+   "gates": [
+    {
+     "gate": "lint",
+     "passed": true,
+     "note": ""
+    },
+    {
+     "gate": "functional",
+     "passed": true,
+     "note": "bit-exact over 1504 cycles"
+    },
+    {
+     "gate": "corners",
+     "passed": true,
+     "note": "bit-exact over 73 cycles"
+    },
+    {
+     "gate": "structure",
+     "passed": true,
+     "note": "8 normalized multiplication operators <= 8"
+    },
+    {
+     "gate": "area",
+     "passed": true,
+     "note": "generic Yosys cell count 6521 = 64.9% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)"
+    },
+    {
+     "gate": "holdout",
+     "passed": true,
+     "note": "post-synthesis bit-exact over 1204 cycles"
+    }
+   ]
+  },
+  "naive": {
+   "all_pass": false,
+   "gates": [
+    {
+     "gate": "lint",
+     "passed": true,
+     "note": ""
+    },
+    {
+     "gate": "functional",
+     "passed": true,
+     "note": "bit-exact over 1504 cycles"
+    },
+    {
+     "gate": "corners",
+     "passed": true,
+     "note": "bit-exact over 73 cycles"
+    },
+    {
+     "gate": "structure",
+     "passed": false,
+     "note": "24 normalized multiplication operators > 8"
+    },
+    {
+     "gate": "area",
+     "passed": false,
+     "note": "candidate generic cell count 16968 not below 60% of the two-reference sum 18570 (threshold 11142)"
+    },
+    {
+     "gate": "holdout",
+     "passed": true,
+     "note": "post-synthesis bit-exact over 1204 cycles"
+    }
+   ]
+  },
+  "cheater": {
+   "all_pass": false,
+   "gates": [
+    {
+     "gate": "lint",
+     "passed": true,
+     "note": ""
+    },
+    {
+     "gate": "functional",
+     "passed": false,
+     "note": "411/1504 mismatches; first: cyc36 b_lo ffe1fcf9f6/ffecae277b b_hi ffdd45c1d0/52d5bef"
+    },
+    {
+     "gate": "corners",
+     "passed": false,
+     "note": "15/73 mismatches; first: cyc32 b_lo 16b4c3d9/16a014ed b_hi fffa3ccae5/fff9ef9cb1"
+    },
+    {
+     "gate": "structure",
+     "passed": true,
+     "note": "8 normalized multiplication operators <= 8"
+    },
+    {
+     "gate": "area",
+     "passed": true,
+     "note": "generic Yosys cell count 6417 = 65.4% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)"
+    },
+    {
+     "gate": "holdout",
+     "passed": false,
+     "note": "controller-only synthesized-netlist holdout failed"
+    }
+   ]
+  }
+ },
+ "mutations": [
+  {
+   "name": "coeff_sign",
+   "reason": "one low-band coefficient sign flipped",
+   "intended_gate": "functional+",
+   "detected": true
+  },
+  {
+   "name": "coeff_swap",
+   "reason": "two coefficient positions swapped",
+   "intended_gate": "functional+",
+   "detected": true
+  },
+  {
+   "name": "parity_flip",
+   "reason": "Context A output emitted on the opposite parity",
+   "intended_gate": "functional+",
+   "detected": true
+  },
+  {
+   "name": "trunc_slice",
+   "reason": "level-2 truncation slice shifted by one bit",
+   "intended_gate": "corners",
+   "detected": true
+  },
+  {
+   "name": "pending_on_disable",
+   "reason": "pending level-2 job dropped while en=0",
+   "intended_gate": "corners+",
+   "detected": true
+  },
+  {
+   "name": "pending_on_switch",
+   "reason": "pending level-2 job dropped on a Context-A edge",
+   "intended_gate": "corners+",
+   "detected": true
+  },
+  {
+   "name": "reset_one_context",
+   "reason": "reset cleared only the selected context",
+   "intended_gate": "functional+",
+   "detected": true
+  },
+  {
+   "name": "phase_on_disable",
+   "reason": "decimation phase advanced while en=0",
+   "intended_gate": "functional+",
+   "detected": true
+  },
+  {
+   "name": "shared_history",
+   "reason": "Context A and B level-1 history shared",
+   "intended_gate": "corners+",
+   "detected": true
+  },
+  {
+   "name": "valid_hold",
+   "reason": "valid strobes held instead of pulsing",
+   "intended_gate": "functional+",
+   "detected": true
+  }
+ ],
+ "selftest_valid": true,
+ "local_selftest_artifact": "selftest_local_20260917.json",
+ "driver_sha256": "d7c089bb2ee6b015614bc551531824f4de7b459ad93d99e0625558036e782988",
+ "refreeze_note": "Re-frozen 2026-09-17 before the first model call: the launch-gate selftest on the VM caught an OSS-derived simcells path bug in the driver (parents[1] vs parents[0]); the driver was fixed and both the local and VM selftests pass with the frozen hash. No model call had occurred.",
+ "vm_selftest": {
+  "artifact": "selftest_vm_20260917.json",
+  "selftest_valid": true,
+  "fold_area_note": "generic Yosys cell count 6521 = 64.9% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)",
+  "fold_holdout_note": "post-synthesis bit-exact over 1204 cycles",
+  "mutations_all_detected": true
+ }
+}

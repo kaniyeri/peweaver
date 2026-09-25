@@ -1,0 +1,150 @@
+Startpoint: _62425_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _66991_ (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728731    1.728731   clock network delay (propagated)
+   0.000000    1.728731 ^ _62425_/CLK (sky130_fd_sc_hd__dfstp_4)
+   0.517969    2.246699 v _62425_/Q (sky130_fd_sc_hd__dfstp_4)
+   0.176652    2.423352 v fanout581/X (sky130_fd_sc_hd__buf_6)
+   0.070665    2.494017 ^ _62297_/Y (sky130_fd_sc_hd__inv_1)
+   0.000096    2.494113 ^ _66991_/RESET_B (sky130_fd_sc_hd__dfrtp_1)
+               2.494113   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728757    1.728757   clock network delay (propagated)
+   0.050000    1.778757   clock uncertainty
+   0.000000    1.778757   clock reconvergence pessimism
+               1.778757 ^ _66991_/CLK (sky130_fd_sc_hd__dfrtp_1)
+   0.326858    2.105615   library removal time
+               2.105615   data required time
+-----------------------------------------------------------------
+               2.105615   data required time
+              -2.494113   data arrival time
+-----------------------------------------------------------------
+               0.388498   slack (MET)
+
+
+Startpoint: _62425_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _66906_ (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728731    1.728731   clock network delay (propagated)
+   0.000000    1.728731 ^ _62425_/CLK (sky130_fd_sc_hd__dfstp_4)
+   0.517969    2.246699 v _62425_/Q (sky130_fd_sc_hd__dfstp_4)
+   0.176652    2.423352 v fanout581/X (sky130_fd_sc_hd__buf_6)
+   0.068736    2.492088 ^ _62299_/Y (sky130_fd_sc_hd__inv_1)
+   0.000090    2.492177 ^ _66906_/RESET_B (sky130_fd_sc_hd__dfrtp_1)
+               2.492177   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.726399    1.726399   clock network delay (propagated)
+   0.050000    1.776399   clock uncertainty
+   0.000000    1.776399   clock reconvergence pessimism
+               1.776399 ^ _66906_/CLK (sky130_fd_sc_hd__dfrtp_1)
+   0.325400    2.101799   library removal time
+               2.101799   data required time
+-----------------------------------------------------------------
+               2.101799   data required time
+              -2.492177   data arrival time
+-----------------------------------------------------------------
+               0.390378   slack (MET)
+
+
+Startpoint: _62425_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _66945_ (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728731    1.728731   clock network delay (propagated)
+   0.000000    1.728731 ^ _62425_/CLK (sky130_fd_sc_hd__dfstp_4)
+   0.517969    2.246699 v _62425_/Q (sky130_fd_sc_hd__dfstp_4)
+   0.176652    2.423352 v fanout581/X (sky130_fd_sc_hd__buf_6)
+   0.071578    2.494930 ^ _62302_/Y (sky130_fd_sc_hd__inv_1)
+   0.000083    2.495013 ^ _66945_/RESET_B (sky130_fd_sc_hd__dfrtp_1)
+               2.495013   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728188    1.728188   clock network delay (propagated)
+   0.050000    1.778188   clock uncertainty
+   0.000000    1.778188   clock reconvergence pessimism
+               1.778188 ^ _66945_/CLK (sky130_fd_sc_hd__dfrtp_1)
+   0.326292    2.104480   library removal time
+               2.104480   data required time
+-----------------------------------------------------------------
+               2.104480   data required time
+              -2.495013   data arrival time
+-----------------------------------------------------------------
+               0.390532   slack (MET)
+
+
+Startpoint: _62425_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _66946_ (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728731    1.728731   clock network delay (propagated)
+   0.000000    1.728731 ^ _62425_/CLK (sky130_fd_sc_hd__dfstp_4)
+   0.517969    2.246699 v _62425_/Q (sky130_fd_sc_hd__dfstp_4)
+   0.176652    2.423352 v fanout581/X (sky130_fd_sc_hd__buf_6)
+   0.067061    2.490413 ^ _62301_/Y (sky130_fd_sc_hd__inv_1)
+   0.000048    2.490461 ^ _66946_/RESET_B (sky130_fd_sc_hd__dfrtp_1)
+               2.490461   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.722623    1.722623   clock network delay (propagated)
+   0.050000    1.772623   clock uncertainty
+   0.000000    1.772623   clock reconvergence pessimism
+               1.772623 ^ _66946_/CLK (sky130_fd_sc_hd__dfrtp_1)
+   0.324291    2.096915   library removal time
+               2.096915   data required time
+-----------------------------------------------------------------
+               2.096915   data required time
+              -2.490461   data arrival time
+-----------------------------------------------------------------
+               0.393546   slack (MET)
+
+
+Startpoint: _62425_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _66940_ (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.728731    1.728731   clock network delay (propagated)
+   0.000000    1.728731 ^ _62425_/CLK (sky130_fd_sc_hd__dfstp_4)
+   0.517969    2.246699 v _62425_/Q (sky130_fd_sc_hd__dfstp_4)
+   0.176652    2.423352 v fanout581/X (sky130_fd_sc_hd__buf_6)
+   0.070724    2.494076 ^ _62220_/Y (sky130_fd_sc_hd__inv_1)
+   0.000085    2.494160 ^ _66940_/RESET_B (sky130_fd_sc_hd__dfrtp_2)
+               2.494160   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.724841    1.724841   clock network delay (propagated)
+   0.050000    1.774841   clock uncertainty
+   0.000000    1.774841   clock reconvergence pessimism
+               1.774841 ^ _66940_/CLK (sky130_fd_sc_hd__dfrtp_2)
+   0.325331    2.100172   library removal time
+               2.100172   data required time
+-----------------------------------------------------------------
+               2.100172   data required time
+              -2.494160   data arrival time
+-----------------------------------------------------------------
+               0.393989   slack (MET)
+
+

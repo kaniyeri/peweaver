@@ -1,0 +1,101 @@
+{
+ "created": 1788584404.9008045,
+ "note": "final campaign frozen inputs (re-frozen after Sol integration review fixes; 103 tests green)",
+ "artifacts": [
+  {
+   "path": "examples/peweaver/orchestration/chia_merge.py",
+   "sha256": "04a11fc717c638072deae55b03f17d727b4ff14371803e86eda6c79508caacbf",
+   "bytes": 30072
+  },
+  {
+   "path": "examples/peweaver/orchestration/chia_power_save.py",
+   "sha256": "49e81915079f2840a668abdd42e15c10a3bd8e4c8cdf543c2ea0371b36bff763",
+   "bytes": 32474
+  },
+  {
+   "path": "examples/peweaver/orchestration/evaluator_nodes.py",
+   "sha256": "5605096b6cb7f6fe044c0499ac2c9fe8805fb74872fd7761eae9e153c4ab29ad",
+   "bytes": 6233
+  },
+  {
+   "path": "examples/peweaver/orchestration/mac_merge_driver.py",
+   "sha256": "282edff5660e3cb51705535fb468c21d6adfcd35df4248c3716c2507b84dde96",
+   "bytes": 23812
+  },
+  {
+   "path": "examples/peweaver/orchestration/mac_mutants.py",
+   "sha256": "3f9e5355d09813e8b6210260782ccea34c653186ad0d90c3a40a700e47c61fb7",
+   "bytes": 4647
+  },
+  {
+   "path": "examples/peweaver/orchestration/formal/mac_formal_top.sv",
+   "sha256": "398e5938cd7f61ed55691df2244e4b31941bd786adfa0147ffafa6fa0b14f832",
+   "bytes": 3021
+  },
+  {
+   "path": "examples/peweaver/merge_benchmarks/mac_reference/mac_a.v",
+   "sha256": "f057793b72a596c8c7d63fafacd6a3b5c6ab9f90f33370d03c87cb972f31030f",
+   "bytes": 686
+  },
+  {
+   "path": "examples/peweaver/merge_benchmarks/mac_reference/mac_b.v",
+   "sha256": "ffa9ca44fd33c8e040982bd6b538b373ed5c2dd44edc6b43ec78fa64292b2185",
+   "bytes": 584
+  },
+  {
+   "path": "examples/peweaver/merge_benchmarks/mac_reference/mac_holdout_tb.sv",
+   "sha256": "1992658d229e0d381b553ccf97995a86e4347f931341235232225fc12bb4c9c5",
+   "bytes": 1872
+  },
+  {
+   "path": "examples/peweaver/physical/rtl/peweaver_ppa_dual_fft.v",
+   "sha256": "27a4fe51709ede28365ac10a966394f550b6a339e6676b9957f2cb1ec3e55099",
+   "bytes": 1832
+  },
+  {
+   "path": "examples/peweaver/physical/rtl/dual/fft128_core.v",
+   "sha256": "ca9584a318925bdd2c5dde714964a572890f11060a8f7280b020e20579bf8a65",
+   "bytes": 2604
+  },
+  {
+   "path": "examples/peweaver/physical/rtl/dual/sdfunit128.v",
+   "sha256": "8f67a891a67dd67f171119b4f3d84171efd0bf7b6afc8f4268a9621427891940",
+   "bytes": 10377
+  },
+  {
+   "path": "examples/peweaver/physical/rtl/dual/twiddle128_core.v",
+   "sha256": "8785a0d462c3975471e70b83064577f1b9dc72c287aaa8fb95d66fd6cb5f66b3",
+   "bytes": 12320
+  },
+  {
+   "path": "examples/peweaver/physical/rtl/dual/halo_fft128_wrapper.v",
+   "sha256": "1b7a70854b6d72b411715c8f91f96ad9d807e5937356a2a9305e426ba2d090b2",
+   "bytes": 1384
+  },
+  {
+   "path": "examples/peweaver/physical/synth/dual_synth.ys",
+   "sha256": "417f29ef3e6dc22f20c8987bb16f2760919c6a1f86b1113d2c6faf32ae6bde93",
+   "bytes": 1758
+  },
+  {
+   "path": "examples/peweaver/physical/constraints/dual_baseline.sdc",
+   "sha256": "42c5eb274d22d13f6ffb1bc7367389a6e7082bf259b1b85d03c8c292d6a1bbe5",
+   "bytes": 1164
+  },
+  {
+   "path": "examples/peweaver/physical/activity/dual_activity_tb.sv",
+   "sha256": "28746917448b695ccb24e26deb21803e267402504f4b1f26a1d09274c328eaea",
+   "bytes": 10061
+  },
+  {
+   "path": "examples/peweaver/physical/run-physical.sh",
+   "sha256": "9893bf3a8bbf82d8851db189f797a2dcd1586f024c03676ca503fc071ffe1897",
+   "bytes": 18167
+  },
+  {
+   "path": "examples/peweaver/physical/assemble_results.py",
+   "sha256": "246544c725d7f888c506a9a63dd91469ce15c90ea0bd5f6c20c550963c7ad45e",
+   "bytes": 38182
+  }
+ ]
+}

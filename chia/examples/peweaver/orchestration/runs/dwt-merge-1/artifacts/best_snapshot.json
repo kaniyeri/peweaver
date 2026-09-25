@@ -1,0 +1,12 @@
+{
+ "hash": "7f0dc3dda23f3c38a216b9c5f26789584de6a2c747e31b481a881e94db8ee0ce",
+ "level": 6,
+ "verdict": "ACCEPT",
+ "files": [
+  "dwt_shared.v",
+  "inputs/CONTRACT.md",
+  "inputs/dwt_a.v",
+  "inputs/dwt_b.v"
+ ],
+ "ts": 1789658481.1675577
+}

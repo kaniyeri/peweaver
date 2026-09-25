@@ -1,0 +1,4843 @@
+================================================================================
+[2026-09-06 10:39:35] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Atomic hypothesis
+
+PREVIOUS TURN FEEDBACK:
+none
+
+CONTRACT:
+BEHAVIORAL CONTRACT (immutable; the incumbent already satisfies it)
+- Streaming 64/128-point FFT, one module peweaver_shared_fft, parameter
+  ...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire [15:0] tail_di_re = active_mode ? s2_do_re : 16'd0;
+    wire [15:0] tail_di_im = active_mode ? s2_do_im : 16'd0;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (tail_di_re),
+        .di_im  (tail_di_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    wire [6:0] tw_addr = {2'b00, tw_base} * {5'b00000, tw_sel};
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    wire [15:0] mu_a_re = mu_en ? bf2_do_re : 16'd0;
+    wire [15:0] mu_a_im = mu_en ? bf2_do_im : 16'd0;
+    wire [15:0] mu_b_re = mu_en ? tw_re     : 16'd0;
+    wire [15:0] mu_b_im = mu_en ? tw_im     : 16'd0;
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (mu_a_re),
+        .a_im (mu_a_im),
+        .b_re (mu_b_re),
+        .b_im (mu_b_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        if (mode) begin
+            for (n = MAX_DEPTH-1; n >= DEPTH0; n = n - 1) begin
+                buf_re[n] <= buf_re[n-1];
+                buf_im[n] <= buf_im[n-1];
+            end
+        end
+        for (n = DEPTH0-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_im;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hxxxx; assign wn_im[ 35] = 16'hxxxx;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hxxxx; assign wn_im[ 37] = 16'hxxxx;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hxxxx; assign wn_im[ 41] = 16'hxxxx;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hxxxx; assign wn_im[ 43] = 16'hxxxx;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hxxxx; assign wn_im[ 47] = 16'hxxxx;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hxxxx; assign wn_im[ 49] = 16'hxxxx;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'hxxxx; assign wn_im[ 53] = 16'hxxxx;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'hxxxx; assign wn_im[ 55] = 16'hxxxx;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'hxxxx; assign wn_im[ 59] = 16'hxxxx;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'hxxxx; assign wn_im[ 61] = 16'hxxxx;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'hxxxx; assign wn_im[ 64] = 16'hxxxx;
+    assign wn_re[ 65] = 16'hxxxx; assign wn_im[ 65] = 16'hxxxx;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'hxxxx; assign wn_im[ 67] = 16'hxxxx;
+    assign wn_re[ 68] = 16'hxxxx; assign wn_im[ 68] = 16'hxxxx;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'hxxxx; assign wn_im[ 70] = 16'hxxxx;
+    assign wn_re[ 71] = 16'hxxxx; assign wn_im[ 71] = 16'hxxxx;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'hxxxx; assign wn_im[ 73] = 16'hxxxx;
+    assign wn_re[ 74] = 16'hxxxx; assign wn_im[ 74] = 16'hxxxx;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'hxxxx; assign wn_im[ 76] = 16'hxxxx;
+    assign wn_re[ 77] = 16'hxxxx; assign wn_im[ 77] = 16'hxxxx;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hxxxx; assign wn_im[ 79] = 16'hxxxx;
+    assign wn_re[ 80] = 16'hxxxx; assign wn_im[ 80] = 16'hxxxx;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hxxxx; assign wn_im[ 82] = 16'hxxxx;
+    assign wn_re[ 83] = 16'hxxxx; assign wn_im[ 83] = 16'hxxxx;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hxxxx; assign wn_im[ 85] = 16'hxxxx;
+    assign wn_re[ 86] = 16'hxxxx; assign wn_im[ 86] = 16'hxxxx;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hxxxx; assign wn_im[ 88] = 16'hxxxx;
+    assign wn_re[ 89] = 16'hxxxx; assign wn_im[ 89] = 16'hxxxx;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hxxxx; assign wn_im[ 91] = 16'hxxxx;
+    assign wn_re[ 92] = 16'hxxxx; assign wn_im[ 92] = 16'hxxxx;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hxxxx; assign wn_im[ 94] = 16'hxxxx;
+    assign wn_re[ 95] = 16'hxxxx; assign wn_im[ 95] = 16'hxxxx;
+    assign wn_re[ 96] = 16'hxxxx; assign wn_im[ 96] = 16'hxxxx;
+    assign wn_re[ 97] = 16'hxxxx; assign wn_im[ 97] = 16'hxxxx;
+    assign wn_re[ 98] = 16'hxxxx; assign wn_im[ 98] = 16'hxxxx;
+    assign wn_re[ 99] = 16'hxxxx; assign wn_im[ 99] = 16'hxxxx;
+    assign wn_re[100] = 16'hxxxx; assign wn_im[100] = 16'hxxxx;
+    assign wn_re[101] = 16'hxxxx; assign wn_im[101] = 16'hxxxx;
+    assign wn_re[102] = 16'hxxxx; assign wn_im[102] = 16'hxxxx;
+    assign wn_re[103] = 16'hxxxx; assign wn_im[103] = 16'hxxxx;
+    assign wn_re[104] = 16'hxxxx; assign wn_im[104] = 16'hxxxx;
+    assign wn_re[105] = 16'hxxxx; assign wn_im[105] = 16'hxxxx;
+    assign wn_re[106] = 16'hxxxx; assign wn_im[106] = 16'hxxxx;
+    assign wn_re[107] = 16'hxxxx; assign wn_im[107] = 16'hxxxx;
+    assign wn_re[108] = 16'hxxxx; assign wn_im[108] = 16'hxxxx;
+    assign wn_re[109] = 16'hxxxx; assign wn_im[109] = 16'hxxxx;
+    assign wn_re[110] = 16'hxxxx; assign wn_im[110] = 16'hxxxx;
+    assign wn_re[111] = 16'hxxxx; assign wn_im[111] = 16'hxxxx;
+    assign wn_re[112] = 16'hxxxx; assign wn_im[112] = 16'hxxxx;
+    assign wn_re[113] = 16'hxxxx; assign wn_im[113] = 16'hxxxx;
+    assign wn_re[114] = 16'hxxxx; assign wn_im[114] = 16'hxxxx;
+    assign wn_re[115] = 16'hxxxx; assign wn_im[115] = 16'hxxxx;
+    assign wn_re[116] = 16'hxxxx; assign wn_im[116] = 16'hxxxx;
+    assign wn_re[117] = 16'hxxxx; assign wn_im[117] = 16'hxxxx;
+    assign wn_re[118] = 16'hxxxx; assign wn_im[118] = 16'hxxxx;
+    assign wn_re[119] = 16'hxxxx; assign wn_im[119] = 16'hxxxx;
+    assign wn_re[120] = 16'hxxxx; assign wn_im[120] = 16'hxxxx;
+    assign wn_re[121] = 16'hxxxx; assign wn_im[121] = 16'hxxxx;
+    assign wn_re[122] = 16'hxxxx; assign wn_im[122] = 16'hxxxx;
+    assign wn_re[123] = 16'hxxxx; assign wn_im[123] = 16'hxxxx;
+    assign wn_re[124] = 16'hxxxx; assign wn_im[124] = 16'hxxxx;
+    assign wn_re[125] = 16'hxxxx; assign wn_im[125] = 16'hxxxx;
+    assign wn_re[126] = 16'hxxxx; assign wn_im[126] = 16'hxxxx;
+    assign wn_re[127] = 16'hxxxx; assign wn_im[127] = 16'hxxxx;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+
+================================================================================
+[2026-09-06 10:59:41] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Atomic hypothesis
+
+PREVIOUS TURN FEEDBACK:
+physical gate failed: timing_met=False drc=0
+
+CONTRACT:
+BEHAVIORAL CONTRACT (immutable; the incumbent already satisfies it)
+- Streaming 64/128-point FFT, one ...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (s2_do_re),
+        .di_im  (s2_do_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock) begin
+        if (reset) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    wire [6:0] tw_addr = (tw_sel == 2'b00) ? 7'd0 :
+                         (tw_sel == 2'b01) ? {2'b00, tw_base} :
+                         (tw_sel == 2'b10) ? {1'b0, tw_base, 1'b0} :
+                         ({1'b0, tw_base, 1'b0} + {2'b00, tw_base});
+
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock) begin
+        if (reset) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (bf2_do_re),
+        .a_im (bf2_do_im),
+        .b_re (tw_re),
+        .b_im (tw_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock) begin
+        if (reset) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = MAX_DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_re;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hxxxx; assign wn_im[ 35] = 16'hxxxx;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hxxxx; assign wn_im[ 37] = 16'hxxxx;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hxxxx; assign wn_im[ 41] = 16'hxxxx;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hxxxx; assign wn_im[ 43] = 16'hxxxx;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hxxxx; assign wn_im[ 47] = 16'hxxxx;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hxxxx; assign wn_im[ 49] = 16'hxxxx;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'hxxxx; assign wn_im[ 53] = 16'hxxxx;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'hxxxx; assign wn_im[ 55] = 16'hxxxx;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'hxxxx; assign wn_im[ 59] = 16'hxxxx;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'hxxxx; assign wn_im[ 61] = 16'hxxxx;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'hxxxx; assign wn_im[ 64] = 16'hxxxx;
+    assign wn_re[ 65] = 16'hxxxx; assign wn_im[ 65] = 16'hxxxx;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'hxxxx; assign wn_im[ 67] = 16'hxxxx;
+    assign wn_re[ 68] = 16'hxxxx; assign wn_im[ 68] = 16'hxxxx;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'hxxxx; assign wn_im[ 70] = 16'hxxxx;
+    assign wn_re[ 71] = 16'hxxxx; assign wn_im[ 71] = 16'hxxxx;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'hxxxx; assign wn_im[ 73] = 16'hxxxx;
+    assign wn_re[ 74] = 16'hxxxx; assign wn_im[ 74] = 16'hxxxx;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'hxxxx; assign wn_im[ 76] = 16'hxxxx;
+    assign wn_re[ 77] = 16'hxxxx; assign wn_im[ 77] = 16'hxxxx;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hxxxx; assign wn_im[ 79] = 16'hxxxx;
+    assign wn_re[ 80] = 16'hxxxx; assign wn_im[ 80] = 16'hxxxx;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hxxxx; assign wn_im[ 82] = 16'hxxxx;
+    assign wn_re[ 83] = 16'hxxxx; assign wn_im[ 83] = 16'hxxxx;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hxxxx; assign wn_im[ 85] = 16'hxxxx;
+    assign wn_re[ 86] = 16'hxxxx; assign wn_im[ 86] = 16'hxxxx;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hxxxx; assign wn_im[ 88] = 16'hxxxx;
+    assign wn_re[ 89] = 16'hxxxx; assign wn_im[ 89] = 16'hxxxx;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hxxxx; assign wn_im[ 91] = 16'hxxxx;
+    assign wn_re[ 92] = 16'hxxxx; assign wn_im[ 92] = 16'hxxxx;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hxxxx; assign wn_im[ 94] = 16'hxxxx;
+    assign wn_re[ 95] = 16'hxxxx; assign wn_im[ 95] = 16'hxxxx;
+    assign wn_re[ 96] = 16'hxxxx; assign wn_im[ 96] = 16'hxxxx;
+    assign wn_re[ 97] = 16'hxxxx; assign wn_im[ 97] = 16'hxxxx;
+    assign wn_re[ 98] = 16'hxxxx; assign wn_im[ 98] = 16'hxxxx;
+    assign wn_re[ 99] = 16'hxxxx; assign wn_im[ 99] = 16'hxxxx;
+    assign wn_re[100] = 16'hxxxx; assign wn_im[100] = 16'hxxxx;
+    assign wn_re[101] = 16'hxxxx; assign wn_im[101] = 16'hxxxx;
+    assign wn_re[102] = 16'hxxxx; assign wn_im[102] = 16'hxxxx;
+    assign wn_re[103] = 16'hxxxx; assign wn_im[103] = 16'hxxxx;
+    assign wn_re[104] = 16'hxxxx; assign wn_im[104] = 16'hxxxx;
+    assign wn_re[105] = 16'hxxxx; assign wn_im[105] = 16'hxxxx;
+    assign wn_re[106] = 16'hxxxx; assign wn_im[106] = 16'hxxxx;
+    assign wn_re[107] = 16'hxxxx; assign wn_im[107] = 16'hxxxx;
+    assign wn_re[108] = 16'hxxxx; assign wn_im[108] = 16'hxxxx;
+    assign wn_re[109] = 16'hxxxx; assign wn_im[109] = 16'hxxxx;
+    assign wn_re[110] = 16'hxxxx; assign wn_im[110] = 16'hxxxx;
+    assign wn_re[111] = 16'hxxxx; assign wn_im[111] = 16'hxxxx;
+    assign wn_re[112] = 16'hxxxx; assign wn_im[112] = 16'hxxxx;
+    assign wn_re[113] = 16'hxxxx; assign wn_im[113] = 16'hxxxx;
+    assign wn_re[114] = 16'hxxxx; assign wn_im[114] = 16'hxxxx;
+    assign wn_re[115] = 16'hxxxx; assign wn_im[115] = 16'hxxxx;
+    assign wn_re[116] = 16'hxxxx; assign wn_im[116] = 16'hxxxx;
+    assign wn_re[117] = 16'hxxxx; assign wn_im[117] = 16'hxxxx;
+    assign wn_re[118] = 16'hxxxx; assign wn_im[118] = 16'hxxxx;
+    assign wn_re[119] = 16'hxxxx; assign wn_im[119] = 16'hxxxx;
+    assign wn_re[120] = 16'hxxxx; assign wn_im[120] = 16'hxxxx;
+    assign wn_re[121] = 16'hxxxx; assign wn_im[121] = 16'hxxxx;
+    assign wn_re[122] = 16'hxxxx; assign wn_im[122] = 16'hxxxx;
+    assign wn_re[123] = 16'hxxxx; assign wn_im[123] = 16'hxxxx;
+    assign wn_re[124] = 16'hxxxx; assign wn_im[124] = 16'hxxxx;
+    assign wn_re[125] = 16'hxxxx; assign wn_im[125] = 16'hxxxx;
+    assign wn_re[126] = 16'hxxxx; assign wn_im[126] = 16'hxxxx;
+    assign wn_re[127] = 16'hxxxx; assign wn_im[127] = 16'hxxxx;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+
+================================================================================
+[2026-09-06 11:11:15] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Failure diagnosis
+
+PREVIOUS TURN FEEDBACK:
+gate 'functional' failed: errors=3 burst_len=384
+- /work/peweaver/runs/ps-fft-6/source/physical/activity/shared_activity_tb.sv:247: Verilog $finish
+- S i m u ...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (s2_do_re),
+        .di_im  (s2_do_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    wire [6:0] tw_addr = {2'b00, tw_base} * {5'b00000, tw_sel};
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (bf2_do_re),
+        .a_im (bf2_do_im),
+        .b_re (tw_re),
+        .b_im (tw_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = MAX_DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_im;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: Complete 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hED38; assign wn_im[ 35] = 16'h8163;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hE0E6; assign wn_im[ 37] = 16'h83D6;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hC946; assign wn_im[ 41] = 16'h8C4A;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hBE32; assign wn_im[ 43] = 16'h9236;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hAA0A; assign wn_im[ 47] = 16'hA129;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hA129; assign wn_im[ 49] = 16'hAA0A;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'h9236; assign wn_im[ 53] = 16'hBE32;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'h8C4A; assign wn_im[ 55] = 16'hC946;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'h83D6; assign wn_im[ 59] = 16'hE0E6;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'h8163; assign wn_im[ 61] = 16'hED38;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'h8000; assign wn_im[ 64] = 16'h0000;
+    assign wn_re[ 65] = 16'h8027; assign wn_im[ 65] = 16'h0648;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'h8163; assign wn_im[ 67] = 16'h12C8;
+    assign wn_re[ 68] = 16'h8276; assign wn_im[ 68] = 16'h18F9;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'h8583; assign wn_im[ 70] = 16'h2528;
+    assign wn_re[ 71] = 16'h877B; assign wn_im[ 71] = 16'h2B1F;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'h8C4A; assign wn_im[ 73] = 16'h36BA;
+    assign wn_re[ 74] = 16'h8F1D; assign wn_im[ 74] = 16'h3C57;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'h9592; assign wn_im[ 76] = 16'h471D;
+    assign wn_re[ 77] = 16'h9930; assign wn_im[ 77] = 16'h4C40;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hA129; assign wn_im[ 79] = 16'h55F6;
+    assign wn_re[ 80] = 16'hA57E; assign wn_im[ 80] = 16'h5A82;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hAECC; assign wn_im[ 82] = 16'h62F2;
+    assign wn_re[ 83] = 16'hB3C0; assign wn_im[ 83] = 16'h66D0;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hBE32; assign wn_im[ 85] = 16'h6DCA;
+    assign wn_re[ 86] = 16'hC3A9; assign wn_im[ 86] = 16'h70E3;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hCF04; assign wn_im[ 88] = 16'h7642;
+    assign wn_re[ 89] = 16'hD4E1; assign wn_im[ 89] = 16'h7885;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hE0E6; assign wn_im[ 91] = 16'h7C2A;
+    assign wn_re[ 92] = 16'hE707; assign wn_im[ 92] = 16'h7D8A;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hF374; assign wn_im[ 94] = 16'h7F62;
+    assign wn_re[ 95] = 16'hF9B8; assign wn_im[ 95] = 16'h7FD9;
+    assign wn_re[ 96] = 16'h0000; assign wn_im[ 96] = 16'h7FFF;
+    assign wn_re[ 97] = 16'h0648; assign wn_im[ 97] = 16'h7FD9;
+    assign wn_re[ 98] = 16'h0C8C; assign wn_im[ 98] = 16'h7F62;
+    assign wn_re[ 99] = 16'h12C8; assign wn_im[ 99] = 16'h7E9D;
+    assign wn_re[100] = 16'h18F9; assign wn_im[100] = 16'h7D8A;
+    assign wn_re[101] = 16'h1F1A; assign wn_im[101] = 16'h7C2A;
+    assign wn_re[102] = 16'h2528; assign wn_im[102] = 16'h7A7D;
+    assign wn_re[103] = 16'h2B1F; assign wn_im[103] = 16'h7885;
+    assign wn_re[104] = 16'h30FC; assign wn_im[104] = 16'h7642;
+    assign wn_re[105] = 16'h36BA; assign wn_im[105] = 16'h73B6;
+    assign wn_re[106] = 16'h3C57; assign wn_im[106] = 16'h70E3;
+    assign wn_re[107] = 16'h41CE; assign wn_im[107] = 16'h6DCA;
+    assign wn_re[108] = 16'h471D; assign wn_im[108] = 16'h6A6E;
+    assign wn_re[109] = 16'h4C40; assign wn_im[109] = 16'h66D0;
+    assign wn_re[110] = 16'h5134; assign wn_im[110] = 16'h62F2;
+    assign wn_re[111] = 16'h55F6; assign wn_im[111] = 16'h5ED7;
+    assign wn_re[112] = 16'h5A82; assign wn_im[112] = 16'h5A82;
+    assign wn_re[113] = 16'h5ED7; assign wn_im[113] = 16'h55F6;
+    assign wn_re[114] = 16'h62F2; assign wn_im[114] = 16'h5134;
+    assign wn_re[115] = 16'h66D0; assign wn_im[115] = 16'h4C40;
+    assign wn_re[116] = 16'h6A6E; assign wn_im[116] = 16'h471D;
+    assign wn_re[117] = 16'h6DCA; assign wn_im[117] = 16'h41CE;
+    assign wn_re[118] = 16'h70E3; assign wn_im[118] = 16'h3C57;
+    assign wn_re[119] = 16'h73B6; assign wn_im[119] = 16'h36BA;
+    assign wn_re[120] = 16'h7642; assign wn_im[120] = 16'h30FC;
+    assign wn_re[121] = 16'h7885; assign wn_im[121] = 16'h2B1F;
+    assign wn_re[122] = 16'h7A7D; assign wn_im[122] = 16'h2528;
+    assign wn_re[123] = 16'h7C2A; assign wn_im[123] = 16'h1F1A;
+    assign wn_re[124] = 16'h7D8A; assign wn_im[124] = 16'h18F9;
+    assign wn_re[125] = 16'h7E9D; assign wn_im[125] = 16'h12C8;
+    assign wn_re[126] = 16'h7F62; assign wn_im[126] = 16'h0C8C;
+    assign wn_re[127] = 16'h7FD9; assign wn_im[127] = 16'h0648;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+
+================================================================================
+[2026-09-06 11:28:51] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Recommended atomic hypothesis
+
+PREVIOUS TURN FEEDBACK:
+PARETO: area=282963.0, p64=39.9311, p128=40.4448, e64=39.132478, e128=74.418432
+
+CONTRACT:
+BEHAVIORAL CONTRACT (immutable; the incumbent already s...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire [15:0] tail_di_re = active_mode ? s2_do_re : 16'h0000;
+    wire [15:0] tail_di_im = active_mode ? s2_do_im : 16'h0000;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (tail_di_re),
+        .di_im  (tail_di_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    wire [6:0] tw_addr = {2'b00, tw_base} * {5'b00000, tw_sel};
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    // Operand isolation on multiplier inputs to eliminate unnecessary switching
+    wire [15:0] mu_a_re = mu_en ? bf2_do_re : 16'h0000;
+    wire [15:0] mu_a_im = mu_en ? bf2_do_im : 16'h0000;
+    wire [15:0] mu_b_re = mu_en ? tw_re     : 16'h0000;
+    wire [15:0] mu_b_im = mu_en ? tw_im     : 16'h0000;
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (mu_a_re),
+        .a_im (mu_a_im),
+        .b_re (mu_b_re),
+        .b_im (mu_b_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        // Only clock upper registers when mode 1 is active
+        if (mode) begin
+            for (n = MAX_DEPTH-1; n >= DEPTH0; n = n - 1) begin
+                buf_re[n] <= buf_re[n-1];
+                buf_im[n] <= buf_im[n-1];
+            end
+        end
+        for (n = DEPTH0-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_im;
+
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hxxxx; assign wn_im[ 35] = 16'hxxxx;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hxxxx; assign wn_im[ 37] = 16'hxxxx;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hxxxx; assign wn_im[ 41] = 16'hxxxx;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hxxxx; assign wn_im[ 43] = 16'hxxxx;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hxxxx; assign wn_im[ 47] = 16'hxxxx;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hxxxx; assign wn_im[ 49] = 16'hxxxx;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'hxxxx; assign wn_im[ 53] = 16'hxxxx;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'hxxxx; assign wn_im[ 55] = 16'hxxxx;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'hxxxx; assign wn_im[ 59] = 16'hxxxx;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'hxxxx; assign wn_im[ 61] = 16'hxxxx;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'hxxxx; assign wn_im[ 64] = 16'hxxxx;
+    assign wn_re[ 65] = 16'hxxxx; assign wn_im[ 65] = 16'hxxxx;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'hxxxx; assign wn_im[ 67] = 16'hxxxx;
+    assign wn_re[ 68] = 16'hxxxx; assign wn_im[ 68] = 16'hxxxx;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'hxxxx; assign wn_im[ 70] = 16'hxxxx;
+    assign wn_re[ 71] = 16'hxxxx; assign wn_im[ 71] = 16'hxxxx;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'hxxxx; assign wn_im[ 73] = 16'hxxxx;
+    assign wn_re[ 74] = 16'hxxxx; assign wn_im[ 74] = 16'hxxxx;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'hxxxx; assign wn_im[ 76] = 16'hxxxx;
+    assign wn_re[ 77] = 16'hxxxx; assign wn_im[ 77] = 16'hxxxx;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hxxxx; assign wn_im[ 79] = 16'hxxxx;
+    assign wn_re[ 80] = 16'hxxxx; assign wn_im[ 80] = 16'hxxxx;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hxxxx; assign wn_im[ 82] = 16'hxxxx;
+    assign wn_re[ 83] = 16'hxxxx; assign wn_im[ 83] = 16'hxxxx;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hxxxx; assign wn_im[ 85] = 16'hxxxx;
+    assign wn_re[ 86] = 16'hxxxx; assign wn_im[ 86] = 16'hxxxx;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hxxxx; assign wn_im[ 88] = 16'hxxxx;
+    assign wn_re[ 89] = 16'hxxxx; assign wn_im[ 89] = 16'hxxxx;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hxxxx; assign wn_im[ 91] = 16'hxxxx;
+    assign wn_re[ 92] = 16'hxxxx; assign wn_im[ 92] = 16'hxxxx;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hxxxx; assign wn_im[ 94] = 16'hxxxx;
+    assign wn_re[ 95] = 16'hxxxx; assign wn_im[ 95] = 16'hxxxx;
+    assign wn_re[ 96] = 16'hxxxx; assign wn_im[ 96] = 16'hxxxx;
+    assign wn_re[ 97] = 16'hxxxx; assign wn_im[ 97] = 16'hxxxx;
+    assign wn_re[ 98] = 16'hxxxx; assign wn_im[ 98] = 16'hxxxx;
+    assign wn_re[ 99] = 16'hxxxx; assign wn_im[ 99] = 16'hxxxx;
+    assign wn_re[100] = 16'hxxxx; assign wn_im[100] = 16'hxxxx;
+    assign wn_re[101] = 16'hxxxx; assign wn_im[101] = 16'hxxxx;
+    assign wn_re[102] = 16'hxxxx; assign wn_im[102] = 16'hxxxx;
+    assign wn_re[103] = 16'hxxxx; assign wn_im[103] = 16'hxxxx;
+    assign wn_re[104] = 16'hxxxx; assign wn_im[104] = 16'hxxxx;
+    assign wn_re[105] = 16'hxxxx; assign wn_im[105] = 16'hxxxx;
+    assign wn_re[106] = 16'hxxxx; assign wn_im[106] = 16'hxxxx;
+    assign wn_re[107] = 16'hxxxx; assign wn_im[107] = 16'hxxxx;
+    assign wn_re[108] = 16'hxxxx; assign wn_im[108] = 16'hxxxx;
+    assign wn_re[109] = 16'hxxxx; assign wn_im[109] = 16'hxxxx;
+    assign wn_re[110] = 16'hxxxx; assign wn_im[110] = 16'hxxxx;
+    assign wn_re[111] = 16'hxxxx; assign wn_im[111] = 16'hxxxx;
+    assign wn_re[112] = 16'hxxxx; assign wn_im[112] = 16'hxxxx;
+    assign wn_re[113] = 16'hxxxx; assign wn_im[113] = 16'hxxxx;
+    assign wn_re[114] = 16'hxxxx; assign wn_im[114] = 16'hxxxx;
+    assign wn_re[115] = 16'hxxxx; assign wn_im[115] = 16'hxxxx;
+    assign wn_re[116] = 16'hxxxx; assign wn_im[116] = 16'hxxxx;
+    assign wn_re[117] = 16'hxxxx; assign wn_im[117] = 16'hxxxx;
+    assign wn_re[118] = 16'hxxxx; assign wn_im[118] = 16'hxxxx;
+    assign wn_re[119] = 16'hxxxx; assign wn_im[119] = 16'hxxxx;
+    assign wn_re[120] = 16'hxxxx; assign wn_im[120] = 16'hxxxx;
+    assign wn_re[121] = 16'hxxxx; assign wn_im[121] = 16'hxxxx;
+    assign wn_re[122] = 16'hxxxx; assign wn_im[122] = 16'hxxxx;
+    assign wn_re[123] = 16'hxxxx; assign wn_im[123] = 16'hxxxx;
+    assign wn_re[124] = 16'hxxxx; assign wn_im[124] = 16'hxxxx;
+    assign wn_re[125] = 16'hxxxx; assign wn_im[125] = 16'hxxxx;
+    assign wn_re[126] = 16'hxxxx; assign wn_im[126] = 16'hxxxx;
+    assign wn_re[127] = 16'hxxxx; assign wn_im[127] = 16'hxxxx;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+
+================================================================================
+[2026-09-06 11:46:40] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Recommended atomic hypothesis
+
+PREVIOUS TURN FEEDBACK:
+physical gate failed: timing_met=False drc=0
+
+CONTRACT:
+BEHAVIORAL CONTRACT (immutable; the incumbent already satisfies it)
+- Streaming 64/128-poi...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (s2_do_re),
+        .di_im  (s2_do_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock) begin
+        if (reset) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    reg [6:0] tw_addr;
+    always @(*) begin
+        case (tw_sel)
+            2'b01:   tw_addr = {2'b00, tw_base};
+            2'b10:   tw_addr = {1'b0, tw_base, 1'b0};
+            2'b11:   tw_addr = {1'b0, tw_base, 1'b0} + {2'b00, tw_base};
+            default: tw_addr = 7'd0;
+        endcase
+    end
+
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock) begin
+        if (reset) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (bf2_do_re),
+        .a_im (bf2_do_im),
+        .b_re (tw_re),
+        .b_im (tw_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock) begin
+        if (reset) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = MAX_DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_im;
+
+    always @(posedge clock) begin
+        if (reset) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hxxxx; assign wn_im[ 35] = 16'hxxxx;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hxxxx; assign wn_im[ 37] = 16'hxxxx;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hxxxx; assign wn_im[ 41] = 16'hxxxx;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hxxxx; assign wn_im[ 43] = 16'hxxxx;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hxxxx; assign wn_im[ 47] = 16'hxxxx;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hxxxx; assign wn_im[ 49] = 16'hxxxx;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'hxxxx; assign wn_im[ 53] = 16'hxxxx;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'hxxxx; assign wn_im[ 55] = 16'hxxxx;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'hxxxx; assign wn_im[ 59] = 16'hxxxx;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'hxxxx; assign wn_im[ 61] = 16'hxxxx;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'hxxxx; assign wn_im[ 64] = 16'hxxxx;
+    assign wn_re[ 65] = 16'hxxxx; assign wn_im[ 65] = 16'hxxxx;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'hxxxx; assign wn_im[ 67] = 16'hxxxx;
+    assign wn_re[ 68] = 16'hxxxx; assign wn_im[ 68] = 16'hxxxx;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'hxxxx; assign wn_im[ 70] = 16'hxxxx;
+    assign wn_re[ 71] = 16'hxxxx; assign wn_im[ 71] = 16'hxxxx;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'hxxxx; assign wn_im[ 73] = 16'hxxxx;
+    assign wn_re[ 74] = 16'hxxxx; assign wn_im[ 74] = 16'hxxxx;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'hxxxx; assign wn_im[ 76] = 16'hxxxx;
+    assign wn_re[ 77] = 16'hxxxx; assign wn_im[ 77] = 16'hxxxx;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hxxxx; assign wn_im[ 79] = 16'hxxxx;
+    assign wn_re[ 80] = 16'hxxxx; assign wn_im[ 80] = 16'hxxxx;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hxxxx; assign wn_im[ 82] = 16'hxxxx;
+    assign wn_re[ 83] = 16'hxxxx; assign wn_im[ 83] = 16'hxxxx;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hxxxx; assign wn_im[ 85] = 16'hxxxx;
+    assign wn_re[ 86] = 16'hxxxx; assign wn_im[ 86] = 16'hxxxx;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hxxxx; assign wn_im[ 88] = 16'hxxxx;
+    assign wn_re[ 89] = 16'hxxxx; assign wn_im[ 89] = 16'hxxxx;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hxxxx; assign wn_im[ 91] = 16'hxxxx;
+    assign wn_re[ 92] = 16'hxxxx; assign wn_im[ 92] = 16'hxxxx;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hxxxx; assign wn_im[ 94] = 16'hxxxx;
+    assign wn_re[ 95] = 16'hxxxx; assign wn_im[ 95] = 16'hxxxx;
+    assign wn_re[ 96] = 16'hxxxx; assign wn_im[ 96] = 16'hxxxx;
+    assign wn_re[ 97] = 16'hxxxx; assign wn_im[ 97] = 16'hxxxx;
+    assign wn_re[ 98] = 16'hxxxx; assign wn_im[ 98] = 16'hxxxx;
+    assign wn_re[ 99] = 16'hxxxx; assign wn_im[ 99] = 16'hxxxx;
+    assign wn_re[100] = 16'hxxxx; assign wn_im[100] = 16'hxxxx;
+    assign wn_re[101] = 16'hxxxx; assign wn_im[101] = 16'hxxxx;
+    assign wn_re[102] = 16'hxxxx; assign wn_im[102] = 16'hxxxx;
+    assign wn_re[103] = 16'hxxxx; assign wn_im[103] = 16'hxxxx;
+    assign wn_re[104] = 16'hxxxx; assign wn_im[104] = 16'hxxxx;
+    assign wn_re[105] = 16'hxxxx; assign wn_im[105] = 16'hxxxx;
+    assign wn_re[106] = 16'hxxxx; assign wn_im[106] = 16'hxxxx;
+    assign wn_re[107] = 16'hxxxx; assign wn_im[107] = 16'hxxxx;
+    assign wn_re[108] = 16'hxxxx; assign wn_im[108] = 16'hxxxx;
+    assign wn_re[109] = 16'hxxxx; assign wn_im[109] = 16'hxxxx;
+    assign wn_re[110] = 16'hxxxx; assign wn_im[110] = 16'hxxxx;
+    assign wn_re[111] = 16'hxxxx; assign wn_im[111] = 16'hxxxx;
+    assign wn_re[112] = 16'hxxxx; assign wn_im[112] = 16'hxxxx;
+    assign wn_re[113] = 16'hxxxx; assign wn_im[113] = 16'hxxxx;
+    assign wn_re[114] = 16'hxxxx; assign wn_im[114] = 16'hxxxx;
+    assign wn_re[115] = 16'hxxxx; assign wn_im[115] = 16'hxxxx;
+    assign wn_re[116] = 16'hxxxx; assign wn_im[116] = 16'hxxxx;
+    assign wn_re[117] = 16'hxxxx; assign wn_im[117] = 16'hxxxx;
+    assign wn_re[118] = 16'hxxxx; assign wn_im[118] = 16'hxxxx;
+    assign wn_re[119] = 16'hxxxx; assign wn_im[119] = 16'hxxxx;
+    assign wn_re[120] = 16'hxxxx; assign wn_im[120] = 16'hxxxx;
+    assign wn_re[121] = 16'hxxxx; assign wn_im[121] = 16'hxxxx;
+    assign wn_re[122] = 16'hxxxx; assign wn_im[122] = 16'hxxxx;
+    assign wn_re[123] = 16'hxxxx; assign wn_im[123] = 16'hxxxx;
+    assign wn_re[124] = 16'hxxxx; assign wn_im[124] = 16'hxxxx;
+    assign wn_re[125] = 16'hxxxx; assign wn_im[125] = 16'hxxxx;
+    assign wn_re[126] = 16'hxxxx; assign wn_im[126] = 16'hxxxx;
+    assign wn_re[127] = 16'hxxxx; assign wn_im[127] = 16'hxxxx;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+
+================================================================================
+[2026-09-06 12:04:56] generate_content (gemini-3.8-flash)
+================================================================================
+
+[User Message]
+Implement the lead's single atomic hypothesis as a COMPLETE replacement of peweaver_shared_fft.v. Reply with one fenced ```verilog code block containing the entire module tree needed for that file (top module peweaver_shared_fft only, no submodules unless present in the incumbent).
+
+HYPOTHESIS:
+## Failure interpretation
+
+PREVIOUS TURN FEEDBACK:
+physical gate failed: result JSON missing; rc=1; -0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 89467 pin activities.
+[WARNING STA-0...
+
+[Response]
+```verilog
+//----------------------------------------------------------------------
+//  Peweaver Shared FFT: Mode-Select 64/128-Point FFT Core
+//----------------------------------------------------------------------
+module peweaver_shared_fft (
+    input         clock,
+    input         reset,
+    input         mode,
+    input         di_en,
+    input  [15:0] di_re,
+    input  [15:0] di_im,
+    output        do_en,
+    output [15:0] do_re,
+    output [15:0] do_im
+);
+
+    // Compatibility parameter for wrapper elaboration
+    parameter WIDTH = 16;
+
+    wire reset_n = ~reset;
+
+    // -------------------------------------------------------------------------
+    // Mode Latching and State Ownership
+    // -------------------------------------------------------------------------
+    reg mode_q;
+    reg mode_locked;
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            mode_q      <= 1'b0;
+            mode_locked <= 1'b0;
+        end else if (!mode_locked) begin
+            mode_q <= mode;
+            if (di_en) begin
+                mode_locked <= 1'b1;
+            end
+        end
+    end
+
+    wire active_mode = mode_locked ? mode_q : mode;
+
+    // -------------------------------------------------------------------------
+    // Shared Radix-2^2 Pipeline Stages
+    // -------------------------------------------------------------------------
+    // Stage 0: Mode 0 (N=64, M=64), Mode 1 (N=128, M=128)
+    wire        s0_do_en;
+    wire [15:0] s0_do_re;
+    wire [15:0] s0_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (0),
+        .LOG_M0     (6),
+        .D1_DEPTH0  (32),
+        .D1_DEPTH1  (64),
+        .D2_DEPTH0  (16),
+        .D2_DEPTH1  (32)
+    ) SU0 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (di_en),
+        .di_re  (di_re),
+        .di_im  (di_im),
+        .do_en  (s0_do_en),
+        .do_re  (s0_do_re),
+        .do_im  (s0_do_im)
+    );
+
+    // Stage 1: Mode 0 (N=64, M=16), Mode 1 (N=128, M=32)
+    wire        s1_do_en;
+    wire [15:0] s1_do_re;
+    wire [15:0] s1_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (1),
+        .LOG_M0     (4),
+        .D1_DEPTH0  (8),
+        .D1_DEPTH1  (16),
+        .D2_DEPTH0  (4),
+        .D2_DEPTH1  (8)
+    ) SU1 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s0_do_en),
+        .di_re  (s0_do_re),
+        .di_im  (s0_do_im),
+        .do_en  (s1_do_en),
+        .do_re  (s1_do_re),
+        .do_im  (s1_do_im)
+    );
+
+    // Stage 2: Mode 0 (N=64, M=4, mult bypassed), Mode 1 (N=128, M=8, mult active)
+    wire        s2_do_en;
+    wire [15:0] s2_do_re;
+    wire [15:0] s2_do_im;
+
+    SharedSdfUnit #(
+        .STAGE_ID   (2),
+        .LOG_M0     (2),
+        .D1_DEPTH0  (2),
+        .D1_DEPTH1  (4),
+        .D2_DEPTH0  (1),
+        .D2_DEPTH1  (2)
+    ) SU2 (
+        .clock  (clock),
+        .reset  (reset),
+        .mode   (active_mode),
+        .di_en  (s1_do_en),
+        .di_re  (s1_do_re),
+        .di_im  (s1_do_im),
+        .do_en  (s2_do_en),
+        .do_re  (s2_do_re),
+        .do_im  (s2_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Radix-2 Tail Stage (Only active in 128-point mode)
+    // -------------------------------------------------------------------------
+    wire        tail_di_en = active_mode ? s2_do_en : 1'b0;
+    wire        tail_do_en;
+    wire [15:0] tail_do_re;
+    wire [15:0] tail_do_im;
+
+    SdfUnit2 #(
+        .WIDTH (16),
+        .BF_RH (0)
+    ) SU_TAIL (
+        .clock  (clock),
+        .reset  (reset),
+        .di_en  (tail_di_en),
+        .di_re  (s2_do_re),
+        .di_im  (s2_do_im),
+        .do_en  (tail_do_en),
+        .do_re  (tail_do_re),
+        .do_im  (tail_do_im)
+    );
+
+    // -------------------------------------------------------------------------
+    // Top-Level Output Selection
+    // -------------------------------------------------------------------------
+    assign do_en = active_mode ? tail_do_en : s2_do_en;
+    assign do_re = active_mode ? tail_do_re : s2_do_re;
+    assign do_im = active_mode ? tail_do_im : s2_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedSdfUnit: Mode-Selectable Radix-2^2 SDF Unit
+//----------------------------------------------------------------------
+module SharedSdfUnit #(
+    parameter STAGE_ID   = 0,
+    parameter LOG_M0     = 6,
+    parameter D1_DEPTH0  = 32,
+    parameter D1_DEPTH1  = 64,
+    parameter D2_DEPTH0  = 16,
+    parameter D2_DEPTH1  = 32
+)(
+    input               clock,
+    input               reset,
+    input               mode,
+    input               di_en,
+    input        [15:0] di_re,
+    input        [15:0] di_im,
+    output              do_en,
+    output       [15:0] do_re,
+    output       [15:0] do_im
+);
+
+    wire reset_n = ~reset;
+
+    wire [6:0] max_count      = mode ? 7'd127 : 7'd63;
+    wire [6:0] bf1_start_val  = mode ? (D1_DEPTH1 - 1) : (D1_DEPTH0 - 1);
+    wire [6:0] bf2_start_val  = mode ? (D2_DEPTH1 - 1) : (D2_DEPTH0 - 1);
+
+    // -----------------------------------------------------------------
+    // 1st Butterfly (BF1)
+    // -----------------------------------------------------------------
+    reg  [6:0] di_count;
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            di_count <= 7'd0;
+        end else begin
+            di_count <= di_en ? ((di_count == max_count) ? 7'd0 : (di_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire bf1_bf = mode ? di_count[LOG_M0] : di_count[LOG_M0-1];
+
+    wire [15:0] db1_do_re, db1_do_im;
+    wire [15:0] bf1_y0_re, bf1_y0_im, bf1_y1_re, bf1_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(0)) BF1 (
+        .x0_re (db1_do_re),
+        .x0_im (db1_do_im),
+        .x1_re (di_re),
+        .x1_im (di_im),
+        .y0_re (bf1_y0_re),
+        .y0_im (bf1_y0_im),
+        .y1_re (bf1_y1_re),
+        .y1_im (bf1_y1_im)
+    );
+
+    wire [15:0] db1_di_re = bf1_bf ? bf1_y1_re : di_re;
+    wire [15:0] db1_di_im = bf1_bf ? bf1_y1_im : di_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D1_DEPTH0),
+        .DEPTH1 (D1_DEPTH1),
+        .WIDTH  (16)
+    ) DB1 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db1_di_re),
+        .di_im (db1_di_im),
+        .do_re (db1_do_re),
+        .do_im (db1_do_im)
+    );
+
+    wire bf1_start = (di_count == bf1_start_val);
+
+    reg        bf1_sp_en;
+    reg  [6:0] bf1_count;
+    wire       bf1_end = (bf1_count == max_count);
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf1_sp_en <= 1'b0;
+            bf1_count <= 7'd0;
+        end else begin
+            bf1_sp_en <= bf1_start ? 1'b1 : bf1_end ? 1'b0 : bf1_sp_en;
+            bf1_count <= bf1_sp_en ? ((bf1_count == max_count) ? 7'd0 : (bf1_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    wire [1:0] mj_bits = mode ? bf1_count[LOG_M0:LOG_M0-1] : bf1_count[LOG_M0-1:LOG_M0-2];
+    wire       bf1_mj  = (mj_bits == 2'b11);
+
+    wire [15:0] bf1_sp_re = bf1_bf ? bf1_y0_re : bf1_mj ? db1_do_im : db1_do_re;
+    wire [15:0] bf1_sp_im = bf1_bf ? bf1_y0_im : bf1_mj ? (16'b0 - db1_do_re) : db1_do_im;
+
+    reg [15:0] bf1_do_re;
+    reg [15:0] bf1_do_im;
+    always @(posedge clock) begin
+        bf1_do_re <= bf1_sp_re;
+        bf1_do_im <= bf1_sp_im;
+    end
+
+    // -----------------------------------------------------------------
+    // 2nd Butterfly (BF2)
+    // -----------------------------------------------------------------
+    wire bf2_bf_next = mode ? bf1_count[LOG_M0-1] : bf1_count[LOG_M0-2];
+    reg  bf2_bf;
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf2_bf <= 1'b0;
+        end else begin
+            bf2_bf <= bf2_bf_next;
+        end
+    end
+
+    wire [15:0] db2_do_re, db2_do_im;
+    wire [15:0] bf2_y0_re, bf2_y0_im, bf2_y1_re, bf2_y1_im;
+
+    Butterfly #(.WIDTH(16), .RH(1)) BF2 (
+        .x0_re (db2_do_re),
+        .x0_im (db2_do_im),
+        .x1_re (bf1_do_re),
+        .x1_im (bf1_do_im),
+        .y0_re (bf2_y0_re),
+        .y0_im (bf2_y0_im),
+        .y1_re (bf2_y1_re),
+        .y1_im (bf2_y1_im)
+    );
+
+    wire [15:0] db2_di_re = bf2_bf ? bf2_y1_re : bf1_do_re;
+    wire [15:0] db2_di_im = bf2_bf ? bf2_y1_im : bf1_do_im;
+
+    SharedDelayBuffer #(
+        .DEPTH0 (D2_DEPTH0),
+        .DEPTH1 (D2_DEPTH1),
+        .WIDTH  (16)
+    ) DB2 (
+        .clock (clock),
+        .mode  (mode),
+        .di_re (db2_di_re),
+        .di_im (db2_di_im),
+        .do_re (db2_do_re),
+        .do_im (db2_do_im)
+    );
+
+    wire [15:0] bf2_sp_re = bf2_bf ? bf2_y0_re : db2_do_re;
+    wire [15:0] bf2_sp_im = bf2_bf ? bf2_y0_im : db2_do_im;
+
+    reg bf2_start;
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf2_start <= 1'b0;
+        end else begin
+            bf2_start <= (bf1_count == bf2_start_val) & bf1_sp_en;
+        end
+    end
+
+    reg        bf2_sp_en;
+    reg  [6:0] bf2_count;
+    wire       bf2_end = (bf2_count == max_count);
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf2_sp_en <= 1'b0;
+            bf2_count <= 7'd0;
+        end else begin
+            bf2_sp_en <= bf2_start ? 1'b1 : bf2_end ? 1'b0 : bf2_sp_en;
+            bf2_count <= bf2_sp_en ? ((bf2_count == max_count) ? 7'd0 : (bf2_count + 1'b1)) : 7'd0;
+        end
+    end
+
+    reg [15:0] bf2_do_re;
+    reg [15:0] bf2_do_im;
+    reg        bf2_do_en;
+
+    always @(posedge clock) begin
+        bf2_do_re <= bf2_sp_re;
+        bf2_do_im <= bf2_sp_im;
+    end
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf2_do_en <= 1'b0;
+        end else begin
+            bf2_do_en <= bf2_sp_en;
+        end
+    end
+
+    // -----------------------------------------------------------------
+    // Twiddle Generation & Multiplier
+    // -----------------------------------------------------------------
+    wire [1:0] tw_sel;
+    assign tw_sel[1] = mode ? bf2_count[LOG_M0-1] : bf2_count[LOG_M0-2];
+    assign tw_sel[0] = mode ? bf2_count[LOG_M0]   : bf2_count[LOG_M0-1];
+
+    reg [4:0] tw_base;
+    always @(*) begin
+        if (STAGE_ID == 0) begin
+            tw_base = mode ? bf2_count[4:0] : {bf2_count[3:0], 1'b0};
+        end else if (STAGE_ID == 1) begin
+            tw_base = mode ? {bf2_count[2:0], 2'b00} : {bf2_count[1:0], 3'b000};
+        end else begin
+            tw_base = mode ? {bf2_count[0], 4'b0000} : 5'b00000;
+        end
+    end
+
+    wire [6:0] tw_addr = {2'b00, tw_base} * {5'b00000, tw_sel};
+    wire [15:0] tw_re, tw_im;
+
+    Twiddle TW (
+        .clock (clock),
+        .addr  (tw_addr),
+        .tw_re (tw_re),
+        .tw_im (tw_im)
+    );
+
+    reg mu_en;
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            mu_en <= 1'b0;
+        end else begin
+            mu_en <= (tw_addr != 7'd0);
+        end
+    end
+
+    wire [15:0] mu_m_re, mu_m_im;
+    Multiply #(.WIDTH(16)) MU (
+        .a_re (bf2_do_re),
+        .a_im (bf2_do_im),
+        .b_re (tw_re),
+        .b_im (tw_im),
+        .m_re (mu_m_re),
+        .m_im (mu_m_im)
+    );
+
+    reg [15:0] mu_do_re;
+    reg [15:0] mu_do_im;
+    reg        mu_do_en;
+
+    always @(posedge clock) begin
+        mu_do_re <= mu_en ? mu_m_re : bf2_do_re;
+        mu_do_im <= mu_en ? mu_m_im : bf2_do_im;
+    end
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            mu_do_en <= 1'b0;
+        end else begin
+            mu_do_en <= bf2_do_en;
+        end
+    end
+
+    // Stage 2 bypasses multiplier and extra register in 64-point mode (M=4)
+    assign do_en = (STAGE_ID == 2 && !mode) ? bf2_do_en : mu_do_en;
+    assign do_re = (STAGE_ID == 2 && !mode) ? bf2_do_re : mu_do_re;
+    assign do_im = (STAGE_ID == 2 && !mode) ? bf2_do_im : mu_do_im;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SharedDelayBuffer: Multi-Depth Shift Buffer with Tap Muxing
+//----------------------------------------------------------------------
+module SharedDelayBuffer #(
+    parameter DEPTH0 = 32,
+    parameter DEPTH1 = 64,
+    parameter WIDTH  = 16
+)(
+    input               clock,
+    input               mode,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    localparam MAX_DEPTH = (DEPTH1 > DEPTH0) ? DEPTH1 : DEPTH0;
+    reg [WIDTH-1:0] buf_re[0:MAX_DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:MAX_DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = MAX_DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = mode ? buf_re[DEPTH1-1] : buf_re[DEPTH0-1];
+    assign do_im = mode ? buf_im[DEPTH1-1] : buf_im[DEPTH0-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  SdfUnit2: Radix-2 SDF Tail Unit for Twiddle Resolution M = 2
+//----------------------------------------------------------------------
+module SdfUnit2 #(
+    parameter WIDTH = 16,
+    parameter BF_RH = 0
+)(
+    input                   clock,
+    input                   reset,
+    input                   di_en,
+    input       [WIDTH-1:0] di_re,
+    input       [WIDTH-1:0] di_im,
+    output  reg             do_en,
+    output  reg [WIDTH-1:0] do_re,
+    output  reg [WIDTH-1:0] do_im
+);
+
+    wire reset_n = ~reset;
+
+    reg             bf_en;
+    wire[WIDTH-1:0] x0_re;
+    wire[WIDTH-1:0] x0_im;
+    wire[WIDTH-1:0] x1_re;
+    wire[WIDTH-1:0] x1_im;
+    wire[WIDTH-1:0] y0_re;
+    wire[WIDTH-1:0] y0_im;
+    wire[WIDTH-1:0] y1_re;
+    wire[WIDTH-1:0] y1_im;
+    wire[WIDTH-1:0] db_di_re;
+    wire[WIDTH-1:0] db_di_im;
+    wire[WIDTH-1:0] db_do_re;
+    wire[WIDTH-1:0] db_do_im;
+    wire[WIDTH-1:0] bf_sp_re;
+    wire[WIDTH-1:0] bf_sp_im;
+    reg             bf_sp_en;
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf_en <= 1'b0;
+        end else begin
+            bf_en <= di_en ? ~bf_en : 1'b0;
+        end
+    end
+
+    assign x0_re = db_do_re;
+    assign x0_im = db_do_im;
+    assign x1_re = di_re;
+    assign x1_im = di_im;
+
+    Butterfly #(.WIDTH(WIDTH),.RH(BF_RH)) BF (
+        .x0_re  (x0_re  ),
+        .x0_im  (x0_im  ),
+        .x1_re  (x1_re  ),
+        .x1_im  (x1_im  ),
+        .y0_re  (y0_re  ),
+        .y0_im  (y0_im  ),
+        .y1_re  (y1_re  ),
+        .y1_im  (y1_im  )
+    );
+
+    DelayBuffer #(.DEPTH(1),.WIDTH(WIDTH)) DB (
+        .clock  (clock      ),
+        .di_re  (db_di_re   ),
+        .di_im  (db_di_im   ),
+        .do_re  (db_do_re   ),
+        .do_im  (db_do_im   )
+    );
+
+    assign db_di_re = bf_en ? y1_re : di_re;
+    assign db_di_im = bf_en ? y1_im : di_im;
+    assign bf_sp_re = bf_en ? y0_re : db_do_re;
+    assign bf_sp_im = bf_en ? y0_im : db_do_im;
+
+    always @(posedge clock or negedge reset_n) begin
+        if (!reset_n) begin
+            bf_sp_en <= 1'b0;
+            do_en    <= 1'b0;
+        end else begin
+            bf_sp_en <= di_en;
+            do_en    <= bf_sp_en;
+        end
+    end
+
+    always @(posedge clock) begin
+        do_re <= bf_sp_re;
+        do_im <= bf_sp_im;
+    end
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  DelayBuffer: Fixed-Depth Shift Buffer
+//----------------------------------------------------------------------
+module DelayBuffer #(
+    parameter DEPTH = 32,
+    parameter WIDTH = 16
+)(
+    input               clock,
+    input   [WIDTH-1:0] di_re,
+    input   [WIDTH-1:0] di_im,
+    output  [WIDTH-1:0] do_re,
+    output  [WIDTH-1:0] do_im
+);
+
+    reg [WIDTH-1:0] buf_re[0:DEPTH-1];
+    reg [WIDTH-1:0] buf_im[0:DEPTH-1];
+    integer n;
+
+    always @(posedge clock) begin
+        for (n = DEPTH-1; n > 0; n = n - 1) begin
+            buf_re[n] <= buf_re[n-1];
+            buf_im[n] <= buf_im[n-1];
+        end
+        buf_re[0] <= di_re;
+        buf_im[0] <= di_im;
+    end
+
+    assign do_re = buf_re[DEPTH-1];
+    assign do_im = buf_im[DEPTH-1];
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Butterfly: Add/Sub and Round Half Up Scaling
+//----------------------------------------------------------------------
+module Butterfly #(
+    parameter WIDTH = 16,
+    parameter RH    = 0
+)(
+    input   signed [WIDTH-1:0] x0_re,
+    input   signed [WIDTH-1:0] x0_im,
+    input   signed [WIDTH-1:0] x1_re,
+    input   signed [WIDTH-1:0] x1_im,
+    output  signed [WIDTH-1:0] y0_re,
+    output  signed [WIDTH-1:0] y0_im,
+    output  signed [WIDTH-1:0] y1_re,
+    output  signed [WIDTH-1:0] y1_im
+);
+
+    wire signed [WIDTH:0] add_re = x0_re + x1_re;
+    wire signed [WIDTH:0] add_im = x0_im + x1_im;
+    wire signed [WIDTH:0] sub_re = x0_re - x1_re;
+    wire signed [WIDTH:0] sub_im = x0_im - x1_im;
+
+    assign y0_re = (add_re + RH) >>> 1;
+    assign y0_im = (add_im + RH) >>> 1;
+    assign y1_re = (sub_re + RH) >>> 1;
+    assign y1_im = (sub_im + RH) >>> 1;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Multiply: Complex Multiplier with >>> 15 Scaling
+//----------------------------------------------------------------------
+module Multiply #(
+    parameter WIDTH = 16
+)(
+    input   signed [WIDTH-1:0] a_re,
+    input   signed [WIDTH-1:0] a_im,
+    input   signed [WIDTH-1:0] b_re,
+    input   signed [WIDTH-1:0] b_im,
+    output  signed [WIDTH-1:0] m_re,
+    output  signed [WIDTH-1:0] m_im
+);
+
+    wire signed [WIDTH*2-1:0] arbr = a_re * b_re;
+    wire signed [WIDTH*2-1:0] arbi = a_re * b_im;
+    wire signed [WIDTH*2-1:0] aibr = a_im * b_re;
+    wire signed [WIDTH*2-1:0] aibi = a_im * b_im;
+
+    wire signed [WIDTH-1:0] sc_arbr = arbr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_arbi = arbi >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibr = aibr >>> (WIDTH-1);
+    wire signed [WIDTH-1:0] sc_aibi = aibi >>> (WIDTH-1);
+
+    assign m_re = sc_arbr - sc_aibi;
+    assign m_im = sc_arbi + sc_aibr;
+
+endmodule
+
+
+//----------------------------------------------------------------------
+//  Twiddle: 128-Point Twiddle Table for Radix-2^2 Butterfly
+//----------------------------------------------------------------------
+module Twiddle #(
+    parameter TW_FF = 1
+)(
+    input         clock,
+    input   [6:0] addr,
+    output [15:0] tw_re,
+    output [15:0] tw_im
+);
+
+    wire [15:0] wn_re[0:127];
+    wire [15:0] wn_im[0:127];
+    wire [15:0] mx_re = wn_re[addr];
+    wire [15:0] mx_im = wn_im[addr];
+    reg  [15:0] ff_re;
+    reg  [15:0] ff_im;
+
+    always @(posedge clock) begin
+        ff_re <= mx_re;
+        ff_im <= mx_im;
+    end
+
+    assign tw_re = TW_FF ? ff_re : mx_re;
+    assign tw_im = TW_FF ? ff_im : mx_im;
+
+    assign wn_re[  0] = 16'h0000; assign wn_im[  0] = 16'h0000;
+    assign wn_re[  1] = 16'h7FD9; assign wn_im[  1] = 16'hF9B8;
+    assign wn_re[  2] = 16'h7F62; assign wn_im[  2] = 16'hF374;
+    assign wn_re[  3] = 16'h7E9D; assign wn_im[  3] = 16'hED38;
+    assign wn_re[  4] = 16'h7D8A; assign wn_im[  4] = 16'hE707;
+    assign wn_re[  5] = 16'h7C2A; assign wn_im[  5] = 16'hE0E6;
+    assign wn_re[  6] = 16'h7A7D; assign wn_im[  6] = 16'hDAD8;
+    assign wn_re[  7] = 16'h7885; assign wn_im[  7] = 16'hD4E1;
+    assign wn_re[  8] = 16'h7642; assign wn_im[  8] = 16'hCF04;
+    assign wn_re[  9] = 16'h73B6; assign wn_im[  9] = 16'hC946;
+    assign wn_re[ 10] = 16'h70E3; assign wn_im[ 10] = 16'hC3A9;
+    assign wn_re[ 11] = 16'h6DCA; assign wn_im[ 11] = 16'hBE32;
+    assign wn_re[ 12] = 16'h6A6E; assign wn_im[ 12] = 16'hB8E3;
+    assign wn_re[ 13] = 16'h66D0; assign wn_im[ 13] = 16'hB3C0;
+    assign wn_re[ 14] = 16'h62F2; assign wn_im[ 14] = 16'hAECC;
+    assign wn_re[ 15] = 16'h5ED7; assign wn_im[ 15] = 16'hAA0A;
+    assign wn_re[ 16] = 16'h5A82; assign wn_im[ 16] = 16'hA57E;
+    assign wn_re[ 17] = 16'h55F6; assign wn_im[ 17] = 16'hA129;
+    assign wn_re[ 18] = 16'h5134; assign wn_im[ 18] = 16'h9D0E;
+    assign wn_re[ 19] = 16'h4C40; assign wn_im[ 19] = 16'h9930;
+    assign wn_re[ 20] = 16'h471D; assign wn_im[ 20] = 16'h9592;
+    assign wn_re[ 21] = 16'h41CE; assign wn_im[ 21] = 16'h9236;
+    assign wn_re[ 22] = 16'h3C57; assign wn_im[ 22] = 16'h8F1D;
+    assign wn_re[ 23] = 16'h36BA; assign wn_im[ 23] = 16'h8C4A;
+    assign wn_re[ 24] = 16'h30FC; assign wn_im[ 24] = 16'h89BE;
+    assign wn_re[ 25] = 16'h2B1F; assign wn_im[ 25] = 16'h877B;
+    assign wn_re[ 26] = 16'h2528; assign wn_im[ 26] = 16'h8583;
+    assign wn_re[ 27] = 16'h1F1A; assign wn_im[ 27] = 16'h83D6;
+    assign wn_re[ 28] = 16'h18F9; assign wn_im[ 28] = 16'h8276;
+    assign wn_re[ 29] = 16'h12C8; assign wn_im[ 29] = 16'h8163;
+    assign wn_re[ 30] = 16'h0C8C; assign wn_im[ 30] = 16'h809E;
+    assign wn_re[ 31] = 16'h0648; assign wn_im[ 31] = 16'h8027;
+    assign wn_re[ 32] = 16'h0000; assign wn_im[ 32] = 16'h8000;
+    assign wn_re[ 33] = 16'hF9B8; assign wn_im[ 33] = 16'h8027;
+    assign wn_re[ 34] = 16'hF374; assign wn_im[ 34] = 16'h809E;
+    assign wn_re[ 35] = 16'hxxxx; assign wn_im[ 35] = 16'hxxxx;
+    assign wn_re[ 36] = 16'hE707; assign wn_im[ 36] = 16'h8276;
+    assign wn_re[ 37] = 16'hxxxx; assign wn_im[ 37] = 16'hxxxx;
+    assign wn_re[ 38] = 16'hDAD8; assign wn_im[ 38] = 16'h8583;
+    assign wn_re[ 39] = 16'hD4E1; assign wn_im[ 39] = 16'h877B;
+    assign wn_re[ 40] = 16'hCF04; assign wn_im[ 40] = 16'h89BE;
+    assign wn_re[ 41] = 16'hxxxx; assign wn_im[ 41] = 16'hxxxx;
+    assign wn_re[ 42] = 16'hC3A9; assign wn_im[ 42] = 16'h8F1D;
+    assign wn_re[ 43] = 16'hxxxx; assign wn_im[ 43] = 16'hxxxx;
+    assign wn_re[ 44] = 16'hB8E3; assign wn_im[ 44] = 16'h9592;
+    assign wn_re[ 45] = 16'hB3C0; assign wn_im[ 45] = 16'h9930;
+    assign wn_re[ 46] = 16'hAECC; assign wn_im[ 46] = 16'h9D0E;
+    assign wn_re[ 47] = 16'hxxxx; assign wn_im[ 47] = 16'hxxxx;
+    assign wn_re[ 48] = 16'hA57E; assign wn_im[ 48] = 16'hA57E;
+    assign wn_re[ 49] = 16'hxxxx; assign wn_im[ 49] = 16'hxxxx;
+    assign wn_re[ 50] = 16'h9D0E; assign wn_im[ 50] = 16'hAECC;
+    assign wn_re[ 51] = 16'h9930; assign wn_im[ 51] = 16'hB3C0;
+    assign wn_re[ 52] = 16'h9592; assign wn_im[ 52] = 16'hB8E3;
+    assign wn_re[ 53] = 16'hxxxx; assign wn_im[ 53] = 16'hxxxx;
+    assign wn_re[ 54] = 16'h8F1D; assign wn_im[ 54] = 16'hC3A9;
+    assign wn_re[ 55] = 16'hxxxx; assign wn_im[ 55] = 16'hxxxx;
+    assign wn_re[ 56] = 16'h89BE; assign wn_im[ 56] = 16'hCF04;
+    assign wn_re[ 57] = 16'h877B; assign wn_im[ 57] = 16'hD4E1;
+    assign wn_re[ 58] = 16'h8583; assign wn_im[ 58] = 16'hDAD8;
+    assign wn_re[ 59] = 16'hxxxx; assign wn_im[ 59] = 16'hxxxx;
+    assign wn_re[ 60] = 16'h8276; assign wn_im[ 60] = 16'hE707;
+    assign wn_re[ 61] = 16'hxxxx; assign wn_im[ 61] = 16'hxxxx;
+    assign wn_re[ 62] = 16'h809E; assign wn_im[ 62] = 16'hF374;
+    assign wn_re[ 63] = 16'h8027; assign wn_im[ 63] = 16'hF9B8;
+    assign wn_re[ 64] = 16'hxxxx; assign wn_im[ 64] = 16'hxxxx;
+    assign wn_re[ 65] = 16'hxxxx; assign wn_im[ 65] = 16'hxxxx;
+    assign wn_re[ 66] = 16'h809E; assign wn_im[ 66] = 16'h0C8C;
+    assign wn_re[ 67] = 16'hxxxx; assign wn_im[ 67] = 16'hxxxx;
+    assign wn_re[ 68] = 16'hxxxx; assign wn_im[ 68] = 16'hxxxx;
+    assign wn_re[ 69] = 16'h83D6; assign wn_im[ 69] = 16'h1F1A;
+    assign wn_re[ 70] = 16'hxxxx; assign wn_im[ 70] = 16'hxxxx;
+    assign wn_re[ 71] = 16'hxxxx; assign wn_im[ 71] = 16'hxxxx;
+    assign wn_re[ 72] = 16'h89BE; assign wn_im[ 72] = 16'h30FC;
+    assign wn_re[ 73] = 16'hxxxx; assign wn_im[ 73] = 16'hxxxx;
+    assign wn_re[ 74] = 16'hxxxx; assign wn_im[ 74] = 16'hxxxx;
+    assign wn_re[ 75] = 16'h9236; assign wn_im[ 75] = 16'h41CE;
+    assign wn_re[ 76] = 16'hxxxx; assign wn_im[ 76] = 16'hxxxx;
+    assign wn_re[ 77] = 16'hxxxx; assign wn_im[ 77] = 16'hxxxx;
+    assign wn_re[ 78] = 16'h9D0E; assign wn_im[ 78] = 16'h5134;
+    assign wn_re[ 79] = 16'hxxxx; assign wn_im[ 79] = 16'hxxxx;
+    assign wn_re[ 80] = 16'hxxxx; assign wn_im[ 80] = 16'hxxxx;
+    assign wn_re[ 81] = 16'hAA0A; assign wn_im[ 81] = 16'h5ED7;
+    assign wn_re[ 82] = 16'hxxxx; assign wn_im[ 82] = 16'hxxxx;
+    assign wn_re[ 83] = 16'hxxxx; assign wn_im[ 83] = 16'hxxxx;
+    assign wn_re[ 84] = 16'hB8E3; assign wn_im[ 84] = 16'h6A6E;
+    assign wn_re[ 85] = 16'hxxxx; assign wn_im[ 85] = 16'hxxxx;
+    assign wn_re[ 86] = 16'hxxxx; assign wn_im[ 86] = 16'hxxxx;
+    assign wn_re[ 87] = 16'hC946; assign wn_im[ 87] = 16'h73B6;
+    assign wn_re[ 88] = 16'hxxxx; assign wn_im[ 88] = 16'hxxxx;
+    assign wn_re[ 89] = 16'hxxxx; assign wn_im[ 89] = 16'hxxxx;
+    assign wn_re[ 90] = 16'hDAD8; assign wn_im[ 90] = 16'h7A7D;
+    assign wn_re[ 91] = 16'hxxxx; assign wn_im[ 91] = 16'hxxxx;
+    assign wn_re[ 92] = 16'hxxxx; assign wn_im[ 92] = 16'hxxxx;
+    assign wn_re[ 93] = 16'hED38; assign wn_im[ 93] = 16'h7E9D;
+    assign wn_re[ 94] = 16'hxxxx; assign wn_im[ 94] = 16'hxxxx;
+    assign wn_re[ 95] = 16'hxxxx; assign wn_im[ 95] = 16'hxxxx;
+    assign wn_re[ 96] = 16'hxxxx; assign wn_im[ 96] = 16'hxxxx;
+    assign wn_re[ 97] = 16'hxxxx; assign wn_im[ 97] = 16'hxxxx;
+    assign wn_re[ 98] = 16'hxxxx; assign wn_im[ 98] = 16'hxxxx;
+    assign wn_re[ 99] = 16'hxxxx; assign wn_im[ 99] = 16'hxxxx;
+    assign wn_re[100] = 16'hxxxx; assign wn_im[100] = 16'hxxxx;
+    assign wn_re[101] = 16'hxxxx; assign wn_im[101] = 16'hxxxx;
+    assign wn_re[102] = 16'hxxxx; assign wn_im[102] = 16'hxxxx;
+    assign wn_re[103] = 16'hxxxx; assign wn_im[103] = 16'hxxxx;
+    assign wn_re[104] = 16'hxxxx; assign wn_im[104] = 16'hxxxx;
+    assign wn_re[105] = 16'hxxxx; assign wn_im[105] = 16'hxxxx;
+    assign wn_re[106] = 16'hxxxx; assign wn_im[106] = 16'hxxxx;
+    assign wn_re[107] = 16'hxxxx; assign wn_im[107] = 16'hxxxx;
+    assign wn_re[108] = 16'hxxxx; assign wn_im[108] = 16'hxxxx;
+    assign wn_re[109] = 16'hxxxx; assign wn_im[109] = 16'hxxxx;
+    assign wn_re[110] = 16'hxxxx; assign wn_im[110] = 16'hxxxx;
+    assign wn_re[111] = 16'hxxxx; assign wn_im[111] = 16'hxxxx;
+    assign wn_re[112] = 16'hxxxx; assign wn_im[112] = 16'hxxxx;
+    assign wn_re[113] = 16'hxxxx; assign wn_im[113] = 16'hxxxx;
+    assign wn_re[114] = 16'hxxxx; assign wn_im[114] = 16'hxxxx;
+    assign wn_re[115] = 16'hxxxx; assign wn_im[115] = 16'hxxxx;
+    assign wn_re[116] = 16'hxxxx; assign wn_im[116] = 16'hxxxx;
+    assign wn_re[117] = 16'hxxxx; assign wn_im[117] = 16'hxxxx;
+    assign wn_re[118] = 16'hxxxx; assign wn_im[118] = 16'hxxxx;
+    assign wn_re[119] = 16'hxxxx; assign wn_im[119] = 16'hxxxx;
+    assign wn_re[120] = 16'hxxxx; assign wn_im[120] = 16'hxxxx;
+    assign wn_re[121] = 16'hxxxx; assign wn_im[121] = 16'hxxxx;
+    assign wn_re[122] = 16'hxxxx; assign wn_im[122] = 16'hxxxx;
+    assign wn_re[123] = 16'hxxxx; assign wn_im[123] = 16'hxxxx;
+    assign wn_re[124] = 16'hxxxx; assign wn_im[124] = 16'hxxxx;
+    assign wn_re[125] = 16'hxxxx; assign wn_im[125] = 16'hxxxx;
+    assign wn_re[126] = 16'hxxxx; assign wn_im[126] = 16'hxxxx;
+    assign wn_re[127] = 16'hxxxx; assign wn_im[127] = 16'hxxxx;
+
+endmodule
+```
+
+--------------------------------------------------------------------------------
+

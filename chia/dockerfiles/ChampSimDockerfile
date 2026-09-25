@@ -1,0 +1,144 @@
+# Dockerfile for ChampSim workers.
+# Clones the DPC4-ChampSim fork at a pinned SHA, bootstraps vcpkg, bakes all
+# C++ dependencies into the image, compiles a default binary with the evolved_pf
+# prefetcher at L2C, and validates via a smoke test.  The chia package is
+# pip-installed last for optimal layer caching.
+#
+# Build (default — CI and most users):
+#   docker buildx build \
+#       -f dockerfiles/ChampSimDockerfile \
+#       -t champsim-test .
+#
+# Build with local evolve-flows (local dev):
+#   docker buildx build \
+#       -f dockerfiles/ChampSimDockerfile \
+#       --build-context evolve-flows=path/to/evolve-flows \
+#       --target champsim-evolve-local \
+#       -t champsim-test .
+#
+#
+# syntax=docker/dockerfile:1
+
+FROM rayproject/ray:2.54.0-cpu AS champsim-base
+
+USER root
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# GitHub Actions runners live on Azure; Canonical's Azure mirror
+# (azure.archive.ubuntu.com) is on separate infrastructure from the public
+# archive.ubuntu.com pool and tends to be both faster and more reliable from
+# the runners.  Swap both archive and security hosts before running apt.
+# Safe to leave in permanently — the mirror serves the same packages.
+RUN sed -i 's|http://archive\.ubuntu\.com/ubuntu/|http://azure.archive.ubuntu.com/ubuntu/|g' \
+        /etc/apt/sources.list \
+ && sed -i 's|http://security\.ubuntu\.com/ubuntu/|http://azure.archive.ubuntu.com/ubuntu/|g' \
+        /etc/apt/sources.list \
+ && echo 'Acquire::Retries "5";' > /etc/apt/apt.conf.d/80-retries \
+ && echo 'Acquire::http::Timeout "60";' >> /etc/apt/apt.conf.d/80-retries
+
+# System packages required for ChampSim compilation and vcpkg bootstrap.
+# build-essential: g++ and make for C++17 compilation
+# cmake: required by vcpkg bootstrap-vcpkg.sh
+# git: clone ChampSim repo and vcpkg submodule operations
+# python3: config.sh is a Python 3 script that generates Makefile fragments
+# curl, zip, unzip: vcpkg bootstrap dependencies
+# pkg-config: some vcpkg ports require pkg-config for dependency resolution
+# xz-utils: liblzma headers for trace decompression support
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    git \
+    python3 \
+    curl \
+    zip \
+    unzip \
+    pkg-config \
+    xz-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch to the ray user.  ChampSim source and builds live under /home/ray
+# so ray owns everything and can write build artifacts and git diffs without
+# permission issues (D-08, D-09).
+USER ray
+ENV HOME=/home/ray
+WORKDIR /home/ray
+
+SHELL ["/bin/bash", "-cl"]
+
+# Clone DPC4-ChampSim from GitHub at pinned ref.
+# Override CHAMPSIM_REF at build time to use a different commit.
+ARG CHAMPSIM_REF=164fdb1ed01185a21a39c292937bf26bb7f4c694
+ARG CHAMPSIM_BRANCH=incremental-compilation
+RUN git clone --branch "$CHAMPSIM_BRANCH" --single-branch \
+        https://github.com/raghav-g13/DPC4-ChampSim.git /home/ray/champsim \
+    && cd /home/ray/champsim \
+    && git checkout "$CHAMPSIM_REF"
+
+# Bootstrap vcpkg and install all C++ dependencies declared in vcpkg.json
+# (cli11, nlohmann-json, fmt, bzip2, liblzma, zlib, catch2).  Baking these
+# into the image avoids runtime bootstrap.
+RUN cd /home/ray/champsim \
+    && git submodule update --init \
+    && vcpkg/bootstrap-vcpkg.sh \
+    && vcpkg/vcpkg install
+
+# Copy the pre-generated smoke trace into the container (D-06).  This small
+# synthetic trace (10000 instructions, ~640KB uncompressed) is sufficient for
+# build-time verification; real traces from /nscratch/dpc-eval are mounted
+# at runtime in Phase 2+ (D-07).
+COPY --chown=ray:ray chia/simulators/tests/traces/smoke.champsimtrace.gz /home/ray/champsim/test/traces/
+
+# Build ChampSim with the evolved_pf module at L2C.  The evolved_pf prefetcher
+# (a next-line placeholder) is already in the repo.  The build system uses
+# split translation units (module_inst_*.cc) so incremental builds during
+# evolutionary search only recompile the single TU containing the prefetcher
+# header + relink (~30s vs ~15min for the monolithic generated_environment.cc).
+RUN cd /home/ray/champsim \
+    && echo '{"executable_name":"champsim","L2C":{"prefetcher":"evolved_pf"}}' > /tmp/champsim_config.json \
+    && python3 ./config.sh --no-compile-all-modules /tmp/champsim_config.json \
+    && make -j$(nproc)
+
+# Smoke test (D-05): run the compiled binary against the embedded trace and
+# validate that JSON stats output is parseable with expected structure.
+# Uses --json with a file argument (not stdout) per Pitfall 5 to avoid
+# interleaving with plain-text output.
+RUN cd /home/ray/champsim \
+    && bin/champsim --warmup-instructions 1000 --simulation-instructions 5000 \
+       --json /tmp/smoke_stats.json \
+       test/traces/smoke.champsimtrace.gz \
+    && python3 -c "\
+import json, sys; \
+stats = json.load(open('/tmp/smoke_stats.json')); \
+assert len(stats) >= 1, f'Expected 1+ phases, got {len(stats)}'; \
+sim = next((s for s in stats if s.get('name') == 'Simulation'), stats[-1]); \
+cores = sim['roi']['cores']; \
+assert len(cores) > 0; \
+assert cores[0]['instructions'] > 0, 'No instructions retired'; \
+assert cores[0]['cycles'] > 0, 'No cycles recorded'; \
+found_l2c = False; \
+[found_l2c := True or found_l2c for key in sim['roi'] if 'L2C' in str(key) and 'prefetch requested' in sim['roi'][key]]; \
+assert found_l2c, 'L2C prefetch counters not found'; \
+print('Smoke test PASSED'); \
+"
+
+# Install the chia package LAST for optimal Docker layer caching (D-03).
+# Any change to chia source only rebuilds this layer, not the ChampSim
+# compilation above (Pitfall 6).
+COPY --chown=ray:ray . /tmp/chia
+RUN pip install /tmp/chia && rm -rf /tmp/chia
+
+# ---- Optional: local dev evolve-flows from --build-context ----
+# Extends champsim-base with local skydiscover and evolve-flows packages.
+# Use --target champsim-evolve-local --build-context evolve-flows=path/to/evolve-flows
+FROM champsim-base AS champsim-evolve-local
+COPY --chown=ray:ray --from=evolve-flows skydiscover /tmp/skydiscover
+COPY --chown=ray:ray --from=evolve-flows . /tmp/evolve-flows
+RUN pip install /tmp/skydiscover && \
+    pip install /tmp/evolve-flows --no-deps && \
+    rm -rf /tmp/skydiscover /tmp/evolve-flows
+
+# ---- Default target: champsim-base ----
+# Without --target, builds just ChampSim + chia (no evolve-flows).
+# Evolve-flows runs on the head node, not inside containers.
+FROM champsim-base

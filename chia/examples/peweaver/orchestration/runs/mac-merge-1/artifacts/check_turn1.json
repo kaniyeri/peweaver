@@ -1,0 +1,29 @@
+{
+ "verdict": "ACCEPT",
+ "level": 4,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": "clean"
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 1200 cycles"
+  },
+  "structure": {
+   "passed": true,
+   "retry": false,
+   "note": "exactly one multiplier"
+  },
+  "area": {
+   "passed": true,
+   "retry": false,
+   "note": "gate count 531 = 44.0% below the two-reference sum 949",
+   "cand_area": 531.0,
+   "baseline": 949.0
+  }
+ }
+}

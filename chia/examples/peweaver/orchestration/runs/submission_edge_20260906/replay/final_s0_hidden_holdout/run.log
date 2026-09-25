@@ -1,0 +1,46 @@
+  [PASS] zeros_64: bit-exact
+  [PASS] plus_full_64: bit-exact
+  [PASS] minus_full_64: bit-exact
+  [PASS] alternate_64: bit-exact
+  [PASS] impulse_64: bit-exact
+  [PASS] ramp_64: bit-exact
+  [PASS] random0_64: bit-exact
+  [PASS] random1_64: bit-exact
+  [PASS] random2_64: bit-exact
+  [PASS] random3_64: bit-exact
+  [PASS] random4_64: bit-exact
+  [PASS] random5_64: bit-exact
+  [PASS] burst0_64: bit-exact
+  [PASS] burst1_64: bit-exact
+  [PASS] abort0_64: bit-exact (abort pulse 64 cycles)
+  [PASS] abort1_64: bit-exact (abort pulse 64 cycles)
+  [PASS] midreset_64: bit-exact
+  [PASS] zeros_128: bit-exact
+  [PASS] plus_full_128: bit-exact
+  [PASS] minus_full_128: bit-exact
+  [PASS] alternate_128: bit-exact
+  [PASS] impulse_128: bit-exact
+  [PASS] ramp_128: bit-exact
+  [PASS] random0_128: bit-exact
+  [PASS] random1_128: bit-exact
+  [PASS] random2_128: bit-exact
+  [PASS] random3_128: bit-exact
+  [PASS] random4_128: bit-exact
+  [PASS] random5_128: bit-exact
+  [PASS] burst0_128: bit-exact
+  [PASS] burst1_128: bit-exact
+  [PASS] abort0_128: bit-exact (abort pulse 128 cycles)
+  [PASS] abort1_128: bit-exact (abort pulse 128 cycles)
+  [PASS] midreset_128: bit-exact
+  [PASS] switch_64_to_128: bit-exact
+  [PASS] switch_128_to_64: bit-exact
+{
+ "candidate": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/orchestration/runs/merge_clean_1/peweaver_shared_fft.mergerun1.v",
+ "suite": {
+  "passed": true,
+  "cases": 36,
+  "failed": []
+ },
+ "elapsed_seconds": 0.6
+}
+VERDICT: PASS

@@ -1,0 +1,9 @@
+VCD info: dumpfile /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/results_power_opt/activity/gls_stream_shared.vcd opened for output.
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:49: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:49: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input5.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:49: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:151: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:151: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output5.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:151: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output4.txt): Not enough words in the file for the requested range [0:255].
+PEWEAVER_ACTIVITY_DONE
+/work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:247: $finish called at 3255000 (1ps)

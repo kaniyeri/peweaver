@@ -1,0 +1,101 @@
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/benchmarks/halo_fft64_reference/peweaver_halo_fft64_reference.v:11:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+   11 | module peweaver_halo_fft64_reference #(
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/TIMESCALEMOD?v=5.051
+                       ... Use "/* verilator lint_off TIMESCALEMOD */" and lint_on around source to disable this message.
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/FFT64.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module FFT #(
+      |        ^~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/SdfUnit.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module SdfUnit #(
+      |        ^~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/SdfUnit2.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module SdfUnit2 #(
+      |        ^~~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Butterfly #(
+      |        ^~~~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/DelayBuffer.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module DelayBuffer #(
+      |        ^~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Multiply.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Multiply #(
+      |        ^~~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Twiddle64.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Twiddle #(
+      |        ^~~~~~~
+                       activity/fft64_activity_tb.sv:24:8: ... Location of module with timescale
+   24 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:27:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                  : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.BF2'
+   27 | assign  y0_re = (add_re + RH) >>> 1;
+      |               ^
+                     ... For warning description see https://verilator.org/warn/WIDTHTRUNC?v=5.051
+                     ... Use "/* verilator lint_off WIDTHTRUNC */" and lint_on around source to disable this message.
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:28:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                  : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.BF2'
+   28 | assign  y0_im = (add_im + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:29:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                  : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.BF2'
+   29 | assign  y1_re = (sub_re + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:30:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                  : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.BF2'
+   30 | assign  y1_im = (sub_im + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Multiply.v:25:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                                 : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.MU'
+   25 | assign  sc_arbr = arbr >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Multiply.v:26:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                                 : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.MU'
+   26 | assign  sc_arbi = arbi >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Multiply.v:27:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                                 : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.MU'
+   27 | assign  sc_aibr = aibr >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/Multiply.v:28:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                                 : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3.MU'
+   28 | assign  sc_aibi = aibi >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/third_party/r22sdf/SdfUnit.v:232:16: Operator ASSIGNW expects 4 bits on the Assign RHS, but Assign RHS's SHIFTL generates 6 bits.
+                                                                                                                 : ... note: In instance 'peweaver_fft64_activity_tb.dut.core.SU3'
+  232 | assign  tw_num = bf2_count << (LOG_N-LOG_M);
+      |                ^
+make: Entering directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_activity'
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -O2 -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -O2 -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_vcd_c.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_vcd_c.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -O2 -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_timing.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_timing.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -O2 -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_threads.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_threads.cpp
+python3 /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vpeweaver_fft64_activity_tb.cpp Vpeweaver_fft64_activity_tb___024root__0.cpp Vpeweaver_fft64_activity_tb_Twiddle__0.cpp Vpeweaver_fft64_activity_tb__main.cpp Vpeweaver_fft64_activity_tb__Trace__0.cpp Vpeweaver_fft64_activity_tb___024root__Slow.cpp Vpeweaver_fft64_activity_tb___024root__0__Slow.cpp Vpeweaver_fft64_activity_tb_Twiddle__Slow.cpp Vpeweaver_fft64_activity_tb_Twiddle__0__Slow.cpp Vpeweaver_fft64_activity_tb__Syms__Slow.cpp Vpeweaver_fft64_activity_tb__Trace__0__Slow.cpp Vpeweaver_fft64_activity_tb__TraceDecls__0__Slow.cpp > Vpeweaver_fft64_activity_tb__ALL.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -O2 -DVL_TIME_CONTEXT   -fcoroutines -c -o Vpeweaver_fft64_activity_tb__ALL.o Vpeweaver_fft64_activity_tb__ALL.cpp
+g++    verilated.o verilated_vcd_c.o verilated_timing.o verilated_threads.o Vpeweaver_fft64_activity_tb__ALL.a    -pthread -lpthread -latomic   -o Vpeweaver_fft64_activity_tb
+rm Vpeweaver_fft64_activity_tb__ALL.verilator_deplist.tmp
+make: Leaving directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_activity'
+- V e r i l a t i o n   R e p o r t: Verilator 5.051 devel rev v5.050-281-g1ad9acd22 (mod)
+- Verilator: Built from 0.308 MB sources in 10 modules, into 0.651 MB in 12 C++ files needing 0.001 MB
+- Verilator: Walltime 8.285 s (elab=0.005, cvt=0.026, bld=8.243); cpu 0.043 s on 1 threads; allocated 23.875 MB

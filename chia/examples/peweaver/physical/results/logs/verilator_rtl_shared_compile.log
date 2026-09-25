@@ -1,0 +1,225 @@
+%Warning-MODDUP: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:9:8: Duplicate declaration of module: 'peweaver_ppa_reset_sync_shared'
+    9 | module peweaver_ppa_reset_sync_shared (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                 /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:9:8: ... Location of original declaration
+    9 | module peweaver_ppa_reset_sync_shared (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                 ... For warning description see https://verilator.org/warn/MODDUP?v=5.051
+                 ... Use "/* verilator lint_off MODDUP */" and lint_on around source to disable this message.
+%Warning-MODDUP: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:22:8: Duplicate declaration of module: 'peweaver_ppa_shared_fft'
+   22 | module peweaver_ppa_shared_fft (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+                 /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:22:8: ... Location of original declaration
+   22 | module peweaver_ppa_shared_fft (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+%Warning-MODDUP: ../third_party/r22sdf/FFT128.v:4:8: Duplicate declaration of module: 'FFT'
+    4 | module FFT #(
+      |        ^~~
+                 ../third_party/r22sdf/FFT64.v:4:8: ... Location of original declaration
+    4 | module FFT #(
+      |        ^~~
+%Warning-MODDUP: ../third_party/r22sdf/Twiddle128.v:4:8: Duplicate declaration of module: 'Twiddle'
+    4 | module Twiddle #(
+      |        ^~~~~~~
+                 ../third_party/r22sdf/Twiddle64.v:4:8: ... Location of original declaration
+    4 | module Twiddle #(
+      |        ^~~~~~~
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:9:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    9 | module peweaver_ppa_reset_sync_shared (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:24:8: ... Location of module with timescale
+   24 | module peweaver_shared_fft #(parameter WIDTH = 16) (
+      |        ^~~~~~~~~~~~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/TIMESCALEMOD?v=5.051
+                       ... Use "/* verilator lint_off TIMESCALEMOD */" and lint_on around source to disable this message.
+%Warning-TIMESCALEMOD: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_ppa_shared_fft.v:22:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+   22 | module peweaver_ppa_shared_fft (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+                       /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:24:8: ... Location of module with timescale
+   24 | module peweaver_shared_fft #(parameter WIDTH = 16) (
+      |        ^~~~~~~~~~~~~~~~~~~
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:65:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                      : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+   65 | wire [WIDTH-1:0] s1_b1y0r = s1_b1ar >>> 1;
+      |                           ^
+                     ... For warning description see https://verilator.org/warn/WIDTHTRUNC?v=5.051
+                     ... Use "/* verilator lint_off WIDTHTRUNC */" and lint_on around source to disable this message.
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:66:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                      : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+   66 | wire [WIDTH-1:0] s1_b1y0i = s1_b1ai >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:67:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                      : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+   67 | wire [WIDTH-1:0] s1_b1y1r = s1_b1sr >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:68:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                      : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+   68 | wire [WIDTH-1:0] s1_b1y1i = s1_b1si >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:132:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  132 | wire [WIDTH-1:0] s1_b2y0r = (s1_b2ar + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:133:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  133 | wire [WIDTH-1:0] s1_b2y0i = (s1_b2ai + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:134:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  134 | wire [WIDTH-1:0] s1_b2y1r = (s1_b2sr + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:135:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  135 | wire [WIDTH-1:0] s1_b2y1i = (s1_b2si + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHEXPAND: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:184:22: Operator AND expects 7 bits on the RHS, but RHS's CONST '5'h1f' generates 5 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  184 |     (s1_bf2cnt << 0) & 5'h1F :
+      |                      ^
+                      ... For warning description see https://verilator.org/warn/WIDTHEXPAND?v=5.051
+                      ... Use "/* verilator lint_off WIDTHEXPAND */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:185:22: Operator AND expects 7 bits on the RHS, but RHS's CONST '5'hf' generates 5 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  185 |     (s1_bf2cnt << 1) & 5'h0F;
+      |                      ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:183:21: Operator ASSIGNW expects 5 bits on the Assign RHS, but Assign RHS's COND generates 7 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  183 | wire [4:0] s1_twnum = mode ?
+      |                     ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:341:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SUB generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  341 | wire [WIDTH-1:0] s1_mumr = (s1_murr >>> 15) - (s1_muii >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:342:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's ADD generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  342 | wire [WIDTH-1:0] s1_mumi = (s1_muri >>> 15) + (s1_muir >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:386:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  386 | wire [WIDTH-1:0] s2_b1y0r = s2_b1ar >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:387:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  387 | wire [WIDTH-1:0] s2_b1y0i = s2_b1ai >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:388:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  388 | wire [WIDTH-1:0] s2_b1y1r = s2_b1sr >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:389:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  389 | wire [WIDTH-1:0] s2_b1y1i = s2_b1si >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:446:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  446 | wire [WIDTH-1:0] s2_b2y0r = (s2_b2ar + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:447:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  447 | wire [WIDTH-1:0] s2_b2y0i = (s2_b2ai + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:448:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  448 | wire [WIDTH-1:0] s2_b2y1r = (s2_b2sr + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:449:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  449 | wire [WIDTH-1:0] s2_b2y1i = (s2_b2si + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHEXPAND: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:496:22: Operator AND expects 7 bits on the RHS, but RHS's CONST '5'h1f' generates 5 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  496 |     (s2_bf2cnt << 2) & 5'h1F :
+      |                      ^
+%Warning-WIDTHEXPAND: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:497:22: Operator AND expects 7 bits on the RHS, but RHS's CONST '5'h7' generates 5 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  497 |     (s2_bf2cnt << 3) & 5'h07;
+      |                      ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:495:21: Operator ASSIGNW expects 5 bits on the Assign RHS, but Assign RHS's COND generates 7 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  495 | wire [4:0] s2_twnum = mode ?
+      |                     ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:652:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SUB generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  652 | wire [WIDTH-1:0] s2_mumr = (s2_murr >>> 15) - (s2_muii >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:653:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's ADD generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  653 | wire [WIDTH-1:0] s2_mumi = (s2_muri >>> 15) + (s2_muir >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:699:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  699 | wire [WIDTH-1:0] s3_b1y0r = s3_b1ar >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:700:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  700 | wire [WIDTH-1:0] s3_b1y0i = s3_b1ai >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:701:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  701 | wire [WIDTH-1:0] s3_b1y1r = s3_b1sr >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:702:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  702 | wire [WIDTH-1:0] s3_b1y1i = s3_b1si >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:761:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  761 | wire [WIDTH-1:0] s3_b2y0r = (s3_b2ar + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:762:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  762 | wire [WIDTH-1:0] s3_b2y0i = (s3_b2ai + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:763:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  763 | wire [WIDTH-1:0] s3_b2y1r = (s3_b2sr + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:764:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  764 | wire [WIDTH-1:0] s3_b2y1i = (s3_b2si + 1) >>> 1;
+      |                           ^
+%Warning-WIDTHEXPAND: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:816:40: Operator AND expects 7 bits on the RHS, but RHS's CONST '6'h1f' generates 6 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  816 | wire [5:0] s3_twnum = (s3_bf2cnt << 4) & 6'h1F;
+      |                                        ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:816:21: Operator ASSIGNW expects 6 bits on the Assign RHS, but Assign RHS's AND generates 7 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  816 | wire [5:0] s3_twnum = (s3_bf2cnt << 4) & 6'h1F;
+      |                     ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:962:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SUB generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  962 | wire [WIDTH-1:0] s3_mumr = (s3_murr >>> 15) - (s3_muii >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:963:26: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's ADD generates 32 bits.
+                                                                                                                       : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+  963 | wire [WIDTH-1:0] s3_mumi = (s3_muri >>> 15) + (s3_muir >>> 15);
+      |                          ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:1001:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+ 1001 | wire [WIDTH-1:0] s4_bfy0r = s4_bfar >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:1002:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+ 1002 | wire [WIDTH-1:0] s4_bfy0i = s4_bfai >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:1003:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+ 1003 | wire [WIDTH-1:0] s4_bfy1r = s4_bfsr >>> 1;
+      |                           ^
+%Warning-WIDTHTRUNC: /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v:1004:27: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 17 bits.
+                                                                                                                        : ... note: In instance 'peweaver_shared_activity_tb.dut.u_core'
+ 1004 | wire [WIDTH-1:0] s4_bfy1i = s4_bfsi >>> 1;
+      |                           ^
+make: Entering directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_rtl_shared'
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_vcd_c.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_vcd_c.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_timing.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_timing.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_threads.o /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/verilated_threads.cpp
+python3 /home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vpeweaver_shared_activity_tb.cpp Vpeweaver_shared_activity_tb___024root__0.cpp Vpeweaver_shared_activity_tb__main.cpp Vpeweaver_shared_activity_tb__Trace__0.cpp Vpeweaver_shared_activity_tb__ConstPool__0__Slow.cpp Vpeweaver_shared_activity_tb___024root__Slow.cpp Vpeweaver_shared_activity_tb___024root__0__Slow.cpp Vpeweaver_shared_activity_tb__Syms__Slow.cpp Vpeweaver_shared_activity_tb__Trace__0__Slow.cpp Vpeweaver_shared_activity_tb__TraceDecls__0__Slow.cpp > Vpeweaver_shared_activity_tb__ALL.cpp
+g++ -Os  -I.  -MMD -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include -I/home/peweaver-user/Documents/chialoop/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o Vpeweaver_shared_activity_tb__ALL.o Vpeweaver_shared_activity_tb__ALL.cpp
+g++    verilated.o verilated_vcd_c.o verilated_timing.o verilated_threads.o Vpeweaver_shared_activity_tb__ALL.a    -pthread -lpthread -latomic   -o Vpeweaver_shared_activity_tb
+rm Vpeweaver_shared_activity_tb__ALL.verilator_deplist.tmp
+make: Leaving directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_rtl_shared'
+- V e r i l a t i o n   R e p o r t: Verilator 5.051 devel rev v5.050-281-g1ad9acd22 (mod)
+- Verilator: Built from 1.252 MB sources in 14 modules, into 0.694 MB in 10 C++ files needing 0.001 MB
+- Verilator: Walltime 7.205 s (elab=0.009, cvt=0.035, bld=7.140); cpu 0.065 s on 1 threads; allocated 25.500 MB

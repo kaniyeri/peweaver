@@ -1,0 +1,46 @@
+{
+ "candidate": "/work/peweaver/runs/merge-clean-1/best/peweaver_shared_fft.v",
+ "suite": {
+  "passed": true,
+  "cases": 36,
+  "failed": []
+ },
+ "sensitivity": {
+  "twiddle_re5": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "burst0_128"
+   ]
+  },
+  "twiddle_im5": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "burst0_128"
+   ]
+  },
+  "scale_shift": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "random0_64",
+    "burst0_64",
+    "random0_128",
+    "burst0_128"
+   ]
+  },
+  "counter_wrap": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "random0_64",
+    "burst0_64",
+    "random0_128",
+    "burst0_128"
+   ]
+  }
+ },
+ "verdict": "reproducible-pass-and-sensitive",
+ "elapsed_seconds": 42.9
+}

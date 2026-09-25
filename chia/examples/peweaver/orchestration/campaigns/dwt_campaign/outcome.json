@@ -1,0 +1,89 @@
+{
+ "schema": "peweaver-dwt-merge-outcome-1",
+ "run_id": "dwt-merge-1",
+ "date": "2026-09-17",
+ "accepted": true,
+ "accepted_turn": 2,
+ "best_level": 6,
+ "candidate": {
+  "path": "orchestration/runs/dwt-merge-1/best/dwt_shared.v",
+  "sha256": "27ce1aab1fc04c4608b2787a2dfa9006ba90a121500544ba517b677fec0cf91e",
+  "bytes": 4737
+ },
+ "gate_results_turn2": {
+  "lint": {
+   "passed": true,
+   "note": "",
+   "detail": {}
+  },
+  "functional": {
+   "passed": true,
+   "note": "bit-exact over 1504 cycles",
+   "detail": {}
+  },
+  "corners": {
+   "passed": true,
+   "note": "bit-exact over 73 cycles",
+   "detail": {}
+  },
+  "structure": {
+   "passed": true,
+   "note": "8 normalized multiplication operators <= 8",
+   "detail": {}
+  },
+  "area": {
+   "passed": true,
+   "note": "generic Yosys cell count 6533 = 64.8% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)",
+   "detail": {}
+  },
+  "holdout": {
+   "passed": true,
+   "note": "post-synthesis bit-exact over 1204 cycles",
+   "detail": {}
+  }
+ },
+ "independent_repeat": {
+  "path": "orchestration/runs/dwt-merge-1/repeat_result.json",
+  "all_pass": true,
+  "candidate_sha256": "27ce1aab1fc04c4608b2787a2dfa9006ba90a121500544ba517b677fec0cf91e",
+  "evaluator_driver_sha256": "d7c089bb2ee6b015614bc551531824f4de7b459ad93d99e0625558036e782988",
+  "notes": {
+   "lint": "",
+   "functional": "bit-exact over 1504 cycles",
+   "corners": "bit-exact over 73 cycles",
+   "structure": "8 normalized multiplication operators <= 8",
+   "area": "generic Yosys cell count 6533 = 64.8% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)",
+   "holdout": "post-synthesis bit-exact over 1204 cycles"
+  }
+ },
+ "controls_anchor": {
+  "ref_dwt_a_cells": 6179,
+  "ref_dwt_b_cells": 12391,
+  "two_reference_sum_cells": 18570,
+  "naive_wrapper_cells": 16968,
+  "naive_normalized_muls": 24,
+  "fold_control_cells": 6521,
+  "fold_control_normalized_muls": 8,
+  "fold_control_reduction_pct": 64.9,
+  "cheater_cells": 6417,
+  "cheater_normalized_muls": 8
+ },
+ "turn1_infrastructure_note": "Turn 1 candidate 865744924b05 was created and would pass all six gates (post-hoc evaluation: 8 normalized multipliers, 6519 generic cells, 64.9% below the sum), but its in-run evaluation was lost when the first launch attached to the shared Ray cluster and received an external SIGTERM. The run was relaunched with RAY_ADDRESS=local in a detached tmux session, resumed, and accepted the turn-2 candidate. This is an infrastructure loss, not a semantic rejection; the frozen acceptance is the turn-2 candidate.",
+ "venue": {
+  "host": "peweaver-vm (GCP, peweaver-zone)",
+  "isolation": "PEWEAVER_DISABLE_RAY=1 evaluator, RAY_ADDRESS=local, nice -n 10, detached tmux; shared Ray cluster left to the concurrent msweep3 campaign",
+  "models": {
+   "adviser": "openrouter/openai/gpt-5.6-sol",
+   "implementer": "gemini/gemini-3.8-flash reply mode"
+  },
+  "turns_used": 2
+ },
+ "claim_language": "On a frozen streaming Q15 db2 benchmark containing mutually exclusive, independently stateful one- and two-level decomposition contexts, ChiaMerge produced a candidate (sha256 27ce1aab1fc04c46...) that passed directed and randomized bit-exact RTL checks, a controller-only synthesized-netlist holdout, and frozen structural gates. The candidate used 8 normalized multiplication operators and synthesized to 6533 unweighted generic Yosys cells, 64.82% fewer than the sum of two explicitly unfolded references. This is controlled synthesis-level evidence of correct multirate resource folding under the tested contract; it is not an exhaustive proof, mapped-area or physical-PPA result, comparison with a best-known DWT implementation, or evidence of signal-processing quality.",
+ "evidence_paths": {
+  "run_dir": "orchestration/runs/dwt-merge-1",
+  "preregistration": "orchestration/campaigns/dwt_campaign/preregistration.json",
+  "calibration": "orchestration/campaigns/dwt_campaign/calibration.json",
+  "local_selftest": "orchestration/campaigns/dwt_campaign/selftest_local_20260917.json",
+  "vm_selftest": "orchestration/campaigns/dwt_campaign/selftest_vm_20260917.json"
+ }
+}

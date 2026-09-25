@@ -1,0 +1,13 @@
+{
+ "inputs/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+ "inputs/CONTRACT.md": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+ "inputs/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+ "inputs/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+ "inputs/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+ "inputs/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+ "inputs/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+ "inputs/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+ "inputs/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+ "inputs/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+ "peweaver_shared_fft.v": "f38ee1cdb9fba4504dea9e587cdd8c24ed3f5d3e85d8dbe8358086308be4b032"
+}

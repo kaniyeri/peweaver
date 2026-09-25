@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
+<defs>
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 700; font-size: 18px; fill: #0f172a; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #475569; }
+    .axis-lbl { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #64748b; font-weight: 500; }
+    .axis-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #1e293b; font-weight: 600; }
+    .model-name { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #1e293b; }
+    .model-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 9.5px; fill: #64748b; }
+    .legend-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; fill: #1e293b; }
+    .legend-txt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #475569; }
+  </style>
+</defs>
+<rect width="1200" height="720" fill="#ffffff"/>
+<text x="600.0" y="36" class="title" text-anchor="middle">Empirical Hardware Synthesis Feasibility on the Artificial Analysis Intelligence-Cost Plane</text>
+<text x="600.0" y="58" class="subtitle" text-anchor="middle">Mapping outer evaluator outcomes (16-turn transactional loop, sky130 simple-map, OpenSTA timing) against independent AA Index benchmarks.</text>
+<line x1="95" y1="600.0" x2="1135" y2="600.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="603.5" class="axis-lbl" text-anchor="end">20</text>
+<line x1="95" y1="530.0" x2="1135" y2="530.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="533.5" class="axis-lbl" text-anchor="end">25</text>
+<line x1="95" y1="460.0" x2="1135" y2="460.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="463.5" class="axis-lbl" text-anchor="end">30</text>
+<line x1="95" y1="390.0" x2="1135" y2="390.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="393.5" class="axis-lbl" text-anchor="end">35</text>
+<line x1="95" y1="320.0" x2="1135" y2="320.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="323.5" class="axis-lbl" text-anchor="end">40</text>
+<line x1="95" y1="250.0" x2="1135" y2="250.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="253.5" class="axis-lbl" text-anchor="end">45</text>
+<line x1="95" y1="180.0" x2="1135" y2="180.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="183.5" class="axis-lbl" text-anchor="end">50</text>
+<line x1="95" y1="110.0" x2="1135" y2="110.0" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<text x="87" y="113.5" class="axis-lbl" text-anchor="end">55</text>
+<line x1="95.0" y1="110" x2="95.0" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="186.12141320629" y1="110" x2="186.12141320629" y2="600" stroke="#e2e8f0" />
+<text x="186.12141320629" y="616" class="axis-lbl" text-anchor="middle">$0.20</text>
+<line x1="314.5498319178861" y1="110" x2="314.5498319178861" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="476.35050424634176" y1="110" x2="476.35050424634176" y2="600" stroke="#e2e8f0" />
+<text x="476.35050424634176" y="616" class="axis-lbl" text-anchor="middle">$0.50</text>
+<line x1="582.925882560001" y1="110" x2="582.925882560001" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="695.9003361642278" y1="110" x2="695.9003361642278" y2="600" stroke="#e2e8f0" />
+<text x="695.9003361642278" y="616" class="axis-lbl" text-anchor="middle">$1</text>
+<line x1="824.328754875824" y1="110" x2="824.328754875824" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="915.4501680821138" y1="110" x2="915.4501680821138" y2="600" stroke="#e2e8f0" />
+<text x="915.4501680821138" y="616" class="axis-lbl" text-anchor="middle">$2</text>
+<line x1="1043.8785867937102" y1="110" x2="1043.8785867937102" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="1135.0" y1="110" x2="1135.0" y2="600" stroke="#e2e8f0" stroke-dasharray="3 3"/>
+<line x1="95" y1="600" x2="1135" y2="600" stroke="#64748b" stroke-width="1.5"/>
+<line x1="95" y1="110" x2="95" y2="600" stroke="#64748b" stroke-width="1.5"/>
+<text x="615.0" y="638" class="axis-title" text-anchor="middle">Artificial Analysis Blended Cost per Task (USD, Logarithmic Scale)</text>
+<text x="28" y="355.0" class="axis-title" text-anchor="middle" transform="rotate(-90 28 355.0)">Artificial Analysis Intelligence Index v4.3</text>
+<rect x="110" y="125" width="280" height="150" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="122" y="143" class="legend-title">Outcome Legend (Implementer Role)</text>
+<circle cx="130" cy="162" r="6" fill="#10b981"/>
+<text x="146" y="165" class="legend-txt">Turn 1 Accept &amp; Timing Met (Grok 4.6)</text>
+<circle cx="130" cy="184" r="6" fill="#3b82f6"/>
+<text x="146" y="187" class="legend-txt">Timing-Viable Accept (Sol, Gemini, GLM)</text>
+<circle cx="130" cy="206" r="6" fill="#ef4444"/>
+<text x="146" y="209" class="legend-txt">Serialized/Timing Violation (Kimi K2.7)</text>
+<path d="M 125 223 L 135 233 M 125 233 L 135 223" stroke="#6b7280" stroke-width="2.5" fill="none"/>
+<text x="146" y="231" class="legend-txt">Unviable / Failed Gate Ladder (DeepSeek, MiniMax, Terra)</text>
+<circle cx="130" cy="250" r="6" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="2 2"/>
+<text x="146" y="253" class="legend-txt">Untested / Free-Tier Target (Nemotron, Inkling)</text>
+<circle cx="522.8149885422166" cy="552.26" r="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+<line x1="522.8149885422166" y1="552.26" x2="508.8149885422166" y2="570.26" stroke="#cbd5e1" stroke-width="1"/>
+<text x="508.8149885422166" y="568.26" class="model-name" text-anchor="end">Nemotron 3 Ultra (550B)</text>
+<text x="508.8149885422166" y="580.26" class="model-sub" text-anchor="end">Free OpenRouter (:free) Target</text>
+<circle cx="537.7736141831479" cy="522.44" r="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+<line x1="537.7736141831479" y1="522.44" x2="553.7736141831479" y2="534.44" stroke="#cbd5e1" stroke-width="1"/>
+<text x="553.7736141831479" y="532.44" class="model-name" text-anchor="start">ThinkingMachines Inkling</text>
+<text x="553.7736141831479" y="544.44" class="model-sub" text-anchor="start">Free OpenRouter (:free) Target</text>
+<circle cx="501.31342972693756" cy="512.22" r="7" fill="#ef4444" stroke="#b91c1c" stroke-width="1.8"/>
+<line x1="501.31342972693756" y1="512.22" x2="517.3134297269376" y2="526.22" stroke="#cbd5e1" stroke-width="1"/>
+<text x="517.3134297269376" y="524.22" class="model-name" text-anchor="start">Kimi K2.7 Code</text>
+<text x="517.3134297269376" y="536.22" class="model-sub" text-anchor="start">Accepted T4 (Serialized, -27.5ns)</text>
+<path d="M 475.3782836804615 459.46000000000004 L 487.3782836804615 471.46000000000004 M 475.3782836804615 471.46000000000004 L 487.3782836804615 459.46000000000004" stroke="#6b7280" stroke-width="2.5" fill="none"/>
+<line x1="481.3782836804615" y1="465.46000000000004" x2="465.3782836804615" y2="467.46000000000004" stroke="#cbd5e1" stroke-width="1"/>
+<text x="465.3782836804615" y="465.46000000000004" class="model-name" text-anchor="end">MiniMax M3</text>
+<text x="465.3782836804615" y="477.46000000000004" class="model-sub" text-anchor="end">0/2 Accepted (16 turns)</text>
+<circle cx="570.9370718440379" cy="372.08" r="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+<line x1="570.9370718440379" y1="372.08" x2="584.9370718440379" y2="388.08" stroke="#cbd5e1" stroke-width="1"/>
+<text x="584.9370718440379" y="386.08" class="model-name" text-anchor="start">DeepSeek V4 Pro</text>
+<text x="584.9370718440379" y="398.08" class="model-sub" text-anchor="start">Queue Pending</text>
+<circle cx="149.21008976835043" cy="355.0" r="6" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3 2"/>
+<line x1="149.21008976835043" y1="355.0" x2="163.21008976835043" y2="359.0" stroke="#cbd5e1" stroke-width="1"/>
+<text x="163.21008976835043" y="357.0" class="model-name" text-anchor="start">GPT-5.6 Luna</text>
+<text x="163.21008976835043" y="369.0" class="model-sub" text-anchor="start">Codex Timer Target (00:30 IST)</text>
+<path d="M 269.2569675330659 320.3 L 281.2569675330659 332.3 M 269.2569675330659 332.3 L 281.2569675330659 320.3" stroke="#6b7280" stroke-width="2.5" fill="none"/>
+<line x1="275.2569675330659" y1="326.3" x2="261.2569675330659" y2="312.3" stroke="#cbd5e1" stroke-width="1"/>
+<text x="261.2569675330659" y="310.3" class="model-name" text-anchor="end">DeepSeek V4.1 Flash</text>
+<text x="261.2569675330659" y="322.3" class="model-sub" text-anchor="end">0/2 Accepted (16 turns)</text>
+<circle cx="764.8008467881524" cy="303.34000000000003" r="12" fill="#3b82f6" fill-opacity="0.15"/>
+<circle cx="764.8008467881524" cy="303.34000000000003" r="7" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.8"/>
+<line x1="764.8008467881524" y1="303.34000000000003" x2="748.8008467881524" y2="289.34000000000003" stroke="#cbd5e1" stroke-width="1"/>
+<text x="748.8008467881524" y="287.34000000000003" class="model-name" text-anchor="end">Gemini 3.8 Flash</text>
+<text x="748.8008467881524" y="299.34000000000003" class="model-sub" text-anchor="end">2/2 Accept T1 (Viable, -0.6ns)</text>
+<circle cx="260.5789690624564" cy="293.26000000000005" r="12" fill="#3b82f6" fill-opacity="0.15"/>
+<circle cx="260.5789690624564" cy="293.26000000000005" r="7" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.8"/>
+<line x1="260.5789690624564" y1="293.26000000000005" x2="274.5789690624564" y2="279.26000000000005" stroke="#cbd5e1" stroke-width="1"/>
+<text x="274.5789690624564" y="277.26000000000005" class="model-name" text-anchor="start">GLM-5.3-Flash</text>
+<text x="274.5789690624564" y="289.26000000000005" class="model-sub" text-anchor="start">1/2 Accept T7 (Viable, -0.08ns)</text>
+<path d="M 796.2493883133908 282.5 L 808.2493883133908 294.5 M 796.2493883133908 294.5 L 808.2493883133908 282.5" stroke="#6b7280" stroke-width="2.5" fill="none"/>
+<line x1="802.2493883133908" y1="288.5" x2="816.2493883133908" y2="302.5" stroke="#cbd5e1" stroke-width="1"/>
+<text x="816.2493883133908" y="300.5" class="model-name" text-anchor="start">GPT-5.6 Terra</text>
+<text x="816.2493883133908" y="312.5" class="model-sub" text-anchor="start">0/2 Accepted (16 turns)</text>
+<circle cx="915.4501680821138" cy="267.08" r="5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="915.4501680821138" y1="267.08" x2="929.4501680821138" y2="285.08" stroke="#cbd5e1" stroke-width="1"/>
+<text x="929.4501680821138" y="283.08" class="model-name" text-anchor="start">Kimi K3</text>
+<text x="929.4501680821138" y="295.08" class="model-sub" text-anchor="start">Reasoning Model</text>
+<circle cx="892.2935382202884" cy="258.26000000000005" r="14" fill="#10b981" fill-opacity="0.2"/>
+<circle cx="892.2935382202884" cy="258.26000000000005" r="8" fill="#10b981" stroke="#047857" stroke-width="2"/>
+<line x1="892.2935382202884" y1="258.26000000000005" x2="910.2935382202884" y2="242.26000000000005" stroke="#cbd5e1" stroke-width="1"/>
+<text x="910.2935382202884" y="240.26000000000005" class="model-name" text-anchor="start">Grok 4.6</text>
+<text x="910.2935382202884" y="252.26000000000005" class="model-sub" text-anchor="start">2/2 Accept T1 (+0.28ns Met!)</text>
+<circle cx="916.3989759420723" cy="251.95999999999998" r="5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="916.3989759420723" y1="251.95999999999998" x2="930.3989759420723" y2="265.96" stroke="#cbd5e1" stroke-width="1"/>
+<text x="930.3989759420723" y="263.96" class="model-name" text-anchor="start">GLM-5.3 (max)</text>
+<text x="930.3989759420723" y="275.96" class="model-sub" text-anchor="start">Queue Pending</text>
+<circle cx="913.5439830688824" cy="221.15999999999997" r="12" fill="#3b82f6" fill-opacity="0.15"/>
+<circle cx="913.5439830688824" cy="221.15999999999997" r="7" fill="#3b82f6" stroke="#1d4ed8" stroke-width="1.8"/>
+<line x1="913.5439830688824" y1="221.15999999999997" x2="931.5439830688824" y2="207.15999999999997" stroke="#cbd5e1" stroke-width="1"/>
+<text x="931.5439830688824" y="205.15999999999997" class="model-name" text-anchor="start">GPT-5.6 Sol</text>
+<text x="931.5439830688824" y="217.15999999999997" class="model-sub" text-anchor="start">2/2 Accept T4/6 (Viable, -0.13ns)</text>
+<circle cx="845.7591888685259" cy="205.61999999999995" r="5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="845.7591888685259" y1="205.61999999999995" x2="861.7591888685259" y2="189.61999999999995" stroke="#cbd5e1" stroke-width="1"/>
+<text x="861.7591888685259" y="187.61999999999995" class="model-name" text-anchor="start">Muse Spark 1.3</text>
+<text x="861.7591888685259" y="199.61999999999995" class="model-sub" text-anchor="start">Queue Pending</text>
+<circle cx="1070.0103086327736" cy="140.65999999999997" r="5" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.2"/>
+<line x1="1070.0103086327736" y1="140.65999999999997" x2="1054.0103086327736" y2="132.65999999999997" stroke="#cbd5e1" stroke-width="1"/>
+<text x="1054.0103086327736" y="130.65999999999997" class="model-name" text-anchor="end">GPT-6 Astra</text>
+<text x="1054.0103086327736" y="142.65999999999997" class="model-sub" text-anchor="end">Route Error (Reset Pending)</text>
+</svg>

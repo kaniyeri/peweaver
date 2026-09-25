@@ -1,0 +1,6 @@
+{
+ "passed": false,
+ "retry": false,
+ "note": "result JSON missing; rc=1; -0305] read_power_activities is deprecated. Use read_vcd.\nAnnotated 89467 pin activities.\n[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.\nAnnotated 89467 pin activities.\nDesign area 288442 u^2 47% utilization.\nPEWEAVER_PHYSICAL_FLOW_DONE\nrun-physical.sh: stage 4 result assembly\nassemble_results.py: reset recovery report has groups/types set()/set();",
+ "detail": {}
+}

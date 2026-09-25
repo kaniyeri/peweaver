@@ -1,0 +1,46 @@
+{
+  "schema": "peweaver-layout-verification-status-1",
+  "updated": "2026-09-08",
+  "designs": {
+    "S0": {
+      "gds_roundtrip": "PASS",
+      "router_drc": "PASS",
+      "independent_streamed_drc": "NOT_VERIFIED",
+      "lvs": "NOT_RUN"
+    },
+    "A": {
+      "gds_roundtrip": "PASS",
+      "router_drc": "PASS",
+      "independent_streamed_drc": "NOT_VERIFIED",
+      "lvs": "NOT_RUN"
+    }
+  },
+  "independent_klayout_drc": {
+    "deck": "sky130A.lydrc",
+    "tool": "/usr/bin/klayout 0.26.2 (2022-01-13)",
+    "status": "INFRASTRUCTURE_FAILED",
+    "attempts": [
+      {
+        "design": "S0",
+        "command_mode": "headless batch",
+        "exit_code": 11,
+        "report_created": false,
+        "log": "finalization/drc_attempts/shared_s0_klayout_drc.log",
+        "note": "KLayout segfaulted in Salt/Ruby startup before DRC execution"
+      },
+      {
+        "design": "S0",
+        "command_mode": "headless batch with clean HOME/KLAYOUT_HOME and QT_QPA_PLATFORM=offscreen",
+        "exit_code": 11,
+        "report_created": false,
+        "log": "finalization/drc_attempts/shared_s0_klayout_drc_cleanhome.log",
+        "note": "Same KLayout Salt/Ruby startup segfault; no DRC verdict"
+      }
+    ],
+    "claim_boundary": "Independent streamed-layout DRC is pending; router DRC 0 and GDS round-trip layer audits are reported separately."
+  },
+  "lvs": {
+    "status": "NOT_RUN",
+    "reason": "No stable independent DRC/LVS runner was available after the pinned KLayout batch startup failure."
+  }
+}

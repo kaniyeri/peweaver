@@ -1,0 +1,3 @@
+VCD info: dumpfile /work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/results_power_opt/activity/gls_stream_128_shared.vcd opened for output.
+PEWEAVER_ACTIVITY_DONE
+/work/peweaver/runs/power_opt_campaign_20260918/examples/peweaver/physical/activity/shared_activity_tb.sv:247: $finish called at 5835000 (1ps)

@@ -1,0 +1,809 @@
+{
+  "corpus_version": "2026-09-07_v2",
+  "total_candidates": 31,
+  "strata_counts": {
+    "natural_failure": 5,
+    "accepted_legal": 9,
+    "architectural_control": 4,
+    "rtl_mutation": 9,
+    "infra_provenance": 4
+  },
+  "candidates": [
+    {
+      "id": "nat_ps_turn1",
+      "stratum": "natural_failure",
+      "domain": "FFT",
+      "description": "ps-fft-6 turn 1 candidate: physical timing closure failure",
+      "expected_label": "FAIL",
+      "primary_artifact": "ps_fft_campaign/artifacts/physical_turn1.json",
+      "artifact_evidence": "timing_met=False drc=0",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "FAIL",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn1.json",
+        "ps_fft_campaign/artifacts/physical_turn1.json"
+      ],
+      "evaluation_scope": "archived_campaign_records_without_complete_nested_gate_reports"
+    },
+    {
+      "id": "nat_ps_turn2",
+      "stratum": "natural_failure",
+      "domain": "FFT",
+      "description": "ps-fft-6 turn 2 candidate: functional verification failure (errors=3)",
+      "expected_label": "FAIL",
+      "primary_artifact": "ps_fft_campaign/artifacts/check_turn2.json",
+      "artifact_evidence": "errors=3 burst_len=384",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "holdout": "BLOCKED",
+        "gls": "BLOCKED",
+        "timing": "BLOCKED",
+        "drc": "BLOCKED",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn2.json"
+      ],
+      "evaluation_scope": "archived_campaign_records_without_complete_nested_gate_reports"
+    },
+    {
+      "id": "nat_ps_turn5",
+      "stratum": "natural_failure",
+      "domain": "FFT",
+      "description": "ps-fft-6 turn 5 candidate: physical timing closure failure",
+      "expected_label": "FAIL",
+      "primary_artifact": "ps_fft_campaign/artifacts/physical_turn5.json",
+      "artifact_evidence": "timing_met=False drc=0",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "FAIL",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn5.json",
+        "ps_fft_campaign/artifacts/physical_turn5.json"
+      ],
+      "evaluation_scope": "archived_campaign_records_without_complete_nested_gate_reports"
+    },
+    {
+      "id": "nat_ps_turn6",
+      "stratum": "natural_failure",
+      "domain": "FFT",
+      "description": "ps-fft-6 turn 6 candidate: result assembly failed closed on empty recovery reports",
+      "expected_label": "FAIL",
+      "primary_artifact": "ps_fft_campaign/artifacts/physical_turn6.json",
+      "artifact_evidence": "assemble_results.py rejected empty reset-recovery reports (rc=1)",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "FAIL"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn6.json",
+        "ps_fft_campaign/artifacts/physical_turn6.json"
+      ],
+      "evaluation_scope": "archived_campaign_records_without_complete_nested_gate_reports"
+    },
+    {
+      "id": "nat_ps_turn7",
+      "stratum": "natural_failure",
+      "domain": "FFT",
+      "description": "ps-fft-6 turn 7 candidate: physical timing closure failure",
+      "expected_label": "FAIL",
+      "primary_artifact": "ps_fft_campaign/artifacts/physical_turn7.json",
+      "artifact_evidence": "timing_met=False drc=0",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "FAIL",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn7.json",
+        "ps_fft_campaign/artifacts/physical_turn7.json"
+      ],
+      "evaluation_scope": "archived_campaign_records_without_complete_nested_gate_reports"
+    },
+    {
+      "id": "acc_fft_s0",
+      "stratum": "accepted_legal",
+      "domain": "FFT",
+      "description": "Accepted shared FFT discovery candidate S0 (ce64c715...)",
+      "expected_label": "PASS",
+      "primary_artifact": "merge_clean_1/peweaver_shared_fft.mergerun1.v",
+      "artifact_evidence": "Primary mapped-GLS/P&R result and independent repeat are hash-bound; timing met and router DRC 0",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "VERIFIED",
+      "evidence_refs": [
+        "merge_clean_1/check_turn32.json",
+        "merge_clean_1/shared_mergerun1_sky130.json",
+        "submission_edge_20260906/replay/final_s0_hidden_holdout/hidden_holdout_report.json",
+        "submission_edge_20260906/replay/final_s0_hidden_holdout/run.log",
+        "submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/shared_baseline_sky130.json",
+        "submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_physical_repeat_sky130.json",
+        "submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_physical_repeat_audit.json"
+      ],
+      "evaluation_scope": "observed_fft_ladder",
+      "evidence_observations": {
+        "holdout_cases": 36,
+        "holdout_candidate_sha256": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+        "exact_latency_contract": "checked by the controller holdout testbench; report records pass/fail only",
+        "physical": "primary mapped-GLS/P&R report plus independent repeat are hash-bound and artifact-validated",
+        "source_sha256": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e"
+      }
+    },
+    {
+      "id": "acc_fft_s1",
+      "stratum": "accepted_legal",
+      "domain": "FFT",
+      "description": "PowerSave promoted Pareto candidate S1 (f4d5ae2f...)",
+      "expected_label": "PASS",
+      "primary_artifact": "ps_fft_campaign/best/peweaver_shared_fft.v",
+      "artifact_evidence": "Placed area 282,963 um^2; physical flow passed; DRC 0",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "ps_fft_campaign/artifacts/check_turn4.json",
+        "ps_fft_campaign/artifacts/final_repeat.json"
+      ],
+      "evaluation_scope": "functional_and_physical_without_local_hidden_holdout"
+    },
+    {
+      "id": "acc_fft_repro1",
+      "stratum": "accepted_legal",
+      "domain": "FFT",
+      "description": "Preregistered clean-start FFT reproduction 1 (turn 10)",
+      "expected_label": "PASS",
+      "primary_artifact": "merge-repro-1/best/peweaver_shared_fft.v",
+      "artifact_evidence": "Accepted turn 10; 32-33% placed area reduction; timing closed",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "merge-repro-1/best/peweaver_shared_fft.v"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "acc_fft_repro2",
+      "stratum": "accepted_legal",
+      "domain": "FFT",
+      "description": "Preregistered clean-start FFT reproduction 2 (turn 2)",
+      "expected_label": "PASS",
+      "primary_artifact": "merge-repro-2/best/peweaver_shared_fft.v",
+      "artifact_evidence": "Accepted turn 2; 32-33% placed area reduction; timing closed",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "merge-repro-2/best/peweaver_shared_fft.v"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "acc_fft_repro3",
+      "stratum": "accepted_legal",
+      "domain": "FFT",
+      "description": "Preregistered clean-start FFT reproduction 3 (turn 13)",
+      "expected_label": "PASS",
+      "primary_artifact": "merge-repro-3/best/peweaver_shared_fft.v",
+      "artifact_evidence": "Accepted turn 13; 32-33% placed area reduction; timing closed",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "merge-repro-3/best/peweaver_shared_fft.v"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "acc_mac_m2",
+      "stratum": "accepted_legal",
+      "domain": "MAC",
+      "description": "Preregistered MAC clean start 2 (3340103b...)",
+      "expected_label": "PASS",
+      "primary_artifact": "mac-merge-2/best/shared_mac.v",
+      "artifact_evidence": "Passed 6/6 gates; generic cell count 531 (-44.0%); BMC depth 12 verified",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "VERIFIED",
+      "evidence_refs": [
+        "mac-merge-2/artifacts/check_turn1.json",
+        "mac-merge-2/best/shared_mac.v",
+        "mac-merge-2/artifacts/manifest_turn1.json",
+        "submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_judge_report.json"
+      ],
+      "evaluation_scope": "full_mac_ladder",
+      "evidence_observations": {
+        "lint": "",
+        "functional": "bit-exact over 1200 cycles",
+        "corners": "bit-exact on 157 directed corner cycles",
+        "structure": "exactly one multiplier",
+        "area": "generic Yosys cell count 531 = 44.0% below the two-reference sum 949 (unweighted generic cell count, not mapped area)",
+        "formal": "formal (BMC depth 12, BOUNDED) PASS: sequential contract with symbolic operands under declared protocol assumptions",
+        "candidate_sha256": "3340103b408aaf617ce0e2396d5bedc723303ec0e14f9ab5d19b42aa976f6c6a",
+        "hidden_judge": "submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_judge_report.json"
+      }
+    },
+    {
+      "id": "acc_mac_m3",
+      "stratum": "accepted_legal",
+      "domain": "MAC",
+      "description": "Preregistered MAC clean start 3 (7a9a2fb7...)",
+      "expected_label": "PASS",
+      "primary_artifact": "mac-merge-3/best/shared_mac.v",
+      "artifact_evidence": "Passed 6/6 gates; generic cell count 531 (-44.0%); BMC depth 12 verified",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "VERIFIED",
+      "evidence_refs": [
+        "mac-merge-3/artifacts/check_turn1.json",
+        "mac-merge-3/best/shared_mac.v",
+        "mac-merge-3/artifacts/manifest_turn1.json",
+        "submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_judge_report.json"
+      ],
+      "evaluation_scope": "full_mac_ladder",
+      "evidence_observations": {
+        "lint": "",
+        "functional": "bit-exact over 1200 cycles",
+        "corners": "bit-exact on 157 directed corner cycles",
+        "structure": "exactly one multiplier",
+        "area": "generic Yosys cell count 531 = 44.0% below the two-reference sum 949 (unweighted generic cell count, not mapped area)",
+        "formal": "formal (BMC depth 12, BOUNDED) PASS: sequential contract with symbolic operands under declared protocol assumptions",
+        "candidate_sha256": "7a9a2fb7e64a04d26e3e73324be4a25549cb18fd19b0810e8062b0e020ab15ed",
+        "hidden_judge": "submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_judge_report.json"
+      }
+    },
+    {
+      "id": "acc_fir_f1",
+      "stratum": "accepted_legal",
+      "domain": "FIR",
+      "description": "Preregistered FIR clean start (009851fd...)",
+      "expected_label": "PASS",
+      "primary_artifact": "fir-merge-1/best/shared_fir.v",
+      "artifact_evidence": "Passed 6/6 gates; 8 mults, 4484 generic cells (-11.6%); impulse exact",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "PASS",
+        "area": "PASS",
+        "hidden2": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "fir-merge-1/best/shared_fir.v"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "legal_mac_commutation",
+      "stratum": "accepted_legal",
+      "domain": "MAC",
+      "description": "Legal operand commutation control: b*a instead of a*b",
+      "expected_label": "PASS",
+      "primary_artifact": "mac_mutants.py: unshared_recompute",
+      "artifact_evidence": "mac-mutants-1: failed_gates=[], caught=False, as_expected=True",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "mac_mutants.py: unshared_recompute"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "ctrl_mac_two_mult",
+      "stratum": "architectural_control",
+      "domain": "MAC",
+      "description": "MAC negative control: naive 2-multiplier multiplexer",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-selftest run logs",
+      "artifact_evidence": "Rejected by structure gate: 2 multiplier cells > 1 allowed",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "FAIL",
+        "area": "PASS",
+        "formal": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "mac-selftest run logs"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "ctrl_mac_double_prod",
+      "stratum": "architectural_control",
+      "domain": "MAC",
+      "description": "MAC negative control: double-product TDM cheater",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-selftest run logs",
+      "artifact_evidence": "Rejected by functional oracle: arithmetic mismatch on interleaved cycles",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "mac-selftest run logs"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "ctrl_fir_16_mult",
+      "stratum": "architectural_control",
+      "domain": "FIR",
+      "description": "FIR negative control: naive 16-multiplier multiplexer",
+      "expected_label": "FAIL",
+      "primary_artifact": "fir-merge-selftest run logs",
+      "artifact_evidence": "Rejected by generic area floor: 4.6% cell reduction < 10% required floor",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "corners": "PASS",
+        "structure": "PASS",
+        "area": "FAIL",
+        "hidden2": "PASS",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "fir-merge-selftest run logs"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "ctrl_fir_shared_delay",
+      "stratum": "architectural_control",
+      "domain": "FIR",
+      "description": "FIR negative control: shared-delay-line state corruption cheater",
+      "expected_label": "FAIL",
+      "primary_artifact": "fir-merge-selftest run logs",
+      "artifact_evidence": "Rejected by functional oracle: filter state contaminated across mode switches",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "hidden2": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "fir-merge-selftest run logs"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "mut_mac_signedness",
+      "stratum": "rtl_mutation",
+      "domain": "MAC",
+      "description": "MAC mutation: signedness",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-mutants-1/signedness",
+      "artifact_evidence": "1020/1200 mismatches; first: cyc8 got 61c5 exp fac5; cyc9 got 1d2e exp f02e; cyc",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "mac-mutants-1/mutation_report.json"
+      ],
+      "evaluation_scope": "observed_mutation_gates_only"
+    },
+    {
+      "id": "mut_mac_acc_hold_mode1",
+      "stratum": "rtl_mutation",
+      "domain": "MAC",
+      "description": "MAC mutation: acc hold mode1",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-mutants-1/acc_hold_mode1",
+      "artifact_evidence": "425/1200 mismatches; first: cyc298 got 35ad exp 1524; cyc299 got 35ad exp 1524; ",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "mac-mutants-1/mutation_report.json"
+      ],
+      "evaluation_scope": "observed_mutation_gates_only"
+    },
+    {
+      "id": "mut_mac_reset_ignored",
+      "stratum": "rtl_mutation",
+      "domain": "MAC",
+      "description": "MAC mutation: reset ignored",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-mutants-1/reset_ignored",
+      "artifact_evidence": "407/1200 mismatches; first: cyc405 got 373c exp 0bf4; cyc406 got 60ec exp 35a4; ",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "mac-mutants-1/mutation_report.json"
+      ],
+      "evaluation_scope": "observed_mutation_gates_only"
+    },
+    {
+      "id": "mut_mac_enable_ignored",
+      "stratum": "rtl_mutation",
+      "domain": "MAC",
+      "description": "MAC mutation: enable ignored",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-mutants-1/enable_ignored",
+      "artifact_evidence": "1116/1200 mismatches; first: cyc2 got 031b exp 0000; cyc3 got f71b exp 0000; cyc",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "mac-mutants-1/mutation_report.json"
+      ],
+      "evaluation_scope": "observed_mutation_gates_only"
+    },
+    {
+      "id": "mut_mac_output_truncation",
+      "stratum": "rtl_mutation",
+      "domain": "MAC",
+      "description": "MAC mutation: output truncation",
+      "expected_label": "FAIL",
+      "primary_artifact": "mac-mutants-1/output_truncation",
+      "artifact_evidence": "1188/1200 mismatches; first: cyc7 got 01ff exp 1ffe; cyc8 got 0fac exp fac5; cyc",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "corners": "FAIL",
+        "structure": "PASS",
+        "area": "PASS",
+        "formal": "FAIL",
+        "gls": "N/A",
+        "timing": "N/A",
+        "drc": "N/A",
+        "provenance": "PASS"
+      },
+      "evidence_status": "PARTIAL",
+      "evidence_refs": [
+        "mac-mutants-1/mutation_report.json"
+      ],
+      "evaluation_scope": "observed_mutation_gates_only"
+    },
+    {
+      "id": "mut_fft_twiddle_re",
+      "stratum": "rtl_mutation",
+      "domain": "FFT",
+      "description": "FFT mutant: LSB corrupted in stage-3 real twiddle coefficient",
+      "expected_label": "FAIL",
+      "primary_artifact": "hidden_holdout.py: twiddle_re5",
+      "artifact_evidence": "Mismatches on non-zero twiddle frames; caught by hidden holdout",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "holdout": "FAIL",
+        "gls": "FAIL",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "hidden_holdout.py: twiddle_re5"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "mut_fft_twiddle_im",
+      "stratum": "rtl_mutation",
+      "domain": "FFT",
+      "description": "FFT mutant: LSB corrupted in stage-3 imaginary twiddle coefficient",
+      "expected_label": "FAIL",
+      "primary_artifact": "hidden_holdout.py: twiddle_im5",
+      "artifact_evidence": "Mismatches on non-zero twiddle frames; caught by hidden holdout",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "holdout": "FAIL",
+        "gls": "FAIL",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "hidden_holdout.py: twiddle_im5"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "mut_fft_scale_shift",
+      "stratum": "rtl_mutation",
+      "domain": "FFT",
+      "description": "FFT mutant: internal arithmetic shifted >>> 14 instead of >>> 15",
+      "expected_label": "FAIL",
+      "primary_artifact": "hidden_holdout.py: scale_shift",
+      "artifact_evidence": "Dynamic range gain error; caught by random oracle and holdout",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "holdout": "FAIL",
+        "gls": "FAIL",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "hidden_holdout.py: scale_shift"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "mut_fft_counter_wrap",
+      "stratum": "rtl_mutation",
+      "domain": "FFT",
+      "description": "FFT mutant: latency counter wraps early (starts at cycle 70 instead of 71)",
+      "expected_label": "FAIL",
+      "primary_artifact": "hidden_holdout.py: counter_wrap",
+      "artifact_evidence": "First-valid latency assertion error (got 70, expected 71)",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "FAIL",
+        "holdout": "FAIL",
+        "gls": "FAIL",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "PASS"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "hidden_holdout.py: counter_wrap"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "flt_hash_mismatch",
+      "stratum": "infra_provenance",
+      "domain": "Cross-domain",
+      "description": "Candidate file modified post-evaluation (hash mismatch against manifest)",
+      "expected_label": "FAIL",
+      "primary_artifact": "chia_merge.py resume verification guard",
+      "artifact_evidence": "Resume refuses changed inputs/contract (SHA-256 mismatch)",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "FAIL"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "chia_merge.py resume verification guard"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "flt_sta_1452",
+      "stratum": "infra_provenance",
+      "domain": "FFT",
+      "description": "Clock period mismatch in OpenSTA (STA-1452 in backend log)",
+      "expected_label": "FAIL",
+      "primary_artifact": "run-physical.sh: STA-1452 fail-closed validator",
+      "artifact_evidence": "Halt on STA-1452: clock period mismatch between VCD and SDC",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "FAIL",
+        "drc": "PASS",
+        "provenance": "FAIL"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "run-physical.sh: STA-1452 fail-closed validator"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "flt_zero_activity",
+      "stratum": "infra_provenance",
+      "domain": "FFT",
+      "description": "Simulation produced 0 annotated pins / blank VCD file",
+      "expected_label": "FAIL",
+      "primary_artifact": "assemble_results.py: nonzero activity check",
+      "artifact_evidence": "assemble_results.py die: VCD activity annotation must be nonzero",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "PASS",
+        "drc": "PASS",
+        "provenance": "FAIL"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "assemble_results.py: nonzero activity check"
+      ],
+      "evaluation_scope": "not_evaluated"
+    },
+    {
+      "id": "flt_stale_report",
+      "stratum": "infra_provenance",
+      "domain": "FFT",
+      "description": "Stale physical report from prior run reused without fresh generation",
+      "expected_label": "FAIL",
+      "primary_artifact": "power_save_fft_driver.py: rmtree results guard",
+      "artifact_evidence": "Driver rmtree(results/) before run; missing fresh artifact halts flow",
+      "gates": {
+        "lint": "PASS",
+        "oracle": "PASS",
+        "holdout": "PASS",
+        "gls": "PASS",
+        "timing": "UNKNOWN",
+        "drc": "UNKNOWN",
+        "provenance": "FAIL"
+      },
+      "evidence_status": "UNVERIFIED",
+      "evidence_refs": [
+        "power_save_fft_driver.py: rmtree results guard"
+      ],
+      "evaluation_scope": "not_evaluated"
+    }
+  ]
+}

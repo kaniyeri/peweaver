@@ -1,0 +1,45 @@
+{
+  "name": "threshold_mode_exclusive",
+  "schema_version": 1,
+  "description": "HALO-inspired BCI threshold family: two signed 8-bit threshold variants (movement above-threshold and seizure below-threshold detection) selected by mode are equivalent to one signed comparator with a multiplexed threshold operand and relation configuration.",
+  "source": "case.sv",
+  "top": "peweaver_threshold_miter",
+  "simulation_testbench": "sim_tb.sv",
+  "simulation_top": "peweaver_threshold_sim_tb",
+  "miter_output": "mismatch",
+  "expected_equivalent": true,
+  "synthesis": {"baseline_top": "peweaver_threshold_baseline", "candidate_top": "peweaver_threshold_shared_candidate"},
+  "scheduling_contract": "mode selects exactly one threshold variant per transaction; only the active variant's output is required",
+  "contract": {
+    "task_modes": [
+      {"name": "movement", "components": ["threshold_ge"], "parallel_groups": []},
+      {"name": "seizure", "components": ["threshold_lt"], "parallel_groups": []}
+    ],
+    "top_level_mutual_exclusion": true,
+    "legal_overlap": [],
+    "interfaces": {
+      "clock": "none; combinational transaction",
+      "reset": "none",
+      "input": "signed 8-bit sample x, signed 8-bit thresholds t0,t1, and mode",
+      "output": "single-bit threshold hit y",
+      "fixed_point": "two's-complement signed 8-bit sample and thresholds; boolean comparison result",
+      "backpressure": "none; one transaction per cycle"
+    },
+    "performance": {"latency_cycles": 0, "sustained_throughput": "1 transaction/cycle"},
+    "mode_switch": {
+      "preconditions": "mode is stable for the transaction",
+      "drain_inflight": false,
+      "reset_on_switch": false,
+      "state_isolation": true
+    },
+    "stimulus": {
+      "source": "formal unconstrained bit-vector inputs",
+      "provenance": "Yosys SAT exploration; synthetic HALO-inspired threshold stimulus"
+    },
+    "objective": {
+      "primary": "minimize duplicated signed comparator resources",
+      "constraints": {"correctness": "formal mismatch is zero", "schedule": "one threshold variant is active per transaction"}
+    }
+  },
+  "formal_command": "prep -top peweaver_threshold_miter -flatten; sat -verify -prove mismatch 0"
+}

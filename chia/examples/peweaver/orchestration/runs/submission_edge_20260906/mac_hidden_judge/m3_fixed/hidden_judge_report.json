@@ -1,0 +1,14 @@
+{
+ "candidate": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/orchestration/runs/mac-merge-3/best/shared_mac.v",
+ "judge": "second-seed hidden (0x7EEDBEEF) + directed corners",
+ "hidden_seed": 2129510127,
+ "hidden_randomized": {
+  "passed": true,
+  "note": "bit-exact over 1502 cycles"
+ },
+ "directed_corners": {
+  "passed": true,
+  "note": "bit-exact over 157 cycles"
+ },
+ "verified": true
+}

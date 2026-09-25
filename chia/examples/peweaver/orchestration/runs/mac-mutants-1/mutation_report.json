@@ -1,0 +1,92 @@
+{
+ "signedness": {
+  "applicable": true,
+  "failed_gates": [
+   "functional",
+   "corners",
+   "formal"
+  ],
+  "caught": true,
+  "expected_caught": true,
+  "as_expected": true,
+  "notes": {
+   "functional": "1020/1200 mismatches; first: cyc8 got 61c5 exp fac5; cyc9 got 1d2e exp f02e; cyc",
+   "corners": "139/157 corner mismatches; first: cyc2 got 0080 exp ff80; cyc3 got 4080 exp 3f80",
+   "formal": "formal (BMC depth 12, BOUNDED) FAIL: sequential contract with symbolic operands "
+  }
+ },
+ "acc_hold_mode1": {
+  "applicable": true,
+  "failed_gates": [
+   "functional",
+   "corners",
+   "formal"
+  ],
+  "caught": true,
+  "expected_caught": true,
+  "as_expected": true,
+  "notes": {
+   "functional": "425/1200 mismatches; first: cyc298 got 35ad exp 1524; cyc299 got 35ad exp 1524; ",
+   "corners": "89/157 corner mismatches; first: cyc33 got 890b exp 478e; cyc34 got 794b exp 37c",
+   "formal": "formal (BMC depth 12, BOUNDED) FAIL: sequential contract with symbolic operands "
+  }
+ },
+ "reset_ignored": {
+  "applicable": true,
+  "failed_gates": [
+   "functional",
+   "corners",
+   "formal"
+  ],
+  "caught": true,
+  "expected_caught": true,
+  "as_expected": true,
+  "notes": {
+   "functional": "407/1200 mismatches; first: cyc405 got 373c exp 0bf4; cyc406 got 60ec exp 35a4; ",
+   "corners": "1/157 corner mismatches; first: cyc156 got a1d0 exp 00fe",
+   "formal": "formal (BMC depth 12, BOUNDED) FAIL: sequential contract with symbolic operands "
+  }
+ },
+ "enable_ignored": {
+  "applicable": true,
+  "failed_gates": [
+   "functional",
+   "corners",
+   "formal"
+  ],
+  "caught": true,
+  "expected_caught": true,
+  "as_expected": true,
+  "notes": {
+   "functional": "1116/1200 mismatches; first: cyc2 got 031b exp 0000; cyc3 got f71b exp 0000; cyc",
+   "corners": "127/157 corner mismatches; first: cyc28 got 3b36 exp 378e; cyc29 got 3c34 exp 00",
+   "formal": "formal (BMC depth 12, BOUNDED) FAIL: sequential contract with symbolic operands "
+  }
+ },
+ "unshared_recompute": {
+  "applicable": true,
+  "failed_gates": [],
+  "caught": false,
+  "expected_caught": false,
+  "as_expected": true,
+  "notes": {}
+ },
+ "output_truncation": {
+  "applicable": true,
+  "failed_gates": [
+   "functional",
+   "corners",
+   "formal"
+  ],
+  "caught": true,
+  "expected_caught": true,
+  "as_expected": true,
+  "notes": {
+   "functional": "1188/1200 mismatches; first: cyc7 got 01ff exp 1ffe; cyc8 got 0fac exp fac5; cyc",
+   "corners": "154/157 corner mismatches; first: cyc2 got 0ff8 exp ff80; cyc3 got 13f8 exp 3f80",
+   "formal": "formal (BMC depth 12, BOUNDED) FAIL: sequential contract with symbolic operands "
+  }
+ },
+ "suite_valid": true,
+ "base": "CANONICAL_SHARED_MAC"
+}

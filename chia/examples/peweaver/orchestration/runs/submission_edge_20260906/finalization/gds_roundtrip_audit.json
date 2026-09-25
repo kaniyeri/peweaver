@@ -1,0 +1,46 @@
+{
+  "S0": {
+    "out_gds": "/work/peweaver/source/chia/examples/peweaver/physical/results/gds/shared_s0_clean.gds",
+    "sha256": "acdd02e0c82df4d5ae4dc32d2423471da9108ac26a4936377b1d917e0dbfbeda",
+    "bytes": 29942060,
+    "width_um": 787.03,
+    "height_um": 781.12,
+    "instances": 250549,
+    "stack_shapes": {
+      "li1": 272150,
+      "mcon": 675646,
+      "met1": 389751,
+      "via": 126432,
+      "met2": 176960,
+      "via2": 37549,
+      "met3": 33942,
+      "via3": 33708,
+      "met4": 11295,
+      "via4": 1625,
+      "met5": 1682
+    },
+    "status": "STREAMOUT_ROUNDTRIP_AUDITED"
+  },
+  "A": {
+    "out_gds": "/work/peweaver/source/chia/examples/peweaver/physical/results/gds/dual_a_clean.gds",
+    "sha256": "d7daecfbf5dc6dc07ca41ad42742ce71ed915ae11ca129593c6a67cf6827391f",
+    "bytes": 43201614,
+    "width_um": 951.82,
+    "height_um": 956.35,
+    "instances": 366961,
+    "stack_shapes": {
+      "li1": 400312,
+      "mcon": 1005746,
+      "met1": 569551,
+      "via": 192503,
+      "met2": 274139,
+      "via2": 57059,
+      "met3": 52816,
+      "via3": 50667,
+      "met4": 17442,
+      "via4": 2419,
+      "met5": 2490
+    },
+    "status": "STREAMOUT_ROUNDTRIP_AUDITED"
+  }
+}

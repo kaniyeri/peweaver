@@ -1,0 +1,37 @@
+# PEWeaver FFT128 baseline synthesis (Yosys) — sky130_fd_sc_hd tt_025C_1v80
+#
+# TEMPLATE: run-physical.sh substitutes /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_fft128_tt_synth.lib with the absolute liberty
+# path, writes work/fft128_synth_run.ys, and executes it from the physical/
+# directory. Sources are the pinned fixture sources; no upstream file is
+# modified. The generated script is archived under results/logs.
+
+read_verilog -sv \
+    rtl/peweaver_ppa_fft128.v \
+    ../benchmarks/halo_fft128_reference/peweaver_halo_fft128_reference.v \
+    ../third_party/r22sdf/FFT128.v \
+    ../third_party/r22sdf/SdfUnit.v \
+    ../third_party/r22sdf/SdfUnit2.v \
+    ../third_party/r22sdf/Butterfly.v \
+    ../third_party/r22sdf/DelayBuffer.v \
+    ../third_party/r22sdf/Multiply.v \
+    ../third_party/r22sdf/Twiddle128.v
+
+hierarchy -check -top peweaver_ppa_fft128
+
+# Generic high-level synthesis of the pinned RTL.
+synth -top peweaver_ppa_fft128 -flatten
+
+# Map to the frozen sky130_fd_sc_hd corner; ABC delay target 10 ns (10000 ps).
+dfflibmap -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_fft128_tt_synth.lib
+abc -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_fft128_tt_synth.lib -D 10000
+
+# Two-state policy: resolve remaining x-constants to zero (matches Verilator
+# --x-assign 0 --x-initial 0 and the pinned Twiddle128.v xxxx entries policy).
+setundef -zero
+splitnets
+opt_clean -purge
+
+check
+stat -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_fft128_tt_synth.lib
+
+write_verilog -noattr -noexpr -nodec results/netlists/fft128_ppa_synth.v

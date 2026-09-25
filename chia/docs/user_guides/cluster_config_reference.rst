@@ -1,0 +1,969 @@
+Cluster Configuration Reference
+===============================
+
+A CHIA cluster is described by a single YAML file that you pass to ``chia up``
+and ``chia down``. This page is a complete reference for every key CHIA reads,
+a worked example that mixes on-premise and cloud machines, and a
+walk-through of the exact order in which CHIA runs your commands when it brings
+a cluster up and tears it down.
+
+.. note::
+
+   CHIA's YAML deliberately resembles the `Ray cluster launcher
+   <https://docs.ray.io/en/latest/cluster/vms/references/ray-cluster-configuration.html>`_
+   config so existing Ray configs feel familiar, but with additional support for heterogeneous on-premise setups as well as clusters split across on-premise and cloud providers. Chia currently does not support the following Ray autoscaler keys: ``min_workers`` / ``max_workers``, ``upscaling_speed``,
+   ``idle_timeout_minutes``, ``cluster_synced_files``,
+   ``file_mounts_sync_continuously``, ``provider.type``,
+   ``provider.external_head_ip``, and ``provider.coordinator_address``.
+
+Top-level structure
+-------------------
+
+At the top level a config is organized into a handful of sections:
+
+.. code-block:: yaml
+
+   cluster_name: MyCluster          # identifier for this cluster
+
+   provider:                        # head machine (required)
+       head_ip: ...
+
+   auth:                            # how to SSH into the machines
+       ssh_user: ...
+       ssh_private_key: ...
+
+   available_node_types:            # logical worker types + their resources
+       my_worker:
+           ...
+
+   aws_nodes:                       # optional: provision EC2 instances
+       ...
+   gcp_nodes:                       # optional: provision GCP instances
+       ...
+   tailnet:                         # recommended for cloud workers: join over
+       ...                          #   tailscale instead of SSH tunnels
+   tunnel_defaults:                 # optional: tuning for the SSH-tunnel fallback
+       ...
+
+   # lifecycle command hooks (see "Command execution order" below)
+   initialization_commands: [...]
+   head_env_commands: [...]
+   setup_commands: [...]
+   head_setup_commands: [...]
+   head_teardown_commands: [...]
+   head_start_ray_commands: [...]
+   worker_start_ray_commands: [...]
+
+   # file syncing
+   file_mounts: {...}
+   rsync_exclude: [...]
+   rsync_filter: [...]
+
+Any ``${VAR}`` reference in a string value is expanded from your environment
+when the config is loaded (e.g. ``${USER}``). A bare ``$VAR`` is left as-is so
+it can be evaluated later on the remote shell.
+
+Top-level keys
+~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``cluster_name``
+     - ``"default"``
+     - Identifier for the head and workers of this cluster.
+   * - ``provider``
+     - *required*
+     - Cluster head node. See `provider`_.
+   * - ``auth``
+     - ``{}``
+     - SSH credentials for reaching the machines. See `auth`_.
+   * - ``available_node_types``
+     - ``{}``
+     - Logical worker types, their Ray resources, and container images. See
+       `available_node_types`_.
+   * - ``initialization_commands``
+     - ``[]``
+     - Commands run first, each in its own SSH session, on the host (outside
+       any container). They do not share an environment with each other or with
+       later steps.
+   * - ``setup_commands``
+     - ``[]``
+     - Global setup commands run inside the main script session on every nod (head and workers). Inside the container for containerized workers.
+   * - ``head_env_commands``
+     - ``[]``
+     - Environment activation prepended to the head's main script on both ``chia up`` and ``chia down`` (e.g. ``source ~/.bashrc && conda activate chia_env``).
+   * - ``head_setup_commands``
+     - ``[]``
+     - Head-only one-time setup, run during ``chia up`` in the head's main script.
+   * - ``head_teardown_commands``
+     - ``[]``
+     - Head-only commands run during ``chia down`` before ``ray stop``.
+   * - ``head_start_ray_commands``
+     - ``[]``
+     - Commands that start Ray on the head (typically ``ray stop`` then
+       ``ray start --head ...``).
+   * - ``worker_start_ray_commands``
+     - ``[]``
+     - Commands that start Ray on each worker. CHIA injects ``--resources``
+       automatically (plus, for tailnet or tunneled workers, the pinned
+       ports and any proxy env).
+   * - ``file_mounts``
+     - ``{}``
+     - ``{remote_path: local_path}`` directories rsync'd to each node before the
+       main script.
+   * - ``rsync_exclude``
+     - ``[]``
+     - Patterns passed to rsync ``--exclude`` (e.g. ``**/.git``).
+   * - ``rsync_filter``
+     - ``[]``
+     - Filter files (e.g. ``.gitignore``) passed to rsync ``--filter``.
+   * - ``docker``
+     - ``None``
+     - A cluster-wide default container config (see `Container config`_), which
+       individual node types can override. Specify at most one of the two.
+   * - ``aws_nodes``
+     - ``None``
+     - Provision EC2 instances and join them to the cluster — over the
+       tailnet when a ``tailnet:`` section is present (recommended), else
+       via SSH tunnels. See `Cloud nodes`_.
+   * - ``gcp_nodes``
+     - ``None``
+     - Provision GCP Compute Engine instances (same connect options as
+       ``aws_nodes``). See `Cloud nodes`_.
+   * - ``tunnel_defaults``
+     - ``None``
+     - Tunnel/port-pinning defaults for the SSH-tunnel fallback path
+       (ignored when cloud workers join over the tailnet). See `Cloud nodes`_.
+
+provider
+--------
+
+The ``provider`` section declares the head machine.
+
+.. code-block:: yaml
+
+   provider:
+       head_ip: ${HEAD_IP}
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 65
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``head_ip``
+     - *required*
+     - Hostname or IP of the machine that manages the cluster (runs the Ray head).
+
+auth
+----
+
+The ``auth`` section gives the SSH credentials CHIA uses to reach every machine,
+with optional per-host overrides.
+
+.. code-block:: yaml
+
+   auth:
+       ssh_user: ${USER}
+       ssh_private_key: /home/${USER}/.ssh/${USER}   # omit if your key is in ssh-agent
+       overrides:
+           some-host:
+               ssh_user: ubuntu
+               ssh_private_key: ~/.ssh/other_key
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 15 60
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``ssh_user``
+     - ``""``
+     - Default SSH username for all machines.
+   * - ``ssh_private_key``
+     - ``None``
+     - Default private key path. Omit it if the relevant keys are already loaded
+       into your SSH agent.
+   * - ``ssh_proxy_command``
+     - ``None``
+     - Default ssh ``ProxyCommand`` for reaching the machines (e.g.
+       ``nc -X 5 -x 127.0.0.1:1055 %h %p`` to dial through a tailscale
+       userspace SOCKS5 proxy, or a jump-host command). Applied to ssh,
+       rsync, and SSH tunnels alike.
+   * - ``overrides``
+     - ``{}``
+     - Per-IP overrides, keyed by hostname/IP (or a ``@node_type:index``
+       placeholder). Each entry may set ``ssh_user``, ``ssh_private_key``,
+       ``ssh_proxy_command``, ``tailnet: true`` /  ``manage_tailscale: true``
+       (see `Tailnet (tailscale) clusters`_), or a ``tunnel`` block (see
+       `Cloud nodes`_). For provisioned cloud nodes CHIA populates these
+       automatically — tailnet overrides when a ``tailnet:`` section is
+       present, tunnel overrides otherwise.
+
+available_node_types
+--------------------
+
+Each entry under ``available_node_types`` defines a *logical worker type*: the
+Ray resources it advertises, how many of them to run, where they may run, and
+the container (if any) they run in.
+
+.. code-block:: yaml
+
+   available_node_types:
+       verilator_run:
+           resources: {"verilator_run": 8}
+           num_workers: 4
+           compatible_ips: [machine9, machine10, machine11, machine12]
+           worker_env_commands: ["source ~/.bashrc && conda activate chia_env"]
+           docker:
+               image: "ghcr.io/ucb-bar/chia-verilator-run:latest"
+               container_name: "chia-verilator-run-${USER}"
+               run_options:
+                   - --ulimit nofile=65536:65536
+                   - --shm-size=10.24gb
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 13 65
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``resources``
+     - ``{}``
+     - Custom Ray resources advertised by each worker of this type, e.g.
+       ``{"verilator_run": 8}``. A ``@ChiaFunction`` requesting these resources is
+       scheduled onto a matching worker, consuming the amount it requests.
+   * - ``num_workers``
+     - ``1``
+     - How many workers of this type to launch. For Ray-config familiarity, if
+       ``num_workers`` is absent CHIA falls back to ``max_workers``, then
+       ``min_workers``, then ``1``.
+   * - ``max_workers``
+     - *optional*
+     - Ray-config alias for ``num_workers``, used only when ``num_workers`` is
+       absent (and it takes precedence over ``min_workers``). CHIA does not
+       autoscale — this sets a single fixed worker count, not an upper bound.
+   * - ``min_workers``
+     - *optional*
+     - Ray-config alias for ``num_workers``, used only when both
+       ``num_workers`` and ``max_workers`` are absent. Not a lower bound; if you
+       set ``min_workers`` and ``max_workers`` to different values, ``min_workers``
+       is ignored and ``max_workers`` wins.
+   * - ``compatible_ips``
+     - *required if* ``num_workers > 0``
+     - The machines this type's workers may run on. Accepts ``@node_type:index``
+       placeholders.
+   * - ``worker_env_commands``
+     - ``[]``
+     - Per-type environment activation prepended to the worker's main script on
+       both ``chia up`` and ``chia down``. Runs inside the container for
+       containerized types.
+   * - ``worker_setup_commands``
+     - ``[]``
+     - Per-type one-time setup run during ``chia up`` in the worker's main script.
+   * - ``docker``
+     - ``None``
+     - Container config for this type, overriding any cluster-wide default.
+       Specify at most one. See `Container config`_.
+   * - ``balance_level``
+     - ``"cluster"``
+     - How this type spreads across its eligible IPs: ``cluster`` packs around
+       whatever other types already placed (fewest nodes globally); ``worker``
+       distributes this type's own workers as evenly as possible across its IP
+       pool, regardless of if the IP may be shared with another type.
+
+Container config
+~~~~~~~~~~~~~~~~
+
+A ``docker:`` block may appear cluster-wide at the top level or
+inside any node type; the node-type block overrides the cluster-wide one. 
+
+.. code-block:: yaml
+
+   docker:
+       image: "ghcr.io/ucb-bar/chia-verilator-run:latest"
+       container_name: "chia-verilator-run-${USER}"
+       pull_before_run: True
+       pull_timeout: 3600
+       run_options:
+           - --ulimit nofile=65536:65536
+           - --shm-size=10.24gb
+           - "-v $SSH_AUTH_SOCK:/ssh-agent"
+       run_setup_commands:
+           - cd /home/ray/ && git pull
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 18 57
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``image``
+     - *required*
+     - Container image URI
+   * - ``container_name``
+     - ``"chia_container"``
+     - Base container name. CHIA appends the worker index (``-0``, ``-1``, …) so
+       multiple workers of a type don't collide. Include ``${USER}`` on shared
+       machines.
+   * - ``pull_before_run``
+     - ``True``
+     - Pull the image before running. Set ``False`` to use a cached image.
+   * - ``pull_timeout``
+     - ``600``
+     - Seconds to allow for the pull. Raise it for large images.
+   * - ``run_options``
+     - ``[]``
+     - Extra flags passed to ``docker run`` (ulimits, shm size,
+       volume mounts, ``--user``, env vars, …).
+   * - ``run_setup_commands``
+     - ``[]``
+     - Commands run inside the container after it starts, before the worker's
+       main script (e.g. clone/pull a repo, fix up ``/etc/passwd``).
+
+.. note::
+
+   Scripts run over SSH as a **non-interactive login shell** (``bash --login``):
+   ``/etc/profile`` and ``~/.bash_profile`` are sourced, but ``~/.bashrc`` is
+   not (and many ``~/.bashrc`` files bail out early for non-interactive shells).
+   If you rely on conda/venv set up in ``~/.bashrc``, source it explicitly in
+   ``head_env_commands`` / ``worker_env_commands``, e.g.
+   ``source ~/.bashrc && conda activate chia_env``.
+
+Cloud nodes
+-----------
+
+CHIA can provision public-cloud machines and join them to the cluster.
+Declare them under ``aws_nodes`` (EC2) and/or ``gcp_nodes`` (Compute
+Engine); everything downstream of provisioning is provider-agnostic.
+
+**How cloud workers connect.** When the config has a top-level
+``tailnet:`` section (the **recommended** approach), cloud workers join
+over the tailnet — CHIA installs userspace tailscale on each instance,
+joins it, and routes Ray through the per-machine CONNECT proxy. No SSH
+tunnels, no reverse forwards, no ``GatewayPorts``, no iptables, and
+worker↔worker traffic is a full mesh. See `Tailnet (tailscale)
+clusters`_ for the full picture.
+
+Without a ``tailnet:`` section, cloud workers fall back to
+**reverse SSH tunnels** to the head (the original path, documented
+below): each worker's Ray/tool ports are reverse-tunnelled so the head
+can reach them, and traffic between workers is routed through the head.
+Tunnels are still fully supported, but tailnet is preferred — it scales
+better (per-machine port allocation, no head-as-hub bottleneck) and
+needs no sshd changes.
+
+aws_nodes
+~~~~~~~~~
+
+.. code-block:: yaml
+
+   aws_nodes:
+       region: us-east-1
+       verilator_run_aws:
+           KeyName: my-keypair          # an EC2 key pair in your account
+           InstanceType: c5.9xlarge
+           count: 3
+           ImageId: ami-0ec10929233384c7f
+           ssh_user: ubuntu
+           ssh_private_key: /home/${USER}/my-keypair.pem
+           setup_commands:
+               - "echo ${GITHUB_TOKEN} | docker login ghcr.io -u myuser --password-stdin"
+           BlockDeviceMappings:         # passed through to EC2 RunInstances
+               - DeviceName: /dev/sda1
+                 Ebs:
+                     VolumeSize: 500
+                     VolumeType: gp3
+
+``region`` is a section-level key (default ``us-west-2``). Every other key lives
+under a named node type:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 18 60
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``KeyName``
+     - *required*
+     - EC2 key pair name (must already exist in the account).
+   * - ``InstanceType``
+     - *required*
+     - EC2 instance type (e.g. ``c5.9xlarge``).
+   * - ``count``
+     - *required*
+     - Number of instances to launch for this type.
+   * - ``ImageId``
+     - Ubuntu 22.04 AMI
+     - AMI to launch.
+   * - ``ssh_user``
+     - ``None``
+     - SSH user for the AMI (e.g. ``ubuntu``). Injected into the auth override
+       for each provisioned IP.
+   * - ``ssh_private_key``
+     - ``None``
+     - Private key path matching ``KeyName``. Injected into the auth override.
+   * - ``skip_default_setup``
+     - ``False``
+     - Skip CHIA's default setup (git/conda/docker install) and run only your
+       ``setup_commands``.
+   * - ``setup_commands``
+     - ``[]``
+     - Commands run on the EC2 host before it joins the cluster (appended to the
+       defaults unless skipped).
+   * - ``setup_timeout``
+     - ``1800``
+     - Seconds allowed for setup.
+   * - ``ssh_timeout``
+     - ``120``
+     - Seconds to wait for SSH to come up.
+   * - ``join_tailnet``
+     - *auto*
+     - Join the cluster over the tailnet instead of reverse SSH tunnels.
+       Defaults to true when a top-level ``tailnet:`` section exists,
+       else false. See `Tailnet (tailscale) clusters`_.
+   * - *(anything else)*
+     -
+     - Unknown keys (e.g. ``BlockDeviceMappings``, ``UserData``) are passed
+       straight through to the EC2 ``RunInstances`` call.
+
+**AWS API access (always required).** CHIA picks up credentials by default from ``~/.aws/credentials``
+/ ``~/.aws/config``. Override these paths with the environment variables ``AWS_CONFIG_FILE=/path/to/aws/config`` and ``AWS_SHARED_CREDENTIALS_FILE=/path/to/aws/credentials`` before calling ``chia up``. Instances launch into the account's default VPC.
+
+gcp_nodes
+~~~~~~~~~
+
+``gcp_nodes`` is the Compute Engine analog of ``aws_nodes``.
+
+.. code-block:: yaml
+
+   gcp_nodes:
+       project: your-gcp-project        # required
+       zone: us-central1-a              # default
+       gcp_worker:
+           machine_type: n1-standard-1
+           count: 2
+           ssh_user: chia                          # local user created on the VM
+           ssh_public_key: ${HOME}/.ssh/id_ed25519.pub
+           ssh_private_key: ${HOME}/.ssh/id_ed25519
+           spot: true
+           disk_size_gb: 100
+
+``project`` (required), ``zone`` (default ``us-central1-a``), and ``network`` /
+``subnetwork`` (default to the project's ``default`` VPC) are section-level keys.
+Every other key lives under a named node type:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 22 18 60
+
+   * - Key
+     - Default
+     - Meaning
+   * - ``machine_type``
+     - *required*
+     - GCE machine type (e.g. ``n1-standard-1``).
+   * - ``count``
+     - *required*
+     - Number of instances to launch for this type.
+   * - ``image``
+     - Ubuntu image
+     - Boot image (family or full image URL).
+   * - ``zone``
+     - section ``zone``
+     - Per-type zone override.
+   * - ``disk_size_gb``
+     - image default
+     - Boot disk size in GB.
+   * - ``spot``
+     - ``False``
+     - Launch as Spot/preemptible VMs (cheaper, can be reclaimed).
+   * - ``ssh_user``
+     - ``None``
+     - Login user CHIA connects as (see Authentication below).
+   * - ``ssh_private_key``
+     - ``None``
+     - Private key path CHIA's SSH client uses. Recommended (otherwise it falls
+       back to your ssh-agent / ``~/.ssh`` defaults).
+   * - ``ssh_public_key``
+     - ``None``
+     - Public key injected into the VM (metadata method).
+   * - ``use_os_login``
+     - ``False``
+     - Use OS Login instead of metadata SSH keys (see Authentication below).
+   * - ``skip_default_setup``
+     - ``False``
+     - Skip CHIA's default host setup (git/conda/docker) and run only your
+       ``setup_commands``.
+   * - ``setup_commands``
+     - ``[]``
+     - Commands run on the host before it joins the cluster (appended to the
+       defaults unless skipped).
+   * - ``setup_timeout``
+     - ``1800``
+     - Seconds allowed for setup.
+   * - ``ssh_timeout``
+     - ``120``
+     - Seconds to wait for SSH to come up.
+   * - ``join_tailnet``
+     - *auto*
+     - Join the cluster over the tailnet instead of reverse SSH tunnels.
+       Defaults to true when a top-level ``tailnet:`` section exists,
+       else false. See `Tailnet (tailscale) clusters`_.
+   * - *(anything else)*
+     -
+     - Merged into the instance definition sent to the Compute API.
+
+**Authentication.** A GCP bring-up uses two distinct credentials at two layers:
+
+* **GCP API access (always required).** Set it up once with ``gcloud auth application-default login``
+  (or point ``GOOGLE_APPLICATION_CREDENTIALS`` at a service-account JSON).
+  A ``default`` VPC network must already exist (or set ``network``).
+* **SSH into the instance**, chosen per node type by ``use_os_login``:
+
+  * **Metadata SSH keys** (default). CHIA connects to the GCP instance as ``ssh_user`` with the matching private
+    key to the public key ``ssh_public_key``.
+    This is an ordinary keypair (the GCP analog of an AWS ``KeyName``), not tied
+    to any Google identity, and it is silently ignored if the project or org
+    enforces OS Login.
+  * **OS Login** (``use_os_login: true``). Ties access to a GCP identity via IAM. You
+    must register your ssh key manually (``gcloud compute os-login ssh-keys add``) and set
+    ``ssh_user`` to the derived posix username. Use this when your org enforces OS Login.
+
+Referencing cloud nodes (``@`` placeholders)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because cloud IPs aren't known until provisioning, you refer to them by
+placeholder of the form ``@<node_type>:<index>``, where ``<node_type>`` is a key
+under ``aws_nodes`` / ``gcp_nodes`` and ``<index>`` is 0-based. Placeholders are
+valid anywhere an IP is — in a node type's ``compatible_ips`` and in
+``auth.overrides`` keys:
+
+.. code-block:: yaml
+
+   available_node_types:
+       verilator_run_aws:
+           resources: {"verilator_run": 32}
+           num_workers: 2
+           compatible_ips: ["@verilator_run_aws:0", "@verilator_run_aws:1"]
+           docker: {...}
+
+tunnel_defaults
+~~~~~~~~~~~~~~~
+
+This applies only to the **SSH-tunnel fallback** (no ``tailnet:``
+section, or ``join_tailnet: false`` on a type); it is ignored when
+cloud workers join over the tailnet. For every tunneled cloud IP, CHIA
+automatically adds an ``auth.overrides`` entry with a tunnel (a per-IP
+``auth.overrides[ip].tunnel`` you set yourself still wins).
+``tunnel_defaults`` overrides the default ports/behavior for *all*
+auto-tunneled nodes. It accepts any tunnel field except ``tunnel_ip``
+(which CHIA assigns per-worker). Common ones:
+
+.. code-block:: yaml
+
+   tunnel_defaults:
+       ray_worker_port_min: 20000
+       ray_worker_port_max: 20001
+       head_worker_port_min: 21000
+       head_worker_port_max: 21001
+
+Other tunnel fields (with defaults) include ``gcs_tunnel_port`` (16379),
+``ray_node_manager_port`` (16800), ``ray_object_manager_port`` (16801),
+``tool_port_min``/``max`` (18000/18010), ``head_tool_port_min``/``max``
+(8000/8010), ``head_node_manager_port`` (29800), ``head_object_manager_port``
+(29801), ``kill_orphaned_tunnels`` (true), and ``pre_tunnel_commands`` (sshd
+``GatewayPorts`` + file-limit setup, run once per physical cloud IP). A typo in
+any field name fails loudly at load time.
+
+Tailnet (tailscale) clusters
+----------------------------
+
+CHIA can form a cluster across machines whose only mutual connectivity is
+a `tailscale <https://tailscale.com>`_ network, including tailscaled in
+**userspace-networking mode** (no root, no TUN device, no sudo on any
+machine). Unlike the SSH-tunnel path for cloud machines, tailnet mode uses
+no SSH tunnels, no reverse port forwards, no sshd configuration, and no
+iptables — and worker↔worker traffic between any 2 hosts works (full mesh).
+
+Under the hood:
+
+Userspace tailscaled delivers *inbound* tailnet TCP to
+``127.0.0.1:<port>`` and requires *outbound* dials to go through its
+local SOCKS5 proxy. The head and every logical worker register in Ray
+under a unique loopback IP (bindable even in userspace mode, unlike the
+real tailnet IP). CHIA runs one small stdlib-Python relay per machine
+that carries all of Ray's gRPC through a single **HTTP CONNECT proxy**:
+Ray is pointed at it via ``grpc_proxy``, the proxy reads the destination
+from each CONNECT request, maps the peer's loopback IP to its tailnet
+address, and forwards through the SOCKS5 proxy. Because there are no
+per-port outbound listeners, port blocks need only be unique **per
+machine** — two workers on different machines reuse the same ports, so
+port consumption does not grow with cluster size. (ChiaTool traffic is
+plain HTTP and keeps small per-port SOCKS listeners for peer tool
+ports.) Worker↔worker traffic between hosts works (full mesh).
+
+The presence of the ``tailnet:`` block opts the cluster in — every
+worker IP that is not the head machine is automatically treated as a
+tailnet machine, and SSH to it automatically dials through the SOCKS5
+proxy (``nc -X 5 -x <socks_proxy> %h %p``; the head needs OpenBSD
+netcat). No per-IP overrides are required:
+
+.. code-block:: yaml
+
+   tailnet:
+       head_tailnet_ip: 100.64.0.1    # required: the head's tailscale IP
+       socks_proxy: 127.0.0.1:1055    # tailscaled --socks5-server on every machine
+
+   provider:
+       head_ip: 10.0.0.1              # how CHIA SSHes to the head (real IP)
+
+   auth:
+       ssh_user: ${USER}
+
+   available_node_types:
+       tailscale_worker:
+           resources: {"tailscale_worker": 4}
+           num_workers: 1
+           compatible_ips: [100.64.0.2]   # workers by their tailscale IPs
+
+``auth.overrides.<ip>`` entries still win for special cases — a
+different ssh user/key for one host, or a custom ``ssh_proxy_command``
+when the head's ``nc`` is not OpenBSD netcat.
+
+**Cloud workers.** When a ``tailnet:`` section is present, ``aws_nodes``
+and ``gcp_nodes`` workers join the cluster over the tailnet **by
+default** instead of reverse SSH tunnels. This requires ``tailnet.auth_key`` — use
+a **reusable** (ideally ephemeral, pre-authorized) key, referenced as
+``${TS_AUTHKEY}`` so it stays out of the file.
+
+Under the hood: 
+On-prem hosts can opt into the same managed lifecycle with 
+``manage_tailscale: true`` in their ``auth.overrides`` entry or by setting  
+``manage_all: true`` in the ``tailnet:`` section; by default CHIA assumes on-prem tailnet
+hosts already run their own tailscaled. CHIA handles the whole lifecycle: the userspace
+tailscale binaries are installed during instance setup (static tarball, no
+root), ``tailscaled --tun=userspace-networking`` is started with the
+SOCKS5 proxy from ``socks_proxy``, the machine is joined with
+``tailscale up --auth-key=<tailnet.auth_key>``, and its tailnet IP is
+discovered and wired into the relay mesh. Orchestration SSH continues
+over the instance's public IP.
+
+**Fully managed clusters.** Set ``manage_all: true`` in the
+``tailnet:`` section and CHIA manages tailscale on **every** machine,
+including the head — no manual tailscaled anywhere, and
+``head_tailnet_ip`` may be omitted (it is discovered at bring-up).
+The constraint: tailscale cannot be bootstrapped over tailscale, so
+under ``manage_all`` every worker must be addressed by an ordinary
+SSH-reachable IP/hostname; a worker listed by a ``100.64.0.0/10``
+address fails loudly at config load. Opt individual machines out with
+``manage_tailscale: false`` in their ``auth.overrides`` entry (address
+those by their tailnet IP and run tailscaled there yourself). On
+``chia down``, CHIA-managed daemons are stopped (the head's last);
+their state persists in ``tailscale_dir``, so re-ups rejoin without
+consuming the auth key unless the directory was cleaned.
+
+Additional ``tailnet:`` fields for managed machines: ``auth_key`` (as
+above), ``tailscale_version`` (pinned tarball version) and
+``tailscale_dir`` (install/state directory on managed machines, default
+``/tmp/<cluster_name>/tailscale`` — per-cluster, so cluster daemons
+never collide with each other or a personally-run tailscaled; pair
+with a distinct ``socks_proxy`` port for full isolation. Keep the path
+short: the tailscaled control socket lives under it and Unix socket
+paths are limited to ~107 characters — checked at config load. Note
+``/tmp`` state may not survive reboots, so the next ``chia up``
+rejoins using the reusable auth key).
+
+Optional ``tailnet:`` port fields (defaults in parentheses):
+``head_advertise_ip`` (127.200.0.1), ``gcs_port`` (6379 — must match
+``--port`` in ``head_start_ray_commands``), ``connect_proxy_port``
+(13129 — the relay's HTTP CONNECT listener that Ray's ``grpc_proxy``
+points at), ``head_node_manager_port`` (23744),
+``head_object_manager_port`` (23745), ``head_tool_port_min``/``max``
+(23760/23770), ``head_worker_port_min``/``max`` (23808/23935),
+``worker_block_base`` (24000), ``worker_block_size`` (256),
+``tool_port_count`` (11), and ``worker_port_count`` (128). Port blocks
+are indexed **per machine** (reused across machines), and grow upward
+from ``worker_block_base`` meeting no head port (the head owns the block
+just below it), so up to 162 workers fit **on a single machine** at the
+defaults before allocation refuses — cluster size is unbounded. A
+machine's Ray worker-port range must exceed its CPU count (Ray prestarts
+one worker process per CPU). CHIA injects ``--node-ip-address``, the
+pinned ports, and the ``grpc_proxy`` env into the head's and workers'
+``ray start`` commands automatically, starts the relays before the
+workers, and stops them on ``chia down``.
+
+Constraints: every worker must be a tailnet worker or colocated on the
+head machine (the head advertises a loopback IP that LAN workers cannot
+route to); mixing with SSH-tunneled/cloud workers is rejected at config
+load; ``chia up --add`` is not yet supported (re-run ``chia up`` —
+existing workers are detected and skipped). See
+``examples/tailscale/`` for a complete working example.
+
+A mixed on-prem + cloud example
+-------------------------------
+
+This config keeps the head and several worker types on owned machines
+while bursting Verilator simulation onto AWS, connecting everything over
+a **fully tailnet** cluster (the recommended setup for cloud workers).
+To run purely on-prem, delete the ``aws_nodes`` section and the
+``@verilator_run_aws:*`` placeholders; to add more cloud capacity, raise
+``count`` and add matching placeholders.
+
+.. note::
+
+   The ``tailnet: {manage_all: true}`` block makes this an all-tailnet
+   cluster: CHIA installs and joins userspace tailscale on **every**
+   machine — the head, the on-prem workers, and the provisioned cloud
+   instances — and routes Ray through per-machine CONNECT proxies. No
+   SSH tunnels, no ``tunnel_defaults``, no sshd changes. Every machine
+   must be addressed by an ordinary SSH-reachable name/IP (as they all
+   are here), since tailscale can't be bootstrapped over tailscale.
+   ``head_tailnet_ip`` is omitted — ``manage_all`` discovers it at
+   bring-up. Note this routes on-prem↔on-prem traffic over userspace
+   WireGuard too; if your on-prem workers already share a fast LAN and
+   you only need to burst to cloud, the SSH-tunnel path (a
+   ``tunnel_defaults`` block, no ``tailnet:`` section) keeps that
+   local-network traffic direct. See `Tailnet (tailscale) clusters`_.
+
+.. code-block:: yaml
+
+   cluster_name: ChiaClusterExample
+
+   available_node_types:
+
+       # On-prem Verilator workers, pinned to specific machines.
+       verilator_run:
+           resources: {"verilator_run": 8}
+           num_workers: 4
+           compatible_ips: [machine0, machine1, machine2, machine2]
+           worker_env_commands: ["source ~/.bashrc && conda activate chia_env"]
+           docker:
+               image: "ghcr.io/ucb-bar/chia-verilator-run:latest"
+               container_name: "chia-verilator-run-${USER}"
+               run_options:
+                   - --ulimit nofile=65536:65536
+                   - --shm-size=10.24gb
+
+       # Cloud Verilator workers — provisioned by the aws_nodes block below.
+       verilator_run_aws:
+           resources: {"verilator_run": 32}
+           num_workers: 3
+           compatible_ips:
+               - "@verilator_run_aws:0"
+               - "@verilator_run_aws:1"
+               - "@verilator_run_aws:2"
+           docker:
+               image: "ghcr.io/ucb-bar/chia-verilator-run:latest"
+               container_name: "chia-verilator-run-${USER}"
+               pull_before_run: True
+               run_options:
+                   - --ulimit nofile=65536:65536
+                   - --shm-size=10.24gb
+
+       # On-prem VLSI workers (no container; uses the host conda env).
+       vlsi:
+           resources: {"VLSI": 1, "syn": 1, "cacti": 4}
+           num_workers: 6
+           compatible_ips: [machine1, machine2, machine3, machine4, machine5, machine6]
+           worker_env_commands:
+               - "source ~/.bashrc && source /ecad/tools/vlsi.bashrc && conda activate chia_env"
+
+   # Provision the cloud half of the cluster.
+   aws_nodes:
+       region: us-east-1
+       verilator_run_aws:
+           KeyName: my-keypair
+           InstanceType: c5.9xlarge
+           count: 3
+           ImageId: ami-0ec10929233384c7f
+           ssh_user: ubuntu
+           ssh_private_key: /home/${USER}/my-keypair.pem
+           setup_commands:
+               - "echo ${GITHUB_TOKEN} | docker login ghcr.io -u myuser --password-stdin"
+           BlockDeviceMappings:
+               - DeviceName: /dev/sda1
+                 Ebs:
+                     VolumeSize: 500
+                     VolumeType: gp3
+
+   # Join every machine (head + on-prem + cloud) to the tailnet.
+   # manage_all: CHIA installs/starts/joins userspace tailscale itself;
+   # head_tailnet_ip is discovered at bring-up.
+   tailnet:
+       manage_all: true
+       auth_key: ${TS_AUTHKEY}      # reusable tailscale auth key
+
+   provider:
+       type: local
+       head_ip: machine7
+       # No worker_ips: the worker pool is the union of every node type's
+       # compatible_ips below (on-prem hosts + the cloud @-placeholders).
+
+   auth:
+       ssh_user: ${USER}
+       ssh_private_key: /home/${USER}/.ssh/${USER}
+
+   head_env_commands: ["source ~/.bashrc && conda activate chia_env"]
+
+   head_start_ray_commands:
+       - ray stop
+       - ray start --head --port=6379 --include-dashboard=True --dashboard-agent-listen-port=0
+
+   worker_start_ray_commands:
+       - ray stop
+       - ray start --address=$RAY_HEAD_IP:6379 --dashboard-agent-listen-port=0
+
+Multiple heads on a single physical machine
+-------------------------------------------
+
+On shared lab machines it is common for two users (or two clusters) to want a
+Ray *head* on the same host. A head binds several fixed TCP ports, so the
+second cluster must move every one of them off the defaults or ``ray start``
+(or the first cluster) will fail. Four ports matter — the GCS port (default
+6379), the dashboard (8265), the Ray client server (10001), and the head's
+dashboard agent (52365) — and the worker join address must follow the new GCS
+port. Pick replacements that are free on the host, and note that an
+explicitly assigned port must **not** fall inside Ray's worker-port range
+(10002–19999 by default): ``ray start`` rejects the overlap, which is why the
+client-server port below jumps to 20101 rather than 10101.
+
+.. code-block:: yaml
+
+   head_start_ray_commands:
+       - ray stop
+       - ray start --head --port=6479 --include-dashboard=True
+         --dashboard-port=8365 --ray-client-server-port=20101
+         --dashboard-agent-listen-port=52465
+
+   worker_start_ray_commands:
+       - ray stop
+       - ray start --address=$RAY_HEAD_IP:6479 --dashboard-agent-listen-port=0
+
+Nothing else needs to move: worker nodes already use
+``--dashboard-agent-listen-port=0`` (OS-assigned) in the examples above, and
+the remaining head ports (object manager, node manager, metrics export, …)
+are randomized by default. Containerized workers coexist regardless. ``ray
+stop`` is also safe on a shared host — it can only signal processes owned by
+the invoking user, so it never touches the other cluster.
+
+Two operational consequences of non-default ports:
+
+* **Drivers must be pinned to the cluster address** — connect with
+  ``ray.init(address="<head_ip>:6479")`` (or the ``RAY_ADDRESS`` environment
+  variable), never ``address="auto"``: with several Ray instances alive on
+  one machine, auto-discovery picks one arbitrarily, and it may be the other
+  user's cluster.
+* **Job submission must name the dashboard** — ``chia job submit --address
+  http://127.0.0.1:8365 ...`` (the dashboard listens on localhost on the
+  head, so submit from the head or tunnel to it).
+
+Command execution order
+-----------------------
+
+When you run ``chia up``, CHIA sets up the head node, assigns each declared
+worker to a machine (constrained ``compatible_ips`` types first, then
+unconstrained — see ``assign_nodes`` in ``chia/cluster/config.py``), connects
+any cloud nodes into the cluster (joining them to the tailnet and starting
+the per-machine relays, or establishing SSH tunnels on the fallback path),
+and then sets up the workers (in parallel across machines, sequentially
+within a machine).
+
+``chia up`` — head node
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+All head commands run on the host over SSH (the head node is never containerized):
+
+.. code-block:: text
+
+   1. initialization_commands        ← each in its own SSH session
+   2. file_mounts rsync              ← separate rsync processes
+   3. ┌─── single SSH session (env persists) ───┐
+      │ head_env_commands                       │  e.g. conda activate
+      │ setup_commands                          │  global
+      │ head_setup_commands                     │
+      │ head_start_ray_commands                 │  ray stop; ray start --head
+      └─────────────────────────────────────────┘
+
+``chia up`` — worker node
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Without a container, everything runs on the host:
+
+.. code-block:: text
+
+   1. initialization_commands        ← each in its own SSH session
+   2. file_mounts rsync              ← separate rsync processes
+   3. ┌─── single SSH session (env persists) ───────────────┐
+      │ <type>.worker_env_commands                          │  per node type
+      │ setup_commands                                      │  global
+      │ <type>.worker_setup_commands                        │  per node type
+      │ export RAY_HEAD_IP=...                              │
+      │ worker_start_ray_commands  (--resources injected)   │
+      └─────────────────────────────────────────────────────┘
+
+With a container, the host pulls/starts the container first, then the main
+script runs **inside** it:
+
+.. code-block:: text
+
+   1. initialization_commands        ← HOST, each in its own SSH session
+   2. file_mounts rsync              ← HOST, separate rsync processes
+   3. docker setup            ← HOST (pull, run, run_setup_commands inside)
+   4. ┌─── single session INSIDE CONTAINER (env persists) ────┐
+      │ <type>.worker_env_commands                            │
+      │ setup_commands                                        │
+      │ <type>.worker_setup_commands                          │
+      │ export RAY_HEAD_IP=...                                │
+      │ worker_start_ray_commands  (--resources injected)     │
+      └───────────────────────────────────────────────────────┘
+
+Cloud (and other tailnet/tunneled) workers get some extra steps before
+the main script, and the Ray ports pinned in ``worker_start_ray_commands``:
+
+* **Tailnet workers** (the recommended cloud path): CHIA joins the
+  machine to the tailnet if it manages tailscale there, starts the
+  per-machine relay, and injects the ``grpc_proxy`` env.
+* **Tunneled workers** (SSH-tunnel fallback): CHIA runs
+  ``pre_tunnel_commands`` once per physical cloud IP and brings up the
+  reverse SSH tunnel.
+
+``chia down``
+~~~~~~~~~~~~~
+
+Workers are torn down first (in parallel), then the head:
+
+.. code-block:: text
+
+   Workers (with container):              Workers (no container):
+   1. docker exec:                        1. ┌─ single SSH session ───────┐
+        <type>.worker_env_commands           │ <type>.worker_env_commands │
+        ray stop                             │ ray stop                   │
+   2. docker stop <container>                └────────────────────────────┘
+   3. docker rm -f <container>
+
+   Head (after all workers):
+   ┌─── single SSH session ────┐
+   │ head_env_commands         │
+   │ head_teardown_commands    │
+   │ ray stop                  │
+   └───────────────────────────┘
+
+.. note::
+
+   ``head_env_commands`` and the per-type ``worker_env_commands`` run on **both**
+   ``chia up`` and ``chia down`` — they are for environment activation. Use the
+   ``*_setup_commands`` hooks for one-time setup. When ``head_ip`` is also listed
+   in a node type's ``compatible_ips`` (so the head also hosts a worker) and that
+   worker isn't containerized, CHIA skips ``ray stop`` on the worker so it doesn't
+   kill the head's Ray process.

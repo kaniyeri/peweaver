@@ -1,0 +1,6 @@
+{
+ "inputs/CONTRACT.md": "9f10bd3a8212fb4ca2273c427d1b1e725dd52a741f040798dd65ad1134ceae1f",
+ "inputs/mac_a.v": "f057793b72a596c8c7d63fafacd6a3b5c6ab9f90f33370d03c87cb972f31030f",
+ "inputs/mac_b.v": "ffa9ca44fd33c8e040982bd6b538b373ed5c2dd44edc6b43ec78fa64292b2185",
+ "shared_mac.v": "3340103b408aaf617ce0e2396d5bedc723303ec0e14f9ab5d19b42aa976f6c6a"
+}

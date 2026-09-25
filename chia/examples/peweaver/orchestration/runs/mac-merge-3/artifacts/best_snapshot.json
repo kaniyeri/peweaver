@@ -1,0 +1,12 @@
+{
+ "hash": "ffaa355551be54504ed2c6082e953c71e854ec47353c869b7c37b20095f3ae83",
+ "level": 6,
+ "verdict": "ACCEPT",
+ "files": [
+  "inputs/CONTRACT.md",
+  "inputs/mac_a.v",
+  "inputs/mac_b.v",
+  "shared_mac.v"
+ ],
+ "ts": 1788588053.1460724
+}

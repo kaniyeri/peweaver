@@ -1,0 +1,105 @@
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:27:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                      : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.BF2'
+   27 | assign  y0_re = (add_re + RH) >>> 1;
+      |               ^
+                     ... For warning description see https://verilator.org/warn/WIDTHTRUNC?v=5.051
+                     ... Use "/* verilator lint_off WIDTHTRUNC */" and lint_on around source to disable this message.
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:28:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                      : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.BF2'
+   28 | assign  y0_im = (add_im + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:29:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                      : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.BF2'
+   29 | assign  y1_re = (sub_re + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Butterfly.v:30:15: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 or 17 bits.
+                                                                                                      : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.BF2'
+   30 | assign  y1_im = (sub_im + RH) >>> 1;
+      |               ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Multiply.v:25:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                     : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.MU'
+   25 | assign  sc_arbr = arbr >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Multiply.v:26:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                     : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.MU'
+   26 | assign  sc_arbi = arbi >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Multiply.v:27:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                     : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.MU'
+   27 | assign  sc_aibr = aibr >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/Multiply.v:28:17: Operator ASSIGNW expects 16 bits on the Assign RHS, but Assign RHS's SHIFTRS generates 32 bits.
+                                                                                                     : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3.MU'
+   28 | assign  sc_aibi = aibi >>> (WIDTH-1);
+      |                 ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/physical/rtl/dual/sdfunit128.v:232:16: Operator ASSIGNW expects 5 bits on the Assign RHS, but Assign RHS's SHIFTL generates 7 bits.
+                                                                                                       : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft128.u_fft128.core.SU3'
+  232 | assign  tw_num = bf2_count << (LOG_N-LOG_M);
+      |                ^
+%Warning-WIDTHTRUNC: /work/peweaver/source/chia/examples/peweaver/third_party/r22sdf/SdfUnit.v:232:16: Operator ASSIGNW expects 4 bits on the Assign RHS, but Assign RHS's SHIFTL generates 6 bits.
+                                                                                                     : ... note: In instance 'peweaver_dual_b_activity_tb.dut.u_fft64.u_fft64.core.SU3'
+  232 | assign  tw_num = bf2_count << (LOG_N-LOG_M);
+      |                ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:71:31: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_re' generates 16 bits.
+                                                                                                                : ... note: In instance 'peweaver_dual_b_activity_tb'
+   71 |                     win_re[0] = do_re; win_im[0] = do_im; got = 1;
+      |                               ^
+                      ... For warning description see https://verilator.org/warn/WIDTHEXPAND?v=5.051
+                      ... Use "/* verilator lint_off WIDTHEXPAND */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:71:50: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_im' generates 16 bits.
+                                                                                                                : ... note: In instance 'peweaver_dual_b_activity_tb'
+   71 |                     win_re[0] = do_re; win_im[0] = do_im; got = 1;
+      |                                                  ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:77:33: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_re' generates 16 bits.
+                                                                                                                : ... note: In instance 'peweaver_dual_b_activity_tb'
+   77 |                     win_re[got] = do_re; win_im[got] = do_im; got++;
+      |                                 ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:77:54: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_im' generates 16 bits.
+                                                                                                                : ... note: In instance 'peweaver_dual_b_activity_tb'
+   77 |                     win_re[got] = do_re; win_im[got] = do_im; got++;
+      |                                                      ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:100:38: Operator NEQCASE expects 32 bits on the RHS, but RHS's ARRAYSEL generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  100 |                 if (win_re[emission] !== golden[2*bin]
+      |                                      ^~~
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:101:41: Operator NEQCASE expects 32 bits on the RHS, but RHS's ARRAYSEL generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  101 |                     || win_im[emission] !== golden[2*bin + 1]) begin
+      |                                         ^~~
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:123:33: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_re' generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  123 |                     burst_re[0] = do_re; burst_im[0] = do_im; got = 1;
+      |                                 ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:123:54: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_im' generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  123 |                     burst_re[0] = do_re; burst_im[0] = do_im; got = 1;
+      |                                                      ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:129:35: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_re' generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  129 |                     burst_re[got] = do_re; burst_im[got] = do_im; got++;
+      |                                   ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:129:58: Operator ASSIGN expects 32 bits on the Assign RHS, but Assign RHS's VARREF 'do_im' generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  129 |                     burst_re[got] = do_re; burst_im[got] = do_im; got++;
+      |                                                          ^
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:156:44: Operator NEQCASE expects 32 bits on the RHS, but RHS's ARRAYSEL generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  156 |                     if (burst_re[emission] !== golden[2*bin]
+      |                                            ^~~
+%Warning-WIDTHEXPAND: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:157:47: Operator NEQCASE expects 32 bits on the RHS, but RHS's ARRAYSEL generates 16 bits.
+                                                                                                                 : ... note: In instance 'peweaver_dual_b_activity_tb'
+  157 |                         || burst_im[emission] !== golden[2*bin + 1]) begin
+      |                                               ^~~
+make: Entering directory '/work/peweaver/source/chia/examples/peweaver/physical/results/work/verilator_rtl_dual_b_20260907_053850_13170'
+g++ -Os  -I.  -MMD -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated.o /work/peweaver/toolchains/oss-cad-suite/share/verilator/include/verilated.cpp
+g++ -Os  -I.  -MMD -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_vcd_c.o /work/peweaver/toolchains/oss-cad-suite/share/verilator/include/verilated_vcd_c.cpp
+g++ -Os  -I.  -MMD -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_timing.o /work/peweaver/toolchains/oss-cad-suite/share/verilator/include/verilated_timing.cpp
+g++ -Os  -I.  -MMD -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o verilated_threads.o /work/peweaver/toolchains/oss-cad-suite/share/verilator/include/verilated_threads.cpp
+python3 /work/peweaver/toolchains/oss-cad-suite/share/verilator/bin/verilator_includer -DVL_INCLUDE_OPT=include Vpeweaver_dual_b_activity_tb.cpp Vpeweaver_dual_b_activity_tb___024root__0.cpp Vpeweaver_dual_b_activity_tb_Twiddle128_core__0.cpp Vpeweaver_dual_b_activity_tb__main.cpp Vpeweaver_dual_b_activity_tb__Trace__0.cpp Vpeweaver_dual_b_activity_tb___024root__Slow.cpp Vpeweaver_dual_b_activity_tb___024root__0__Slow.cpp Vpeweaver_dual_b_activity_tb_Twiddle128_core__Slow.cpp Vpeweaver_dual_b_activity_tb_Twiddle128_core__0__Slow.cpp Vpeweaver_dual_b_activity_tb__Syms__Slow.cpp Vpeweaver_dual_b_activity_tb__Trace__0__Slow.cpp Vpeweaver_dual_b_activity_tb__TraceDecls__0__Slow.cpp > Vpeweaver_dual_b_activity_tb__ALL.cpp
+g++ -Os  -I.  -MMD -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include -I/work/peweaver/toolchains/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=1 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -DVM_VPI=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -DVL_TIME_CONTEXT   -fcoroutines -c -o Vpeweaver_dual_b_activity_tb__ALL.o Vpeweaver_dual_b_activity_tb__ALL.cpp
+g++    verilated.o verilated_vcd_c.o verilated_timing.o verilated_threads.o Vpeweaver_dual_b_activity_tb__ALL.a    -pthread -lpthread -latomic   -o Vpeweaver_dual_b_activity_tb
+rm Vpeweaver_dual_b_activity_tb__ALL.verilator_deplist.tmp
+make: Leaving directory '/work/peweaver/source/chia/examples/peweaver/physical/results/work/verilator_rtl_dual_b_20260907_053850_13170'
+- V e r i l a t i o n   R e p o r t: Verilator 5.051 devel rev v5.050-281-g1ad9acd22 (mod)
+- Verilator: Built from 0.681 MB sources in 20 modules, into 1.734 MB in 12 C++ files needing 0.004 MB
+- Verilator: Walltime 12.674 s (elab=0.015, cvt=0.103, bld=12.518); cpu 0.156 s on 1 threads; allocated 30.836 MB

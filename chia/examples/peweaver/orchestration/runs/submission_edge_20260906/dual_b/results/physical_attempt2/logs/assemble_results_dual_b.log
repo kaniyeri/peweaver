@@ -1,0 +1,9 @@
+  VCD window: 294.000 cycles (2.940000 us)
+assemble_results.py: wrote /work/peweaver/source/chia/examples/peweaver/physical/results/dual_b_sky130.json
+  synth: 38531 cells, 361784.5 um2
+  pnr:   53257 instances, 428894.0 um2, 48.0% util, setup=0.436 ns, hold=-0.316 ns, recovery=8.905 ns, removal=0.381 ns, timing_met=False
+  power (streaming): total=23.2406 mW (internal=16.3678, switching=6.8726, leakage=0.000157)
+  power (scenario):  total=34.3048 mW
+  energy/FFT: mode64=22.776 nJ, mode128=76.509 nJ
+  placed reduction vs standalone sum: -0.944%
+  annotated pins: streaming=127481, scenario=127481

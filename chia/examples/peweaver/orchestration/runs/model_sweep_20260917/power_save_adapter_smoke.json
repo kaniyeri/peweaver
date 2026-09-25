@@ -1,0 +1,24 @@
+{
+  "root": "/work/peweaver/runs/chia_power_reduction/adapter_smoke_1muxae16",
+  "accepted": true,
+  "best_verdict": "TARGET",
+  "best_metrics": {
+    "annotated_pins": 1711,
+    "total_mW": 0.3151784,
+    "comb_mW": 0.2192582,
+    "seq_mW": 0.07960441,
+    "switch_mW": 0.114657,
+    "leak_uW": 0.00161499
+  },
+  "physical_runs": 1,
+  "final_verified": true,
+  "final_checks": {
+    "candidate_hash": true,
+    "cheap_accept": true,
+    "physical_no_retry": true,
+    "physical_passed": true,
+    "objectives_finite": true,
+    "constraints_hold": true,
+    "metrics_agree": true
+  }
+}

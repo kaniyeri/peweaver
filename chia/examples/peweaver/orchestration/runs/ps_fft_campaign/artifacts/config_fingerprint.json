@@ -1,0 +1,23 @@
+{
+ "orchestration/power_save_fft_driver.py": "34cb7b9fc27c85c0",
+ "orchestration/chia_power_save.py": "9b5343954316a58f",
+ "orchestration/chia_merge.py": "3379a45274ed1a33",
+ "orchestration/evaluator_nodes.py": "b8d06bc3efeaebad",
+ "orchestration/shared_fft_regression.py": "1f4354aee882f46a",
+ "physical/run-physical.sh": "948d0f2b17fc05a1",
+ "physical/rtl/peweaver_ppa_shared_fft.v": "f3050aa5be8ca086",
+ "objectives": [
+  "area",
+  "p64",
+  "p128",
+  "e64",
+  "e128"
+ ],
+ "targets": {
+  "p64": 23.314,
+  "p128": 41.04,
+  "e64": 20.4,
+  "e128": 71.2
+ },
+ "area_floor": 0.2
+}

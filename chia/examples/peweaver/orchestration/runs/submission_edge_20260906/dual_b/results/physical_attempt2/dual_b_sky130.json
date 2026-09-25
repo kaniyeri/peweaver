@@ -1,0 +1,377 @@
+{
+  "activity": {
+    "activity_source": "unit-delay gate-level simulation of the mapped netlist with Icarus Verilog and the sky130 FUNCTIONAL models (OpenLane-style GLS); golden outputs verified on the mapped netlist in the same runs",
+    "annotated_pins_note": "pins directly annotated from the VCD; remaining internal activity is propagated by OpenSTA from annotated pins",
+    "annotated_pins_scenario": 127481,
+    "annotated_pins_streaming": 127481,
+    "annotated_pins_streaming_128": 127481,
+    "scenario": "functional transition scenario checks 64-point single and three-frame continuous streams, reset/mode switch, then the equivalent 128-point workloads",
+    "scenario_vcd_sha256": "f5ab1e6704c5f39c7e6a5b0428cba8b88c41771d36ca00c5c62aca6ea2a4f28b",
+    "streaming_128_vcd_sha256": "c445d9d0dc05342e1dcd390f948f97ea71ceea5cc214f9a118db1b34bccc7484",
+    "streaming_vcd_sha256": "64c1ac5b888ec20a75bf2fb6930abe6298b7530173af713d1b122e3d2735b0cc",
+    "testbench_sha256": "c09803a1589bb50944edef3d66c0a01380f86f97babf1b842defb6e0d81de0a5",
+    "vcd_normalization": {
+      "description": "scenario and streaming timestamps shifted so first event is at #0; simulator $date headers canonicalized; clock period validated at 10000 ps",
+      "scenario_vcd_hash": "f5ab1e6704c5f39c7e6a5b0428cba8b88c41771d36ca00c5c62aca6ea2a4f28b",
+      "streaming_vcd_hash": "64c1ac5b888ec20a75bf2fb6930abe6298b7530173af713d1b122e3d2735b0cc",
+      "tool": "vcd_normalize.py"
+    }
+  },
+  "artifacts": {
+    "def": {
+      "bytes": 22033428,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/def/dual_b_baseline.def",
+      "sha256": "9769db14486aea18a7d8a55363240fb12eafe52b51b35e826daffce0af68ec66"
+    },
+    "drc_report": {
+      "bytes": 0,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/drc_dual_b.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gls_scenario_run_log": {
+      "bytes": 2161,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/iverilog_gls_scenario_dual_b_run.log",
+      "sha256": "6da3e6de556a3cc6a936d63e7a05d777e5f1d137b54f1a32a41f1df1fe9eb2c3"
+    },
+    "gls_scenario_vcd": {
+      "bytes": 40396377,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/activity/gls_scenario_dual_b_norm.vcd",
+      "sha256": "f5ab1e6704c5f39c7e6a5b0428cba8b88c41771d36ca00c5c62aca6ea2a4f28b"
+    },
+    "gls_stream_128_log": {
+      "bytes": 280,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/iverilog_gls_stream_128_dual_b_run.log",
+      "sha256": "d4902e74580af3063fc57feefc3c7e8d7687ad419003d02bda1264c8baaaeb14"
+    },
+    "gls_stream_128_vcd": {
+      "bytes": 25493106,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/activity/gls_stream_128_dual_b_norm.vcd",
+      "sha256": "c445d9d0dc05342e1dcd390f948f97ea71ceea5cc214f9a118db1b34bccc7484"
+    },
+    "gls_stream_run_log": {
+      "bytes": 1656,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/iverilog_gls_stream_dual_b_run.log",
+      "sha256": "8e05b9ac10aa04ea1319be271922abad149679d4ebfdaa1539bc4e2082f85a5b"
+    },
+    "gls_stream_vcd": {
+      "bytes": 15441425,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/activity/gls_stream_dual_b_norm.vcd",
+      "sha256": "64c1ac5b888ec20a75bf2fb6930abe6298b7530173af713d1b122e3d2735b0cc"
+    },
+    "openroad_backend_log": {
+      "bytes": 4385,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/openroad_backend_dual_b.log",
+      "sha256": "cfb91ce7839c7d80aadc0112389b897ba7ddcd83bb36f1baeff30bcdd7ca475b"
+    },
+    "openroad_frontend_log": {
+      "bytes": 15523,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/openroad_frontend_dual_b.log",
+      "sha256": "f2c7e9c0d175cbfbfa63e93231eb46015af8749f1a927fc728674ececb0528de"
+    },
+    "power_scenario_report": {
+      "bytes": 840,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/power_scenario_dual_b.rpt",
+      "sha256": "b30411c20ea11aa678ee91e9da64a74eecf68670cb04c501007c981ad1ac9fb9"
+    },
+    "power_streaming_128_report": {
+      "bytes": 840,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/power_streaming_128_dual_b.rpt",
+      "sha256": "1cf3c8ac5f4db4b6323e66115c45929077e90b0c04a8b0dd70166e1f76f90661"
+    },
+    "power_streaming_report": {
+      "bytes": 840,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/power_streaming_dual_b.rpt",
+      "sha256": "49bb3638a9bdb8a62c856dff79f08cb77074fb10aedb2d76e82798e61b341571"
+    },
+    "rtl_activity_run_log": {
+      "bytes": 352,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/verilator_rtl_dual_b_run.log",
+      "sha256": "66459ada7727285b38484dc1d9124e1d8e80bc2daba29d23350fa53740cce278"
+    },
+    "rtl_scenario_vcd": {
+      "bytes": 2212758,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/activity/rtl_scenario_dual_b.vcd",
+      "sha256": "a45d502e48cd0b52fd3678e732606045efddd1a28e76e1a678b848d556d4327c"
+    },
+    "spef": {
+      "bytes": 38497842,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/spef/dual_b_baseline.spef",
+      "sha256": "4f0e4e5b3d2d37394c38c20acbf6a55b5bd30ff30b07fd5d772d81d6af39cefe"
+    },
+    "sta_hold_paths": {
+      "bytes": 6360,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_hold_paths_dual_b.rpt",
+      "sha256": "81eea612cdd67928257cfe840504ac39cc8002cacd7a7f2be9026673d119443d"
+    },
+    "sta_max_paths": {
+      "bytes": 21232,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_max_paths_dual_b.rpt",
+      "sha256": "1758f5d74e6a9fcaab7c1edca08d521d38284b67202ae978baf6a9c5ff4e003b"
+    },
+    "sta_min_paths": {
+      "bytes": 11700,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_min_paths_dual_b.rpt",
+      "sha256": "8b846593f1b00f2be838a461ee9e763b333102064b20a5b4873b2c83967ba564"
+    },
+    "sta_recovery_paths": {
+      "bytes": 7030,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_recovery_paths_dual_b.rpt",
+      "sha256": "6d216525c090a2cb1c2e4a4c7884db4cf83e32e4b72352b2d10135c2b8c9c09a"
+    },
+    "sta_removal_paths": {
+      "bytes": 7020,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_removal_paths_dual_b.rpt",
+      "sha256": "79c62947b2b1c7033e71b2dddc1ef937f0dbf3b32fffc7eaa4d7477d6ea06db3"
+    },
+    "sta_setup_paths": {
+      "bytes": 17274,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/reports/sta_setup_paths_dual_b.rpt",
+      "sha256": "f319ff047ec0ac51e0ab3df415837b62830dff03d34778f9cbc4ccd07ef0c041"
+    },
+    "synth_netlist": {
+      "bytes": 5712692,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/netlists/dual_b_ppa_synth.v",
+      "sha256": "29b66a1cf97b6fad7e29fb8b292e473eb9640ed66d5c7139429b7b2e95da6f5d"
+    },
+    "yosys_log": {
+      "bytes": 516852,
+      "path": "/work/peweaver/source/chia/examples/peweaver/physical/results/logs/yosys_dual_b.log",
+      "sha256": "ebface53d40c8e4352e85771e62b0b3f672aeda663435d56ef2112f352783076"
+    }
+  },
+  "claim_boundary": "provisional implementation estimate only; no sign-off power, no HALO reproduction, no clinical claim, no silicon measurement",
+  "constraints": {
+    "clock_analysis": "propagated (post-CTS) in all reported timing",
+    "clock_period_ns": 10.0,
+    "clock_uncertainty_hold_ns": 0.05,
+    "clock_uncertainty_setup_ns": 0.1,
+    "driving_cell": "sky130_fd_sc_hd__buf_4",
+    "floorplan": "utilization 40%, aspect ratio 1.0, 5 um core space",
+    "io_delay_ns": 1.5,
+    "max_fanout": 16,
+    "output_load_pf": 0.5,
+    "routing_layers": "met1-met5 signal, met3-met5 clock"
+  },
+  "design": {
+    "fixture_manifest_sha256": "2c86f92ae99059e7fcd1ab1c2c316a7171f60fee06d6ecdd86ac8102a4959cb6",
+    "fixture_manifests": [
+      "/work/peweaver/source/chia/examples/peweaver/benchmarks/halo_fft64_reference/manifest.json",
+      "/work/peweaver/source/chia/examples/peweaver/benchmarks/halo_fft128_reference/manifest.json"
+    ],
+    "name": "peweaver_power_managed_dual_fft64_fft128_reference",
+    "reference_source_hashes_sha256": {
+      "../../third_party/r22sdf/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+      "../../third_party/r22sdf/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+      "../../third_party/r22sdf/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+      "../../third_party/r22sdf/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+      "../../third_party/r22sdf/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+      "../../third_party/r22sdf/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+      "../../third_party/r22sdf/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+      "fft128/../../third_party/r22sdf/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+      "fft128/../../third_party/r22sdf/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+      "fft128/../../third_party/r22sdf/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+      "fft128/../../third_party/r22sdf/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+      "fft128/../../third_party/r22sdf/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+      "fft128/../../third_party/r22sdf/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+      "fft128/../../third_party/r22sdf/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+      "fft128/peweaver_halo_fft128_reference.v": "465c0c1789bf53f8c1077bc7bddc992d1d3d85ee266ee06f780eb68eafe32bd3",
+      "peweaver_halo_fft64_reference.v": "d0f15e4bc31ae3273f4ca857c1aad02642cf563a49061da3c7f73ef228aa98a1",
+      "rtl/peweaver_ppa_dual_fft_icg.v": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb"
+    },
+    "tier": "reference",
+    "top": "peweaver_ppa_dual_fft_icg",
+    "top_role": "PEWeaver power-managed control: the two frozen standalone FFT cores placed on one die with characterized sky130_fd_sc_hd__dlclkp_4 ICG cells; inactive core clock gated; matched schedule with the shared candidate"
+  },
+  "drc_violation_lines": 0,
+  "flow_input_hashes_sha256": {
+    "activity/dual_b_activity_tb.sv": "c09803a1589bb50944edef3d66c0a01380f86f97babf1b842defb6e0d81de0a5",
+    "assemble_results.py": "5232aa55ed3b66b8b70c57e8ac372e642081e53a99be9c0dddf88d5817dde45b",
+    "constraints/dual_b_baseline.sdc": "42c5eb274d22d13f6ffb1bc7367389a6e7082bf259b1b85d03c8c292d6a1bbe5",
+    "openroad/fft64_backend.tcl": "2417b4b98d2b88ab5cb1cff5ae23a2d041b41f81a050622495357cfbab228b2f",
+    "openroad/fft64_frontend.tcl": "531a153adc797d854e2a539d1b206fadd29009653e81e2faa56c6144b7745dec",
+    "pdk/sky130hd/fastroute.tcl": "a84110f70e0ff1540f4cfed6730d56b3011c6c06a6c897a4bd600522bb175dd3",
+    "pdk/sky130hd/make_tracks.tcl": "b4b280f0d5f3d52007e2531d2abd74d7f4aa600ceb9fffdf3041c781fe82ad8c",
+    "pdk/sky130hd/pdn.tcl": "d2244586d860af05157a2555a49602a5dfff178f636a797a7c892e8d395b74a8",
+    "pdk/sky130hd/rcx_patterns.rules": "d5bd9b1077ceac9929416abca272a6d52e51cd9a575453a31d129817bb286476",
+    "pdk/sky130hd/setRC.tcl": "6aeade350bf498177ea61506db8849a064a71848b05c18ad6a6e1fc5d62c962a",
+    "pdk/sky130hd/tapcell.tcl": "7f25277b66bcbc7d7cb9f0984d4df759f3f8d7cf59badbb07ce742a265507fcf",
+    "rtl/dual/fft128_core.v": "ca9584a318925bdd2c5dde714964a572890f11060a8f7280b020e20579bf8a65",
+    "rtl/dual/halo_fft128_wrapper.v": "1b7a70854b6d72b411715c8f91f96ad9d807e5937356a2a9305e426ba2d090b2",
+    "rtl/dual/sdfunit128.v": "8f67a891a67dd67f171119b4f3d84171efd0bf7b6afc8f4268a9621427891940",
+    "rtl/dual/twiddle128_core.v": "8785a0d462c3975471e70b83064577f1b9dc72c287aaa8fb95d66fd6cb5f66b3",
+    "rtl/peweaver_ppa_dual_fft_icg.v": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb",
+    "rtl/sky130_icg_blackbox.v": "011a7aa6b160fd4a4e809b35960099bbe32a732fc2796693e24a1d4d33fe361f",
+    "run-physical.sh": "cf833c5866b326cccaf71362c0c534b6c5d1d4ff19951e084ef1cc506c6f7f83",
+    "synth/dual_b_synth.ys": "ac30a3934321f8f7ec90dfef78e3de6c6e5f0e9702c251d8673debd9d893cd3e",
+    "synth/filter_liberty.py": "66ea1dfded66be0e06aa6dc137c1a364cc96301f973f9250c1ed52ddff00009a",
+    "tool-lock.json": "dcf376b5b6b9fbb37c3ddcfc1b6498d68d4141c76ffd3cb3a6c81c18770deab0",
+    "vcd_normalize.py": "0cf0dfb905da67318abebb3410c6113c49fd0fe8e6d3db3450d0895189416f36"
+  },
+  "generated_from": {
+    "fixture_manifest": "/work/peweaver/source/chia/examples/peweaver/benchmarks/halo_fft64_reference/manifest.json",
+    "tool_lock": "physical/tool-lock.json"
+  },
+  "leakage_check": {
+    "cell": "sky130_fd_sc_hd__nand2_1",
+    "conclusion": "Single-cell ngspice spot-check of sky130_fd_sc_hd__nand2_1 at tt/25C/1.8V with explicit body ties (VNB=0 V, VPB=1.8 V). Measured static leakages are in the pico-watt range, confirming a clean DC solution with no floating-node artifacts. Disagreement with the liberty per-state leakage_power() values (strict 1nW reading) spans roughly 0.0182216x-111.456x and the state ordering differs, so these numbers are documentation of a spot-check only: this is NOT library calibration and NOT a silicon measurement, and the liberty values must not be re-derived from it.",
+    "corner": {
+      "body_ties": {
+        "VNB": "VGND (0 V)",
+        "VPB": "VPWR (1.8 V)"
+      },
+      "monte_carlo_switches": {
+        "mc_mm_switch": 0,
+        "mc_pr_switch": 0
+      },
+      "ngspice_lib": "/home/peweaver-user/.volare/sky130A/libs.tech/ngspice/sky130.lib.spice",
+      "process": "tt",
+      "temperature_c": 25,
+      "vdd_v": 1.8
+    },
+    "deck": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/leakage_check/nand2_leak.spice",
+    "liberty_reference": {
+      "cell_leakage_power_nw": 0.00211796,
+      "cell_leakage_power_w_strict_1nw": 2.11796e-12,
+      "file": "/home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "leakage_power_unit": "1nW",
+      "per_state_nw": {
+        "!A&!B": 3.00588e-05,
+        "!A&B": 0.0002796,
+        "A&!B": 0.0002199,
+        "A&B": 0.0079423
+      }
+    },
+    "measured": [
+      {
+        "current_a": 1.861235e-12,
+        "input_state": "!A&!B",
+        "leakage_w": 3.350223e-12,
+        "liberty_w": 3.00588e-14,
+        "ratio_measured_over_liberty": 111.456,
+        "va_v": 0,
+        "vb_v": 0
+      },
+      {
+        "current_a": 1.91002e-12,
+        "input_state": "!A&B",
+        "leakage_w": 3.438036e-12,
+        "liberty_w": 2.796e-13,
+        "ratio_measured_over_liberty": 12.2963,
+        "va_v": 0,
+        "vb_v": 1.8
+      },
+      {
+        "current_a": 4.72054e-12,
+        "input_state": "A&!B",
+        "leakage_w": 8.496972e-12,
+        "liberty_w": 2.199e-13,
+        "ratio_measured_over_liberty": 38.6402,
+        "va_v": 1.8,
+        "vb_v": 0
+      },
+      {
+        "current_a": 8.040096e-14,
+        "input_state": "A&B",
+        "leakage_w": 1.447217e-13,
+        "liberty_w": 7.9423e-12,
+        "ratio_measured_over_liberty": 0.0182216,
+        "va_v": 1.8,
+        "vb_v": 1.8
+      }
+    ],
+    "method": "DC operating point per input state; leakage = -i(VVDD); raw ngspice output in raw_state_<A>_<B>.log beside this file",
+    "ngspice_version": "ngspice-36",
+    "ratio_measured_over_liberty_range": {
+      "max": 111.456,
+      "min": 0.0182216
+    },
+    "schema": "peweaver-leakage-check-1"
+  },
+  "limitations": "Provisional end-to-end feasibility result at the frozen open-PDK corner (sky130A, sky130_fd_sc_hd, tt_025C_1v80) with an open-source tool flow. Not sign-off silicon power, not a HALO reproduction, and not a clinical claim. Power is activity-based: unit-delay gate-level simulation of the mapped netlist provides the VCD activity; OpenSTA propagates activity to pins without direct annotation (coverage recorded). Timing uses propagated clocks with 0.10 ns setup / 0.05 ns hold uncertainty at the tt corner only; no multi-corner signoff, no IR-drop/EM/thermal analysis, no antenna/fill closure. Leakage is a library-model figure (order-of-magnitude only; the sky130 liberty power models are uncalibrated - see the leakage_check record). Reported power values are workload-window averages, not steady-state silicon measurements. Shared area reduction is reported against the sum of standalone placed baselines, not a placed combined muxed dual-core top.",
+  "pdk": {
+    "cell_library": "sky130_fd_sc_hd",
+    "name": "sky130A",
+    "orfs_platform_commit": "be0dca0b1fd41df54792b3012350cd52bccd99bb",
+    "timing_corner": "tt_025C_1v80",
+    "volare_version": "c6d73a35f524070e85faff4a6a9eef49553ebc2b"
+  },
+  "results": {
+    "area_comparison": {
+      "candidate_placed_cell_area_um2": 429655.0,
+      "candidate_synthesis_cell_area_um2": 361784.48,
+      "comparison_note": "The 44% target is an upper-bound comparison against the sum of standalone placed areas; a combined dual-core wrapper has not been placed.",
+      "placed_reduction_vs_standalone_sum_pct": -1.12265671887688,
+      "standalone_placed_area_sum_um2": 424885.0,
+      "standalone_synthesis_area_sum_um2": 360122.8864,
+      "synthesis_reduction_vs_standalone_sum_pct": -0.46139627964505436
+    },
+    "energy_per_fft_nj": {
+      "definition": "finite three-frame window energy per transform, including fill and drain",
+      "mode128": {
+        "duration_ps": 5520000,
+        "value": 76.749528
+      },
+      "mode64": {
+        "duration_ps": 2940000,
+        "value": 22.919201199999996
+      }
+    },
+    "pnr": {
+      "area_note": "design_area is the placed standard-cell area (sum of cell areas); the die/core footprint is larger due to utilization margin and routing",
+      "cell_area_um2": 429655.0,
+      "external_async_reset_boundary_waived": true,
+      "hold_slack_ns": 0.178312,
+      "instance_count": 53333,
+      "overall_worst_slack_max_ns": 0.44467186746956516,
+      "overall_worst_slack_min_ns": 0.1783123699165523,
+      "reset_recovery_slack_ns": 8.89896,
+      "reset_removal_slack_ns": 0.388498,
+      "setup_slack_ns": 0.444672,
+      "timing_met": true,
+      "timing_note": "propagated clocks, uncertainty per constraints; external async reset is the intentional asynchronous boundary (not timed with the 1.5 ns input delay); the PEWeaver PPA wrapper synchronizes reset release, and synchronized reset-to-core recovery/removal is reported",
+      "total_negative_slack_max_ns": 0.0,
+      "utilization_pct": 48.0,
+      "worst_slack_max_ns": 0.444672,
+      "worst_slack_min_ns": 0.178312
+    },
+    "power_mw": {
+      "basis": "gate-level (mapped netlist, iverilog GLS) VCD-seeded activity, OpenSTA-propagated, after OpenRCX extraction",
+      "scenario_window": {
+        "definition": "average power over the full reset/idle/streaming scenario",
+        "internal_mw": 25.192510000000002,
+        "leakage_mw": 0.0001583921,
+        "switching_mw": 9.218793,
+        "total_mw": 34.41146
+      },
+      "streaming_window_128": {
+        "definition": "average power over the 128-point three-frame continuous-streaming burst",
+        "internal_mw": 30.31491,
+        "leakage_mw": 0.0001586921,
+        "switching_mw": 11.39663,
+        "total_mw": 41.7117
+      },
+      "streaming_window_64": {
+        "definition": "average power over the three-frame continuous-streaming burst only",
+        "internal_mw": 16.40969,
+        "leakage_mw": 0.0001576641,
+        "switching_mw": 6.977099,
+        "total_mw": 23.38694
+      }
+    },
+    "synthesis": {
+      "cell_area_um2": 361784.48,
+      "cell_count": 38531
+    },
+    "throughput": {
+      "mode128_fft_per_s": 781250.0,
+      "mode64_fft_per_s": 1562500.0
+    }
+  },
+  "schema": "peweaver-physical-result-2",
+  "status": "provisional end-to-end feasibility result",
+  "tools": {
+    "openroad": "v2.0-17598-ga008522d8",
+    "verilator": "5.051 devel rev v5.050-281-g1ad9acd22 (mod)",
+    "yosys": "Yosys 0.68+136 (git sha1 c30457480-dirty, Release, Clang /usr/bin/clang++ 21.1.8)"
+  }
+}

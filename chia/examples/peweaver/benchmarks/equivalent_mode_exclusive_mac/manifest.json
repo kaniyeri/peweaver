@@ -1,0 +1,45 @@
+{
+  "name": "equivalent_mode_exclusive_mac",
+  "schema_version": 1,
+  "description": "Two logical signed 4x4 MAC PEs selected by mode are equivalent to one operand-multiplexed shared multiplier, with signed 8-bit accumulation and output.",
+  "source": "case.sv",
+  "top": "peweaver_equiv_miter",
+  "simulation_testbench": "sim_tb.sv",
+  "simulation_top": "peweaver_equiv_sim_tb",
+  "miter_output": "mismatch",
+  "expected_equivalent": true,
+  "synthesis": {"baseline_top": "peweaver_equiv_baseline", "candidate_top": "peweaver_equiv_shared_candidate"},
+  "scheduling_contract": "mode selects exactly one logical PE per transaction; simultaneous outputs are not required",
+  "contract": {
+    "task_modes": [
+      {"name": "mode0", "components": ["mac0"], "parallel_groups": []},
+      {"name": "mode1", "components": ["mac1"], "parallel_groups": []}
+    ],
+    "top_level_mutual_exclusion": true,
+    "legal_overlap": [],
+    "interfaces": {
+      "clock": "none; combinational transaction",
+      "reset": "none",
+      "input": "signed a0,b0,a1,b1 and signed 8-bit acc0,acc1 plus mode",
+      "output": "signed 8-bit y",
+      "fixed_point": "two's-complement signed 4-bit operands and signed 8-bit accumulator/output; modulo 2^8 wrap",
+      "backpressure": "none; one transaction per cycle"
+    },
+    "performance": {"latency_cycles": 0, "sustained_throughput": "1 transaction/cycle"},
+    "mode_switch": {
+      "preconditions": "mode is stable for the transaction",
+      "drain_inflight": false,
+      "reset_on_switch": false,
+      "state_isolation": true
+    },
+    "stimulus": {
+      "source": "formal unconstrained bit-vector inputs",
+      "provenance": "Yosys SAT exploration; synthetic contract stimulus"
+    },
+    "objective": {
+      "primary": "minimize duplicated multiplier resources",
+      "constraints": {"correctness": "formal mismatch is zero", "schedule": "one logical MAC is active per transaction"}
+    }
+  },
+  "formal_command": "prep -top peweaver_equiv_miter -flatten; sat -verify -prove mismatch 0"
+}

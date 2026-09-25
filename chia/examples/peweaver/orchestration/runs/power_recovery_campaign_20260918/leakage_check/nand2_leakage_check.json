@@ -1,0 +1,35 @@
+{
+  "schema": "peweaver-leakage-check-1",
+  "cell": "sky130_fd_sc_hd__nand2_1",
+  "corner": {
+    "process": "tt",
+    "temperature_c": 25,
+    "vdd_v": 1.8,
+    "ngspice_lib": "/home/peweaver-user/.volare/sky130A/libs.tech/ngspice/sky130.lib.spice",
+    "monte_carlo_switches": { "mc_mm_switch": 0, "mc_pr_switch": 0 },
+    "body_ties": { "VNB": "VGND (0 V)", "VPB": "VPWR (1.8 V)" }
+  },
+  "ngspice_version": "ngspice-36",
+  "deck": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/leakage_check/nand2_leak.spice",
+  "method": "DC operating point per input state; leakage = -i(VVDD); raw ngspice output in raw_state_<A>_<B>.log beside this file",
+  "liberty_reference": {
+    "file": "/home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "leakage_power_unit": "1nW",
+    "cell_leakage_power_nw": 0.0021179600,
+    "cell_leakage_power_w_strict_1nw": 2.117960e-12,
+    "per_state_nw": {
+      "!A&B": 0.0002796000,
+      "!A&!B": 0.0000300588,
+      "A&B": 0.0079423000,
+      "A&!B": 0.0002199000
+    }
+  },
+  "measured": [
+    {"va_v": 0, "vb_v": 0, "input_state": "!A&!B", "current_a": 1.861235e-12, "leakage_w": 3.350223e-12, "liberty_w": 3.005880e-14, "ratio_measured_over_liberty": 111.456},
+    {"va_v": 0, "vb_v": 1.8, "input_state": "!A&B", "current_a": 1.910020e-12, "leakage_w": 3.438036e-12, "liberty_w": 2.796000e-13, "ratio_measured_over_liberty": 12.2963},
+    {"va_v": 1.8, "vb_v": 0, "input_state": "A&!B", "current_a": 4.720540e-12, "leakage_w": 8.496972e-12, "liberty_w": 2.199000e-13, "ratio_measured_over_liberty": 38.6402},
+    {"va_v": 1.8, "vb_v": 1.8, "input_state": "A&B", "current_a": 8.040096e-14, "leakage_w": 1.447217e-13, "liberty_w": 7.942300e-12, "ratio_measured_over_liberty": 0.0182216}
+  ],
+  "ratio_measured_over_liberty_range": { "min": 0.0182216, "max": 111.456 },
+  "conclusion": "Single-cell ngspice spot-check of sky130_fd_sc_hd__nand2_1 at tt/25C/1.8V with explicit body ties (VNB=0 V, VPB=1.8 V). Measured static leakages are in the pico-watt range, confirming a clean DC solution with no floating-node artifacts. Disagreement with the liberty per-state leakage_power() values (strict 1nW reading) spans roughly 0.0182216x-111.456x and the state ordering differs, so these numbers are documentation of a spot-check only: this is NOT library calibration and NOT a silicon measurement, and the liberty values must not be re-derived from it."
+}

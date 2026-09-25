@@ -1,0 +1,163 @@
+{
+ "turn": 10,
+ "accepted": true,
+ "best_level": 4,
+ "best_hash": "2e3fcda7a7ef1a53f6a65edff4299d2137d4caba3ec48f511472687d44c65bc5",
+ "best_manifest": {
+  "inputs/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+  "inputs/CONTRACT.md": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+  "inputs/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+  "inputs/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+  "inputs/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+  "inputs/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+  "inputs/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+  "inputs/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+  "inputs/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+  "inputs/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+  "peweaver_shared_fft.v": "589585de33d164a1b5ee56c0fa19452caa0ce856789cfa0f0e1fd4b8bbaa2ee3"
+ },
+ "architecture": "## 1. Architecture\n\nUse one mode-configurable radix-\\(2^2\\) SDF pipeline containing three shared `SdfUnit`-equivalent stages followed by one radix-2 finishing stage:\n\n```text\ninput\n  -> CSDF0\n  -> CSDF1\n  -> CSDF2\n  -> R2_FINAL (128 mode only)\n  -> output\n```\n\n### Per-mode configuration\n\n| Mode | CSDF0 | CSDF1 | CSDF2 | Final path |\n|---|---:|---:|---:|---|\n| 64-point | N=64, M=64 | N=64, M=16 | N=64, M=4 | bypass `R2_FINAL` |\n| 128-point | N=128, M=128 | N=128, M=32 | N=128, M=8 | use `R2_FINAL` |\n\nThis is the same factorization as the references, but each corresponding 64/128 stage is one physical configurable stage. It is not two cores behind a mux.\n\n### Shared resources\n\nEach `CSDFk` physically contains:\n\n- Two complex butterflies:\n  - BF1: four signed 17-bit add/sub operations, `RH=0`.\n  - BF2: four signed 17-bit add/sub operations, `RH=1`.\n- Two programmable complex delay rings.\n- One complex multiplier, except that CSDF2 bypasses it in 64 mode because `M=4`.\n- One registered twiddle lookup port.\n- Shared 7-bit sequencing counters and valid state.\n\n`R2_FINAL` contains one complex butterfly with `RH=0` and a depth-1 complex delay. It is clocked/selected only for 128-point operation.\n\nThus the merged maximum hardware is seven complex butterflies, three complex multipliers, and 127 complex delay words. The separate cores require 63+127=190 complex delay words and duplicate all common datapath/control logic.\n\n### Delay implementation\n\nReplace shifting arrays with fixed-capacity circular delay storage, advancing every clock exactly as `DelayBuffer.v` does\u2014not only on valid cycles. Each ring uses the selected logical depth shown below and read-before-write behavior equivalent to a depth-\\(D\\) shift register.\n\nThe storage is shared between modes; 64 mode uses only the smaller logical window. Delay data need not be reset because no output is marked valid until every active delay has been overwritten. Ring pointers, counters, and all validity state are asynchronously reset.\n\n### Twiddle sharing\n\nUse the 128-point literal table as the canonical coefficient bank. The 64-point literals are exactly its even-index entries:\n\n```text\nrom_addr = mode_q ? tw_addr_128 : {tw_addr_64, 1'b0}\n```\n\nOnly addresses reachable as \\(n\\times\\{0,1,2,3\\}\\) need implementation:\n\n```text\nR = {0..31} union {2*k | 0<=k<=31} union {3*k | 0<=k<=31}\n```\n\nEvery reachable entry must use the exact 16-bit literals from `Twiddle128.v`; unreachable entries may return deterministic zero rather than `x`. Address zero bypasses the multiplier. Each CSDF stage needs an independent lookup port because all three stages can require coefficients concurrently; the coefficient constants/decoder definition is common across modes.\n\nThe complex multiplier preserves the reference ordering:\n\n```text\narbr = signed(a_re) * signed(b_re)   // 32 bits\narbi = signed(a_re) * signed(b_im)\naibr = signed(a_im) * signed(b_re)\naibi = signed(a_im) * signed(b_im)\n\nm_re = (arbr >>> 15) - (aibi >>> 15) // low 16 bits\nm_im = (arbi >>> 15) + (aibr >>> 15) // low 16 bits\n```\n\nDo not replace this with a three-real-multiplier identity: independently truncated products make that transformation non-equivalent.\n\n### Mode and state ownership\n\n- `mode_q` is the sole owner of configuration.\n- While idle, the first accepted sample uses `mode` directly and captures it into `mode_q` on that edge, avoiding a one-cycle error if `di_en` follows reset immediately.\n- Once work is in flight, `mode_q` is held.\n- A 9-bit `outstanding` counter tracks accepted samples minus emitted samples. `idle` is true only when `outstanding==0` and no partial input-frame/control-valid state exists.\n- The environment must reset and drain before changing mode, as required. Asynchronous reset clears `mode_q`, `outstanding`, all counters, enables, valid pipelines, and delay pointers. Consequently stale delay contents can never assert `do_en`.\n- There is no per-mode computational state and no inactive core whose state can leak through a selector.\n\n## 2. Resource and schedule table\n\nOffsets below are measured from the edge accepting sample 0 of a frame.\n\n| Resource | 64-point configuration | 128-point configuration |\n|---|---|---|\n| Global/local counter width | 7 bits; wrap at 64, bit 6 forced/cleared | 7 bits; wrap at 128 |\n| CSDF0 | M=64; DB1=32, DB2=16; output offset 51 | M=128; DB1=64, DB2=32; output offset 99 |\n| CSDF1 | M=16; DB1=8, DB2=4; input 51, output 66 | M=32; DB1=16, DB2=8; input 99, output 126 |\n| CSDF2 | M=4; DB1=2, DB2=1; multiplier bypass; input 66, output 71 | M=8; DB1=4, DB2=2; input 126, output 135 |\n| `R2_FINAL` | bypass with no added register/latency | DB=1, RH=0; input 135, output 137 |\n| Total complex delay state | 63 words used | 127 words used |\n| Output valid span | offsets 71 through 134: 64 clocks | offsets 137 through 264: 128 clocks |\n\nFor each configurable CSDF stage with selected \\(M\\):\n\n- `di_count`, `bf1_count`, and `bf2_count` have period \\(N\\).\n- BF1 delay depth is \\(M/2\\).\n- BF2 delay depth is \\(M/4\\).\n- `bf1_bf = di_count[log2(M)-1]`.\n- `bf1_start` occurs at `di_count == M/2-1`.\n- The `-j` path is selected when\n  `bf1_count[log2(M)-1 : log2(M)-2] == 2'b11`.\n- Registered BF2 control is the selected `bf1_count[log2(M)-2]`.\n- `bf2_start` corresponds to `bf1_count == M/4-1`.\n- `tw_sel = {bf2_count[log2(M)-2], bf2_count[log2(M)-1]}`.\n- `tw_num = (bf2_count << log2(N/M))`, truncated to `log2(N)-2` bits.\n- `tw_addr = tw_num * tw_sel`.\n- Nonfinal CSDF latency is \\(3M/4+3\\).\n- The `M=4` multiplier-bypassed stage latency is \\(3M/4+2=5\\).\n- `R2_FINAL` latency is 2.\n\nConcrete thresholds:\n\n| Stage | 64 BF1/BF2 start thresholds | 128 BF1/BF2 start thresholds |\n|---|---:|---:|\n| CSDF0 | 31 / 15 | 63 / 31 |\n| CSDF1 | 7 / 3 | 15 / 7 |\n| CSDF2 | 1 / 0 | 3 / 1 |\n\nOnce a stage starts emitting, its stage-valid remains asserted for exactly \\(N\\) clocks. The following frame may enter every \\(N\\) input clocks, so stages simultaneously process different frames without resource conflicts.\n\n## 3. Exact interface and timing contract\n\n```verilog\nmodule peweaver_shared_fft (\n    input         clock,\n    input         reset,\n    input         mode,\n    input         di_en,\n    input  [15:0] di_re,\n    input  [15:0] di_im,\n    output        do_en,\n    output [15:0] do_re,\n    output [15:0] do_im\n);\n```\n\nThere are no other ports.\n\n- `reset` has active-high asynchronous assertion.\n- `mode=0`: exactly 64 consecutive enabled natural-order inputs form a frame.\n- `mode=1`: exactly 128 consecutive enabled natural-order inputs form a frame.\n- No backpressure; every `di_en=1` edge accepts one sample.\n- If the sample-0 acceptance edge is cycle 0:\n  - 64 mode first asserts `do_en` at cycle 71.\n  - 128 mode first asserts `do_en` at cycle 137.\n- `do_en` remains high for exactly 64 or 128 consecutive clocks.\n- Continuous same-mode frames may begin every \\(N\\) clocks.\n- Output order is bit-reversed and total scaling is exactly \\(1/N\\).\n- All arithmetic wraps modulo \\(2^{16}\\); there is no saturation.\n- After reset, `do_en` remains low until a newly accepted frame reaches its specified latency.\n\n## 4. Ranked implementation and verification risks\n\n1. **Cycle alignment and nonblocking-register boundaries**  \n   First reproduce one configurable CSDF stage and prove latencies 51/99, 15/27, and 5/9 against the corresponding reference stages. Verify every internal valid edge, twiddle address, and bypass cycle before integration.\n\n2. **Twiddle address/register alignment**  \n   The table output, `mu_en`, BF2 data, and multiplier-result register must remain aligned exactly as in `SdfUnit.v`. Exhaustively compare all reachable addresses in both modes and prove `Twiddle64[a] == Twiddle128[2*a]`.\n\n3. **Signed truncation and rounding**  \n   Unit-test butterfly extrema and odd negative values for arithmetic-floor shifts. Exhaustively/randomly compare the complex multiplier\u2019s four separately shifted products, overflow, and address-zero bypass.\n\n4. **Programmable circular-delay equivalence**  \n   Compare each logical depth\u201464, 32, 16, 8, 4, 2, and 1\u2014against the always-shifting reference buffer, including invalid gaps and reset without clearing data memory.\n\n5. **Mode capture and reset flushing**  \n   Test immediate mode-1 input after reset deassertion, reset during fill/output, reset between continuous frames, idle drains, and mode changes. Assert that `do_en` cannot survive reset or expose stale storage.\n\n6. **Continuous-frame overlap**  \n   Compare long uninterrupted bursts in both modes. Check frame boundaries while input, intermediate-stage output, and final output belong to different frames concurrently.\n\n7. **Physical implementation**  \n   After bit-exact RTL equivalence, synthesize early. Preserve multiplier pipeline boundaries, use balanced coefficient muxes, constrain high-fanout mode/control nets, and floorplan delay banks near their butterflies. Iterate mapping until 10 ns timing has TNS 0, then verify mapped simulation, DRC 0, and placed area below 424,885 \u00b5m\u00b2.",
+ "advice": "### Highest-value burst: remove asynchronous reset from the registered twiddle data\n\nThe routed design misses setup by only **60 ps**, and the sole violating path is:\n\n```text\nCSDF0.MU.b_im[5]\n  -> 16x16 product/reduction\n  -> real subtraction\n  -> address-zero bypass mux\n  -> CSDF0.do_re[15]\n```\n\nThe launch register for `MU.b_re/b_im` is currently an asynchronously reset flop. Change `TwiddleRom.tw_re` and `TwiddleRom.tw_im` to ordinary `posedge clock` registers with **no reset**, matching the reference `Twiddle128.v`. Apply this to all three CSDF twiddle ports, but keep reset on `mu_en`, `mu_do_en`, stage-valid state, counters, pointers, and `outstanding`.\n\nConceptually:\n\n```verilog\nalways @(posedge clock) begin\n    tw_re <= lut_re;\n    tw_im <= lut_im;\nend\n```\n\nDo **not** add a multiplier pipeline stage or alter the four-product arithmetic; either would risk violating latency or bit-exact truncation.\n\n#### Required cycle behavior\n\nFor every CSDF stage:\n\n- At edge `t`, `tw_re/tw_im`, `bf2_do_re/im`, and `mu_en <= (rom_addr != 0)` capture aligned values.\n- During `t` to `t+1`, the multiplier computes the four independently shifted products.\n- At edge `t+1`, `mu_do_re/im` capture either the multiplier result or the address-zero bypass data.\n- `su0_do_en`, `su1_do_en`, `su2_do_en`, and final `do_en` must not shift.\n- Mode 0 must still first assert `do_en` at cycle 71 for 64 cycles.\n- Mode 1 must still first assert `do_en` at cycle 137 for 128 cycles.\n\nUnreset twiddle data may be stale or unknown after reset, which is safe because reset clears all valid and multiplier-enable state; it must never reach an asserted `do_en`.\n\n#### Verification before moving on\n\n1. Run the full RTL regression for both modes, continuous frames, immediate input after reset, and reset during fill/output. Require bit-exact outputs and unchanged `do_en` timing.\n2. Synthesize and confirm the flops driving:\n   ```text\n   CSDF0.MU.b_re[*]\n   CSDF0.MU.b_im[*]\n   ```\n   map to ordinary non-resettable flops rather than `dfrtp` resettable cells.\n3. Run mapped simulation and place-and-route.\n4. Require:\n   - setup **WNS \u2265 0**\n   - setup **TNS = 0**\n   - hold slack \u2265 0\n   - DRC 0\n   - placed area below 424,885 \u00b5m\u00b2\n   - mapped outputs still bit-exact in both modes\n\nThis is the most direct, lowest-risk correction because it attacks the measured critical-path launch delay without changing architecture, arithmetic, or externally visible timing.",
+ "feedback": "",
+ "history": [
+  {
+   "ts": 1788513730.650474,
+   "turn": 1,
+   "status": "rejected",
+   "level": 0
+  },
+  {
+   "ts": 1788514260.040128,
+   "turn": 2,
+   "status": "promoted",
+   "level": 1,
+   "hash": "db72ccf55b7b3aa00e9bbab42de841d66d401bf5f86d1ec9959a0ef8873dabd8"
+  },
+  {
+   "ts": 1788515246.7409468,
+   "turn": 3,
+   "status": "promoted",
+   "level": 3,
+   "hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  {
+   "ts": 1788515680.6794133,
+   "turn": 4,
+   "status": "stall",
+   "hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  {
+   "ts": 1788516315.8959725,
+   "turn": 5,
+   "status": "stall",
+   "hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  {
+   "ts": 1788516553.925662,
+   "turn": 6,
+   "status": "rejected",
+   "level": 0
+  },
+  {
+   "ts": 1788516825.744639,
+   "turn": 7,
+   "status": "stall",
+   "hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  {
+   "ts": 1788517117.3008003,
+   "turn": 8,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788518329.7943149,
+   "turn": 9,
+   "status": "rejected",
+   "level": 3
+  },
+  {
+   "ts": 1788519377.1148543,
+   "turn": 10,
+   "status": "accepted",
+   "level": 4,
+   "hash": "2e3fcda7a7ef1a53f6a65edff4299d2137d4caba3ec48f511472687d44c65bc5"
+  }
+ ],
+ "model_status": {
+  "1": {
+   "advise_chars": 9009,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "68c8b68579ae1572ab42a1afc4fd23a18f2adb3d3b459865ee2900b469f10b4a",
+   "verdict": "REJECT",
+   "level": 0
+  },
+  "2": {
+   "advise_chars": 2380,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "db72ccf55b7b3aa00e9bbab42de841d66d401bf5f86d1ec9959a0ef8873dabd8",
+   "verdict": "IMPROVE",
+   "level": 1
+  },
+  "3": {
+   "advise_chars": 1830,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf",
+   "verdict": "IMPROVE",
+   "level": 3
+  },
+  "4": {
+   "advise_chars": 2149,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  "5": {
+   "advise_chars": 1677,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  "6": {
+   "advise_chars": 1725,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "497b332e4d0f0f7f78249c3be95c6426222a226068cc8519afc159ed86cfd14d",
+   "verdict": "REJECT",
+   "level": 0
+  },
+  "7": {
+   "advise_chars": 2357,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: {\"code\":400,\"message\":\"Corrupted thought signature.\",\"metadata\":{\"error_type\":\"invalid_request\"}}",
+   "manifest_hash": "14488de7f964172b5fd4906f3fc2eace6daf7bd9fb3afff31d1f6df887b597cf"
+  },
+  "8": {
+   "advise_chars": 2425,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "f51d6bc31fe3fae14cc52e11ea929f06937de9b7d404ef2c2763b30b8a457c8d",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "9": {
+   "advise_chars": 1721,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "1f525490b25a3998e2189e260b9308828d830085af43d326621c41005f25906a",
+   "verdict": "REJECT",
+   "level": 3
+  },
+  "10": {
+   "advise_chars": 2447,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "2e3fcda7a7ef1a53f6a65edff4299d2137d4caba3ec48f511472687d44c65bc5",
+   "verdict": "ACCEPT",
+   "level": 4
+  }
+ }
+}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" width="720" height="390" style="background:#ffffff; font-family:sans-serif;">
+<text x="360" y="30" font-size="15" font-weight="bold" text-anchor="middle" fill="#1e293b">Replay Evidence Coverage (31-Candidate Corpus)</text>
+<text x="360" y="49" font-size="11" text-anchor="middle" fill="#475569">Detection rates are withheld when defect gate evidence is incomplete</text>
+<line x1="80" y1="315" x2="670" y2="315" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="315" x2="80" y2="75" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="315.0" x2="670" y2="315.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="319.0" font-size="11" text-anchor="end" fill="#64748b">0%</text>
+<line x1="80" y1="255.0" x2="670" y2="255.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="259.0" font-size="11" text-anchor="end" fill="#64748b">25%</text>
+<line x1="80" y1="195.0" x2="670" y2="195.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="199.0" font-size="11" text-anchor="end" fill="#64748b">50%</text>
+<line x1="80" y1="135.0" x2="670" y2="135.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="139.0" font-size="11" text-anchor="end" fill="#64748b">75%</text>
+<line x1="80" y1="75.0" x2="670" y2="75.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="79.0" font-size="11" text-anchor="end" fill="#64748b">100%</text>
+<text x="35" y="195.0" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35 195.0)" fill="#334155">Defect Rows with Complete Evidence (%)</text>
+<text x="139.0" y="333" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">Natural LLM (5)</text>
+<text x="139.0" y="307" font-size="10" font-weight="bold" text-anchor="middle" fill="#5b21b6">0/5</text>
+<text x="257.0" y="333" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">Arch Controls (4)</text>
+<text x="257.0" y="307" font-size="10" font-weight="bold" text-anchor="middle" fill="#5b21b6">0/4</text>
+<text x="375.0" y="333" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">RTL Mutants (9)</text>
+<text x="375.0" y="307" font-size="10" font-weight="bold" text-anchor="middle" fill="#5b21b6">0/9</text>
+<text x="493.0" y="333" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">Infra Faults (4)</text>
+<text x="493.0" y="307" font-size="10" font-weight="bold" text-anchor="middle" fill="#5b21b6">0/4</text>
+<text x="611.0" y="333" font-size="10" font-weight="bold" text-anchor="middle" fill="#334155">Overall (22)</text>
+<text x="611.0" y="307" font-size="10" font-weight="bold" text-anchor="middle" fill="#5b21b6">0/22</text>
+<rect x="190" y="55" width="14" height="14" rx="2" fill="#7c3aed"/>
+<text x="210" y="66" font-size="10" fill="#334155">Defect rows with complete local evidence</text>
+<text x="375.0" y="367" font-size="11" text-anchor="middle" fill="#475569">Detection statistics: NOT REPORTED (0/22 defect rows evidence-complete)</text>
+</svg>

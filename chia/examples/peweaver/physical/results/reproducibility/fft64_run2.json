@@ -1,0 +1,303 @@
+{
+  "artifacts": {
+    "def": {
+      "bytes": 8882552,
+      "path": "results/def/fft64_baseline.def",
+      "sha256": "d6c0b9756d130dee2d6ae535fa88f38d60f37f9e1f71aadfeea476ecd53cb3f1"
+    },
+    "drc": {
+      "bytes": 0,
+      "path": "results/reports/drc.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "metrics": {
+      "bytes": 130,
+      "path": "results/reports/metrics.txt",
+      "sha256": "474981715f0cbd0da4bf1813bfcec93e73442757a47bb86580ee27631515a6a6"
+    },
+    "netlist": {
+      "bytes": 2183322,
+      "path": "results/netlists/fft64_ppa_synth.v",
+      "sha256": "002dac42326fb704ba4bb34b5e4c2bd0fe9f403ee7cced88fd23f1eac90dc1c7"
+    },
+    "power_scenario": {
+      "bytes": 840,
+      "path": "results/reports/power_scenario.rpt",
+      "sha256": "05927b93004c4b1e5eff48fd89e67501239ecaa91e0ecc1f99ce315134eef157"
+    },
+    "power_streaming": {
+      "bytes": 840,
+      "path": "results/reports/power_streaming.rpt",
+      "sha256": "8af3f4b08f4ebe9542f2725b1e8148174216ea6dbb0bb27351eccfeb87911c5e"
+    },
+    "spef": {
+      "bytes": 15931175,
+      "path": "results/spef/fft64_baseline.spef",
+      "sha256": "926425a1730a565d0d9e1723a1c2335fc8d8e303cce37330dbfd7cee7630e634",
+      "without_date_sha256": "a54ec4ffb50e66e12223798243d79a60e0bb74e8e674c51c53377a753e2591b5"
+    },
+    "sta_hold_paths": {
+      "bytes": 6360,
+      "path": "results/reports/sta_hold_paths.rpt",
+      "sha256": "2c7760c06a777dc9d93e9a1285140b47997171a4d28b6e8415427363418e78cb"
+    },
+    "sta_max_paths": {
+      "bytes": 21920,
+      "path": "results/reports/sta_max_paths.rpt",
+      "sha256": "38ab5bada21c9051816540e56c0fc351535038292d0683ce5bb76c2919bd4b41"
+    },
+    "sta_min_paths": {
+      "bytes": 11705,
+      "path": "results/reports/sta_min_paths.rpt",
+      "sha256": "ca0879d0823f638d240ebebf55db4cee65f3ab72c3d4b741597bbc00ebb7abd6"
+    },
+    "sta_recovery_paths": {
+      "bytes": 7680,
+      "path": "results/reports/sta_recovery_paths.rpt",
+      "sha256": "6fcab7f2fb7022ae619949227600d7104a3a663fb88132c96d37352adbd89ed1"
+    },
+    "sta_removal_paths": {
+      "bytes": 7025,
+      "path": "results/reports/sta_removal_paths.rpt",
+      "sha256": "e45199b5a4beef3581fd0f0f5b5af0d7b9fe53227915a7515abd8575275edbee"
+    },
+    "sta_setup_paths": {
+      "bytes": 17408,
+      "path": "results/reports/sta_setup_paths.rpt",
+      "sha256": "9aa1bff5988a676df292429218a7c3462bbeeb1005a26d75c0949df04b58503c"
+    },
+    "vcd_scenario": {
+      "bytes": 12438501,
+      "path": "results/activity/gls_scenario_norm.vcd",
+      "sha256": "58de72f8fa8522b12ba60fc99e9d6e1bc2bd58bde01225754e9733f64b4ceb2b"
+    },
+    "vcd_stream": {
+      "bytes": 10152355,
+      "path": "results/activity/gls_stream_norm.vcd",
+      "sha256": "0e473927941c58a38244c6da6de6e27805ea1310efcc9e922b7f80a74e8e0000"
+    }
+  },
+  "captured_utc": "2026-08-30T19:05:04.332417+00:00",
+  "design": "fft64",
+  "recorder_sha256": "c7e59e5a3eb09f54df7d58d3f6d040181f93bafd1dee57e245367c01584e37b2",
+  "result_semantics": {
+    "activity": {
+      "activity_source": "unit-delay gate-level simulation of the mapped netlist with Icarus Verilog and the sky130 FUNCTIONAL models (OpenLane-style GLS); golden outputs verified on the mapped netlist in the same runs",
+      "annotated_pins_note": "pins directly annotated from the VCD; remaining internal activity is propagated by OpenSTA from annotated pins",
+      "annotated_pins_scenario": 53086,
+      "annotated_pins_streaming": 53086,
+      "scenario": "phase 0: power-on async reset (16 cycles) + 96-cycle idle drain; phase 1: reset-separated frame A (vectors/input4.txt) with output drain; explicit idle separation; phase 2: TRUE CONTINUOUS STREAMING BURST - di_en asserted for exactly 192 consecutive samples (frames input4, input5, input4) with no reset and no gap inside the burst, producer and collector concurrent (fork/join), outputs overlapping inputs; phase 3: final idle drain. 10 ns clock throughout. Primary power window: the streaming burst only; secondary: the full scenario.",
+      "scenario_vcd_sha256": "58de72f8fa8522b12ba60fc99e9d6e1bc2bd58bde01225754e9733f64b4ceb2b",
+      "streaming_vcd_sha256": "0e473927941c58a38244c6da6de6e27805ea1310efcc9e922b7f80a74e8e0000",
+      "testbench_sha256": "f46aa3c9b23d33b31f687b67aa8f279116ca1a3ea40357b98e083abdb585a646",
+      "vcd_normalization": {
+        "description": "scenario and streaming timestamps shifted so first event is at #0; simulator $date headers canonicalized; clock period validated at 10000 ps",
+        "scenario_vcd_hash": "58de72f8fa8522b12ba60fc99e9d6e1bc2bd58bde01225754e9733f64b4ceb2b",
+        "streaming_vcd_hash": "0e473927941c58a38244c6da6de6e27805ea1310efcc9e922b7f80a74e8e0000",
+        "tool": "vcd_normalize.py"
+      }
+    },
+    "claim_boundary": "provisional implementation estimate only; no sign-off power, no HALO reproduction, no clinical claim, no silicon measurement",
+    "constraints": {
+      "clock_analysis": "propagated (post-CTS) in all reported timing",
+      "clock_period_ns": 10.0,
+      "clock_uncertainty_hold_ns": 0.05,
+      "clock_uncertainty_setup_ns": 0.1,
+      "driving_cell": "sky130_fd_sc_hd__buf_4",
+      "floorplan": "utilization 40%, aspect ratio 1.0, 5 um core space",
+      "io_delay_ns": 1.5,
+      "max_fanout": 16,
+      "output_load_pf": 0.5,
+      "routing_layers": "met1-met5 signal, met3-met5 clock"
+    },
+    "design": {
+      "fixture_manifest_sha256": "2c86f92ae99059e7fcd1ab1c2c316a7171f60fee06d6ecdd86ac8102a4959cb6",
+      "name": "halo_fft64_reference",
+      "reference_source_hashes_sha256": {
+        "../../third_party/r22sdf/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+        "../../third_party/r22sdf/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+        "../../third_party/r22sdf/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+        "../../third_party/r22sdf/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+        "../../third_party/r22sdf/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+        "../../third_party/r22sdf/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+        "../../third_party/r22sdf/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+        "peweaver_halo_fft64_reference.v": "d0f15e4bc31ae3273f4ca857c1aad02642cf563a49061da3c7f73ef228aa98a1"
+      },
+      "tier": "reference",
+      "top": "peweaver_ppa_fft64",
+      "top_role": "PEWeaver-owned PPA integration wrapper (async-assert/sync-deassert reset) around the pinned, untouched FFT64 reference"
+    },
+    "drc_violation_lines": 0,
+    "flow_input_hashes_sha256": {
+      "activity/fft64_activity_tb.sv": "f46aa3c9b23d33b31f687b67aa8f279116ca1a3ea40357b98e083abdb585a646",
+      "assemble_results.py": "e9ed07a21186d7d954ab9bd119f91ef0283be8f269e0e2a9f3053b7b283fb2b9",
+      "constraints/fft64_baseline.sdc": "fc9d1e4d575064e6f27c2cb288481795ca4bd696fa4ffc4a79195747b9d856fe",
+      "openroad/fft64_backend.tcl": "cf343650b3fb207d5252f9b3c0f0c99bacc704047f2e9f99fd1c2aa370745efe",
+      "openroad/fft64_frontend.tcl": "5decff287e789395f9832d29b6c51c0ae6fe0b54cad2f535974a9d26b79febd0",
+      "pdk/sky130hd/fastroute.tcl": "a84110f70e0ff1540f4cfed6730d56b3011c6c06a6c897a4bd600522bb175dd3",
+      "pdk/sky130hd/make_tracks.tcl": "b4b280f0d5f3d52007e2531d2abd74d7f4aa600ceb9fffdf3041c781fe82ad8c",
+      "pdk/sky130hd/pdn.tcl": "d2244586d860af05157a2555a49602a5dfff178f636a797a7c892e8d395b74a8",
+      "pdk/sky130hd/rcx_patterns.rules": "d5bd9b1077ceac9929416abca272a6d52e51cd9a575453a31d129817bb286476",
+      "pdk/sky130hd/setRC.tcl": "6aeade350bf498177ea61506db8849a064a71848b05c18ad6a6e1fc5d62c962a",
+      "pdk/sky130hd/tapcell.tcl": "7f25277b66bcbc7d7cb9f0984d4df759f3f8d7cf59badbb07ce742a265507fcf",
+      "rtl/peweaver_ppa_fft64.v": "e9168e722a7c42e15c83846a09bea7ef88ae37c112023758f2e05b1429e59446",
+      "run-physical.sh": "30866169376c140e9a07f2da46d82d240317dc00a6b5006a36f556b3c8977963",
+      "synth/fft64_synth.ys": "680fbf9cf353752df632186cb2480696224edeaec25f891f27b7e44fc92615f4",
+      "synth/filter_liberty.py": "66ea1dfded66be0e06aa6dc137c1a364cc96301f973f9250c1ed52ddff00009a",
+      "tool-lock.json": "dcf376b5b6b9fbb37c3ddcfc1b6498d68d4141c76ffd3cb3a6c81c18770deab0",
+      "vcd_normalize.py": "0cf0dfb905da67318abebb3410c6113c49fd0fe8e6d3db3450d0895189416f36"
+    },
+    "generated_from": {
+      "fixture_manifest": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/benchmarks/halo_fft64_reference/manifest.json",
+      "tool_lock": "physical/tool-lock.json"
+    },
+    "leakage_check": {
+      "cell": "sky130_fd_sc_hd__nand2_1",
+      "conclusion": "Single-cell ngspice spot-check of sky130_fd_sc_hd__nand2_1 at tt/25C/1.8V with explicit body ties (VNB=0 V, VPB=1.8 V). Measured static leakages are in the pico-watt range, confirming a clean DC solution with no floating-node artifacts. Disagreement with the liberty per-state leakage_power() values (strict 1nW reading) spans roughly 0.0182216x-111.456x and the state ordering differs, so these numbers are documentation of a spot-check only: this is NOT library calibration and NOT a silicon measurement, and the liberty values must not be re-derived from it.",
+      "corner": {
+        "body_ties": {
+          "VNB": "VGND (0 V)",
+          "VPB": "VPWR (1.8 V)"
+        },
+        "monte_carlo_switches": {
+          "mc_mm_switch": 0,
+          "mc_pr_switch": 0
+        },
+        "ngspice_lib": "/home/peweaver-user/.volare/sky130A/libs.tech/ngspice/sky130.lib.spice",
+        "process": "tt",
+        "temperature_c": 25,
+        "vdd_v": 1.8
+      },
+      "deck": "/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/leakage_check/nand2_leak.spice",
+      "liberty_reference": {
+        "cell_leakage_power_nw": 0.00211796,
+        "cell_leakage_power_w_strict_1nw": 2.11796e-12,
+        "file": "/home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib",
+        "leakage_power_unit": "1nW",
+        "per_state_nw": {
+          "!A&!B": 3.00588e-05,
+          "!A&B": 0.0002796,
+          "A&!B": 0.0002199,
+          "A&B": 0.0079423
+        }
+      },
+      "measured": [
+        {
+          "current_a": 1.861235e-12,
+          "input_state": "!A&!B",
+          "leakage_w": 3.350223e-12,
+          "liberty_w": 3.00588e-14,
+          "ratio_measured_over_liberty": 111.456,
+          "va_v": 0,
+          "vb_v": 0
+        },
+        {
+          "current_a": 1.91002e-12,
+          "input_state": "!A&B",
+          "leakage_w": 3.438036e-12,
+          "liberty_w": 2.796e-13,
+          "ratio_measured_over_liberty": 12.2963,
+          "va_v": 0,
+          "vb_v": 1.8
+        },
+        {
+          "current_a": 4.72054e-12,
+          "input_state": "A&!B",
+          "leakage_w": 8.496972e-12,
+          "liberty_w": 2.199e-13,
+          "ratio_measured_over_liberty": 38.6402,
+          "va_v": 1.8,
+          "vb_v": 0
+        },
+        {
+          "current_a": 8.040096e-14,
+          "input_state": "A&B",
+          "leakage_w": 1.447217e-13,
+          "liberty_w": 7.9423e-12,
+          "ratio_measured_over_liberty": 0.0182216,
+          "va_v": 1.8,
+          "vb_v": 1.8
+        }
+      ],
+      "method": "DC operating point per input state; leakage = -i(VVDD); raw ngspice output in raw_state_<A>_<B>.log beside this file",
+      "ngspice_version": "ngspice-36",
+      "ratio_measured_over_liberty_range": {
+        "max": 111.456,
+        "min": 0.0182216
+      },
+      "schema": "peweaver-leakage-check-1"
+    },
+    "limitations": "Provisional end-to-end feasibility result at the frozen open-PDK corner (sky130A, sky130_fd_sc_hd, tt_025C_1v80) with an open-source tool flow. Not sign-off silicon power, not a HALO reproduction, and not a clinical claim. Power is activity-based: unit-delay gate-level simulation of the mapped netlist provides the VCD activity; OpenSTA propagates activity to pins without direct annotation (coverage recorded). Timing uses propagated clocks with 0.10 ns setup / 0.05 ns hold uncertainty at the tt corner only; no multi-corner signoff, no IR-drop/EM/thermal analysis, no antenna/fill closure. Leakage is a library-model figure (order-of-magnitude only; the sky130 liberty power models are uncalibrated - see the leakage_check record). Reported power values are workload-window averages, not steady-state silicon measurements.",
+    "pdk": {
+      "cell_library": "sky130_fd_sc_hd",
+      "name": "sky130A",
+      "orfs_platform_commit": "be0dca0b1fd41df54792b3012350cd52bccd99bb",
+      "timing_corner": "tt_025C_1v80",
+      "volare_version": "c6d73a35f524070e85faff4a6a9eef49553ebc2b"
+    },
+    "results": {
+      "energy_per_fft_nj": {
+        "definition": "finite 3-frame window energy per transform: streaming-window average power \u00d7 VCD duration / 3 (includes pipeline fill and drain; NOT sustained steady-state)",
+        "measurement_window": {
+          "clock_cycles": 262.5,
+          "duration_ps": 2625000,
+          "duration_us": 2.625,
+          "transform_count": 3
+        },
+        "value": 20.40010875
+      },
+      "pnr": {
+        "area_note": "design_area is the placed standard-cell area (sum of cell areas); the die/core footprint is larger due to utilization margin and routing",
+        "cell_area_um2": 164408.0,
+        "external_async_reset_boundary_waived": true,
+        "hold_slack_ns": 0.101562,
+        "instance_count": 21791,
+        "overall_worst_slack_max_ns": 0.8666951845962324,
+        "overall_worst_slack_min_ns": 0.10156165085283449,
+        "reset_recovery_slack_ns": 8.937696,
+        "reset_removal_slack_ns": 0.326728,
+        "setup_slack_ns": 0.866695,
+        "timing_met": true,
+        "timing_note": "propagated clocks, uncertainty per constraints; external async reset is the intentional asynchronous boundary (not timed with the 1.5 ns input delay); the PEWeaver PPA wrapper synchronizes reset release, and synchronized reset-to-core recovery/removal is reported",
+        "total_negative_slack_max_ns": 0.0,
+        "utilization_pct": 47.0,
+        "worst_slack_max_ns": 0.866695,
+        "worst_slack_min_ns": 0.101562
+      },
+      "power_mw": {
+        "basis": "gate-level (mapped netlist, iverilog GLS) VCD-seeded activity, OpenSTA-propagated, after OpenRCX extraction",
+        "scenario_window": {
+          "definition": "average power over the full reset/idle/streaming scenario",
+          "internal_mw": 15.12423,
+          "leakage_mw": 5.958637e-05,
+          "switching_mw": 5.358487,
+          "total_mw": 20.482779999999998
+        },
+        "streaming_window": {
+          "definition": "average power over the three-frame continuous-streaming burst only",
+          "internal_mw": 16.36066,
+          "leakage_mw": 6.019583999999999e-05,
+          "switching_mw": 6.953683000000001,
+          "total_mw": 23.314410000000002
+        }
+      },
+      "synthesis": {
+        "cell_area_um2": 141235.456,
+        "cell_count": 16037
+      },
+      "throughput": {
+        "definition": "one transform per 64 clock cycles",
+        "fft_per_s": 1562500.0
+      }
+    },
+    "schema": "peweaver-physical-result-2",
+    "status": "provisional end-to-end feasibility result",
+    "tools": {
+      "openroad": "v2.0-17598-ga008522d8",
+      "verilator": "5.051 devel rev v5.050-281-g1ad9acd22 (mod)",
+      "yosys": "Yosys 0.68+136 (git sha1 c30457480-dirty, Release, Clang /usr/bin/clang++ 21.1.8)"
+    }
+  },
+  "result_sha256": "641a76056c249095a9a751efeec6defa99df2f3bf76a35d329344718eb8b9bcc",
+  "schema": "peweaver-reproducibility-evidence-3"
+}

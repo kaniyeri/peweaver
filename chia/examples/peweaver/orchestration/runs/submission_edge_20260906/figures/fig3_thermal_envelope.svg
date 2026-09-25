@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 380" width="650" height="380" style="background:#ffffff; font-family:sans-serif;">
+<text x="325" y="30" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">Modeled Peak Temperature Rise vs. Convection Thermal Resistance</text>
+<line x1="80" y1="310" x2="600" y2="310" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="310" x2="80" y2="70" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="310.0" x2="600" y2="310.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="314.0" font-size="11" text-anchor="end" fill="#64748b">0 mK</text>
+<line x1="80" y1="250.0" x2="600" y2="250.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="254.0" font-size="11" text-anchor="end" fill="#64748b">300 mK</text>
+<line x1="80" y1="190.0" x2="600" y2="190.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="194.0" font-size="11" text-anchor="end" fill="#64748b">600 mK</text>
+<line x1="80" y1="130.0" x2="600" y2="130.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="134.0" font-size="11" text-anchor="end" fill="#64748b">900 mK</text>
+<line x1="80" y1="70.0" x2="600" y2="70.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="74.0" font-size="11" text-anchor="end" fill="#64748b">1200 mK</text>
+<text x="35" y="190.0" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35 190.0)" fill="#334155">Peak Temperature Rise (mK)</text>
+<line x1="80.0" y1="310" x2="80.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="80.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">0</text>
+<line x1="184.0" y1="310" x2="184.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="184.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">2</text>
+<line x1="288.0" y1="310" x2="288.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="288.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">4</text>
+<line x1="392.0" y1="310" x2="392.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="392.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">6</text>
+<line x1="496.0" y1="310" x2="496.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="496.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">8</text>
+<line x1="600.0" y1="310" x2="600.0" y2="315" stroke="#64748b" stroke-width="1.5"/>
+<text x="600.0" y="330" font-size="11" text-anchor="middle" fill="#64748b">10</text>
+<text x="340.0" y="350" font-size="12" font-weight="bold" text-anchor="middle" fill="#334155">Convection Thermal Resistance R_conv (K/W)</text>
+<path d="M 85.2,214.0 L 106.0,210.0 L 132.0,204.0 L 184.0,192.0 L 340.0,154.0 L 600.0,92.0" fill="none" stroke="#dc2626" stroke-width="3"/>
+<path d="M 85.2,222.0 L 106.0,220.0 L 132.0,216.0 L 184.0,208.0 L 340.0,184.0 L 600.0,144.0" fill="none" stroke="#2563eb" stroke-width="3"/>
+<circle cx="85.2" cy="214.0" r="4" fill="#dc2626"/>
+<circle cx="106.0" cy="210.0" r="4" fill="#dc2626"/>
+<circle cx="132.0" cy="204.0" r="4" fill="#dc2626"/>
+<circle cx="184.0" cy="192.0" r="4" fill="#dc2626"/>
+<circle cx="340.0" cy="154.0" r="4" fill="#dc2626"/>
+<circle cx="600.0" cy="92.0" r="4" fill="#dc2626"/>
+<circle cx="85.2" cy="222.0" r="4" fill="#2563eb"/>
+<circle cx="106.0" cy="220.0" r="4" fill="#2563eb"/>
+<circle cx="132.0" cy="216.0" r="4" fill="#2563eb"/>
+<circle cx="184.0" cy="208.0" r="4" fill="#2563eb"/>
+<circle cx="340.0" cy="184.0" r="4" fill="#2563eb"/>
+<circle cx="600.0" cy="144.0" r="4" fill="#2563eb"/>
+<rect x="110" y="50" width="200" height="52" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="120" y1="66" x2="145" y2="66" stroke="#dc2626" stroke-width="3"/>
+<circle cx="132" cy="66" r="3.5" fill="#dc2626"/>
+<text x="155" y="70" font-size="11" fill="#334155">Dual Baseline A (Actual Die)</text>
+<line x1="120" y1="86" x2="145" y2="86" stroke="#2563eb" stroke-width="3"/>
+<circle cx="132" cy="86" r="3.5" fill="#2563eb"/>
+<text x="155" y="90" font-size="11" fill="#334155">Shared S0 (Actual Die)</text>
+</svg>

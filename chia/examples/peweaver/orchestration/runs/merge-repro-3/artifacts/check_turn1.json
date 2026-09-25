@@ -1,0 +1,17 @@
+{
+ "verdict": "IMPROVE",
+ "level": 1,
+ "feedback": "gate 'functional' failed:                           ^~~~~ |                                                                                                          : ... Location of instance's module declaration |     6 | module peweaver_shared_fft ( |       |        ^~~~~~~~~~~~~~~~~~~ |                     ... For error description see https://verilator.org/warn/PINNOTFOUND?v=5.051 | %Error: Exiting due to 1 error(s) | ",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": "clean"
+  },
+  "functional": {
+   "passed": false,
+   "retry": false,
+   "note": "                          ^~~~~ |                                                                                                          : ... Location of instance's module declaration |     6 | module peweaver_shared_fft ( |       |        ^~~~~~~~~~~~~~~~~~~ |                     ... For error description see https://verilator.org/warn/PINNOTFOUND?v=5.051 | %Error: Exiting due to 1 error(s) | "
+  }
+ }
+}

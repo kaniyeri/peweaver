@@ -1,0 +1,1092 @@
+{
+ "runs": [
+  {
+   "run_id": "msweep-adv-astra-r1",
+   "planner_model": "openai/gpt-6-astra",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 153.3,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 28832,
+   "area_reduction_pct": 37.99,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "f3a8b2d860ba994c04330e5b0bfc42d54bb93094b84af77b6790667a143219e7"
+  },
+  {
+   "run_id": "msweep-adv-astra-r2",
+   "planner_model": "openai/gpt-6-astra",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 147.7,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 28759,
+   "area_reduction_pct": 38.15,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "3dd24f838bbec4e5e6732b822bec071285926403db05d8bb0cc498e46bf402f7"
+  },
+  {
+   "run_id": "msweep-adv-claude-r1",
+   "planner_model": "openrouter/anthropic/claude-sonnet-4.6",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 371.0,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28480,
+   "area_reduction_pct": 38.75,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "ad7f8328f8f13370868c2086feafca318680959f8b41e0396785281622720c54"
+  },
+  {
+   "run_id": "msweep-adv-claude-r2",
+   "planner_model": "openrouter/anthropic/claude-sonnet-4.6",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 306.0,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28049,
+   "area_reduction_pct": 39.68,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "8a659cc4dd1a84e044e787ac1f7d13e3991d0aff2bc0c51d29859d645f4fd899"
+  },
+  {
+   "run_id": "msweep-adv-deepseek-r1",
+   "planner_model": "opencode-go/deepseek-v4.1-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 288.4,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 29676,
+   "area_reduction_pct": 36.18,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "ec0c9353bec2a74127e9460467f153056473c13d392f2068e0f08bb08337febf"
+  },
+  {
+   "run_id": "msweep-adv-deepseek-r2",
+   "planner_model": "opencode-go/deepseek-v4.1-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 1656.3,
+   "accepted": true,
+   "accept_turn": 4,
+   "turns_used": 4,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 3
+   },
+   "area_cell_count": 27645,
+   "area_reduction_pct": 40.54,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "rejected",
+    "accepted"
+   ],
+   "candidate_sha256": "ec9948a7b7e8bf4f100480d829cedae20070fdd194159aa8d22d5af72cecb18f"
+  },
+  {
+   "run_id": "msweep-adv-glm-r1",
+   "planner_model": "opencode-go/glm-5.3-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 654.4,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28826,
+   "area_reduction_pct": 38.0,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "151008bf92f276b58d8055462f4f7550ce6b28169e23d1e5680765b2a363dae5"
+  },
+  {
+   "run_id": "msweep-adv-glm-r2",
+   "planner_model": "opencode-go/glm-5.3-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 2625.0,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 16
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected"
+   ],
+   "candidate_sha256": "c45a207299dc6d41a3cf486e6f091aacd8f41740952654c2382e7ae3dcd30a5a"
+  },
+  {
+   "run_id": "msweep-adv-kimi-r1",
+   "planner_model": "opencode-go/kimi-k2.7-code",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 723.5,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28820,
+   "area_reduction_pct": 38.02,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "bc24601cb6a3c1c3e72d0b4cc7efec9525372976a273acd59dff73261bd529cc"
+  },
+  {
+   "run_id": "msweep-adv-kimi-r2",
+   "planner_model": "opencode-go/kimi-k2.7-code",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 528.7,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 28525,
+   "area_reduction_pct": 38.65,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "49a6412dfcbf32d0c958823f739820f536aa610c5d9f213e7bdeca826fc9a432"
+  },
+  {
+   "run_id": "msweep-adv-minimax-r1",
+   "planner_model": "opencode-go/minimax-m3",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 251.8,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 29674,
+   "area_reduction_pct": 36.18,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "65aaef7b148b8d8a5f6c9f8f9eb459c788f26f833ee8c64ece6811357ad220c2"
+  },
+  {
+   "run_id": "msweep-adv-minimax-r2",
+   "planner_model": "opencode-go/minimax-m3",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 536.2,
+   "accepted": true,
+   "accept_turn": 1,
+   "turns_used": 1,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {},
+   "area_cell_count": 28790,
+   "area_reduction_pct": 38.08,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "accepted"
+   ],
+   "candidate_sha256": "7d34559a2281210ecbc45ecb81ffe622e745b45c6ba3c58bf5cd640a3608ddc7"
+  },
+  {
+   "run_id": "msweep-adv-sol-r1",
+   "planner_model": "openai/gpt-5.6-sol",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 543.0,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28819,
+   "area_reduction_pct": 38.02,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "a9f05d5595d25edd93f38ae8571afc6487a12214e6b2e17cd4105f37f3e9a095"
+  },
+  {
+   "run_id": "msweep-adv-sol-r2",
+   "planner_model": "openai/gpt-5.6-sol",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 385.6,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28750,
+   "area_reduction_pct": 38.17,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "ff198c4ac2a879827d650e81b3415d50bcd38b65555b6d6dfd0af06dcbbff01f"
+  },
+  {
+   "run_id": "msweep-impl-astra-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openai/gpt-6-astra",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 334.7,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-astra-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openai/gpt-6-astra",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 234.6,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-claude-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openrouter/anthropic/claude-sonnet-4.6",
+   "index_status": "unindexed",
+   "attempts": null,
+   "seconds": 3520.2,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 15,
+    "lint": 1
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected"
+   ],
+   "candidate_sha256": "bc967e739649e48527267acfd2fecce41e31f0f7b1c02f0ac27069137f6ef34b"
+  },
+  {
+   "run_id": "msweep-impl-claude-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openrouter/anthropic/claude-sonnet-4.6",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 3087.2,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 16
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected"
+   ],
+   "candidate_sha256": "b4e9481412b7d3196024e7a8436f98471f354ab7d2370725c85a395f65bc8141"
+  },
+  {
+   "run_id": "msweep-impl-deepseek-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/deepseek-v4.1-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 2513.2,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-deepseek-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/deepseek-v4.1-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 2482.0,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-glm-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/glm-5.3-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 1103.9,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-glm-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/glm-5.3-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 4338.0,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 6
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "promoted",
+    "rejected",
+    "stall",
+    "stall",
+    "rejected",
+    "rejected",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "rejected",
+    "rejected"
+   ],
+   "candidate_sha256": "fdabb84227d52fdf1ae3523791d029364f2024ce45fefe9e331e6a0e54a0757d"
+  },
+  {
+   "run_id": "msweep-impl-kimi-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/kimi-k2.7-code",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 8140.1,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 4
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "promoted",
+    "stall",
+    "rejected",
+    "stall",
+    "rejected",
+    "rejected",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall"
+   ],
+   "candidate_sha256": "c02af846aba69b612bfef456ecfe16f7bbc5f0a1893721b76ceed2d5c30686a8"
+  },
+  {
+   "run_id": "msweep-impl-kimi-r2",
+   "planner_model": null,
+   "worker_model": null,
+   "index_status": "unindexed",
+   "attempts": null,
+   "seconds": null,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 5,
+   "turns_cap": null,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-minimax-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "opencode-go/minimax-m3",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 3428.9,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 16,
+   "turns_cap": 16,
+   "best_level": 1,
+   "first_failed_histogram": {
+    "functional": 3
+   },
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "promoted",
+    "stall",
+    "stall",
+    "rejected",
+    "stall",
+    "stall",
+    "rejected",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall",
+    "stall"
+   ],
+   "candidate_sha256": "b9e5aa153bb7831c81bc9a8725baad9ae923aa85123493dcae44083586d51ee6"
+  },
+  {
+   "run_id": "msweep-impl-minimax-r2",
+   "planner_model": null,
+   "worker_model": null,
+   "index_status": "unindexed",
+   "attempts": null,
+   "seconds": null,
+   "accepted": false,
+   "accept_turn": null,
+   "turns_used": 14,
+   "turns_cap": null,
+   "best_level": 0,
+   "first_failed_histogram": {},
+   "area_cell_count": null,
+   "area_reduction_pct": null,
+   "holdout_note": "",
+   "history_statuses": [
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed",
+    "implement_failed"
+   ],
+   "candidate_sha256": null
+  },
+  {
+   "run_id": "msweep-impl-sol-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openai/gpt-5.6-sol",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 1552.4,
+   "accepted": true,
+   "accept_turn": 8,
+   "turns_used": 8,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 7
+   },
+   "area_cell_count": 29047,
+   "area_reduction_pct": 37.53,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "rejected",
+    "accepted"
+   ],
+   "candidate_sha256": "2900c20180d671ad5a06f2183a1c29c4b2f6c22e165b364e9f3708da6af058c2"
+  },
+  {
+   "run_id": "msweep-impl-sol-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "openai/gpt-5.6-sol",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 574.8,
+   "accepted": true,
+   "accept_turn": 3,
+   "turns_used": 3,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 2
+   },
+   "area_cell_count": 29241,
+   "area_reduction_pct": 37.11,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "rejected",
+    "accepted"
+   ],
+   "candidate_sha256": "73dc1116999829b9576ee17d1fc5c4ae7d2f4389852b4a52789537c0c2f1120c"
+  },
+  {
+   "run_id": "msweep-ref-gemini-r1",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 288.6,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 28798,
+   "area_reduction_pct": 38.06,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "83bec57c84b2a9be08ee799e64dc8a639956b3a91efc6a1c9477c9e9bb030410"
+  },
+  {
+   "run_id": "msweep-ref-gemini-r2",
+   "planner_model": "gemini/gemini-3.8-flash",
+   "worker_model": "gemini/gemini-3.8-flash",
+   "index_status": "done",
+   "attempts": 1,
+   "seconds": 266.5,
+   "accepted": true,
+   "accept_turn": 2,
+   "turns_used": 2,
+   "turns_cap": 16,
+   "best_level": 4,
+   "first_failed_histogram": {
+    "functional": 1
+   },
+   "area_cell_count": 27748,
+   "area_reduction_pct": 40.32,
+   "holdout_note": "36/36 hidden cases passed",
+   "history_statuses": [
+    "promoted",
+    "accepted"
+   ],
+   "candidate_sha256": "aacf7a02455fad09008b681a43b22d05cd76e9cdd18cf596a7bf210d715213b0"
+  }
+ ],
+ "planner_marginals": {
+  "openai/gpt-6-astra": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    1,
+    1
+   ],
+   "gate_failures": {},
+   "success_pct": 100.0,
+   "mean_turns_accepted": 1,
+   "median_turns_accepted": 1.0
+  },
+  "openrouter/anthropic/claude-sonnet-4.6": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    2,
+    2
+   ],
+   "gate_failures": {
+    "functional": 2
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 2,
+   "median_turns_accepted": 2.0
+  },
+  "opencode-go/deepseek-v4.1-flash": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    1,
+    4
+   ],
+   "gate_failures": {
+    "functional": 3
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 2.5,
+   "median_turns_accepted": 2.5
+  },
+  "opencode-go/glm-5.3-flash": {
+   "n": 2,
+   "accepted": 1,
+   "censored": 1,
+   "turns_accepted": [
+    2
+   ],
+   "gate_failures": {
+    "functional": 17
+   },
+   "gate_rejected_runs": 1,
+   "success_pct": 50.0,
+   "mean_turns_accepted": 2,
+   "median_turns_accepted": 2
+  },
+  "opencode-go/kimi-k2.7-code": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    2,
+    1
+   ],
+   "gate_failures": {
+    "functional": 1
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 1.5,
+   "median_turns_accepted": 1.5
+  },
+  "opencode-go/minimax-m3": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    1,
+    1
+   ],
+   "gate_failures": {},
+   "success_pct": 100.0,
+   "mean_turns_accepted": 1,
+   "median_turns_accepted": 1.0
+  },
+  "openai/gpt-5.6-sol": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    2,
+    2
+   ],
+   "gate_failures": {
+    "functional": 2
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 2,
+   "median_turns_accepted": 2.0
+  },
+  "gemini/gemini-3.8-flash": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    2,
+    2
+   ],
+   "gate_failures": {
+    "functional": 2
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 2,
+   "median_turns_accepted": 2.0
+  }
+ },
+ "implementer_marginals": {
+  "openai/gpt-6-astra": {
+   "n": 2,
+   "accepted": 0,
+   "censored": 2,
+   "turns_accepted": [],
+   "gate_failures": {},
+   "no_usable_reply_runs": 2,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "openrouter/anthropic/claude-sonnet-4.6": {
+   "n": 2,
+   "accepted": 0,
+   "censored": 2,
+   "turns_accepted": [],
+   "gate_failures": {
+    "functional": 31,
+    "lint": 1
+   },
+   "gate_rejected_runs": 2,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "opencode-go/deepseek-v4.1-flash": {
+   "n": 2,
+   "accepted": 0,
+   "censored": 2,
+   "turns_accepted": [],
+   "gate_failures": {},
+   "no_usable_reply_runs": 2,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "opencode-go/glm-5.3-flash": {
+   "n": 2,
+   "accepted": 0,
+   "censored": 2,
+   "turns_accepted": [],
+   "gate_failures": {
+    "functional": 6
+   },
+   "no_usable_reply_runs": 2,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "opencode-go/kimi-k2.7-code": {
+   "n": 1,
+   "accepted": 0,
+   "censored": 1,
+   "turns_accepted": [],
+   "gate_failures": {
+    "functional": 4
+   },
+   "no_usable_reply_runs": 1,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "opencode-go/minimax-m3": {
+   "n": 1,
+   "accepted": 0,
+   "censored": 1,
+   "turns_accepted": [],
+   "gate_failures": {
+    "functional": 3
+   },
+   "no_usable_reply_runs": 1,
+   "success_pct": 0.0,
+   "mean_turns_accepted": null,
+   "median_turns_accepted": null
+  },
+  "openai/gpt-5.6-sol": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    8,
+    3
+   ],
+   "gate_failures": {
+    "functional": 9
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 5.5,
+   "median_turns_accepted": 5.5
+  },
+  "gemini/gemini-3.8-flash": {
+   "n": 2,
+   "accepted": 2,
+   "censored": 0,
+   "turns_accepted": [
+    2,
+    2
+   ],
+   "gate_failures": {
+    "functional": 2
+   },
+   "success_pct": 100.0,
+   "mean_turns_accepted": 2,
+   "median_turns_accepted": 2.0
+  }
+ }
+}

@@ -1,0 +1,896 @@
+diff --git a/chia/models/opencode.py b/chia/models/opencode.py
+index 5c9b190..c6e217c 100644
+--- a/chia/models/opencode.py
++++ b/chia/models/opencode.py
+@@ -17,8 +17,10 @@ import json
+ import logging
+ import os
+ import re
++import signal
+ import subprocess
+ import tempfile
++import time as _time
+ from dataclasses import dataclass
+ from datetime import datetime, timedelta, timezone
+ from types import SimpleNamespace
+@@ -174,6 +176,34 @@ class UnknownOpenCodeError(OpenCodeError):
+         )
+ 
+ 
++class ExportError(OpenCodeError):
++    """The agent ran and produced a session, but the transcript export failed.
++
++    Deliberately NOT retried by re-running the agent: ``run`` already executed
++    (possibly editing files), so a fresh full run would be an at-least-once
++    mutation. The caller should treat the attempt as failed; the session id in
++    ``raw_message`` allows manual ``opencode export`` forensics.
++    """
++
++    def __init__(
++        self,
++        node_id: str,
++        exit_code: int = -1,
++        raw_message: str = "",
++        session_id: str = "",
++    ):
++        self.session_id = session_id
++        self._base_message = raw_message
++        raw = f"{raw_message} (session {session_id})" if session_id else raw_message
++        super().__init__(node_id, "export_failed", exit_code, raw)
++
++    def __reduce__(self):
++        return (
++            self.__class__,
++            (self.node_id, self.exit_code, self._base_message, self.session_id),
++        )
++
++
+ # ---------------------------------------------------------------------------
+ # Session-id parser
+ # ---------------------------------------------------------------------------
+@@ -328,8 +358,11 @@ class OpenCodeLLM(LLMCallBase):
+         work_dir: Optional[str] = None,
+         extra_cli_args: Optional[List[str]] = None,
+         additional_providers: Optional[List[AdditionalModelProvider]] = None,
++        provider_options: Optional[dict] = None,
+         dangerously_skip_permissions: bool = True,
+         config: Optional[dict] = None,
++        export_timeout_seconds: int = 180,
++        export_retries: int = 2,
+     ):
+         super().__init__(system_message=system_message,
+                          dangerously_skip_permissions=dangerously_skip_permissions,
+@@ -338,12 +371,16 @@ class OpenCodeLLM(LLMCallBase):
+         self.logging_name = logging_name
+         self.retries = retries
+         self.timeout_seconds = timeout_seconds
++        self.export_timeout_seconds = export_timeout_seconds
++        self.export_retries = export_retries
+         self.model = model
+         self.opencode_bin = opencode_bin
+         self.agent_name = agent_name
+         self.work_dir = work_dir
+         self.extra_cli_args = extra_cli_args or []
+         self.additional_providers = additional_providers or []
++        # provider id -> option dict (e.g. timeout/chunkTimeout in ms)
++        self.provider_options = provider_options or {}
+         self.logger = logging.getLogger(logging_name)
+         self._last_metadata: dict = {}
+         self._last_export_error: Optional[dict] = None
+@@ -391,12 +428,11 @@ class OpenCodeLLM(LLMCallBase):
+             ServerError: after all retries with exponential backoff.
+             MaxOutputTokensError: after one retry attempt.
+         """
+-        import time as _time
+-
+         from chia.trace.profiler import get_profiler
+ 
+         profiler = get_profiler()
+ 
++        reason = ""
+         for attempt in range(self.retries):
+             try:
+                 self._last_metadata = {}
+@@ -423,8 +459,19 @@ class OpenCodeLLM(LLMCallBase):
+             except (RateLimitError, AuthenticationError, BillingError, InvalidRequestError):
+                 raise
+ 
++            # -- The agent ran; never re-run it just because the export failed --
++            except ExportError as exc:
++                self.logger.warning(
++                    "Export failed after successful run (not re-running): %s", exc,
++                )
++                self._last_metadata["failure_reason"] = "export_failed"
++                return QueryResult(result="", returncode=exc.exit_code,
++                                   stderr=str(exc), stream_result="", success=False)
++
+             # -- Retry once: stochastic generation may produce shorter output --
+             except MaxOutputTokensError:
++                reason = "max_output_tokens"
++                self._last_metadata["failure_reason"] = reason
+                 if attempt == 0:
+                     self.logger.warning(
+                         "Max output tokens on attempt %d/%d, retrying once",
+@@ -434,7 +481,9 @@ class OpenCodeLLM(LLMCallBase):
+                 raise
+ 
+             # -- Retry with exponential backoff: transient service issue --
+-            except ServerError:
++            except ServerError as exc:
++                reason = f"server_error: {exc.raw_message[:120]}"
++                self._last_metadata["failure_reason"] = reason
+                 backoff = min(5 * 2 ** attempt, 60)
+                 self.logger.warning(
+                     "Server error on attempt %d/%d, backing off %ds",
+@@ -443,22 +492,51 @@ class OpenCodeLLM(LLMCallBase):
+                 _time.sleep(backoff)
+ 
+             except UnknownOpenCodeError as exc:
++                reason = f"unknown: {exc.raw_message[:200]}"
++                self._last_metadata["failure_reason"] = reason
+                 self.logger.warning(
+                     "Unknown error on attempt %d/%d: %s",
+                     attempt + 1, self.retries, exc,
+                 )
++                if attempt + 1 < self.retries:
++                    _time.sleep(min(5 * 2 ** attempt, 30))
+ 
+             except subprocess.TimeoutExpired:
++                reason = f"timeout after {self.timeout_seconds}s"
++                self._last_metadata["failure_reason"] = reason
+                 self.logger.warning(
+                     "Timeout on attempt %d/%d", attempt + 1, self.retries,
+                 )
+ 
+             except Exception as exc:
++                reason = f"unexpected: {exc}"
++                self._last_metadata["failure_reason"] = reason
+                 self.logger.warning(
+                     "Unexpected error on attempt %d/%d: %s",
+                     attempt + 1, self.retries, exc,
+                 )
+-        return QueryResult(result="", returncode=-1, stderr="", stream_result="", success=False)
++            finally:
++                self._record_usage(attempt + 1)
++        return QueryResult(result="", returncode=-1,
++                           stderr=f"opencode call failed: {reason}",
++                           stream_result="", success=False)
++
++    def _record_usage(self, attempt: int) -> None:
++        """Best-effort per-attempt usage line (never affects the call)."""
++        if self._log_prefix is None:
++            return
++        try:
++            record = {
++                "ts": datetime.now().isoformat(timespec="seconds"),
++                "attempt": attempt,
++                "model": self.model,
++                **{k: v for k, v in self._last_metadata.items()
++                   if k not in ("tools",)},
++            }
++            with open(f"{self._log_prefix}.usage.jsonl", "a") as handle:
++                handle.write(json.dumps(record, default=str) + "\n")
++        except OSError:
++            pass
+ 
+     def _get_node_id(self) -> str:
+         try:
+@@ -598,6 +676,15 @@ class OpenCodeLLM(LLMCallBase):
+             "webfetch": "allow",
+             "external_directory": "allow",
+         }
++        if self.provider_options:
++            provider_cfg: dict = cfg.setdefault("provider", {})
++            for provider_id, entry in self.provider_options.items():
++                target = provider_cfg.setdefault(provider_id, {})
++                for key, value in entry.items():
++                    if isinstance(value, dict):
++                        target.setdefault(key, {}).update(value)
++                    else:
++                        target[key] = value
+         if self.additional_providers:
+             provider_cfg: dict = cfg.setdefault("provider", {})
+             for provider in self.additional_providers:
+@@ -662,6 +749,7 @@ class OpenCodeLLM(LLMCallBase):
+                 pass
+ 
+         session_id = parse_session_id(run.stdout)
++        self._last_metadata["session_id"] = session_id
+         # Errors that happen before an assistant message exists (e.g. unknown
+         # model) only appear as `type:"error"` events in the run stream, never
+         # in the export — capture them here so they can be classified too.
+@@ -676,6 +764,7 @@ class OpenCodeLLM(LLMCallBase):
+                     "opencode run exited %d: %s", run.returncode, run.stderr[:500]
+                 )
+             self._last_export_error = run_error
++            self._last_metadata["failure_reason"] = "run_failed"
+             return QueryResult(
+                 result="",
+                 returncode=run.returncode if run.returncode != 0 else -1,
+@@ -683,8 +772,20 @@ class OpenCodeLLM(LLMCallBase):
+                 stream_result=run.stdout,
+             )
+ 
+-        export = self._run_export(session_id, env)
+-        final_text, meta, stream, export_error = self._extract_from_export(export)
++        try:
++            export = self._run_export(session_id, env)
++            final_text, meta, stream, export_error = self._extract_from_export(export)
++        except ExportError:
++            raise
++        except Exception as exc:
++            # Once the session exists, ANY downstream failure must not trigger
++            # a re-run: the agent may already have mutated the workspace.
++            raise ExportError(
++                node_id=self._get_node_id(), exit_code=0,
++                raw_message=f"post-run export/extraction failed: {exc}",
++                session_id=session_id,
++            ) from exc
++        meta["session_id"] = session_id
+         self._last_metadata = meta
+         # Prefer the export's error (richer — full responseHeaders); fall back to
+         # the run-stream error for pre-request failures the export never records.
+@@ -717,7 +818,8 @@ class OpenCodeLLM(LLMCallBase):
+             stream_result=stream,
+         )
+ 
+-    def _capture(self, cmd: list, env: dict) -> SimpleNamespace:
++    def _capture(self, cmd: list, env: dict,
++                 timeout: Optional[int] = None) -> SimpleNamespace:
+         """Run *cmd* capturing stdout to a temp FILE and return it.
+ 
+         Returns a ``SimpleNamespace(returncode, stdout, stderr)`` (the same shape
+@@ -729,27 +831,38 @@ class OpenCodeLLM(LLMCallBase):
+         cut mid-JSON and unparseable. A regular file has no such limit. stderr is
+         small, so it stays on a pipe. ``stdin=DEVNULL`` because ``run`` blocks on
+         an open stdin pipe. ``subprocess.TimeoutExpired`` propagates to the caller.
++
++        The child starts in its own session (``start_new_session=True``), so on
++        timeout the WHOLE process group is killed — opencode spawns tool
++        subprocesses (shells, etc.) that ``subprocess.run``'s direct-child kill
++        would leave behind, mutating the workspace after the deadline.
+         """
+         tmp = tempfile.NamedTemporaryFile(
+             mode="w", suffix=".out", prefix="opencode_out_", delete=False
+         )
+         out_path = tmp.name
+         tmp.close()
++        effective_timeout = self.timeout_seconds if timeout is None else timeout
+         try:
+             with open(out_path, "w") as out_fh:
+-                proc = subprocess.run(
++                proc = subprocess.Popen(
+                     cmd,
+                     stdin=subprocess.DEVNULL,
+                     stdout=out_fh,
+                     stderr=subprocess.PIPE,
+                     text=True,
+-                    timeout=self.timeout_seconds,
+                     env=env,
++                    start_new_session=True,
+                 )
++                try:
++                    _, stderr = proc.communicate(timeout=effective_timeout)
++                except subprocess.TimeoutExpired:
++                    self._kill_process_group(proc)
++                    raise
+             with open(out_path, "r") as in_fh:
+                 stdout = in_fh.read()
+             return SimpleNamespace(
+-                returncode=proc.returncode, stdout=stdout, stderr=proc.stderr or ""
++                returncode=proc.returncode, stdout=stdout, stderr=stderr or ""
+             )
+         finally:
+             try:
+@@ -757,24 +870,63 @@ class OpenCodeLLM(LLMCallBase):
+             except OSError:
+                 pass
+ 
+-    def _run_export(self, session_id: str, env: dict) -> dict:
+-        """``opencode export <id>`` → parsed session JSON (``{}`` on failure)."""
+-        cmd = [self.opencode_bin, "export", session_id]
++    @staticmethod
++    def _kill_process_group(proc: subprocess.Popen) -> None:
++        """SIGKILL the child's whole process group, then reap it."""
+         try:
+-            proc = self._capture(cmd, env)
+-        except subprocess.TimeoutExpired:
+-            self.logger.warning("opencode export timed out for %s", session_id)
+-            return {}
+-        if proc.returncode != 0:
+-            self.logger.warning(
+-                "opencode export exited %d: %s", proc.returncode, proc.stderr[:300]
+-            )
+-            return {}
++            os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
++        except (ProcessLookupError, PermissionError, OSError):
++            try:
++                proc.kill()
++            except OSError:
++                pass
+         try:
+-            return json.loads(proc.stdout)
+-        except json.JSONDecodeError:
+-            self.logger.warning("opencode export returned non-JSON for %s", session_id)
+-            return {}
++            proc.wait(timeout=10)
++        except (subprocess.TimeoutExpired, OSError):
++            pass
++
++    def _run_export(self, session_id: str, env: dict) -> dict:
++        """``opencode export <id>`` → parsed session JSON.
++
++        Retried up to ``export_retries`` total attempts with a short backoff:
++        an export failure is transient (DB read/parse), and re-running the
++        whole agent because an export hiccuped would be an at-least-once
++        mutation of the workspace. Raises :class:`ExportError` when exhausted.
++        """
++        cmd = [self.opencode_bin, "export", session_id]
++        last_error = "export failed"
++        for attempt in range(max(1, self.export_retries)):
++            try:
++                proc = self._capture(cmd, env,
++                                     timeout=self.export_timeout_seconds)
++            except subprocess.TimeoutExpired:
++                last_error = (f"opencode export timed out after "
++                              f"{self.export_timeout_seconds}s")
++                self.logger.warning("%s for %s (attempt %d/%d)", last_error,
++                                    session_id, attempt + 1,
++                                    self.export_retries)
++                _time.sleep(min(2 * (attempt + 1), 10))
++                continue
++            if proc.returncode != 0:
++                last_error = (f"opencode export exited {proc.returncode}: "
++                              f"{(proc.stderr or '')[:200]}")
++                self.logger.warning("%s for %s (attempt %d/%d)", last_error,
++                                    session_id, attempt + 1,
++                                    self.export_retries)
++                _time.sleep(min(2 * (attempt + 1), 10))
++                continue
++            try:
++                return json.loads(proc.stdout)
++            except json.JSONDecodeError:
++                last_error = "opencode export returned non-JSON"
++                self.logger.warning("%s for %s (attempt %d/%d)", last_error,
++                                    session_id, attempt + 1,
++                                    self.export_retries)
++                continue
++        raise ExportError(
++            node_id=self._get_node_id(), exit_code=-1,
++            raw_message=last_error, session_id=session_id,
++        )
+ 
+     def _extract_from_export(self, export: dict):
+         """Pull final assistant text, usage metadata, a stream trace, and any error.
+@@ -814,14 +966,19 @@ class OpenCodeLLM(LLMCallBase):
+                         export_error = err
+ 
+                 meta["num_turns"] += 1
+-                tok = info.get("tokens") or {}
+-                meta["input_tokens"] += tok.get("input", 0) or 0
+-                meta["output_tokens"] += tok.get("output", 0) or 0
+-                meta["reasoning_tokens"] += tok.get("reasoning", 0) or 0
+-                cache = tok.get("cache") or {}
+-                meta["cache_read"] += cache.get("read", 0) or 0
+-                meta["cache_write"] += cache.get("write", 0) or 0
+-                meta["cost_usd"] += info.get("cost", 0) or 0
++                try:
++                    tok = info.get("tokens") or {}
++                    if isinstance(tok, dict):
++                        meta["input_tokens"] += tok.get("input", 0) or 0
++                        meta["output_tokens"] += tok.get("output", 0) or 0
++                        meta["reasoning_tokens"] += tok.get("reasoning", 0) or 0
++                        cache = tok.get("cache") or {}
++                        if isinstance(cache, dict):
++                            meta["cache_read"] += cache.get("read", 0) or 0
++                            meta["cache_write"] += cache.get("write", 0) or 0
++                    meta["cost_usd"] += info.get("cost", 0) or 0
++                except (TypeError, ValueError):
++                    pass  # malformed usage metadata must never mask the response
+ 
+                 turn_text: list[str] = []
+                 for p in parts:
+diff --git a/chia/models/tests/test_opencode.py b/chia/models/tests/test_opencode.py
+index 6d6a114..639e8f0 100644
+--- a/chia/models/tests/test_opencode.py
++++ b/chia/models/tests/test_opencode.py
+@@ -120,8 +120,9 @@ def _export_with_error(name="APIError", message="", status_code=None,
+ 
+ 
+ def _install_fake_subprocess(monkeypatch, *, run_stdout, export_obj,
+-                             run_rc=0, run_stderr="", capture):
+-    """Fake ``subprocess.run`` returning different results for run vs export.
++                             run_rc=0, run_stderr="", capture,
++                             export_fail_first_n=0):
++    """Fake ``subprocess.Popen`` standing in for the opencode CLI child.
+ 
+     Captures each call's command + (for the run call) the temp config content
+     read back from the OPENCODE_CONFIG env var before it's unlinked.
+@@ -129,34 +130,57 @@ def _install_fake_subprocess(monkeypatch, *, run_stdout, export_obj,
+     The code redirects stdout to a real file (``_capture``) to dodge opencode's
+     64 KiB pipe-truncation bug, so this fake mirrors that: when handed a writable
+     ``stdout`` file object it writes the payload there and reports ``stdout=None``
+-    (exactly as ``subprocess.run`` does with a redirected stdout); otherwise it
+-    returns the payload directly, keeping any direct callers working.
++    (exactly as the real child would with redirected stdout). ``export_fail_first_n``
++    makes the first N export attempts fail (exit 1), simulating transient export
++    errors so the export-retry path is exercised without re-running the agent.
+     """
+-    def fake_run(cmd, **kwargs):
+-        sub = cmd[1] if len(cmd) > 1 else ""
+-        rec = {"cmd": cmd, "sub": sub, "stdin": kwargs.get("stdin"),
+-               "stdout": kwargs.get("stdout")}
+-        env = kwargs.get("env") or {}
+-        if sub == "run":
+-            cfg_path = env.get("OPENCODE_CONFIG")
+-            if cfg_path and os.path.exists(cfg_path):
+-                with open(cfg_path) as f:
+-                    rec["config"] = json.load(f)
+-            rec["disable_project"] = env.get("OPENCODE_DISABLE_PROJECT_CONFIG")
+-            payload, rc, err = run_stdout, run_rc, run_stderr
+-        elif sub == "export":
+-            payload, rc, err = json.dumps(export_obj), 0, ""
+-        else:
+-            payload, rc, err = "", 0, ""
+-        capture["calls"].append(rec)
+-
+-        out = kwargs.get("stdout")
+-        if hasattr(out, "write"):
+-            out.write(payload)
+-            return SimpleNamespace(returncode=rc, stdout=None, stderr=err)
+-        return SimpleNamespace(returncode=rc, stdout=payload, stderr=err)
+-
+-    monkeypatch.setattr(oc_mod.subprocess, "run", fake_run)
++    state = {"export_calls": 0}
++
++    class FakePopen:
++        def __init__(self, cmd, stdin=None, stdout=None, stderr=None, text=True,
++                     env=None, start_new_session=False):
++            sub = cmd[1] if len(cmd) > 1 else ""
++            rec = {"cmd": list(cmd), "sub": sub, "stdin": stdin,
++                   "stdout": stdout, "start_new_session": start_new_session}
++            if sub == "run":
++                cfg_path = (env or {}).get("OPENCODE_CONFIG")
++                if cfg_path and os.path.exists(cfg_path):
++                    with open(cfg_path) as f:
++                        rec["config"] = json.load(f)
++                rec["disable_project"] = (env or {}).get(
++                    "OPENCODE_DISABLE_PROJECT_CONFIG")
++                payload, rc, err = run_stdout, run_rc, run_stderr
++            elif sub == "export":
++                state["export_calls"] += 1
++                if state["export_calls"] <= export_fail_first_n:
++                    payload, rc, err = "", 1, "simulated export failure"
++                else:
++                    payload, rc, err = json.dumps(export_obj), 0, ""
++            else:
++                payload, rc, err = "", 0, ""
++            if capture is not None:
++                capture["calls"].append(rec)
++            self.pid = 424242
++            self._payload = payload
++            self._stdout = stdout
++            self._err = err
++            self.returncode = rc
++            self.killed = False
++
++        def communicate(self, timeout=None):
++            if hasattr(self._stdout, "write"):
++                self._stdout.write(self._payload)
++                return None, self._err
++            return self._payload, self._err
++
++        def kill(self):
++            self.killed = True
++
++        def wait(self, timeout=None):
++            return self.returncode
++
++    monkeypatch.setattr(oc_mod.subprocess, "Popen", FakePopen)
++    monkeypatch.setattr(oc_mod._time, "sleep", lambda s: None)
+ 
+ 
+ # ---------------------------------------------------------------------------
+@@ -560,22 +584,35 @@ def test_capture_redirects_stdout_to_file(monkeypatch):
+     big = '{"x":"' + "y" * 200_000 + '"}'   # ~200 KiB, far past the 64 KiB limit
+     seen = {}
+ 
+-    def fake_run(cmd, **kwargs):
+-        out = kwargs.get("stdout")
+-        seen["has_file"] = hasattr(out, "write")
+-        seen["capture_output"] = kwargs.get("capture_output")
+-        seen["stdin"] = kwargs.get("stdin")
+-        if hasattr(out, "write"):
+-            out.write(big)
+-        return SimpleNamespace(returncode=0, stdout=None, stderr="")
+-
+-    monkeypatch.setattr(oc_mod.subprocess, "run", fake_run)
++    class FakePopen:
++        def __init__(self, cmd, stdin=None, stdout=None, stderr=None, text=True,
++                     env=None, start_new_session=False):
++            seen["has_file"] = hasattr(stdout, "write")
++            seen["stdin"] = stdin
++            seen["start_new_session"] = start_new_session
++            self._stdout = stdout
++            self._err = ""
++            self.returncode = 0
++            self.pid = 424242
++
++        def communicate(self, timeout=None):
++            if hasattr(self._stdout, "write"):
++                self._stdout.write(big)
++                return None, self._err
++            return big, self._err
++
++        def kill(self):
++            pass
++
++        def wait(self, timeout=None):
++            return self.returncode
++
++    monkeypatch.setattr(oc_mod.subprocess, "Popen", FakePopen)
+     res = OpenCodeLLM()._capture(["opencode", "export", "ses_x"], env={})
+ 
+     assert seen["has_file"] is True                      # wrote to a file...
+-    assert seen.get("capture_output") in (None, False)   # ...not a pipe
+-    import subprocess as _sp
+-    assert seen["stdin"] == _sp.DEVNULL
++    assert seen["stdin"] == oc_mod.subprocess.DEVNULL
++    assert seen["start_new_session"] is True             # own session for group kill
+     assert res.stdout == big and len(res.stdout) > 65536  # full payload, untruncated
+ 
+ 
+@@ -598,6 +635,45 @@ def test_prompt_handles_large_export(monkeypatch):
+     assert hasattr(export_call["stdout"], "write")
+ 
+ 
++def test_export_failure_retries_without_rerunning_agent(monkeypatch):
++    """Transient export failures are retried at the export layer only; the
++    agent run must NOT execute twice (a re-run would double-mutate files)."""
++    capture = {"calls": []}
++    _install_fake_subprocess(
++        monkeypatch,
++        run_stdout=_step_start("ses_exp1"),
++        export_obj=_export_obj(text="PONG"),
++        capture=capture,
++        export_fail_first_n=2,
++    )
++    llm = OpenCodeLLM(model="m/x", export_retries=3)
++    cli = llm.prompt("hi", tools=[])
++    assert cli.success is True
++    assert cli.result == "PONG"
++    subs = [c["sub"] for c in capture["calls"]]
++    assert subs == ["run", "export", "export", "export"]
++
++
++def test_persistent_export_failure_does_not_rerun_agent(monkeypatch):
++    """After export retries are exhausted, prompt() fails WITHOUT re-running
++    the agent (at-least-once mutation guard) and reports export_failed."""
++    capture = {"calls": []}
++    _install_fake_subprocess(
++        monkeypatch,
++        run_stdout=_step_start("ses_exp2"),
++        export_obj=_export_obj(text="PONG"),
++        capture=capture,
++        export_fail_first_n=99,
++    )
++    llm = OpenCodeLLM(model="m/x", export_retries=2)
++    cli = llm.prompt("hi", tools=[])
++    assert cli.success is False
++    assert "export_failed" in cli.stderr
++    assert [c["sub"] for c in capture["calls"]] == ["run", "export", "export"]
++    assert llm._last_metadata.get("session_id") == "ses_exp2"
++    assert llm._last_metadata.get("failure_reason") == "export_failed"
++
++
+ # ---------------------------------------------------------------------------
+ # Mocked flow tests (fake subprocess; full run -> export path, no opencode)
+ # ---------------------------------------------------------------------------
+diff --git a/chia/models/tests/test_vertex.py b/chia/models/tests/test_vertex.py
+index 1e55bbb..50fe1ce 100644
+--- a/chia/models/tests/test_vertex.py
++++ b/chia/models/tests/test_vertex.py
+@@ -38,6 +38,7 @@ from chia.models.openai_compat import OpenAICompatLLM
+ from chia.models.vertex import (
+     AuthenticationError,
+     ContentBlockedError,
++    DirectGeminiLLM,
+     InvalidRequestError,
+     MaxOutputTokensError,
+     RateLimitError,
+@@ -172,6 +173,45 @@ def test_experimental_warning(caplog):
+     assert "experimental" in caplog.text
+ 
+ 
++def test_direct_gemini_client_uses_environment_key(monkeypatch):
++    from google import genai
++
++    captured = {}
++    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
++    monkeypatch.setattr(genai, "Client", lambda **kwargs: captured.update(kwargs) or object())
++    llm = DirectGeminiLLM(model="gemini-test")
++    llm._new_client()
++    assert captured["api_key"] == "test-key"
++    assert captured["http_options"].timeout == 600_000
++    # The credential is deliberately not retained on the serializable object.
++    assert "test-key" not in repr(llm.__dict__)
++
++
++def test_direct_gemini_client_requires_key(monkeypatch):
++    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
++    llm = DirectGeminiLLM(model="gemini-test")
++    with pytest.raises(AuthenticationError, match="GEMINI_API_KEY"):
++        llm._new_client()
++
++
++def test_gemini_client_timeout_uses_milliseconds_and_preserves_override(monkeypatch):
++    from google import genai
++
++    captured = []
++    monkeypatch.setattr(genai, "Client",
++                        lambda **kwargs: captured.append(kwargs) or object())
++
++    VertexGeminiLLM(model="m", project="p", timeout_seconds=17)._new_client()
++    assert captured[-1]["http_options"].timeout == 17_000
++
++    explicit = types.HttpOptions(timeout=1234)
++    VertexGeminiLLM(
++        model="m", project="p", timeout_seconds=17,
++        client_kwargs={"http_options": explicit},
++    )._new_client()
++    assert captured[-1]["http_options"] is explicit
++
++
+ def test_sanitize_schema_drops_unsupported_keys():
+     schema = {
+         "type": "object",
+@@ -269,6 +309,20 @@ def test_generate_no_tools_request_shaping_and_result(monkeypatch):
+     assert llm._last_metadata["model"] == "gemini-2.0-flash-001"
+ 
+ 
++def test_generate_applies_low_thinking_level(monkeypatch):
++    capture = {"calls": []}
++    _install_fake_genai(
++        monkeypatch,
++        [_resp([_text_part("done")], "STOP")],
++        capture,
++    )
++
++    llm = VertexGeminiLLM(
++        model="m", project="p", retries=1, thinking_level="low")
++    assert llm.prompt("go", tools=[]).success is True
++    assert capture["calls"][0]["config"].thinking_config.thinking_level == "LOW"
++
++
+ def test_generate_tool_loop_executes_mcp_and_feeds_results(monkeypatch):
+     capture = {"calls": [], "urls": [], "tool_calls": []}
+     _install_fake_genai(
+@@ -345,6 +399,19 @@ def test_generate_max_tokens_raises(monkeypatch):
+     assert len(capture["calls"]) == 2  # original + one retry
+ 
+ 
++def test_generate_max_tokens_does_not_retry_when_retries_is_one(monkeypatch):
++    capture = {"calls": []}
++    _install_fake_genai(
++        monkeypatch,
++        [_resp([_text_part("partial")], "MAX_TOKENS")],
++        capture,
++    )
++    llm = VertexGeminiLLM(model="m", project="p", retries=1)
++    with pytest.raises(MaxOutputTokensError):
++        llm.prompt("go", tools=[])
++    assert len(capture["calls"]) == 1
++
++
+ # ---------------------------------------------------------------------------
+ # Content / prompt blocking (Gemini "soft" failures — 200-OK, no API error)
+ #
+diff --git a/chia/models/vertex.py b/chia/models/vertex.py
+index d103349..651467a 100644
+--- a/chia/models/vertex.py
++++ b/chia/models/vertex.py
+@@ -1,4 +1,4 @@
+-"""Google Vertex AI LLM backend built on the google-genai SDK.
++"""Google Gemini LLM backends built on the google-genai SDK.
+ 
+ :class:`VertexGeminiLLM` runs Google's **Gemini** models on Vertex AI and drives the
+ agentic tool loop client-side — executing each ChiaTool's MCP server over HTTP,
+@@ -18,6 +18,11 @@ Credentials (``gcloud auth application-default login``, a service-account key
+ via ``GOOGLE_APPLICATION_CREDENTIALS``, or a workload identity). Pass
+ ``project``/``location`` or rely on ``GOOGLE_CLOUD_PROJECT`` /
+ ``GOOGLE_CLOUD_LOCATION``. ``google-genai`` is imported lazily.
++
++``DirectGeminiLLM`` reuses the same client-side MCP/tool loop against the
++Gemini Developer API.  It reads an API key from ``GEMINI_API_KEY`` (or the
++explicitly selected environment variable) only when a prompt is executed; the
++key is never stored on the serializable LLM object.
+ """
+ 
+ from __future__ import annotations
+@@ -225,6 +230,7 @@ class VertexGeminiLLM(LLMCallBase):
+         location: Optional[str] = None,
+         max_tokens: int = 16000,
+         max_tool_iterations: int = 100,
++        thinking_level: Optional[str] = None,
+         client_kwargs: Optional[dict] = None,
+         dangerously_skip_permissions=UNSET,
+         config=UNSET,
+@@ -247,6 +253,11 @@ class VertexGeminiLLM(LLMCallBase):
+         )
+         self.max_tokens = max_tokens
+         self.max_tool_iterations = max_tool_iterations
++        normalized_thinking = thinking_level.upper() if thinking_level else None
++        if normalized_thinking not in {None, "MINIMAL", "LOW", "MEDIUM", "HIGH"}:
++            raise ValueError(
++                "thinking_level must be one of minimal, low, medium, or high")
++        self.thinking_level = normalized_thinking
+         self.client_kwargs = client_kwargs or {}
+         self.logger = logging.getLogger(logging_name)
+         self._last_metadata: dict = {}
+@@ -307,7 +318,7 @@ class VertexGeminiLLM(LLMCallBase):
+ 
+             # -- Retry once: a shorter generation may fit --
+             except MaxOutputTokensError:
+-                if attempt == 0:
++                if attempt + 1 < self.retries:
+                     self.logger.warning(
+                         "Max output tokens on attempt %d/%d, retrying once",
+                         attempt + 1, self.retries,
+@@ -344,6 +355,32 @@ class VertexGeminiLLM(LLMCallBase):
+         except Exception:
+             return "unknown"
+ 
++    def _new_client(self):
++        """Construct the google-genai client used by the shared Gemini loop."""
++        from google import genai
++
++        return genai.Client(
++            vertexai=True,
++            project=self.project,
++            location=self.location,
++            **self._client_kwargs_with_timeout(),
++        )
++
++    def _client_kwargs_with_timeout(self) -> dict:
++        """Return SDK kwargs with the public per-request timeout enforced.
++
++        ``google.genai.types.HttpOptions.timeout`` is expressed in
++        milliseconds. Preserve an explicitly supplied ``http_options`` value;
++        otherwise derive it from this adapter's seconds-based API.
++        """
++        from google.genai import types
++
++        kwargs = dict(self.client_kwargs)
++        if "http_options" not in kwargs and self.timeout_seconds:
++            kwargs["http_options"] = types.HttpOptions(
++                timeout=max(1, int(self.timeout_seconds * 1000)))
++        return kwargs
++
+     # ------------------------------------------------------------------
+     # generate_content implementation
+     # ------------------------------------------------------------------
+@@ -398,17 +435,11 @@ class VertexGeminiLLM(LLMCallBase):
+         import asyncio
+         from contextlib import AsyncExitStack
+ 
+-        from google import genai
+         from google.genai import types
+         from mcp import ClientSession
+         from mcp.client.streamable_http import streamable_http_client
+ 
+-        client = genai.Client(
+-            vertexai=True,
+-            project=self.project,
+-            location=self.location,
+-            **self.client_kwargs,
+-        )
++        client = self._new_client()
+ 
+         stream_parts: list[str] = []
+         stream_parts.append("=" * 80 + "\n")
+@@ -451,6 +482,9 @@ class VertexGeminiLLM(LLMCallBase):
+             }
+             if self.system_message:
+                 config_kwargs["system_instruction"] = self.system_message
++            if self.thinking_level:
++                config_kwargs["thinking_config"] = types.ThinkingConfig(
++                    thinking_level=types.ThinkingLevel(self.thinking_level))
+             if function_decls:
+                 config_kwargs["tools"] = [types.Tool(function_declarations=function_decls)]
+             config = types.GenerateContentConfig(**config_kwargs)
+@@ -673,6 +707,55 @@ class VertexGeminiLLM(LLMCallBase):
+         return UnknownVertexError(node_id, status_code=code, raw_message=msg)
+ 
+ 
++class DirectGeminiLLM(VertexGeminiLLM):
++    """Gemini Developer API backend using an environment-held API key.
++
++    The implementation deliberately inherits VertexGeminiLLM's complete
++    generate-content/MCP tool loop.  Only client construction and the Ray
++    credential resource differ.  Direct/local calls do not consume the Ray
++    resource; ``prompt.chia_remote`` targets a worker advertising
++    ``gemini_creds``.
++    """
++
++    def __init__(
++        self,
++        model: str,
++        *,
++        api_key_env: str = "GEMINI_API_KEY",
++        logging_name: str = "gemini_direct",
++        **kwargs,
++    ):
++        self.api_key_env = api_key_env
++        # Project/location are irrelevant to the Developer API.  Keep the
++        # inherited fields harmless and out of direct client construction.
++        super().__init__(
++            model=model,
++            logging_name=logging_name,
++            project="",
++            location="",
++            **kwargs,
++        )
++
++    def _new_client(self):
++        from google import genai
++
++        api_key = os.environ.get(self.api_key_env, "").strip()
++        if not api_key:
++            raise AuthenticationError(
++                node_id=self._get_node_id(),
++                raw_message=f"required environment variable {self.api_key_env} is unset",
++            )
++        return genai.Client(api_key=api_key, **self._client_kwargs_with_timeout())
++
++    @ChiaFunction(resources={"gemini_creds": 0.01})
++    def prompt(
++        self,
++        user_message: str,
++        tools: Optional[List[ChiaTool]] = [],
++    ) -> QueryResult:
++        return VertexGeminiLLM.prompt(self, user_message, tools)
++
++
+ # ---------------------------------------------------------------------------
+ # Non-Gemini Vertex models via the OpenAI-compatible MaaS endpoint
+ # ---------------------------------------------------------------------------
+diff --git a/chia/trace/profiler.py b/chia/trace/profiler.py
+index 7eb3c15..509e2c6 100644
+--- a/chia/trace/profiler.py
++++ b/chia/trace/profiler.py
+@@ -207,6 +207,10 @@ def get_collector(namespace: Optional[str] = None):
+     if _collector_override is not None:
+         return _collector_override
+     import ray as _ray
++    # A local ChiaFunction call must not auto-start Ray just to look for an
++    # optional profiler collector.
++    if not _ray.is_initialized():
++        return None
+     lookup_kwargs = {"namespace": namespace} if namespace else {}
+     try:
+         return _ray.get_actor(_COLLECTOR_ACTOR_NAME, **lookup_kwargs)
+diff --git a/chia/trace/test/test_profiler.py b/chia/trace/test/test_profiler.py
+index 4c8f89f..60410a9 100644
+--- a/chia/trace/test/test_profiler.py
++++ b/chia/trace/test/test_profiler.py
+@@ -63,6 +63,7 @@ TestProfilerWithRay (local Ray + collector):
+ import os
+ import time
+ import unittest
++from unittest import mock
+ 
+ import ray
+ 
+@@ -128,6 +129,12 @@ def _print_events(events, header=""):
+ class TestProfilerDisabled(unittest.TestCase):
+     """Profiler is a no-op when no collector actor is running."""
+ 
++    def test_collector_lookup_does_not_start_ray(self):
++        with mock.patch.object(_profiler_mod, "_collector_override", None), \
++                mock.patch.object(ray, "is_initialized", return_value=False), \
++                mock.patch.object(ray, "get_actor", side_effect=AssertionError("Ray actor lookup attempted")):
++            self.assertIsNone(get_collector())
++
+     def test_disabled_without_collector(self):
+         """Profiler is disabled when no collector actor exists."""
+         profiler = ChiaProfiler()

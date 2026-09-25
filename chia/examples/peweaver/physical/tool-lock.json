@@ -1,0 +1,69 @@
+{
+  "schema": "peweaver-physical-tool-lock-1",
+  "updated": "2026-08-29",
+  "purpose": "Pinned tools and PDK for PEWeaver Phase 3 physical-flow bring-up (PHYSICAL_PPA_PLAN.md). The run script must verify these pins before running; a mismatch fails closed.",
+  "pdk": {
+    "name": "sky130A",
+    "vendor": "SkyWater Technology Foundry (open source PDK)",
+    "distribution": "volare (efabless) processed open_pdks build",
+    "volare_version": "c6d73a35f524070e85faff4a6a9eef49553ebc2b",
+    "standard_cell_library": "sky130_fd_sc_hd",
+    "timing_corner": "tt_025C_1v80",
+    "tech_lef": "sky130_fd_sc_hd__nom.tlef",
+    "pdk_root": "~/.volare",
+    "notes": "All corners (ff/ss) installed; only tt_025C_1v80 + nom is used for the baseline study. RCX extraction rules pinned from the OpenROAD-flow-scripts sky130hs platform (referenced by the ORFS sky130hd platform)."
+  },
+  "orfs_platform_files": {
+    "source": "https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts (flow/platforms/sky130hd and sky130hs)",
+    "pinned_ref": "master as of 2026-08-29; files copied byte-for-byte into physical/pdk/sky130hd/",
+    "files": {
+      "setRC.tcl": "layer/via RC values used for pre-route estimation",
+      "pdn.tcl": "power grid definition (met1 followpins, met4/met5 stripes)",
+      "fastroute.tcl": "global routing layer adjustment and routing layers",
+      "make_tracks.tcl": "routing track definitions",
+      "tapcell.tcl": "well-tap insertion parameters",
+      "rcx_patterns.rules": "OpenRCX extraction patterns (from sky130hs platform, referenced by sky130hd)",
+      "config.mk": "ORFS platform configuration, kept for provenance reference only"
+    },
+    "pinned_commit": "be0dca0b1fd41df54792b3012350cd52bccd99bb",
+    "resolution_method": "Commit resolved via GitHub API (repos/.../commits/master) on 2026-08-29; not rate-limited. Upstream path prefix: flow/platforms/. In ORFS, sky130hd/rcx_patterns.rules is a symlink to ../sky130hs/rcx_patterns.rules, so the upstream comparison fetched flow/platforms/sky130hs/rcx_patterns.rules; the local copy is a materialized regular file whose bytes match that target exactly. All seven local files are byte-for-byte identical (cmp) to the upstream copies at the pinned commit; hashes were computed over the local files actually used by the flow.",
+    "file_hashes_sha256": {
+      "setRC.tcl": "6aeade350bf498177ea61506db8849a064a71848b05c18ad6a6e1fc5d62c962a",
+      "pdn.tcl": "d2244586d860af05157a2555a49602a5dfff178f636a797a7c892e8d395b74a8",
+      "fastroute.tcl": "a84110f70e0ff1540f4cfed6730d56b3011c6c06a6c897a4bd600522bb175dd3",
+      "make_tracks.tcl": "b4b280f0d5f3d52007e2531d2abd74d7f4aa600ceb9fffdf3041c781fe82ad8c",
+      "tapcell.tcl": "7f25277b66bcbc7d7cb9f0984d4df759f3f8d7cf59badbb07ce742a265507fcf",
+      "rcx_patterns.rules": "d5bd9b1077ceac9929416abca272a6d52e51cd9a575453a31d129817bb286476",
+      "config.mk": "1a36b8fbd58ee4b6b961bc14f3ca44e7b44a4ea47faf6f116f827eb5177509d5"
+    },
+    "matches_upstream": {
+      "setRC.tcl": true,
+      "pdn.tcl": true,
+      "fastroute.tcl": true,
+      "make_tracks.tcl": true,
+      "tapcell.tcl": true,
+      "rcx_patterns.rules": true,
+      "config.mk": true
+    }
+  },
+  "tools": {
+    "openroad": {
+      "version": "v2.0-17598-ga008522d8",
+      "distribution": "Precision Innovations prebuilt, release tag 2024-12-14",
+      "deb_sha256": "40ed178396b0276a5d5dfbbe695c9de9aac9088157a6655be02b39a0cef07207",
+      "url": "https://github.com/Precision-Innovations/OpenROAD/releases/download/2024-12-14/openroad_2.0-17598-ga008522d8_amd64-ubuntu-22.04.deb"
+    },
+    "yosys": {
+      "version": "Yosys 0.68+136 (git sha1 c30457480-dirty, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "distribution": "YosysHQ OSS CAD Suite, workspace-local install"
+    },
+    "verilator": {
+      "version": "5.051 devel rev v5.050-281-g1ad9acd22 (mod)",
+      "distribution": "YosysHQ OSS CAD Suite, workspace-local install"
+    }
+  },
+  "host": {
+    "os": "Ubuntu 22.04.5 LTS",
+    "arch": "amd64"
+  }
+}

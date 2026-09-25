@@ -1,0 +1,1 @@
+opencode call failed: unknown: {"code":400,"message":"Corrupted thought signature.","metadata":{"error_type":"invalid_request"}}

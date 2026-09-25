@@ -1,0 +1,38 @@
+# PEWeaver power-managed dual-core FFT reference synthesis (Yosys) — sky130_fd_sc_hd
+# Same abc mapping path as the dual baseline and standalone baselines.
+# Includes characterized Sky130 ICG cells (sky130_fd_sc_hd__dlclkp_4) for inactive core gating.
+
+read_verilog -sv \
+    rtl/sky130_icg_blackbox.v \
+    rtl/peweaver_ppa_dual_fft_icg.v \
+    rtl/peweaver_ppa_fft64.v \
+    rtl/peweaver_ppa_fft128.v \
+    ../benchmarks/halo_fft64_reference/peweaver_halo_fft64_reference.v \
+    rtl/dual/halo_fft128_wrapper.v \
+    ../third_party/r22sdf/FFT64.v \
+    ../third_party/r22sdf/SdfUnit.v \
+    ../third_party/r22sdf/SdfUnit2.v \
+    ../third_party/r22sdf/Butterfly.v \
+    ../third_party/r22sdf/DelayBuffer.v \
+    ../third_party/r22sdf/Multiply.v \
+    ../third_party/r22sdf/Twiddle64.v \
+    rtl/dual/fft128_core.v \
+    rtl/dual/sdfunit128.v \
+    rtl/dual/twiddle128_core.v
+
+hierarchy -check -top peweaver_ppa_dual_fft_icg
+
+synth -top peweaver_ppa_dual_fft_icg -flatten
+
+dfflibmap -liberty /work/peweaver/source/chia/examples/peweaver/physical/results/work/lib_dual_b_tt_synth.lib
+abc -liberty /work/peweaver/source/chia/examples/peweaver/physical/results/work/lib_dual_b_tt_synth.lib -D 10000
+
+# Two-state policy identical to the frozen baselines.
+setundef -zero
+splitnets
+opt_clean -purge
+
+check
+stat -liberty /work/peweaver/source/chia/examples/peweaver/physical/results/work/lib_dual_b_tt_synth.lib
+
+write_verilog -noattr -noexpr -nodec results/netlists/dual_b_ppa_synth.v

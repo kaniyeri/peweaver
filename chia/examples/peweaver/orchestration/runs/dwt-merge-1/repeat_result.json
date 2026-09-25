@@ -1,0 +1,56 @@
+{
+ "candidate_source": "/work/peweaver/runs/dwt-merge-1/best/dwt_shared.v",
+ "candidate_sha256": "27ce1aab1fc04c4608b2787a2dfa9006ba90a121500544ba517b677fec0cf91e",
+ "gates": [
+  {
+   "gate": "lint",
+   "passed": true,
+   "retry": false,
+   "note": "",
+   "detail": {}
+  },
+  {
+   "gate": "functional",
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 1504 cycles",
+   "detail": {}
+  },
+  {
+   "gate": "corners",
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 73 cycles",
+   "detail": {}
+  },
+  {
+   "gate": "structure",
+   "passed": true,
+   "retry": false,
+   "note": "8 normalized multiplication operators <= 8",
+   "detail": {
+    "normalized_muls": 8
+   }
+  },
+  {
+   "gate": "area",
+   "passed": true,
+   "retry": false,
+   "note": "generic Yosys cell count 6533 = 64.8% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)",
+   "detail": {
+    "cand_cell_count": 6533,
+    "baseline_cell_count": 18570,
+    "reduction_pct": 64.82
+   }
+  },
+  {
+   "gate": "holdout",
+   "passed": true,
+   "retry": false,
+   "note": "post-synthesis bit-exact over 1204 cycles",
+   "detail": {}
+  }
+ ],
+ "all_pass": true,
+ "evaluator_driver_sha256": "d7c089bb2ee6b015614bc551531824f4de7b459ad93d99e0625558036e782988"
+}

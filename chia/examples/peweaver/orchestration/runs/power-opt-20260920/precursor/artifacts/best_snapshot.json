@@ -1,0 +1,19 @@
+{
+ "hash": "4864650af1bf9c0e157c0e8fb3e03cc38b2f7aa0bde2aea29ec4aa1808adfe5a",
+ "level": 1,
+ "verdict": "IMPROVE",
+ "files": [
+  "inputs/Butterfly.v",
+  "inputs/CONTRACT.md",
+  "inputs/DelayBuffer.v",
+  "inputs/FFT128.v",
+  "inputs/FFT64.v",
+  "inputs/Multiply.v",
+  "inputs/SdfUnit.v",
+  "inputs/SdfUnit2.v",
+  "inputs/Twiddle128.v",
+  "inputs/Twiddle64.v",
+  "peweaver_shared_fft.v"
+ ],
+ "ts": 1789814907.8734508
+}

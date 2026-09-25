@@ -1,0 +1,7 @@
+[PASS] mode64_single
+[PASS] mode128_single
+PEWEAVER_ACTIVITY_DONE
+- /work/peweaver/runs/s0-independent-repeat-20260909/examples/peweaver/physical/activity/shared_activity_tb.sv:247: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel
+- Verilator: $finish at 14us; walltime 0.007 s; speed 1.943 ms/s
+- Verilator: cpu 0.007 s on 1 threads; allocated 4 MB

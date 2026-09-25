@@ -1,0 +1,59 @@
+{
+  "schema": "peweaver-s0-independent-physical-repeat-1",
+  "date": "2026-09-09",
+  "candidate": {
+    "design": "S0",
+    "rtl_sha256": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+    "source_role": "accepted shared FFT discovery candidate"
+  },
+  "repeat": {
+    "execution_class": "post-audit, non-preregistered reproducibility check",
+    "sandbox": "/work/peweaver/runs/s0-independent-repeat-20260909",
+    "result_sha256": "cd53809fba0a41e889048a9ac4af0e4bd9e43022fd48231fa5cb39387cbf7ab5",
+    "result": "s0_physical_repeat_sky130.json",
+    "local_archive": "physical_artifacts/results/",
+    "archive_validation": "24/24 declared artifact hashes and sizes matched after path rebasing",
+    "run_physical_sha256": "cf833c5866b326cccaf71362c0c534b6c5d1d4ff19951e084ef1cc506c6f7f83",
+    "primary_s0_run_physical_sha256": "3d8e08b0463e4787bc98c5d1d93d156860dc6466628dc52f897a87f6a6b5e47d",
+    "flow_hash_disclosure": "repeat used the current pinned flow script; its hash differs from the historical primary S0 record, so this is a post-audit model-free repeat with exact metric agreement, not an identical-flow rerun",
+    "tool_lock_sha256": "dcf376b5b6b9fbb37c3ddcfc1b6498d68d4141c76ffd3cb3a6c81c18770deab0",
+    "openroad": "v2.0-17598-ga008522d8",
+    "verilator": "5.051 devel rev v5.050-281-g1ad9acd22 (mod)",
+    "yosys": "Yosys 0.68+136",
+    "status": "PASS"
+  },
+  "metrics": {
+    "placed_cell_area_um2": 286970.0,
+    "timing_met": true,
+    "tns_ns": 0.0,
+    "router_drc_violation_lines": 0,
+    "p64_mw": 39.81859,
+    "p128_mw": 40.44372,
+    "e64_nj": 39.0222182,
+    "e128_nj": 74.4164448
+  },
+  "comparison_to_primary_s0": {
+    "source": "orchestration/runs/merge_clean_1/shared_mergerun1_sky130.json",
+    "area_equal": true,
+    "timing_equal": true,
+    "tns_equal": true,
+    "drc_equal": true,
+    "p64_equal": true,
+    "p128_equal": true,
+    "e64_equal": true,
+    "e128_equal": true
+  },
+  "attempt_ledger": [
+    {
+      "attempt": 1,
+      "status": "INFRASTRUCTURE_FAILED_BEFORE_VERDICT",
+      "reason": "Isolated sandbox omitted the 128-point benchmark vector directory; activity references to input4/output4 were missing."
+    },
+    {
+      "attempt": 2,
+      "status": "PASS",
+      "note": "Reran in a fresh results directory after adding the missing fixture; standard assembler passed after adding the fixed PDK leakage sanity record."
+    }
+  ],
+  "claim_boundary": "Independent model-free sandbox repeat of the S0 physical flow at sky130A tt_025C_1v80. Router DRC 0 is not independent streamed-layout DRC/LVS signoff; no silicon, multi-corner, IR/EM, or clinical claim is made."
+}

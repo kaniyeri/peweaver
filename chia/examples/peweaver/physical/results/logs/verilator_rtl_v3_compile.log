@@ -1,0 +1,67 @@
+%Warning-TIMESCALEMOD: rtl/peweaver_ppa_fft64.v:19:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+   19 | module peweaver_ppa_reset_sync (
+      |        ^~~~~~~~~~~~~~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/TIMESCALEMOD?v=5.051
+                       ... Use "/* verilator lint_off TIMESCALEMOD */" and lint_on around source to disable this message.
+%Warning-TIMESCALEMOD: rtl/peweaver_ppa_fft64.v:37:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+   37 | module peweaver_ppa_fft64 (
+      |        ^~~~~~~~~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../benchmarks/halo_fft64_reference/peweaver_halo_fft64_reference.v:11:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+   11 | module peweaver_halo_fft64_reference #(
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/FFT64.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module FFT #(
+      |        ^~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/SdfUnit.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module SdfUnit #(
+      |        ^~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/SdfUnit2.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module SdfUnit2 #(
+      |        ^~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/Butterfly.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Butterfly #(
+      |        ^~~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/DelayBuffer.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module DelayBuffer #(
+      |        ^~~~~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/Multiply.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Multiply #(
+      |        ^~~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Warning-TIMESCALEMOD: ../third_party/r22sdf/Twiddle64.v:4:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
+    4 | module Twiddle #(
+      |        ^~~~~~~
+                       activity/fft64_activity_tb.sv:39:8: ... Location of module with timescale
+   39 | module peweaver_fft64_activity_tb;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+%Error: activity/fft64_activity_tb.sv:203:40: Can't find definition of variable: 'PHASE_CAP'
+  203 |             while (n_out == 0 && cyc < PHASE_CAP) begin
+      |                                        ^~~~~~~~~
+        ... See the manual at https://verilator.org/verilator_doc.html?v=5.051 for more assistance.
+%Error: Exiting due to 1 error(s)

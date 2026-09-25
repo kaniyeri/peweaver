@@ -1,0 +1,2823 @@
+{
+  "designs": {
+    "S0": {
+      "path": "chia/examples/peweaver/orchestration/runs/merge_clean_1/peweaver_shared_fft.mergerun1.v",
+      "sha256": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+      "role": "Accepted shared FFT (discovery)",
+      "area_um2": 286970,
+      "size_bytes": 26860
+    },
+    "S1": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/best/peweaver_shared_fft.v",
+      "sha256": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+      "role": "PowerSave Pareto point",
+      "area_um2": 282963,
+      "size_bytes": 26869
+    },
+    "F": {
+      "path": "chia/examples/peweaver/physical/rtl/peweaver_shared_fft_fallback_6a56.v",
+      "sha256": "6a56b8326993d091cd989fc45a68ac341e5a25a33aaace47e81fa42a1ab78499",
+      "role": "Prior shared fallback (historical only)",
+      "area_um2": 315359,
+      "size_bytes": 62123
+    },
+    "A": {
+      "path": "chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft.v",
+      "sha256": "27a4fe51709ede28365ac10a966394f550b6a339e6676b9957f2cb1ec3e55099",
+      "role": "Ungated dual-core control",
+      "area_um2": 429130,
+      "size_bytes": 1832
+    },
+    "B": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/rtl/peweaver_ppa_dual_fft_icg.v",
+      "sha256": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb",
+      "role": "Power-managed dual-core control; first valid physical pass after two attempts",
+      "area_um2": 429655,
+      "p64_streaming_mw": 23.38694,
+      "p128_streaming_mw": 41.7117,
+      "e64_3frame_nj": 22.9192012,
+      "e128_3frame_nj": 76.749528,
+      "size_bytes": 2443
+    }
+  },
+  "campaign_records": {
+    "advice_turn1.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn1.md",
+      "sha256": "bb3acfb242c7f8bad5c9a1aedb0700d372b9310107bf3cffa01e48b64e514630",
+      "size_bytes": 5185
+    },
+    "advice_turn2.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn2.md",
+      "sha256": "8390d818b098831cd85db38d2565e69a7c9d658fcd24802ae5aeb0e316b3d0e1",
+      "size_bytes": 3772
+    },
+    "advice_turn3.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn3.md",
+      "sha256": "ac625a6ba264185d1cfe784d2e0b593cbb07a45b1f258e7295d4015f20ace594",
+      "size_bytes": 4310
+    },
+    "advice_turn4.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn4.md",
+      "sha256": "c3cd7a3bbf015ad40176bfa902c2ba0aa5dc32c86ccabebaf57b8c71cec6f872",
+      "size_bytes": 4152
+    },
+    "advice_turn5.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn5.md",
+      "sha256": "869b44ed0887b994a45c238ed13e9bbc2f11563ca8765de13aa4b240ffb9bfbd",
+      "size_bytes": 3621
+    },
+    "advice_turn6.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn6.md",
+      "sha256": "e6e33e21a27cf9c2842f75a282cbc0edeaa73f53b3811a733994dbd5e585b9e3",
+      "size_bytes": 3499
+    },
+    "advice_turn7.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/advice_turn7.md",
+      "sha256": "2240c6fe644d6a75af66ee078b69b93e32c43f6e855113beba40dbf8475abd5a",
+      "size_bytes": 3579
+    },
+    "area_proxy_full.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/area_proxy_full.log",
+      "sha256": "7b5a944284eb7f86a216be37db7be3c7a34feead2356bf84782d1f5e974972f9",
+      "size_bytes": 20032
+    },
+    "attribution_summary.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/attribution_summary.json",
+      "sha256": "652d8c6bf2b2dbf7bbf444c5a5522b61248a16ef8993b05d7d48a0268f4ca252",
+      "size_bytes": 1743
+    },
+    "check_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn1.json",
+      "sha256": "d1cb7b672961278608b5fe5e8c8cf8155e3ee43403ea53e6deab3db1ef84f45b",
+      "size_bytes": 637
+    },
+    "check_turn2.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn2.json",
+      "sha256": "be6793b9c9b96992adc8381c0e7ec45118a076afaae42ae23403b7a39fcb8171",
+      "size_bytes": 852
+    },
+    "check_turn4.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn4.json",
+      "sha256": "3068f24c17680f7695fd2b8af8369a092e549e009317d06a7bea518916a8f23c",
+      "size_bytes": 637
+    },
+    "check_turn5.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn5.json",
+      "sha256": "f4cf60a736d7b49d515775cac1cf0a338b2391a4786bc7f92d67933b00425f7d",
+      "size_bytes": 637
+    },
+    "check_turn6.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn6.json",
+      "sha256": "f178c6def91a94c4a858946201b16fa2b8f506df9eac46528ff594a7068d7d84",
+      "size_bytes": 637
+    },
+    "check_turn7.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/check_turn7.json",
+      "sha256": "dd2c1c0bbbdd669ac7e708865ced7726c341f58d8d6cb8617ff7bfe471cb5b38",
+      "size_bytes": 637
+    },
+    "chia-advise_20260906_102204.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/chia-advise_20260906_102204.log",
+      "sha256": "361d2633b4720f1f5abdd762f6ed1367c01a6bb60ee5656a9bc90c5ef1a58476",
+      "size_bytes": 212622
+    },
+    "chia-implement-gemini_20260906_102204.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/chia-implement-gemini_20260906_102204.log",
+      "sha256": "a07b5b9f56a439a731297b0fc5a3c36f8dbb3f8f0d69dc0e8269d5edcf1f2493",
+      "size_bytes": 167697
+    },
+    "config_fingerprint.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/config_fingerprint.json",
+      "sha256": "781862b0d16f883171fc54d6e7d5ed64b870045fee1d6e883a4351230700cf84",
+      "size_bytes": 576
+    },
+    "final_repeat.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/final_repeat.json",
+      "sha256": "793970141d148a00ac4066498a649a6439fcea749096dc83a4d2043bcae3cdd6",
+      "size_bytes": 495
+    },
+    "implement_turn1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn1.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "implement_turn2.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn2.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "implement_turn4.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn4.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "implement_turn5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn5.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "implement_turn6.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn6.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "implement_turn7.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/implement_turn7.txt",
+      "sha256": "b53552442134116d9baa6aa8a3184fda322e72337db79249b0a61f59a216f943",
+      "size_bytes": 200
+    },
+    "pareto.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/pareto.json",
+      "sha256": "83ddb5c04391d1081e2fac8ddd966a300e547deec3a778482aa6125e30382adc",
+      "size_bytes": 497
+    },
+    "physical_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/physical_turn1.json",
+      "sha256": "4f61cc1561cb7bb0594c8a46d8bceb486d0fa97a7102241c90a3a1ee5d1b8abd",
+      "size_bytes": 200
+    },
+    "physical_turn4.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/physical_turn4.json",
+      "sha256": "9b40eea1bcc343602451e7d0982653c10841c2fbb8aaba96d322c5245cb7de89",
+      "size_bytes": 183
+    },
+    "physical_turn5.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/physical_turn5.json",
+      "sha256": "4f61cc1561cb7bb0594c8a46d8bceb486d0fa97a7102241c90a3a1ee5d1b8abd",
+      "size_bytes": 200
+    },
+    "physical_turn6.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/physical_turn6.json",
+      "sha256": "fc375ae5d16df01739cdf4badde413b8d634a71fece1201ec8210dd4232b3f8b",
+      "size_bytes": 472
+    },
+    "physical_turn7.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/physical_turn7.json",
+      "sha256": "e0e24dd835db083ebc5b37f54417692991ab4b1122a4132ba9df6a4c32857241",
+      "size_bytes": 208
+    },
+    "state.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/state.json",
+      "sha256": "9bd60122d99a1627cd8d5c81acd5ff2fa43ef4c0affda2711317af2af40ce987",
+      "size_bytes": 6498
+    },
+    "worker_kill_final.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_final.json",
+      "sha256": "40648f46188c7779be3c077222c13a7f7d5c5d16a4b5d6ee44ced058ff502179",
+      "size_bytes": 59
+    },
+    "worker_kill_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_turn1.json",
+      "sha256": "5bef8f788b0905d918443d391bcb18b44daefddc9d2cf60bd4c9d9e24819b4f6",
+      "size_bytes": 59
+    },
+    "worker_kill_turn4.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_turn4.json",
+      "sha256": "3aeaed29ce0041d8034e82c518e006fcd42a77309e6d6aef4a4f7acb23abb134",
+      "size_bytes": 59
+    },
+    "worker_kill_turn5.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_turn5.json",
+      "sha256": "dc2a6140f52f7016fc80b4c543d04f44aaae152816b05d390749914106920cc7",
+      "size_bytes": 58
+    },
+    "worker_kill_turn6.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_turn6.json",
+      "sha256": "62019a30a1680878d7526b82244b8c2beade353b7b43e83d9964141b4edd9cd3",
+      "size_bytes": 59
+    },
+    "worker_kill_turn7.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/artifacts/worker_kill_turn7.json",
+      "sha256": "9cbd77d6e5128184e7da88ff566d14181883e1d9cdfdcf00ae1675a8a588c80b",
+      "size_bytes": 59
+    }
+  },
+  "baselines": {
+    "fft64_baseline_sky130.json": {
+      "path": "chia/examples/peweaver/physical/results/fft64_baseline_sky130.json",
+      "sha256": "641a76056c249095a9a751efeec6defa99df2f3bf76a35d329344718eb8b9bcc",
+      "size_bytes": 17528
+    },
+    "fft128_baseline_sky130.json": {
+      "path": "chia/examples/peweaver/physical/results/fft128_baseline_sky130.json",
+      "sha256": "e4d1b0968520840e1c18c58771d64d49cec907954ea21566c5d7fbc062357976",
+      "size_bytes": 17660
+    },
+    "shared_baseline_sky130.json": {
+      "path": "chia/examples/peweaver/physical/results/shared_baseline_sky130.json",
+      "sha256": "b9d3fc0a98a160972a6ff2de0c54979c5b5c721992d3cc7b232cb3f2a063a73e",
+      "size_bytes": 20428
+    }
+  },
+  "submission_edge_phase_artifacts": {
+    "PAPER_NARRATIVE_OUTLINE.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/PAPER_NARRATIVE_OUTLINE.md",
+      "sha256": "6aca47e52641c253516128138df87c3c453eb0ef2d35340965cad97137181946",
+      "size_bytes": 12969
+    },
+    "README.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/README.md",
+      "sha256": "a6b3466bf2301ffe8e14f61e1830103007c5b5536c2b44792b29b5382c16a5cd",
+      "size_bytes": 14477
+    },
+    "workloads/breakeven_analysis.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/workloads/breakeven_analysis.md",
+      "sha256": "f984bdf381166205f12ce49b430a7013c45bbd9711093255821fa920bc1bf3cd",
+      "size_bytes": 9329
+    },
+    "workloads/workload_matrix.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/workloads/workload_matrix.py",
+      "sha256": "4f44fc08f4372c2bedbda860e1794278d47270dc20fd0acb4b88d8d1974f6314",
+      "size_bytes": 14184
+    },
+    "workloads/workload_metrics.csv": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/workloads/workload_metrics.csv",
+      "sha256": "92fddf08aa87360880f8cded3d490fbb8215d778e4be6d19f247b231dd94c393",
+      "size_bytes": 4572
+    },
+    "workloads/workload_metrics.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/workloads/workload_metrics.json",
+      "sha256": "d21bc0deac441d614ed737a48e86100c62a618a22336d5deb8dd8caef0ba6e53",
+      "size_bytes": 23224
+    },
+    "audit/dual_baseline_sky130.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/dual_baseline_sky130.json",
+      "sha256": "4a150bcb3e0940fe960a2303dd7913c02659137e549e9e4a987c112aee84483d",
+      "size_bytes": 20527
+    },
+    "audit/attribution_f_reports/reports/attr_power_clock_root.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_clock_root.rpt",
+      "sha256": "8668cf4cfd82482c7eb8511ede88e38002795244eb118402c49caba2968a1925",
+      "size_bytes": 281133
+    },
+    "audit/attribution_f_reports/reports/attr_power_control_glue.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_control_glue.rpt",
+      "sha256": "321f0cf22d9f1da5021060c5cc6a7cd8ded6e9240a852c980e19cecc0dbc8dea",
+      "size_bytes": 1274980
+    },
+    "audit/attribution_f_reports/reports/attr_power_io.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_io.rpt",
+      "sha256": "8c7ed0419f04f9f69212dd29d3d503192f1ba524d1c64a6ca6d3e63669a277d9",
+      "size_bytes": 10110
+    },
+    "audit/attribution_f_reports/reports/attr_power_stage1.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_stage1.rpt",
+      "sha256": "133061472211a1633fe8353f8934c75b01a5086eae0355364afa50c99813f234",
+      "size_bytes": 213179
+    },
+    "audit/attribution_f_reports/reports/attr_power_stage2.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_stage2.rpt",
+      "sha256": "b18f519d029c4c7372abdad0c8939bce8693197fa9b42b9b9416c772fcff297b",
+      "size_bytes": 142480
+    },
+    "audit/attribution_f_reports/reports/attr_power_stage3.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/attr_power_stage3.rpt",
+      "sha256": "432bb3278e29d2a09c4fb898420b4710c8efbfb117792893f36b3a3b6e65dd7c",
+      "size_bytes": 76600
+    },
+    "audit/attribution_f_reports/reports/drc_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/drc_shared.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "audit/attribution_f_reports/reports/metrics_shared.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/metrics_shared.txt",
+      "sha256": "6fa51513b7f41386dd64d7f2452cb6e9b1a93ed0bd504a7f8cba3dc864923202",
+      "size_bytes": 130
+    },
+    "audit/attribution_f_reports/reports/power_scenario_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/power_scenario_shared.rpt",
+      "sha256": "5bcf2fc84a14184ad25de3f27523ad89b210eae46fad14678e4ffe3c4eee0d97",
+      "size_bytes": 840
+    },
+    "audit/attribution_f_reports/reports/power_streaming_128_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/power_streaming_128_shared.rpt",
+      "sha256": "9ca47e137622f07476c83bdc0c230e33c2efa46f6eef9eeb833a06b93e5de8a7",
+      "size_bytes": 840
+    },
+    "audit/attribution_f_reports/reports/power_streaming_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/power_streaming_shared.rpt",
+      "sha256": "0085f05df0313ab8f7496fc7c0dcd535f3b120b8332f7dbdad581cd250affcc2",
+      "size_bytes": 840
+    },
+    "audit/attribution_f_reports/reports/sta_hold_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_hold_paths_shared.rpt",
+      "sha256": "4273678757495c211ea598c6948e482f174779fafaa466b9bf2ca44f39f01d4f",
+      "size_bytes": 6360
+    },
+    "audit/attribution_f_reports/reports/sta_max_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_max_paths_shared.rpt",
+      "sha256": "0edbac46d3011c360cffb03e10c16a96403ffec85c9287e33b3f7e7f6322cde1",
+      "size_bytes": 27793
+    },
+    "audit/attribution_f_reports/reports/sta_min_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_min_paths_shared.rpt",
+      "sha256": "b1e7275b630d9397c312dcc246da1bc759fa150f87a8e173f8f56308f9068a12",
+      "size_bytes": 11705
+    },
+    "audit/attribution_f_reports/reports/sta_recovery_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_recovery_paths_shared.rpt",
+      "sha256": "5aaa6ac17933555f3c5aedd171ca87a71b35856f22cbbe2038282b6a3aa5c435",
+      "size_bytes": 7665
+    },
+    "audit/attribution_f_reports/reports/sta_removal_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_removal_paths_shared.rpt",
+      "sha256": "2fdba34891ca7c91dac9c1e3ff063798d4a7d48b6c174a74c23c5f8dd842acf1",
+      "size_bytes": 7025
+    },
+    "audit/attribution_f_reports/reports/sta_setup_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/sta_setup_paths_shared.rpt",
+      "sha256": "718d28a9aa8b3aea217e239863f90aeecd2145ce915a17a11ef3eaeef223eae9",
+      "size_bytes": 24176
+    },
+    "audit/attribution_f_reports/reports/tns_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/tns_shared.rpt",
+      "sha256": "93b7bb5d9d2e5140e16c0303f7d44dc8205c1503a0aa395c0c8d0070f563f8da",
+      "size_bytes": 9
+    },
+    "audit/attribution_f_reports/reports/wns_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/attribution_f_reports/reports/wns_shared.rpt",
+      "sha256": "9e7667a094a60dd9f87357950defcef13a980b9329fb8f1b905ae588edbf5c6a",
+      "size_bytes": 9
+    },
+    "figures/fig1_workload_breakeven.svg": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/fig1_workload_breakeven.svg",
+      "sha256": "8f38a28f39b1e703327dc93a52c103178d10f055f0dbc7f2b11206e39195ce8f",
+      "size_bytes": 4864
+    },
+    "figures/fig2_evaluator_replay.svg": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/fig2_evaluator_replay.svg",
+      "sha256": "71fc95db5e8d182ce1d6319a687d478a346bd0d5a21a8b0a5fca134080ddae38",
+      "size_bytes": 3112
+    },
+    "figures/fig3_thermal_envelope.svg": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/fig3_thermal_envelope.svg",
+      "sha256": "92db4d0b0a5edd0de49acda975996ff18472f52f3c6d5480b3f1686e9f45bdc3",
+      "size_bytes": 4138
+    },
+    "figures/fig4_paired_thermal_comparison.svg": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/fig4_paired_thermal_comparison.svg",
+      "sha256": "1f129eca63107ef47735d2ef27af79591a8d4e7a5cad09b544a98edc03d2b379",
+      "size_bytes": 157120
+    },
+    "figures/fig5_layout_footprint_comparison.svg": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/fig5_layout_footprint_comparison.svg",
+      "sha256": "b99c889e0842c86337b033f5a5b760bf068ec22f057bd05bb64a81cf5afd6f4e",
+      "size_bytes": 3828
+    },
+    "figures/generate_figures.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/generate_figures.py",
+      "sha256": "d9e039beae11bb0486755e78dcebace077c198ba53a359f80c7431bdfe495b5e",
+      "size_bytes": 15445
+    },
+    "figures/generate_layout_and_thermal_maps.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/figures/generate_layout_and_thermal_maps.py",
+      "sha256": "e6d6c46d8fddd0683e127058652ccc11766238ba84419cfa4c14a81c6dcc5062",
+      "size_bytes": 14639
+    },
+    "dual_b/rtl/peweaver_ppa_dual_fft_icg.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/rtl/peweaver_ppa_dual_fft_icg.v",
+      "sha256": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb",
+      "size_bytes": 2443
+    },
+    "dual_b/rtl/sky130_icg_blackbox.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/rtl/sky130_icg_blackbox.v",
+      "sha256": "011a7aa6b160fd4a4e809b35960099bbe32a732fc2796693e24a1d4d33fe361f",
+      "size_bytes": 752
+    },
+    "dual_b/constraints/dual_b_baseline.sdc": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/constraints/dual_b_baseline.sdc",
+      "sha256": "42c5eb274d22d13f6ffb1bc7367389a6e7082bf259b1b85d03c8c292d6a1bbe5",
+      "size_bytes": 1164
+    },
+    "dual_b/synth/dual_b_synth.ys": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/synth/dual_b_synth.ys",
+      "sha256": "ac30a3934321f8f7ec90dfef78e3de6c6e5f0e9702c251d8673debd9d893cd3e",
+      "size_bytes": 1236
+    },
+    "dual_b/results/cheap_checks_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/cheap_checks_report.json",
+      "sha256": "f29979cf1b8857fc38740f7dbc1b0d4f4bb5c7ee291bf4118e75e0758d62d2d5",
+      "size_bytes": 1997
+    },
+    "dual_b/activity/dual_b_activity_tb.sv": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/activity/dual_b_activity_tb.sv",
+      "sha256": "c09803a1589bb50944edef3d66c0a01380f86f97babf1b842defb6e0d81de0a5",
+      "size_bytes": 10071
+    },
+    "finalization/finalization_tool_lock.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/finalization_tool_lock.json",
+      "sha256": "33185ef62ac5bd0e127118d744368a2e7b393d1d4b351643f87f2f29d2e202a8",
+      "size_bytes": 3363
+    },
+    "finalization/streamout_and_verify.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/streamout_and_verify.py",
+      "sha256": "d9b03042af03bb5384c560d7e097e69fcc8c399834b32b8c1fd9f55082092a4c",
+      "size_bytes": 2675
+    },
+    "manifest/discrepancy_log.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/discrepancy_log.md",
+      "sha256": "dfc4c060928a9aa63e3d93adfa7d36eb209bc598f65cb68e85a9ba16233698d0",
+      "size_bytes": 11291
+    },
+    "manifest/inventory.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/inventory.json",
+      "sha256": "5af53d14ee9d8ec374b61ae7d303831db6c82bc1b4ce49e24eecff0b037d48d6",
+      "size_bytes": 3215
+    },
+    "manifest/phase_manifest.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/phase_manifest.json",
+      "sha256": "c67137b1a54c3ed1baf48aee88c05ac09d59cb0bca9b525712187a14c032227c",
+      "size_bytes": 5110
+    },
+    "thermal/hotspot_runner.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/hotspot_runner.py",
+      "sha256": "105d5a22e8eb2ec3974b923055580be706ae428b0114bfd34b8531010815cbea",
+      "size_bytes": 16188
+    },
+    "thermal/thermal_lock.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/thermal_lock.json",
+      "sha256": "366bff1b6f705e53c468923f906105557f2b1674d2d92872dc3daf39bc97ddd5",
+      "size_bytes": 1395
+    },
+    "thermal/thermal_report.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/thermal_report.md",
+      "sha256": "0192b0a8368c7b8d1c2c18e1fecffc2f23602ae44354f14815c9c0ac1846a909",
+      "size_bytes": 4371
+    },
+    "thermal/thermal_results.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/thermal_results.json",
+      "sha256": "e5e4b7373e7af2759c2d906ed60a5d9afffff5a876e6168733b656a9f41ab63e",
+      "size_bytes": 10179
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.1.steady",
+      "sha256": "5f92f270bc8d6e89ba21e0520b089e1ef304bd29b1ea262fa1008cd2e565c0b9",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.5.steady",
+      "sha256": "73627844bc59196b6c3722726d96a46b4379c330690a785e6e4c032bf07730f9",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.grid.steady",
+      "sha256": "e67adb8d27de59a35268d532c79effcd5d76d39671e0e16cda66714e3760b9cd",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc0.steady",
+      "sha256": "94d108d1654102a59988f7dab85e9179c9e86f4afc626d8cf1ecf456e973ba5c",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc1.0.steady",
+      "sha256": "b602aedf51cef26b65dd865c8d55103218a112dd20c55c85341496c1d8e421a8",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc1.grid.steady",
+      "sha256": "f18cc7e2d66e58420e991a447a20c63156bf201a7da0f78345c459a8713b1fcf",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc1.steady",
+      "sha256": "48db77edf0df6b2cf54e0b9cabbb8d2a442278a316201ce60500b917a3d27b6e",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc10.0.steady",
+      "sha256": "b2f68784a7001f633b8c13757ce8b75e218e8a9d2822d129e277f20ea662aaf1",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc10.grid.steady",
+      "sha256": "a20f47dd4cf59ca51b04fdd29fbd3e99d80d451c0d772243f826922ed3a0a887",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc10.steady",
+      "sha256": "b1e6fc79c92a7c60e65e057ed895978ae75261448759d85f10495e38d8b5bd24",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc2.0.steady",
+      "sha256": "35e6e1921b6b317540f68ed67cfc6ac8b0c46c89e797b1656fec8150f129d0b3",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc2.grid.steady",
+      "sha256": "d8b30c2c56351998488a6c40b4cc44e3ccbb432b4a0bc71291551c41bf56eda1",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc2.steady",
+      "sha256": "548dec5631386f09f7a8f54a8f1c40644547147325988986e7953cb769ebf124",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc5.0.steady",
+      "sha256": "f9f99f501f7c3404b8790d20ba34830fa355f816e7349ca73630d87c912d0496",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc5.grid.steady",
+      "sha256": "689b39a49efc428c84be2ee5618b90411763c951b1e86ec237fb43a96e0af70c",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_300K_rc5.steady",
+      "sha256": "f164ceb5c7814d20473a5b2e6ba2bf657eace859c77581543714e3d14aac85b6",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.1.steady",
+      "sha256": "766d9b606aaedddc7f301088f1bc7cc064a022792cf0637953f90162aef7e938",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.5.steady",
+      "sha256": "8b661180b76b40ba58ea045d82c939fd1d1e3035f043b8a9b01765351d85b400",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.grid.steady",
+      "sha256": "32cddb96fee76af38ce205460ed149c9e054a81e03bf1bc8754a2eba819ef8c4",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc0.steady",
+      "sha256": "c1fdab0dc8cf00196c646f73dc6776426be4c1ae2328e3e6e46f396d69ac3d1a",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc1.0.steady",
+      "sha256": "05a184ecb98633a7a3409d5dee2b7f266ef15db85b802234d2523aab9b0658f3",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc1.grid.steady",
+      "sha256": "dfb2ca222d6e6fa431ab582414ddfffc11632ec39d8639d929b59ae8dfddb6d8",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc1.steady",
+      "sha256": "8b44a4de9eee471370b87d7bbb22a2d4488160be54087584bcab1338ff243678",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc10.0.steady",
+      "sha256": "ba5931b06a45982d965f854b260ace2afccc332898697549ff91dd6c086e34f9",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc10.grid.steady",
+      "sha256": "85b5346f3993b5be97837cdf14d2b216344cf8f975634f9eda174763a9e01c54",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc10.steady",
+      "sha256": "9f464e4a8a39d5eb772b16931ff8581a3cc4f92dece75a4f2412c0b0cdaf8a6c",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc2.0.steady",
+      "sha256": "092b14aaad1cde32af731288cbf86e2157244aafee23122e5b9707cc4e89c2f6",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc2.grid.steady",
+      "sha256": "480e03d0a5c3a2cfddcbc206e5adbd4f1eeffc2a4c9f5d809cecde0b6365ef92",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc2.steady",
+      "sha256": "874798fe70298e02e2ef913acc55ddd74c2b54cbcffc5485b6660729a973df34",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc5.0.steady",
+      "sha256": "37aacea2a5b66310e73712d1d11ee6190461890a320fc86fcf947f8320be8792",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc5.grid.steady",
+      "sha256": "5999f475a5156987b70d90c3d547167f66d440a7327be30197c02a461da3c6d3",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_128_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_128_amb_310K_rc5.steady",
+      "sha256": "a19ef02833114b62a09b20d0774c77654e8603c5f19eeb13f10efb60b9501e84",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.1.steady",
+      "sha256": "da90702f572b6cae5d363c968dbaa4d88fc23e84609f5c7bc324cc476bb97038",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.5.steady",
+      "sha256": "edd514105b9ef074d168f66ef30d4e80112e6ddcf9f564478bc80fce8580324f",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.grid.steady",
+      "sha256": "fd0cead48b6a984ef055db45c27b602b73914b60723a02e28d807889f8b491ef",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc0.steady",
+      "sha256": "94d108d1654102a59988f7dab85e9179c9e86f4afc626d8cf1ecf456e973ba5c",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc1.0.steady",
+      "sha256": "35c709cf4025bffe203eb8d39916a976079971273637a515fc46fe5f0a3afa4b",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc1.grid.steady",
+      "sha256": "90b8c024d9527cd222b5b2cc58db54f86cb860d177904b8cee5053d713792736",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc1.steady",
+      "sha256": "48db77edf0df6b2cf54e0b9cabbb8d2a442278a316201ce60500b917a3d27b6e",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc10.0.steady",
+      "sha256": "011bc61ba1aeeacc23698bb3ca8236febd6bf088a568477e44f8dda80dd344ad",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc10.grid.steady",
+      "sha256": "ee09591ff77b027ebb417ad4e56b27bf6e20555f1f8dd430044bf237db8bea41",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc10.steady",
+      "sha256": "2a5558251d3057755483316158db054f180c243287ada2ecf2c6fddfe15eb630",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc2.0.steady",
+      "sha256": "1dce441dc3976f66762b6baadb63fe2cbf3ac7993d3a39f7d449988fbcf52b65",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc2.grid.steady",
+      "sha256": "6a2e359684f4c5a27091a8e0fcfe927b06b711c6ad985c67eac65a75b71d5c1e",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc2.steady",
+      "sha256": "548dec5631386f09f7a8f54a8f1c40644547147325988986e7953cb769ebf124",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc5.0.steady",
+      "sha256": "ea46d2e3567115af04d42aac7aaa72e8de1decbab6b97366da89a70406068fab",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc5.grid.steady",
+      "sha256": "2cbc5a6518cb6ddc30babf2d860c55c3c31c98e10c3e90a4209037e98c4d5e73",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_300K_rc5.steady",
+      "sha256": "f164ceb5c7814d20473a5b2e6ba2bf657eace859c77581543714e3d14aac85b6",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.1.steady",
+      "sha256": "8c94b684eeff6f199bdb753acc42b2269c0de8d4665fec9ac10e818f1a702735",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.5.steady",
+      "sha256": "b74f2b0c3aecee7c43030f31b17ebef8dbc6d6b7cd1284a6733268bd9cb4a689",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.grid.steady",
+      "sha256": "c59dc807ec60773afb083d73c9e6da6b00187327ab92d9094fe26d2bc34a0cc9",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc0.steady",
+      "sha256": "c1fdab0dc8cf00196c646f73dc6776426be4c1ae2328e3e6e46f396d69ac3d1a",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc1.0.steady",
+      "sha256": "edbf1ce275afe78ae836a585748d5c3c58338c4d574371e65b79c6367b566384",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc1.grid.steady",
+      "sha256": "ce4266f7eee95011d9dd744a35348bb4d043028cef0702864640e4cd0d62c4ee",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc1.steady",
+      "sha256": "8b44a4de9eee471370b87d7bbb22a2d4488160be54087584bcab1338ff243678",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc10.0.steady",
+      "sha256": "2330e32df5e670dd8cf306b23749e10f502535ae073b9e268c356ddddd9e92d9",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc10.grid.steady",
+      "sha256": "a66a5f41c1297c657eab654fdc1e0e38ca397b2982b8334ee3ce21e7cee1c76f",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc10.steady",
+      "sha256": "67efe3f3f01352f819a0856e3deaa400c98e74cbeff950de307a1754db96ba7e",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc2.0.steady",
+      "sha256": "4eb33f228be9b36510981418bdf7603b156566f30a1833e43d1a89af80ea9ff7",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc2.grid.steady",
+      "sha256": "6db50d0ef229918d27075f26caf3a3d7815709ac80a427c8c301954e27455969",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc2.steady",
+      "sha256": "874798fe70298e02e2ef913acc55ddd74c2b54cbcffc5485b6660729a973df34",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc5.0.steady",
+      "sha256": "c98898c665bdc92c5340713fa3338a05d5c8e3391dce2106afee9b2a473f495c",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc5.grid.steady",
+      "sha256": "f3fe829eb6894b42dda4d6d839085dbbedc5c153344fbfb7b51486c3bfdaae67",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/a_64_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_64_amb_310K_rc5.steady",
+      "sha256": "a19ef02833114b62a09b20d0774c77654e8603c5f19eeb13f10efb60b9501e84",
+      "size_bytes": 250
+    },
+    "thermal/sim_runs/a_actual.flp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_actual.flp",
+      "sha256": "1e4f605f8e5cdaf077031fbb84639adaa8e55166cd5b92bb97423797cf7e95d1",
+      "size_bytes": 125
+    },
+    "thermal/sim_runs/a_mode128.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_mode128.ptrace",
+      "sha256": "c50084e12d4eae5ecc234c05d9d31a1268d1775fa47fa484f88b9ae14850597f",
+      "size_bytes": 17
+    },
+    "thermal/sim_runs/a_mode64.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_mode64.ptrace",
+      "sha256": "099b60cea830a68f729a040e9b86242bf9d18610d0b2feef94e01d5f6ac68d15",
+      "size_bytes": 17
+    },
+    "thermal/sim_runs/a_mode64_grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_mode64_grid.steady",
+      "sha256": "35c709cf4025bffe203eb8d39916a976079971273637a515fc46fe5f0a3afa4b",
+      "size_bytes": 362
+    },
+    "thermal/sim_runs/a_mode64_grid_map.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/a_mode64_grid_map.steady",
+      "sha256": "4d1ab7f20671aeb205552a936d24acf87b39f428d55fa4b561446ad0a938e167",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.1.steady",
+      "sha256": "f4f6877f5833e016589c94fc45aff145685c5688f5b516b2fb638e27b1023b8d",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.5.steady",
+      "sha256": "7688583d45c2bbef76b30a49816eb7739e250eb3016198e55ff7cc8f6f44d854",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.grid.steady",
+      "sha256": "c804ab3e5ed77fadbdcdd4582140896472d6a7ca23b43174ee2bef5f61b86220",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc0.steady",
+      "sha256": "7688583d45c2bbef76b30a49816eb7739e250eb3016198e55ff7cc8f6f44d854",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc1.0.steady",
+      "sha256": "31d61220147e23471d827df0c1bdd98de405bf24e3ba2ecd81d17a05c30c0527",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc1.grid.steady",
+      "sha256": "be053af37b88e41d355d325c83ac777eafe151a1585c66b24cf79618409c3569",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc1.steady",
+      "sha256": "31d61220147e23471d827df0c1bdd98de405bf24e3ba2ecd81d17a05c30c0527",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc10.0.steady",
+      "sha256": "b1232025e26e74622ab40b68ef813c7210b5e0231caec90d92ebc3342e556691",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc10.grid.steady",
+      "sha256": "2351641581fcf2cbd0e6579ee4836c46419a056f00045b0d48cb36468015e9be",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc10.steady",
+      "sha256": "b1232025e26e74622ab40b68ef813c7210b5e0231caec90d92ebc3342e556691",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc2.0.steady",
+      "sha256": "3d62e204deff9e1ca670b2e0a1f2d2a8dcd1e38dc696f3cf6f3e0ebef7d158c3",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc2.grid.steady",
+      "sha256": "9601ac7080498047a770668208ba130945b0590632e60025a3e0e7ee25506618",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc2.steady",
+      "sha256": "3d62e204deff9e1ca670b2e0a1f2d2a8dcd1e38dc696f3cf6f3e0ebef7d158c3",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc5.0.steady",
+      "sha256": "05214c351db98d73a818880ebc81adc56b18b46bc05f7a6b33e74064cd8af7f8",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc5.grid.steady",
+      "sha256": "70de2ffafd5d3be7c48ddc5872a60989ce546af35d4e4df28b3950629d6f397f",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_300K_rc5.steady",
+      "sha256": "05214c351db98d73a818880ebc81adc56b18b46bc05f7a6b33e74064cd8af7f8",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.1.steady",
+      "sha256": "bfc953154dc36abd819898b195c56132fd27ec0ce2136ac53eda4a79c083a648",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.5.steady",
+      "sha256": "917cb012c19a243a35ac3b0f4e8dfeec61b7af1e4a41de26ac932683d0d948bf",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.grid.steady",
+      "sha256": "9cc029730db4374e4bde5260c6cb306d82296a1071b602e63da66d639c4722fb",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc0.steady",
+      "sha256": "917cb012c19a243a35ac3b0f4e8dfeec61b7af1e4a41de26ac932683d0d948bf",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc1.0.steady",
+      "sha256": "32ca3d2946b71233edc8f2e07cfe418b0c4cbc86b12c99ce408ba52cbff0547b",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc1.grid.steady",
+      "sha256": "72af8e91448f60b3f5b39543970277871f83f3163b81b29a283b925075210878",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc1.steady",
+      "sha256": "32ca3d2946b71233edc8f2e07cfe418b0c4cbc86b12c99ce408ba52cbff0547b",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc10.0.steady",
+      "sha256": "40edcd519671e8d01d60fb9c7c2d476078bd569a5aaeb3785b7d49d311891e80",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc10.grid.steady",
+      "sha256": "abfc572ce6b4aeeb91cfaf12e05105d71b14580139a6dabc0c1da2460885d053",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc10.steady",
+      "sha256": "40edcd519671e8d01d60fb9c7c2d476078bd569a5aaeb3785b7d49d311891e80",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc2.0.steady",
+      "sha256": "1f6f3de6087a103789056541e82e29dd3d2c421e755db3c77f98d86777ae32e1",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc2.grid.steady",
+      "sha256": "3715d04d3d063579656128f89cad9b5b0db62900dbc3db4d90f556cab6f96e85",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc2.steady",
+      "sha256": "1f6f3de6087a103789056541e82e29dd3d2c421e755db3c77f98d86777ae32e1",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc5.0.steady",
+      "sha256": "09e3c2d9f4b4e8552f91c969efed1ee6e492c9ee38148af49270dd8842c00d60",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc5.grid.steady",
+      "sha256": "34780796181e45c48a52f77f5eab7408ade63f5a75671e5065b09766e0c9305e",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_128_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_128_amb_310K_rc5.steady",
+      "sha256": "09e3c2d9f4b4e8552f91c969efed1ee6e492c9ee38148af49270dd8842c00d60",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.1.steady",
+      "sha256": "f7d9c180bd575ae8dd8a5ffdc22a84fa79aa9b13559dae1c47f79a7fc66ba030",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.5.steady",
+      "sha256": "5959220704e110cebb5c63e551dc6a65729f684b4d08d05be1fcb184cf430bca",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.grid.steady",
+      "sha256": "87f374bc1ef79adb0d1efb1b30152aa52a001241712e717a835a10ddcfb79c72",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc0.steady",
+      "sha256": "5959220704e110cebb5c63e551dc6a65729f684b4d08d05be1fcb184cf430bca",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc1.0.steady",
+      "sha256": "93f1e0a37756adc74edee61c86fe38acbb317b38bbd531616efa6b939c2cbd10",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc1.grid.steady",
+      "sha256": "e88cf647b6c1dc87c56c79421e80d2b6baa63de56b6aacc4b00cee968c8fd239",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc1.steady",
+      "sha256": "93f1e0a37756adc74edee61c86fe38acbb317b38bbd531616efa6b939c2cbd10",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc10.0.steady",
+      "sha256": "efdcdd0978a0b126523f1ff80a3fcf38c7c7777ab7323a4b4c1ab8cd99a6c419",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc10.grid.steady",
+      "sha256": "600327e1a2ea0652d728f24b1c8bc7eff2070aa376358eee5e8ea624a84324c0",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc10.steady",
+      "sha256": "efdcdd0978a0b126523f1ff80a3fcf38c7c7777ab7323a4b4c1ab8cd99a6c419",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc2.0.steady",
+      "sha256": "f9d18f308fe4c7152954db30f59e0ee99874a477a84e354dfcc7c28b4aaebef1",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc2.grid.steady",
+      "sha256": "65d6d64374384c278902bc414df2ed0428c1bb2f3834640d558ed5cdcc5e3ba2",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc2.steady",
+      "sha256": "f9d18f308fe4c7152954db30f59e0ee99874a477a84e354dfcc7c28b4aaebef1",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc5.0.steady",
+      "sha256": "2bde7cb9abcea5e502c3d518410efbc74337f0876d9a89242beaf2b441ce817a",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc5.grid.steady",
+      "sha256": "54e37971c1811d02f4391c1c5a2f9ae6a87059559d92c80cc92376f2a336b783",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_300K_rc5.steady",
+      "sha256": "2bde7cb9abcea5e502c3d518410efbc74337f0876d9a89242beaf2b441ce817a",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.1.steady",
+      "sha256": "161e6ff92d79cb88fa1518508060f1ae46bc88178f97fd9e51d48f715b19dff0",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.5.steady",
+      "sha256": "f7b460db8ab38f49ee85dd09fea8e62b3f11e01a63545513152b1d744e025bfa",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.grid.steady",
+      "sha256": "09356faf1d42cf89928bd021203a75a924c2859ffa6f7186bf8bc4b7c9519ea8",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc0.steady",
+      "sha256": "f7b460db8ab38f49ee85dd09fea8e62b3f11e01a63545513152b1d744e025bfa",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc1.0.steady",
+      "sha256": "5be525ef2f020f7f39ac0e588555704e7a4877f7819b7426b2bedfb4946b52bd",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc1.grid.steady",
+      "sha256": "4e50257d2ccb4b15976694d2bfeefd3e5a1d80d6250f5006395855237d2e8568",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc1.steady",
+      "sha256": "5be525ef2f020f7f39ac0e588555704e7a4877f7819b7426b2bedfb4946b52bd",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc10.0.steady",
+      "sha256": "e1e456a82dfb4d8bbed60bd98fd74b623f814c274324d4399f314b4851ae3c76",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc10.grid.steady",
+      "sha256": "212d4398d7321802be2af05bef3372426a9e204a828568ccddb8dc005258d6a8",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc10.steady",
+      "sha256": "e1e456a82dfb4d8bbed60bd98fd74b623f814c274324d4399f314b4851ae3c76",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc2.0.steady",
+      "sha256": "5d1cc590495c7ebacd63d3d5965e1832420cbf74c77cc9d9f8ac1d2e3e7b4d6c",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc2.grid.steady",
+      "sha256": "80b76bd995233d7e30c589c5de18ef19a8eafb0db4ab665b02897d9ee00e2671",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc2.steady",
+      "sha256": "5d1cc590495c7ebacd63d3d5965e1832420cbf74c77cc9d9f8ac1d2e3e7b4d6c",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc5.0.steady",
+      "sha256": "5e43fcc108ccad84986d2418c57ba8a588d972f193431e96fc724028f4217528",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc5.grid.steady",
+      "sha256": "7b6535b07569c5d6429e98dcbde48aeb41e351780e9ad321ff1ec531cfe5c4b7",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_64_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_64_amb_310K_rc5.steady",
+      "sha256": "5e43fcc108ccad84986d2418c57ba8a588d972f193431e96fc724028f4217528",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_actual.flp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_actual.flp",
+      "sha256": "061a43846399b49af3e6ad8ede39b71b8bc1238ebecf5cae70f56349b21c8824",
+      "size_bytes": 123
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.1.steady",
+      "sha256": "3b7be56e3b2a0c10d0253d10ad4596dfc4df30f7c5067c560eac5818b5c74bb7",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.5.steady",
+      "sha256": "9e1453e0f5157bfe821678565b51b84ecc4e3fe28cbf88da6712918ea33286a4",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.grid.steady",
+      "sha256": "0254d15577183a078e526629c2550cd33408d21d89879676f5a3b520b2dae1e8",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc0.steady",
+      "sha256": "9e1453e0f5157bfe821678565b51b84ecc4e3fe28cbf88da6712918ea33286a4",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc1.0.steady",
+      "sha256": "6096e507768e3b583cfe317e5d2f827f341672eeeb54f2ce4ccae056032ef954",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc1.grid.steady",
+      "sha256": "aa4376551c9da8954f90763feb61ee00cd22e3aacc42ff5ec6b0161ed6b291fa",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc1.steady",
+      "sha256": "6096e507768e3b583cfe317e5d2f827f341672eeeb54f2ce4ccae056032ef954",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc10.0.steady",
+      "sha256": "ce3eff9b1568456fe6cce8c3952d78a2cb1cd3059d03f28b2ddec2160633d8db",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc10.grid.steady",
+      "sha256": "a70eb9295459edf1917c1bbb7077cd2fd814e008d032f488107093df738637fa",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc10.steady",
+      "sha256": "ce3eff9b1568456fe6cce8c3952d78a2cb1cd3059d03f28b2ddec2160633d8db",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc2.0.steady",
+      "sha256": "d6b8eeff9d032a4c5e35ea26a73a4f2ce39504bd21fe65cc5127a6bf7ae02eaa",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc2.grid.steady",
+      "sha256": "9e00de3b5ad7ef0f1f4221580b5925c004aaf3b5e9d78460b3f95da0716fee7a",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc2.steady",
+      "sha256": "d6b8eeff9d032a4c5e35ea26a73a4f2ce39504bd21fe65cc5127a6bf7ae02eaa",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc5.0.steady",
+      "sha256": "b93293b45c9639d8d3cdd1d04d94908fb47edfbcd91f859fdb79b6bdc9f3744f",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc5.grid.steady",
+      "sha256": "bff9a84ecb49ee0b3e77a76bde11142dc11d8b61e2bd205ee5fc0e8f0f3b9f6c",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_300K_rc5.steady",
+      "sha256": "b93293b45c9639d8d3cdd1d04d94908fb47edfbcd91f859fdb79b6bdc9f3744f",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.1.steady",
+      "sha256": "57400ae88d8e214b985228b9ff007ecaa8c36b296a862547006791a2c3a9deb8",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.5.steady",
+      "sha256": "44fe99efa1dd8d8df3613f877b81ae7eac5668fc42c940f2cdd2a6ecfe515be3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.grid.steady",
+      "sha256": "79a92a53f9ec8aff6d98d571d6ca1061e8ab32ff875005027073e7e83dc7184a",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc0.steady",
+      "sha256": "44fe99efa1dd8d8df3613f877b81ae7eac5668fc42c940f2cdd2a6ecfe515be3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc1.0.steady",
+      "sha256": "7dc256f1c6ceb0fe56769c1ea52b44679c6c929a79219bdf063f281ae083728a",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc1.grid.steady",
+      "sha256": "9849095c491fdb78294a51d290b724252a2c3e9db4c14e3af39dd356cafa2237",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc1.steady",
+      "sha256": "7dc256f1c6ceb0fe56769c1ea52b44679c6c929a79219bdf063f281ae083728a",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc10.0.steady",
+      "sha256": "71daf9c669a695371935a632944876a08035373a4ca070f7237e35321ccb6b27",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc10.grid.steady",
+      "sha256": "40bcc4afbd166b1d8f0d548f24907fa94d209e4cc2600fe0ce966e1d97273f8b",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc10.steady",
+      "sha256": "71daf9c669a695371935a632944876a08035373a4ca070f7237e35321ccb6b27",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc2.0.steady",
+      "sha256": "884c03c395397f9caf1855e0b85852c77978e5b47751e7c795152a23f949bd74",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc2.grid.steady",
+      "sha256": "fd34c62fde1be653a7522fc36b770f8261587d85ed193c113768ba17766b4186",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc2.steady",
+      "sha256": "884c03c395397f9caf1855e0b85852c77978e5b47751e7c795152a23f949bd74",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc5.0.steady",
+      "sha256": "75339f9064aa53a2a09240440462c87958b6a962fe1313d7593533d07903e2d3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc5.grid.steady",
+      "sha256": "cee38db668b0b17aa0394a9deaad45ff7d44e1c89ca50d18f5c6a60a159c8260",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_128_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_128_amb_310K_rc5.steady",
+      "sha256": "75339f9064aa53a2a09240440462c87958b6a962fe1313d7593533d07903e2d3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.1.steady",
+      "sha256": "6fb37d52a89685d88b5dd7e369c65de331c9c0fec476954589f6322f986716db",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.5.steady",
+      "sha256": "ac1b64a369555862ba0f813b6d7279c147d3a10ef8d8cb7882217217a18b88cb",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.grid.steady",
+      "sha256": "4158ae5163e3d3cea196a1a58c2ced1742709c397abc9aa869672a4c9d6e03b9",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc0.steady",
+      "sha256": "ac1b64a369555862ba0f813b6d7279c147d3a10ef8d8cb7882217217a18b88cb",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc1.0.steady",
+      "sha256": "cde9b4fb90729a3bd878c528d8e6c231095ab94f20a652396d3a553f8d53b770",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc1.grid.steady",
+      "sha256": "e9e6a3b927610f105226497cda155465860111ba645283854ea2bd781b3d92dc",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc1.steady",
+      "sha256": "cde9b4fb90729a3bd878c528d8e6c231095ab94f20a652396d3a553f8d53b770",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc10.0.steady",
+      "sha256": "2d4a83fd76b16cf2cdadde6607fdc05248cc0960aab0d44f8db8544b154347ff",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc10.grid.steady",
+      "sha256": "bb8e08641fca5980a6dc1071c0e9de4687949dfbcf4cdac00841d6c51de71dcc",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc10.steady",
+      "sha256": "2d4a83fd76b16cf2cdadde6607fdc05248cc0960aab0d44f8db8544b154347ff",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc2.0.steady",
+      "sha256": "29e175f24610aa2df812cc871ff00b70276695a20b1c40274b032ee5fae301cb",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc2.grid.steady",
+      "sha256": "3dfca6a21b8bb5140d61be32f222b1b973682def4fb6699e0696fd536d8a60c5",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc2.steady",
+      "sha256": "29e175f24610aa2df812cc871ff00b70276695a20b1c40274b032ee5fae301cb",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc5.0.steady",
+      "sha256": "d47d38a1c3d35998e00c587834ef1db853fab1d3cf4a2e7fe8beca527179ab6c",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc5.grid.steady",
+      "sha256": "2496b63dac9db6ec8af6e24f47a59228963d8484797e7fa4a06454e6c95ff9cb",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_300K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_300K_rc5.steady",
+      "sha256": "d47d38a1c3d35998e00c587834ef1db853fab1d3cf4a2e7fe8beca527179ab6c",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.1.steady",
+      "sha256": "86f0224b1caee5262c17a0c71e129d6c907ba28485cf60241b1eafa612db03f9",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.1.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.1.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.5.steady",
+      "sha256": "055d19d0c6d575fc99cc556c30247a9cef736e9baa44c5678f938a3675b3aed3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.5.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.5.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.grid.steady",
+      "sha256": "bf692b8037a92255fa03196b2941688cdc143e07728378fa4481fa2a8f311550",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc0.steady",
+      "sha256": "055d19d0c6d575fc99cc556c30247a9cef736e9baa44c5678f938a3675b3aed3",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc1.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc1.0.steady",
+      "sha256": "ea7be1650d78ee29697d7dbbd0147f0c32dde63a397d510fe4367128d9a2e8aa",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc1.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc1.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc1.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc1.grid.steady",
+      "sha256": "913ced77242fa2040ad3c5873a32d183999f377f75fdedcf59fa00a3e8fef458",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc1.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc1.steady",
+      "sha256": "ea7be1650d78ee29697d7dbbd0147f0c32dde63a397d510fe4367128d9a2e8aa",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc10.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc10.0.steady",
+      "sha256": "94c0bcf40b31598749242f3c8fca844bc64cf9864db573f07397b9a52d6e9a7b",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc10.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc10.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc10.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc10.grid.steady",
+      "sha256": "713182696e3b63b453c991d19961695bea6d51003008726e04d7edfe34d7a37f",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc10.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc10.steady",
+      "sha256": "94c0bcf40b31598749242f3c8fca844bc64cf9864db573f07397b9a52d6e9a7b",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc2.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc2.0.steady",
+      "sha256": "ee7ef076553bcbe1c39dce58971afb02876ee1ea75ef416f3e026f540d465f44",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc2.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc2.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc2.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc2.grid.steady",
+      "sha256": "01aed0eab178b1487813440aa29c26b61d5ae0ad14dca2c4d5114e2293eb0195",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc2.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc2.steady",
+      "sha256": "ee7ef076553bcbe1c39dce58971afb02876ee1ea75ef416f3e026f540d465f44",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc5.0.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc5.0.steady",
+      "sha256": "3fa7f6846d37cf86cc3d8dad41a9e12a2b690b4a15da80f30d8b1139f7f426b2",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc5.0.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc5.0.txt",
+      "sha256": "ab727c1e9b2d5ab47f226ae7433d29642028a88d7d1391ea98d3ea8421049b19",
+      "size_bytes": 72
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc5.grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc5.grid.steady",
+      "sha256": "3087231574b9c3588d9950498b1cd09a07f7175ac37ec6864e7c846506a9bc1b",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_comm_64_amb_310K_rc5.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_64_amb_310K_rc5.steady",
+      "sha256": "3fa7f6846d37cf86cc3d8dad41a9e12a2b690b4a15da80f30d8b1139f7f426b2",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_mode64_grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_mode64_grid.steady",
+      "sha256": "cde9b4fb90729a3bd878c528d8e6c231095ab94f20a652396d3a553f8d53b770",
+      "size_bytes": 622
+    },
+    "thermal/sim_runs/s0_comm_mode64_grid_map.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_comm_mode64_grid_map.steady",
+      "sha256": "e9e6a3b927610f105226497cda155465860111ba645283854ea2bd781b3d92dc",
+      "size_bytes": 44748
+    },
+    "thermal/sim_runs/s0_common.flp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_common.flp",
+      "sha256": "239997f2401cf64fc8f637200023dc7be4f7911911ab38a3964cce92bd7d0371",
+      "size_bytes": 355
+    },
+    "thermal/sim_runs/s0_common_mode128.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_common_mode128.ptrace",
+      "sha256": "47c818ace0d6e17cf117084e1e992222b5d293029855082a7a341127de303847",
+      "size_bytes": 110
+    },
+    "thermal/sim_runs/s0_common_mode64.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_common_mode64.ptrace",
+      "sha256": "f0713de30a734efe70009e0aaddc513ca938dec7affd665912697ae980bfc4aa",
+      "size_bytes": 110
+    },
+    "thermal/sim_runs/s0_mode128.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_mode128.ptrace",
+      "sha256": "67a1a91d23e34dbd2c875834de3df7cf4c86e575c26b32535d29a2bb16d9edbf",
+      "size_bytes": 19
+    },
+    "thermal/sim_runs/s0_mode64.ptrace": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_mode64.ptrace",
+      "sha256": "2146ebe8def441e04c00ebab16e5b8c89204af1ccc3999a392ee59ddfb40a8bc",
+      "size_bytes": 19
+    },
+    "thermal/sim_runs/s0_mode64_grid.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_mode64_grid.steady",
+      "sha256": "93f1e0a37756adc74edee61c86fe38acbb317b38bbd531616efa6b939c2cbd10",
+      "size_bytes": 258
+    },
+    "thermal/sim_runs/s0_mode64_grid_map.steady": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/sim_runs/s0_mode64_grid_map.steady",
+      "sha256": "e88cf647b6c1dc87c56c79421e80d2b6baa63de56b6aacc4b00cee968c8fd239",
+      "size_bytes": 44748
+    },
+    "thermal/config/hotspot.config": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/config/hotspot.config",
+      "sha256": "4846eed2999b762bf6e306c93f0912c62e2da35fbc0784d97349800233456bab",
+      "size_bytes": 6035
+    },
+    "thermal/config/hotspot.materials": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/thermal/config/hotspot.materials",
+      "sha256": "af6c96d95734b2139a77f185c4a23811fd29dc30faf275dc352bee7baaa6811c",
+      "size_bytes": 271
+    },
+    "replay/build_replay_corpus.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/build_replay_corpus.py",
+      "sha256": "9924af1ff6301f3e5c92d38c48f5c0873003d01ab89f4cd313949bb6d6e0116c",
+      "size_bytes": 50524
+    },
+    "replay/candidate_by_gate_matrix.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/candidate_by_gate_matrix.json",
+      "sha256": "8ba60d28027efca51dff96fca536df12622c9d2e62e14f54780bd42c2867512e",
+      "size_bytes": 30585
+    },
+    "replay/candidate_by_gate_matrix.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/candidate_by_gate_matrix.md",
+      "sha256": "534d951becacedbd1014f5d62ace8ee9f7014513c148cab0d42f9279939a5ff7",
+      "size_bytes": 8814
+    },
+    "replay/contract_to_evidence_index.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/contract_to_evidence_index.json",
+      "sha256": "12e3d8b9e6da775f3d3bc0f2e92891d2dc34fedf2219cc2264089a48b1fe05d1",
+      "size_bytes": 2445
+    },
+    "replay/corpus_manifest.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/corpus_manifest.json",
+      "sha256": "9cc09ad6650a36f99ac5f481408a287e790bf59bae15ee294869988d9b0a2e89",
+      "size_bytes": 27569
+    },
+    "replay/detection_summary.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/detection_summary.json",
+      "sha256": "0b0ffb85e55f401da863f777f2e2a10449176ea446f9fd54bd73622ce604db8c",
+      "size_bytes": 2159
+    },
+    "dual_b/results/physical_attempt1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt1.json",
+      "sha256": "7f5824d1d9647dbc7182061a688d7b4aaf678017a2f1c27e6e8503d6332f297c",
+      "size_bytes": 873
+    },
+    "dual_b/results/physical_attempt2/activity/gls_scenario_dual_b.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_scenario_dual_b.vcd",
+      "sha256": "b1f0064efb4b872dc27a84844513c33002772dcf1bb0261d22484655dcc3ac56",
+      "size_bytes": 40396370
+    },
+    "dual_b/results/physical_attempt2/activity/gls_scenario_dual_b_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_scenario_dual_b_norm.vcd",
+      "sha256": "f5ab1e6704c5f39c7e6a5b0428cba8b88c41771d36ca00c5c62aca6ea2a4f28b",
+      "size_bytes": 40396377
+    },
+    "dual_b/results/physical_attempt2/activity/gls_stream_128_dual_b.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_stream_128_dual_b.vcd",
+      "sha256": "a561c1aa684c2aaef6a83313cf272228dfc5cf299ab9ca3b9f88ba175b0fe159",
+      "size_bytes": 25493229
+    },
+    "dual_b/results/physical_attempt2/activity/gls_stream_128_dual_b_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_stream_128_dual_b_norm.vcd",
+      "sha256": "c445d9d0dc05342e1dcd390f948f97ea71ceea5cc214f9a118db1b34bccc7484",
+      "size_bytes": 25493106
+    },
+    "dual_b/results/physical_attempt2/activity/gls_stream_dual_b.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_stream_dual_b.vcd",
+      "sha256": "4f747a204d04e4ba6992da37f8538f1395c3123a1f4a44cf69ca67c724b9d1b0",
+      "size_bytes": 15441548
+    },
+    "dual_b/results/physical_attempt2/activity/gls_stream_dual_b_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/gls_stream_dual_b_norm.vcd",
+      "sha256": "64c1ac5b888ec20a75bf2fb6930abe6298b7530173af713d1b122e3d2735b0cc",
+      "size_bytes": 15441425
+    },
+    "dual_b/results/physical_attempt2/activity/rtl_scenario_dual_b.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/activity/rtl_scenario_dual_b.vcd",
+      "sha256": "a45d502e48cd0b52fd3678e732606045efddd1a28e76e1a678b848d556d4327c",
+      "size_bytes": 2212758
+    },
+    "dual_b/results/physical_attempt2/def/dual_b_baseline.def": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/def/dual_b_baseline.def",
+      "sha256": "9769db14486aea18a7d8a55363240fb12eafe52b51b35e826daffce0af68ec66",
+      "size_bytes": 22033428
+    },
+    "dual_b/results/physical_attempt2/def/dual_baseline.def": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/def/dual_baseline.def",
+      "sha256": "b453b2de041080cb481d8db0f94c0e0de17e40e710cbd92b5839dc531b84d4be",
+      "size_bytes": 21967666
+    },
+    "dual_b/results/physical_attempt2/dual_b_sky130.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/dual_b_sky130.json",
+      "sha256": "a8b5cc2bc36775efe675f72f52e0207e9f8dcbebc04748eb6b8e6966270b84ed",
+      "size_bytes": 20694
+    },
+    "dual_b/results/physical_attempt2/logs/assemble_results_dual_b.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/assemble_results_dual_b.log",
+      "sha256": "2fd13d09eb31fa42e7199b9487b7314867aa1c609e79c19f86b975a682b0b630",
+      "size_bytes": 603
+    },
+    "dual_b/results/physical_attempt2/logs/dual_b_attempt2_stdout.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/dual_b_attempt2_stdout.log",
+      "sha256": "2d4959ac573d0ecd1867eadef83b9f6b18aefadaa09f7e0472c39f23c0227ee5",
+      "size_bytes": 540472
+    },
+    "dual_b/results/physical_attempt2/logs/dual_b_pnr_stdout.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/dual_b_pnr_stdout.log",
+      "sha256": "503fb27a50b2df9d9928cc66803585a3a2cac4d628c089c57c1d19ed1bef0b91",
+      "size_bytes": 5257
+    },
+    "dual_b/results/physical_attempt2/logs/dual_b_synth_run.ys": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/dual_b_synth_run.ys",
+      "sha256": "94787cda7ea002144ac2eb5e3a09e75c9acad7c2fd2e8f45d2711160f86af14a",
+      "size_bytes": 1482
+    },
+    "dual_b/results/physical_attempt2/logs/dual_backend.metrics.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/dual_backend.metrics.json",
+      "sha256": "9c8f29b868d97ff4ae0ad644d390645d4db4a2505832ff986412d414a924c7e8",
+      "size_bytes": 2996
+    },
+    "dual_b/results/physical_attempt2/logs/dual_backend.openroad.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/dual_backend.openroad.log",
+      "sha256": "b770ea00f99244efa645be30db400e90b343d7437ff74f99f32b435551cd748f",
+      "size_bytes": 77413
+    },
+    "dual_b/results/physical_attempt2/logs/filter_liberty_dual_b.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/filter_liberty_dual_b.log",
+      "sha256": "c4e127e634ff3ecc6709dfc202793b1b2d7cd76ec3baab672db65ffbc1ab8f60",
+      "size_bytes": 1582
+    },
+    "dual_b/results/physical_attempt2/logs/iverilog_gls_dual_b_compile.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/iverilog_gls_dual_b_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "dual_b/results/physical_attempt2/logs/iverilog_gls_scenario_dual_b_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/iverilog_gls_scenario_dual_b_run.log",
+      "sha256": "6da3e6de556a3cc6a936d63e7a05d777e5f1d137b54f1a32a41f1df1fe9eb2c3",
+      "size_bytes": 2161
+    },
+    "dual_b/results/physical_attempt2/logs/iverilog_gls_stream_128_dual_b_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/iverilog_gls_stream_128_dual_b_run.log",
+      "sha256": "d4902e74580af3063fc57feefc3c7e8d7687ad419003d02bda1264c8baaaeb14",
+      "size_bytes": 280
+    },
+    "dual_b/results/physical_attempt2/logs/iverilog_gls_stream_dual_b_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/iverilog_gls_stream_dual_b_run.log",
+      "sha256": "8e05b9ac10aa04ea1319be271922abad149679d4ebfdaa1539bc4e2082f85a5b",
+      "size_bytes": 1656
+    },
+    "dual_b/results/physical_attempt2/logs/openroad_backend_dual_b.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/openroad_backend_dual_b.log",
+      "sha256": "cfb91ce7839c7d80aadc0112389b897ba7ddcd83bb36f1baeff30bcdd7ca475b",
+      "size_bytes": 4385
+    },
+    "dual_b/results/physical_attempt2/logs/openroad_frontend_dual_b.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/openroad_frontend_dual_b.log",
+      "sha256": "f2c7e9c0d175cbfbfa63e93231eb46015af8749f1a927fc728674ececb0528de",
+      "size_bytes": 15523
+    },
+    "dual_b/results/physical_attempt2/logs/verilator_rtl_dual_b_compile.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/verilator_rtl_dual_b_compile.log",
+      "sha256": "a40c0757a8f21d2989cc95a67a40cada8f723b5d71b44138a21259c35fef278d",
+      "size_bytes": 16208
+    },
+    "dual_b/results/physical_attempt2/logs/verilator_rtl_dual_b_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/verilator_rtl_dual_b_run.log",
+      "sha256": "66459ada7727285b38484dc1d9124e1d8e80bc2daba29d23350fa53740cce278",
+      "size_bytes": 352
+    },
+    "dual_b/results/physical_attempt2/logs/yosys_dual_b.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/logs/yosys_dual_b.log",
+      "sha256": "ebface53d40c8e4352e85771e62b0b3f672aeda663435d56ef2112f352783076",
+      "size_bytes": 516852
+    },
+    "dual_b/results/physical_attempt2/netlists/dual_b_ppa_synth.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/netlists/dual_b_ppa_synth.v",
+      "sha256": "29b66a1cf97b6fad7e29fb8b292e473eb9640ed66d5c7139429b7b2e95da6f5d",
+      "size_bytes": 5712692
+    },
+    "dual_b/results/physical_attempt2/reports/drc_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/drc_dual_b.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "dual_b/results/physical_attempt2/reports/metrics_dual_b.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/metrics_dual_b.txt",
+      "sha256": "e5e818eee6112c58a3fc99167bc99aae7647fcb9ea7020a6bcab6aa2e9e8c58f",
+      "size_bytes": 130
+    },
+    "dual_b/results/physical_attempt2/reports/power_scenario_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/power_scenario_dual_b.rpt",
+      "sha256": "b30411c20ea11aa678ee91e9da64a74eecf68670cb04c501007c981ad1ac9fb9",
+      "size_bytes": 840
+    },
+    "dual_b/results/physical_attempt2/reports/power_streaming_128_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/power_streaming_128_dual_b.rpt",
+      "sha256": "1cf3c8ac5f4db4b6323e66115c45929077e90b0c04a8b0dd70166e1f76f90661",
+      "size_bytes": 840
+    },
+    "dual_b/results/physical_attempt2/reports/power_streaming_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/power_streaming_dual_b.rpt",
+      "sha256": "49bb3638a9bdb8a62c856dff79f08cb77074fb10aedb2d76e82798e61b341571",
+      "size_bytes": 840
+    },
+    "dual_b/results/physical_attempt2/reports/sta_hold_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_hold_paths_dual_b.rpt",
+      "sha256": "81eea612cdd67928257cfe840504ac39cc8002cacd7a7f2be9026673d119443d",
+      "size_bytes": 6360
+    },
+    "dual_b/results/physical_attempt2/reports/sta_max_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_max_paths_dual_b.rpt",
+      "sha256": "1758f5d74e6a9fcaab7c1edca08d521d38284b67202ae978baf6a9c5ff4e003b",
+      "size_bytes": 21232
+    },
+    "dual_b/results/physical_attempt2/reports/sta_min_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_min_paths_dual_b.rpt",
+      "sha256": "8b846593f1b00f2be838a461ee9e763b333102064b20a5b4873b2c83967ba564",
+      "size_bytes": 11700
+    },
+    "dual_b/results/physical_attempt2/reports/sta_recovery_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_recovery_paths_dual_b.rpt",
+      "sha256": "6d216525c090a2cb1c2e4a4c7884db4cf83e32e4b72352b2d10135c2b8c9c09a",
+      "size_bytes": 7030
+    },
+    "dual_b/results/physical_attempt2/reports/sta_removal_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_removal_paths_dual_b.rpt",
+      "sha256": "79c62947b2b1c7033e71b2dddc1ef937f0dbf3b32fffc7eaa4d7477d6ea06db3",
+      "size_bytes": 7020
+    },
+    "dual_b/results/physical_attempt2/reports/sta_setup_paths_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/sta_setup_paths_dual_b.rpt",
+      "sha256": "f319ff047ec0ac51e0ab3df415837b62830dff03d34778f9cbc4ccd07ef0c041",
+      "size_bytes": 17274
+    },
+    "dual_b/results/physical_attempt2/reports/tns_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/tns_dual_b.rpt",
+      "sha256": "93b7bb5d9d2e5140e16c0303f7d44dc8205c1503a0aa395c0c8d0070f563f8da",
+      "size_bytes": 9
+    },
+    "dual_b/results/physical_attempt2/reports/wns_dual_b.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/reports/wns_dual_b.rpt",
+      "sha256": "9e7667a094a60dd9f87357950defcef13a980b9329fb8f1b905ae588edbf5c6a",
+      "size_bytes": 9
+    },
+    "dual_b/results/physical_attempt2/spef/dual_b_baseline.spef": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/spef/dual_b_baseline.spef",
+      "sha256": "4f0e4e5b3d2d37394c38c20acbf6a55b5bd30ff30b07fd5d772d81d6af39cefe",
+      "size_bytes": 38497842
+    },
+    "dual_b/results/physical_attempt2/spef/dual_baseline.spef": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/spef/dual_baseline.spef",
+      "sha256": "bc4dd7de31f0b3da73b5085cf65e5b01ebdfa4267f1c2b1361701d48ce6b8c3c",
+      "size_bytes": 38192272
+    },
+    "dual_b/results/verify_physical_attempt2.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/verify_physical_attempt2.py",
+      "sha256": "c642234975ebb4d82df4bbf31fd259fd563b3b7c9ed87ae50b037f482cbbbf7f",
+      "size_bytes": 4079
+    },
+    "finalization/gds_roundtrip_audit.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/gds_roundtrip_audit.json",
+      "sha256": "02b757bedf23d18980f493ce001b64944316a1c1768c3cc1d5c2f911cf89a557",
+      "size_bytes": 1203
+    },
+    "finalization/sky130_gds_layermap.map": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/sky130_gds_layermap.map",
+      "sha256": "4fe8689ae6ce38b347445debe082d87fc2d976d4acf66727384cdd65b5c4c485",
+      "size_bytes": 872
+    },
+    "workloads/measured_control_comparison.csv": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/workloads/measured_control_comparison.csv",
+      "sha256": "1afa728c1619fd7c59b2dee3dde75c5f1f7e424876939bdf301881a889856b88",
+      "size_bytes": 463
+    },
+    "finalization/layout_verification_status.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/layout_verification_status.json",
+      "sha256": "2dac31c8dc417a0eef413dd917ac79757fac3633516fc09911f12ffbd077981c",
+      "size_bytes": 1521
+    },
+    "finalization/drc_attempts/shared_s0_klayout_drc_cleanhome.rc": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/drc_attempts/shared_s0_klayout_drc_cleanhome.rc",
+      "sha256": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+      "size_bytes": 2
+    },
+    "finalization/drc_attempts/shared_s0_klayout_drc.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/drc_attempts/shared_s0_klayout_drc.log",
+      "sha256": "ab62777a86ad7fe4ff25c93165c7c5ee636bbf823d8f9b2fa910ed9e280352a5",
+      "size_bytes": 3256
+    },
+    "finalization/drc_attempts/shared_s0_klayout_drc.rc": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/drc_attempts/shared_s0_klayout_drc.rc",
+      "sha256": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+      "size_bytes": 2
+    },
+    "finalization/drc_attempts/shared_s0_klayout_drc_cleanhome.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/finalization/drc_attempts/shared_s0_klayout_drc_cleanhome.log",
+      "sha256": "ab62777a86ad7fe4ff25c93165c7c5ee636bbf823d8f9b2fa910ed9e280352a5",
+      "size_bytes": 3256
+    },
+    "mac_hidden_judge/m2_abs/hidden_judge_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_abs/hidden_judge_report.json",
+      "sha256": "4c4859c2fe1677b991fd11035a391a0a5983c8c928f76db01506fa2a66592fe1",
+      "size_bytes": 404
+    },
+    "mac_hidden_judge/m2_abs/hidden_seed/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_abs/hidden_seed/stim.txt",
+      "sha256": "134ee8f6b3d68ef6e13033956659a8718f3c988233679e30f733d5161aeadfe0",
+      "size_bytes": 18024
+    },
+    "mac_hidden_judge/m2_abs/hidden_seed/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_abs/hidden_seed/cap.txt",
+      "sha256": "633432eef91be30c13c45b91e5105e77e6bb274320e99adc1dfc2800ac750c0d",
+      "size_bytes": 7510
+    },
+    "mac_hidden_judge/m2_abs/hidden_corners/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_abs/hidden_corners/stim.txt",
+      "sha256": "4c121f61ed606432537c2f1e1c8acd8de9c271a1d78cb3daf7abd1754754d6d2",
+      "size_bytes": 1884
+    },
+    "mac_hidden_judge/m2_abs/hidden_corners/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_abs/hidden_corners/cap.txt",
+      "sha256": "e2910d92944a17a72c967ea79b4c54a5bd94b782640e7caa2749572144f9e15d",
+      "size_bytes": 785
+    },
+    "mac_hidden_judge/m2/hidden_judge_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2/hidden_judge_report.json",
+      "sha256": "2579d9dd055a01d450355092f06fd33d22b62755d7a314d0879deb0bd0c07379",
+      "size_bytes": 753
+    },
+    "mac_hidden_judge/m2/hidden_seed/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2/hidden_seed/stim.txt",
+      "sha256": "134ee8f6b3d68ef6e13033956659a8718f3c988233679e30f733d5161aeadfe0",
+      "size_bytes": 18024
+    },
+    "mac_hidden_judge/m2/hidden_corners/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2/hidden_corners/stim.txt",
+      "sha256": "4c121f61ed606432537c2f1e1c8acd8de9c271a1d78cb3daf7abd1754754d6d2",
+      "size_bytes": 1884
+    },
+    "mac_hidden_judge/m3_fixed/hidden_judge_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_judge_report.json",
+      "sha256": "0460c6d4165042b90377ee1d1b8bf1f25fb97e0013af1e8e8ef197d6770d269b",
+      "size_bytes": 404
+    },
+    "mac_hidden_judge/m3_fixed/hidden_seed/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_seed/stim.txt",
+      "sha256": "134ee8f6b3d68ef6e13033956659a8718f3c988233679e30f733d5161aeadfe0",
+      "size_bytes": 18024
+    },
+    "mac_hidden_judge/m3_fixed/hidden_seed/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_seed/cap.txt",
+      "sha256": "633432eef91be30c13c45b91e5105e77e6bb274320e99adc1dfc2800ac750c0d",
+      "size_bytes": 7510
+    },
+    "mac_hidden_judge/m3_fixed/hidden_corners/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_corners/stim.txt",
+      "sha256": "4c121f61ed606432537c2f1e1c8acd8de9c271a1d78cb3daf7abd1754754d6d2",
+      "size_bytes": 1884
+    },
+    "mac_hidden_judge/m3_fixed/hidden_corners/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_fixed/hidden_corners/cap.txt",
+      "sha256": "e2910d92944a17a72c967ea79b4c54a5bd94b782640e7caa2749572144f9e15d",
+      "size_bytes": 785
+    },
+    "mac_hidden_judge/m3_abs/hidden_judge_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_abs/hidden_judge_report.json",
+      "sha256": "0460c6d4165042b90377ee1d1b8bf1f25fb97e0013af1e8e8ef197d6770d269b",
+      "size_bytes": 404
+    },
+    "mac_hidden_judge/m3_abs/hidden_seed/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_abs/hidden_seed/stim.txt",
+      "sha256": "134ee8f6b3d68ef6e13033956659a8718f3c988233679e30f733d5161aeadfe0",
+      "size_bytes": 18024
+    },
+    "mac_hidden_judge/m3_abs/hidden_seed/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_abs/hidden_seed/cap.txt",
+      "sha256": "633432eef91be30c13c45b91e5105e77e6bb274320e99adc1dfc2800ac750c0d",
+      "size_bytes": 7510
+    },
+    "mac_hidden_judge/m3_abs/hidden_corners/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_abs/hidden_corners/stim.txt",
+      "sha256": "4c121f61ed606432537c2f1e1c8acd8de9c271a1d78cb3daf7abd1754754d6d2",
+      "size_bytes": 1884
+    },
+    "mac_hidden_judge/m3_abs/hidden_corners/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m3_abs/hidden_corners/cap.txt",
+      "sha256": "e2910d92944a17a72c967ea79b4c54a5bd94b782640e7caa2749572144f9e15d",
+      "size_bytes": 785
+    },
+    "mac_hidden_judge/m2_fixed/hidden_judge_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_judge_report.json",
+      "sha256": "4c4859c2fe1677b991fd11035a391a0a5983c8c928f76db01506fa2a66592fe1",
+      "size_bytes": 404
+    },
+    "mac_hidden_judge/m2_fixed/hidden_seed/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_seed/stim.txt",
+      "sha256": "134ee8f6b3d68ef6e13033956659a8718f3c988233679e30f733d5161aeadfe0",
+      "size_bytes": 18024
+    },
+    "mac_hidden_judge/m2_fixed/hidden_seed/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_seed/cap.txt",
+      "sha256": "633432eef91be30c13c45b91e5105e77e6bb274320e99adc1dfc2800ac750c0d",
+      "size_bytes": 7510
+    },
+    "mac_hidden_judge/m2_fixed/hidden_corners/stim.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_corners/stim.txt",
+      "sha256": "4c121f61ed606432537c2f1e1c8acd8de9c271a1d78cb3daf7abd1754754d6d2",
+      "size_bytes": 1884
+    },
+    "mac_hidden_judge/m2_fixed/hidden_corners/cap.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2_fixed/hidden_corners/cap.txt",
+      "sha256": "e2910d92944a17a72c967ea79b4c54a5bd94b782640e7caa2749572144f9e15d",
+      "size_bytes": 785
+    },
+    "manifest/canonical_comparison.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/canonical_comparison.json",
+      "sha256": "ab4dff1249b3bec682a15d3bd657fdae0e567d8b9a5d077d8634a50bafecd5f7",
+      "size_bytes": 4077
+    },
+    "manifest/canonical_comparison.csv": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/canonical_comparison.csv",
+      "sha256": "2e0e633eada995857fe08baca0c5d25bb0d15671c0ee9bf046780127970d2454",
+      "size_bytes": 1358
+    },
+    "replay/final_s0_hidden_holdout/hidden_holdout_report.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/final_s0_hidden_holdout/hidden_holdout_report.json",
+      "sha256": "46ef0f18cf5e1046cf2476b5c3ed87d47c5802de95b60991592dfb8eda851475",
+      "size_bytes": 231
+    },
+    "replay/final_s0_hidden_holdout/run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/final_s0_hidden_holdout/run.log",
+      "sha256": "543764ffbe4fe2f4c44ae51133fc213653fb8a404b282f37c71e5d9f5da2ce17",
+      "size_bytes": 1486
+    },
+    "audit/verify_artifact_index.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/verify_artifact_index.py",
+      "sha256": "30a3d062193cb0a3787b786e032ad6e55b3ade8622ad930edf61b1569f4f2761",
+      "size_bytes": 5137
+    },
+    "manifest/build_canonical_comparison.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/manifest/build_canonical_comparison.py",
+      "sha256": "5b9da220d63b8a1824547c0e1939f69c0ae386e6d269878570ed38e2b1612b0c",
+      "size_bytes": 18444
+    },
+    "audit/frozen_sources/peweaver_ppa_shared_fft.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/frozen_sources/peweaver_ppa_shared_fft.v",
+      "sha256": "f3050aa5be8ca086ceb04740076a78dca62937fe4148978ead114a95fac2a107",
+      "size_bytes": 1491
+    },
+    "replay/s0_physical_repeat_20260909/s0_physical_repeat_sky130.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_physical_repeat_sky130.json",
+      "sha256": "cd53809fba0a41e889048a9ac4af0e4bd9e43022fd48231fa5cb39387cbf7ab5",
+      "size_bytes": 20851
+    },
+    "replay/s0_physical_repeat_20260909/s0_physical_repeat_audit.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_physical_repeat_audit.json",
+      "sha256": "93e60d5dd6ed3a610570867440908c24e3f1fc5b4bfe2262eee6328a108dce96",
+      "size_bytes": 2655
+    },
+    "replay/s0_physical_repeat_20260909/s0_repeat_pass.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_repeat_pass.log",
+      "sha256": "658749168b8bddbe53b76e80d374200f3c1cf6ddae496733a99e3355d33211ee",
+      "size_bytes": 357338
+    },
+    "replay/s0_physical_repeat_20260909/s0_repeat_fixture_failure.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/s0_repeat_fixture_failure.log",
+      "sha256": "710f702ae58c4e73abb872a17c8de1642233aa0eef5c3f7a80bd276a2a85aa38",
+      "size_bytes": 342730
+    },
+    "ASTRA_RELEASE_REPAIR_PLAN.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/ASTRA_RELEASE_REPAIR_PLAN.md",
+      "sha256": "598b30d85d0829d56a0c5bf0cd42a6598d7aeec70dff53ec9ceb526f431a32db",
+      "size_bytes": 25223
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__merge_clean_1__check_turn32.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/merge_clean_1/check_turn32.json",
+      "sha256": "bf5212a7b621ae14b64d79531fc28f236af64fc31f12efa8c7d690dcae5980e8",
+      "size_bytes": 855
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__merge_clean_1__shared_mergerun1_sky130.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/merge_clean_1/shared_mergerun1_sky130.json",
+      "sha256": "2867fd7440c5fa0dd90c4cd0283c03f4a2477102b9858399ccf42b7445c000a8",
+      "size_bytes": 20196
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__submission_edge_20260906__audit__RELEASE_REPAIR_REPORT.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/RELEASE_REPAIR_REPORT.md",
+      "sha256": "cfc077df89e02928ccacf96c2d7dbf8fef75571d7f378cdefe1e209d5c0eab83",
+      "size_bytes": 3197
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-2__artifacts__check_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-2/artifacts/check_turn1.json",
+      "sha256": "5a2c10866108ae67d2cf5f60655cb4b38e65881bd96a443841b465347029526d",
+      "size_bytes": 881
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-2__artifacts__manifest_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-2/artifacts/manifest_turn1.json",
+      "sha256": "3fb696666046e6303abb5cde1039eb0a0934a91e1507a77ff359932dd987e322",
+      "size_bytes": 352
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-2__best__shared_mac.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-2/best/shared_mac.v",
+      "sha256": "3340103b408aaf617ce0e2396d5bedc723303ec0e14f9ab5d19b42aa976f6c6a",
+      "size_bytes": 857
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-3__artifacts__check_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-3/artifacts/check_turn1.json",
+      "sha256": "5a2c10866108ae67d2cf5f60655cb4b38e65881bd96a443841b465347029526d",
+      "size_bytes": 881
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-3__artifacts__manifest_turn1.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-3/artifacts/manifest_turn1.json",
+      "sha256": "672a27606276c0530baa74519d9f0e2feb0cef3424f3be9a02915913334919b7",
+      "size_bytes": 352
+    },
+    "evidence/chia__examples__peweaver__orchestration__runs__mac-merge-3__best__shared_mac.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/mac-merge-3/best/shared_mac.v",
+      "sha256": "7a9a2fb7e64a04d26e3e73324be4a25549cb18fd19b0810e8062b0e020ab15ed",
+      "size_bytes": 679
+    },
+    "audit/inventory_refresh_20260909.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/inventory_refresh_20260909.json",
+      "sha256": "727c40cdbeb0d494d5cd24a2f45c424d642c4d33d680dead2cd6fe8df3f376b9",
+      "size_bytes": 4791
+    }
+  },
+  "physical_repeat_archive": {
+    "ARCHIVE_NOTE.md": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/ARCHIVE_NOTE.md",
+      "sha256": "e3aa456d291f2b8bb3d6a308012a61aeb86351a589753a64a111cd2a797a62f1",
+      "size_bytes": 1042
+    },
+    "results/activity/gls_scenario_shared.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_scenario_shared.vcd",
+      "sha256": "d0d8ec24d434dc8daa909417895ac137f2dba7208d31429cbb538a352038ff72",
+      "size_bytes": 38685302
+    },
+    "results/activity/gls_scenario_shared_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_scenario_shared_norm.vcd",
+      "sha256": "70034a30386f215a74e63b5fa83e9fad6fc27697295e59f54e193e1bceecf1a2",
+      "size_bytes": 38685309
+    },
+    "results/activity/gls_stream_128_shared.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_stream_128_shared.vcd",
+      "sha256": "1c64706e70343f2db2028fe83811f34da08d9350b54e2746f140a1c8f3fff16d",
+      "size_bytes": 22646009
+    },
+    "results/activity/gls_stream_128_shared_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_stream_128_shared_norm.vcd",
+      "sha256": "865710fcc9d69faa8631c3734c301a3b4f0a4130d4f47b80d732352546c0d2c1",
+      "size_bytes": 22645886
+    },
+    "results/activity/gls_stream_shared.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_stream_shared.vcd",
+      "sha256": "5c7672599d0ceebd954e3f0a90fe3d27d8a9f517f2648e90567095f40cacdaa9",
+      "size_bytes": 13715051
+    },
+    "results/activity/gls_stream_shared_norm.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/gls_stream_shared_norm.vcd",
+      "sha256": "3b898d99d7f8672c9a366ae0b37f5a88cffb278d35716ff5433df7d467bafaf9",
+      "size_bytes": 13714928
+    },
+    "results/activity/rtl_scenario_shared.vcd": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/activity/rtl_scenario_shared.vcd",
+      "sha256": "211da8f6e9d97d85e12ba495b540b6c128ec5be9e2ff1bf5ff34df298a2c737a",
+      "size_bytes": 2397523
+    },
+    "results/def/shared_baseline.def": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/def/shared_baseline.def",
+      "sha256": "0fb3d8f827fefcf223036948df939bc5ea8153225075d0892101187042803e24",
+      "size_bytes": 15069668
+    },
+    "results/leakage_check/nand2_leakage_check.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/leakage_check/nand2_leakage_check.json",
+      "sha256": "5002e6083b8ebdc7a68aee9e43f0a90131a6a2655d68e96903d0d1d93ce75ca5",
+      "size_bytes": 2446
+    },
+    "results/leakage_check/raw_state_0_0.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/leakage_check/raw_state_0_0.log",
+      "sha256": "922fec38d9c32294d2309acde78b563d2a2a75de48821e099577386578b25b26",
+      "size_bytes": 256
+    },
+    "results/leakage_check/raw_state_0_1.8.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/leakage_check/raw_state_0_1.8.log",
+      "sha256": "76b3c60dc474c43656a7cf17b787a48898ce32dd0cd979200165b9c5772f8beb",
+      "size_bytes": 256
+    },
+    "results/leakage_check/raw_state_1.8_0.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/leakage_check/raw_state_1.8_0.log",
+      "sha256": "861eeaeef68783eff2a7bbe9ab8375d6f89324fefd7e6e52f409e110202ffc6d",
+      "size_bytes": 256
+    },
+    "results/leakage_check/raw_state_1.8_1.8.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/leakage_check/raw_state_1.8_1.8.log",
+      "sha256": "85447a0408a96138098995b7c03c8e730bab1e31023a637babcb481005d378bd",
+      "size_bytes": 256
+    },
+    "results/logs/filter_liberty_shared.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/filter_liberty_shared.log",
+      "sha256": "67474fc866b2740ac128ecc5a8a3605937bf56cc91fbf2d4dfccf29ff72947e6",
+      "size_bytes": 1626
+    },
+    "results/logs/iverilog_gls_scenario_shared_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/iverilog_gls_scenario_shared_run.log",
+      "sha256": "0fdae38c02a8021465e4af7ac84d857375460224937ad70c2035a857dc87c9cf",
+      "size_bytes": 2421
+    },
+    "results/logs/iverilog_gls_shared_compile.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/iverilog_gls_shared_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "results/logs/iverilog_gls_stream_128_shared_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/iverilog_gls_stream_128_shared_run.log",
+      "sha256": "fad2c45fba3047bbe88ea773316e41b384385d2e76f78ecaa436d14c810e9bad",
+      "size_bytes": 348
+    },
+    "results/logs/iverilog_gls_stream_shared_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/iverilog_gls_stream_shared_run.log",
+      "sha256": "64c2bea824bd481e9cacb641e96797f1bc0a977e3b518fba2ec814c3568f75e0",
+      "size_bytes": 1868
+    },
+    "results/logs/openroad_backend_shared.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/openroad_backend_shared.log",
+      "sha256": "b3527ff472cdeddacd86184179f832a3ea254ebace839a95ec7e7dee2555da45",
+      "size_bytes": 4370
+    },
+    "results/logs/openroad_frontend_shared.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/openroad_frontend_shared.log",
+      "sha256": "9674ef359e37d0a13e2e23abd249941fee8ebd93f7856d1a8ca7c8bb59f8f623",
+      "size_bytes": 11877
+    },
+    "results/logs/shared_synth_run.ys": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/shared_synth_run.ys",
+      "sha256": "02ebcfc685a64ec46b1d8066ef7d19f74d66186d9a9527208a23dd2f052a20d6",
+      "size_bytes": 922
+    },
+    "results/logs/verilator_rtl_shared_compile.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/verilator_rtl_shared_compile.log",
+      "sha256": "1401df5c52ade0e2d303738bcb0f11b962fa04a2def2224d87de885e6f745f12",
+      "size_bytes": 22115
+    },
+    "results/logs/verilator_rtl_shared_run.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/verilator_rtl_shared_run.log",
+      "sha256": "e6594e99587ee238dfb56b14050104fa654a972f3b568f8cfb26ab901d4d7412",
+      "size_bytes": 376
+    },
+    "results/logs/yosys_shared.log": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/logs/yosys_shared.log",
+      "sha256": "9102bb4477394e6a3c0c1db80048c1c35aea23c7f9758976a5727bf966dd29ea",
+      "size_bytes": 338134
+    },
+    "results/netlists/shared_ppa_synth.v": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/netlists/shared_ppa_synth.v",
+      "sha256": "ded2341470283b0b01fc7352c0f3107760a578882025a2cf59b6bf159b6f6083",
+      "size_bytes": 3651643
+    },
+    "results/reports/drc_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/drc_shared.rpt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "results/reports/metrics_shared.txt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/metrics_shared.txt",
+      "sha256": "a79debe909038b62e5f1c87d3baf6b2b07adb0802a9b4fae742360ea23160201",
+      "size_bytes": 130
+    },
+    "results/reports/power_scenario_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/power_scenario_shared.rpt",
+      "sha256": "285c95e8af23a4292724dc79b1adcfc46c8d53a238f657f2d371c3d2085f99da",
+      "size_bytes": 840
+    },
+    "results/reports/power_streaming_128_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/power_streaming_128_shared.rpt",
+      "sha256": "aeb4e878a3379c0019980770ca7cb27c5c5fb26f031a7e73dd231c7a3aa24a5e",
+      "size_bytes": 840
+    },
+    "results/reports/power_streaming_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/power_streaming_shared.rpt",
+      "sha256": "0de751bab8d5ab0e8b57166fdcfcd2b0346eb25acc11803a60e6e6866fdd36b8",
+      "size_bytes": 840
+    },
+    "results/reports/sta_hold_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_hold_paths_shared.rpt",
+      "sha256": "3c642a3ad199ed040414325471759a26cf2796838fe7c4bd7bdeed740e25df9a",
+      "size_bytes": 6360
+    },
+    "results/reports/sta_max_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_max_paths_shared.rpt",
+      "sha256": "0e3c7b99fa7cc1495c0183492e7016b141ab2f4abc2d9c90271819f8f417926c",
+      "size_bytes": 26743
+    },
+    "results/reports/sta_min_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_min_paths_shared.rpt",
+      "sha256": "a3433ec63bbc36acb7f2d21351f0ccedda417868aa851c9eae020ee403b69c99",
+      "size_bytes": 11481
+    },
+    "results/reports/sta_recovery_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_recovery_paths_shared.rpt",
+      "sha256": "1237108e4064ff56679c7225119445854a1a398465622561ad1fd0dc8015697a",
+      "size_bytes": 7665
+    },
+    "results/reports/sta_removal_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_removal_paths_shared.rpt",
+      "sha256": "1b6c9628fa7f2bc75cab75a3e6ac130b1f1dfdc95febe242e53a8f864083ab61",
+      "size_bytes": 6769
+    },
+    "results/reports/sta_setup_paths_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/sta_setup_paths_shared.rpt",
+      "sha256": "e7331ceeddf2bd598428a15323fb72f21597df84b09fe0d1b7bcc48e95ac69ed",
+      "size_bytes": 22974
+    },
+    "results/reports/tns_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/tns_shared.rpt",
+      "sha256": "93b7bb5d9d2e5140e16c0303f7d44dc8205c1503a0aa395c0c8d0070f563f8da",
+      "size_bytes": 9
+    },
+    "results/reports/wns_shared.rpt": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/reports/wns_shared.rpt",
+      "sha256": "9e7667a094a60dd9f87357950defcef13a980b9329fb8f1b905ae588edbf5c6a",
+      "size_bytes": 9
+    },
+    "results/shared_baseline_sky130.json": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/shared_baseline_sky130.json",
+      "sha256": "cd53809fba0a41e889048a9ac4af0e4bd9e43022fd48231fa5cb39387cbf7ab5",
+      "size_bytes": 20851
+    },
+    "results/spef/shared_baseline.spef": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/spef/shared_baseline.spef",
+      "sha256": "65816edf712c97ffc705df512405dc34c60821976c680c4bfc16146e013f6b76",
+      "size_bytes": 25409027
+    },
+    "results/work/lib_shared_tt_synth.lib": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/lib_shared_tt_synth.lib",
+      "sha256": "390189ba88abd6ae1bc74781376e38152c4fbff065602dfa9f6fea4109488281",
+      "size_bytes": 12446030
+    },
+    "results/work/shared_frontend.odb": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/shared_frontend.odb",
+      "sha256": "3fed795786d6eea5557bf327d661c3f2aef1cda070c7f439c53a6c5f0b6b0c13",
+      "size_bytes": 28033818
+    },
+    "results/work/shared_gls.vvp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/shared_gls.vvp",
+      "sha256": "42451e182e90acb919f2b5334ae62c7be07c69804b861b12468facc02e668d05",
+      "size_bytes": 22453838
+    },
+    "results/work/shared_synth_run.ys": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/shared_synth_run.ys",
+      "sha256": "02ebcfc685a64ec46b1d8066ef7d19f74d66186d9a9527208a23dd2f052a20d6",
+      "size_bytes": 922
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb",
+      "sha256": "1fe6faff7886010b9df4ebd03fdcd21cd5d2ab6b34e0891befebaaab6256bffb",
+      "size_bytes": 465328
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.cpp",
+      "sha256": "fbc6ff419e690a91c938f0660c1331e6b131a03e50221e05ca18e4fbcb93e55c",
+      "size_bytes": 10943
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.h": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.h",
+      "sha256": "1be2560aa52883f47384540e599ed3ef52599761cc3cebc288a38002c40d191e",
+      "size_bytes": 5186
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.mk": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb.mk",
+      "sha256": "2be2899706873c2ffca48d4f30b16d222a0de0f20c98d003cc70755142624b4c",
+      "size_bytes": 2021
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle.h": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle.h",
+      "sha256": "d05afc8e34b2f9a785e29363dccbb36b57d741d7d196ed0bc968c1d82e0a58cd",
+      "size_bytes": 1200
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__0.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__0.cpp",
+      "sha256": "3bce54d840028a1680be51045fa70e13349bda23445b3866961d2720c93e88ec",
+      "size_bytes": 13603
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__0__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__0__Slow.cpp",
+      "sha256": "6f91db9871c713a0bd6209c9e926423332ca1ae1507810bdbee958b86262bcc3",
+      "size_bytes": 936
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_Twiddle__Slow.cpp",
+      "sha256": "6de668aaff5ad876280989e78758727445e61ecb28650337e827d7b62944668f",
+      "size_bytes": 1039
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.a": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.a",
+      "sha256": "194bcd4c6811643ab2374a1cf97f47dd74249a62cbad972b3bc9c8745fd7dee8",
+      "size_bytes": 366952
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.cpp",
+      "sha256": "32315485e29407b039711f4dde69add9a2cc9771da908885f68b88faaa9c8455",
+      "size_bytes": 775
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.d",
+      "sha256": "8d354445538818ab615a2cba9c2b1f67922c79bcc51614aee741ce2eca0cc2ff",
+      "size_bytes": 1609
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.o": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ALL.o",
+      "sha256": "95b831b670b45bc0e0dfd544485219eace2e62f23535910333de9443fdb2b948",
+      "size_bytes": 341832
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Syms.h": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Syms.h",
+      "sha256": "3f07f76b1bc17fcc0fc70d31f2bba1f96c06d8728c592df4aef2b29413d786e0",
+      "size_bytes": 2043
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Syms__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Syms__Slow.cpp",
+      "sha256": "d0f40e92b9ec6789345ed4dbade0c413fb54b664aab05f3ed18af5b3eae5d6e7",
+      "size_bytes": 3277
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__TraceDecls__0__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__TraceDecls__0__Slow.cpp",
+      "sha256": "6218c6d19f2218dbad8bae403ff170ea1b15603140b76f2178ec922f10b5a181",
+      "size_bytes": 363
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Trace__0.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Trace__0.cpp",
+      "sha256": "7298f8ee9f8dc4baf53fb28ff41fe00e3dca9394edaf42e3d717b9b696c45b36",
+      "size_bytes": 168671
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Trace__0__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__Trace__0__Slow.cpp",
+      "sha256": "908087e35c49a5d62f504d61113eeb2bae13d6ab3b1039213431de85fd37d09a",
+      "size_bytes": 276306
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root.h": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root.h",
+      "sha256": "fe3a35e181834d6280c57d78c8cd0be036c5dbc6168b8708846e5ca82f545f2f",
+      "size_bytes": 20369
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__0.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__0.cpp",
+      "sha256": "e6a878c7f3e1d7501a9b976b4de38c03cb61e9c0d14a837287e4daa3f42e59c0",
+      "size_bytes": 570325
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__0__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__0__Slow.cpp",
+      "sha256": "eed3fcccf7ad71fdf9b1e1e4daff9b841375ceb19be3f54a81f69c6a87c9b6e3",
+      "size_bytes": 25185
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__Slow.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb___024root__Slow.cpp",
+      "sha256": "fbe533097699827c3821e273eef631378d8d07696e3825f5021ffd9abe2b6fa9",
+      "size_bytes": 938
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__main.cpp": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__main.cpp",
+      "sha256": "3f24efa574622898ba5f7be12b1483c96bc8aadc2a4be7fed9eb92f1bf9b3471",
+      "size_bytes": 1209
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__pch.h": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__pch.h",
+      "sha256": "d5a8f5f72d28ed432fec7a55a0cf15340021be429dd361f0f852a74c2607480b",
+      "size_bytes": 865
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ver.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__ver.d",
+      "sha256": "a00e4c582db15e8034e5b16674697e4a60e910f4f9cd286cee5cbe1c3d578b28",
+      "size_bytes": 4522
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__verFiles.dat": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb__verFiles.dat",
+      "sha256": "52b3136d2f8af9afe1a3a568e4987dc66efe5d38bff1534ff8bdb029668d296b",
+      "size_bytes": 7703
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_classes.mk": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/Vpeweaver_shared_activity_tb_classes.mk",
+      "sha256": "5a6e3ac924862c1a69e91ba5ccbc098889a8c3727866be828e3d6ea2596c0bd0",
+      "size_bytes": 2170
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated.d",
+      "sha256": "cb59264d7f5bf957cda57738074f6a9cd40b8adcd445be432c458f75f4751942",
+      "size_bytes": 1021
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated.o": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated.o",
+      "sha256": "c4b787a291fa993a2b96d881091724ce6bf0fa37e407b943b1153f24214cb5e5",
+      "size_bytes": 299600
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_threads.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_threads.d",
+      "sha256": "7779e81975216cd13b6d2f45f2c11eaf55ae7056ba1db91e4739aed71ccc6c2e",
+      "size_bytes": 613
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_threads.o": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_threads.o",
+      "sha256": "12eb47ad6805fa320eb77fe124817b8f873ab628ff0958f7686e11cf728d7449",
+      "size_bytes": 60240
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_timing.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_timing.d",
+      "sha256": "3e4dc018a8290a15d3e83989694441a6b4343b4961c6dfe49ab35d66dc77cbd2",
+      "size_bytes": 610
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_timing.o": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_timing.o",
+      "sha256": "f5afdcaa6d249bc8cdec943c6d490f7561ea55ccf34b7b1c16b97b7ef13f3266",
+      "size_bytes": 18192
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_vcd_c.d": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_vcd_c.d",
+      "sha256": "88aad10e804d1fbc0806ef63c90426255ef47df70a6b0934a4e56a73810d7b9b",
+      "size_bytes": 958
+    },
+    "results/work/verilator_rtl_shared_20260908_190212_2454/verilated_vcd_c.o": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/replay/s0_physical_repeat_20260909/physical_artifacts/results/work/verilator_rtl_shared_20260908_190212_2454/verilated_vcd_c.o",
+      "sha256": "aa7d44ba38791c18971f5a3f8becaa3921502f3650bc60c20a8ec3448bf4f3d5",
+      "size_bytes": 104184
+    }
+  },
+  "release_audit_tools": {
+    "audit/verify_release_consistency.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/verify_release_consistency.py",
+      "sha256": "906967d5b4c64a20a8595891b41c3b7f209417ec6e45df3fa342cd072b4be206",
+      "size_bytes": 27277
+    },
+    "audit/test_release_guards.py": {
+      "path": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/audit/test_release_guards.py",
+      "sha256": "6a757001c581251730a34ad121fe1028eb3347500a88ddd705f469dd9b5c52df",
+      "size_bytes": 5935
+    }
+  }
+}

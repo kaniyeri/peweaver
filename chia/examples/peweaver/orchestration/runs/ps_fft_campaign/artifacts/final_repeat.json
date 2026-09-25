@@ -1,0 +1,22 @@
+{
+ "verified": true,
+ "best_hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+ "checks": {
+  "candidate_hash": true,
+  "cheap_accept": true,
+  "physical_no_retry": true,
+  "physical_passed": true,
+  "objectives_finite": true,
+  "constraints_hold": true,
+  "metrics_agree": true
+ },
+ "verified_at": 1788697363.7755008,
+ "cheap_verdict": "ACCEPT",
+ "physical_metrics": {
+  "area": 282963.0,
+  "p64": 39.9311,
+  "p128": 40.4448,
+  "e64": 39.132478,
+  "e128": 74.418432
+ }
+}

@@ -1,0 +1,136 @@
+{
+  "schema": "peweaver-canonical-comparison-1",
+  "claim_boundary": "Single-run open-source physical estimates at sky130A tt_025C_1v80; router DRC is not independent streamed-layout signoff.",
+  "standalone_placed_area_sum_um2": 424885.0,
+  "rows": [
+    {
+      "design": "S0",
+      "role": "accepted shared FFT",
+      "source_hash": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+      "evidence": "orchestration/runs/merge_clean_1/shared_mergerun1_sky130.json",
+      "area_um2": 286970.0,
+      "p64_mw": 39.81859,
+      "p128_mw": 40.44372,
+      "e64_nj": 39.0222182,
+      "e128_nj": 74.41644480000001,
+      "timing_met": true,
+      "router_drc_lines": 0,
+      "independent_streamed_drc": "NOT_VERIFIED",
+      "independent_lvs": "NOT_RUN",
+      "physical_detail_scope": "candidate_and_declared_dependency_identity_validated"
+    },
+    {
+      "design": "S1",
+      "role": "PowerSave area Pareto point",
+      "source_hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+      "evidence": "orchestration/runs/ps_fft_campaign/artifacts/final_repeat.json",
+      "area_um2": 282963.0,
+      "p64_mw": 39.9311,
+      "p128_mw": 40.4448,
+      "e64_nj": 39.132478,
+      "e128_nj": 74.418432,
+      "timing_met": null,
+      "router_drc_lines": null,
+      "independent_streamed_drc": "NOT_APPLICABLE",
+      "independent_lvs": "NOT_RUN",
+      "physical_detail_scope": "ppa_and_identity_validated; timing_and_drc_detail_not_archived"
+    },
+    {
+      "design": "A",
+      "role": "ungated dual-core control",
+      "source_hash": "27a4fe51709ede28365ac10a966394f550b6a339e6676b9957f2cb1ec3e55099",
+      "evidence": "physical/results/dual_baseline_sky130.json",
+      "area_um2": 429130.0,
+      "p64_mw": 61.52308,
+      "p128_mw": 61.44642,
+      "e64_nj": 60.292618399999995,
+      "e128_nj": 113.06141280000001,
+      "timing_met": true,
+      "router_drc_lines": 0,
+      "independent_streamed_drc": "NOT_VERIFIED",
+      "independent_lvs": "NOT_RUN",
+      "physical_detail_scope": "wrapper_and_declared_dependency_identity_validated"
+    },
+    {
+      "design": "B",
+      "role": "power-managed dual-core control",
+      "source_hash": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb",
+      "evidence": "orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/dual_b_sky130.json",
+      "area_um2": 429655.0,
+      "p64_mw": 23.38694,
+      "p128_mw": 41.7117,
+      "e64_nj": 22.919201199999996,
+      "e128_nj": 76.749528,
+      "timing_met": true,
+      "router_drc_lines": 0,
+      "independent_streamed_drc": "NOT_APPLICABLE",
+      "independent_lvs": "NOT_RUN",
+      "physical_detail_scope": "wrapper_and_declared_dependency_identity_validated"
+    }
+  ],
+  "comparisons": {
+    "area_vs_standalone_sum_pct": {
+      "S0": -32.4594,
+      "S1": -33.4025,
+      "A": 0.9991,
+      "B": 1.1227
+    },
+    "area_vs_dual_a_pct": {
+      "S0": -33.1275,
+      "S1": -34.0612,
+      "A": 0.0,
+      "B": 0.1223
+    },
+    "power_vs_dual_a_pct": {
+      "S0": {
+        "mode64": -35.2786,
+        "mode128": -34.1805
+      },
+      "S1": {
+        "mode64": -35.0957,
+        "mode128": -34.1788
+      },
+      "A": {
+        "mode64": 0.0,
+        "mode128": 0.0
+      },
+      "B": {
+        "mode64": -61.9867,
+        "mode128": -32.117
+      }
+    },
+    "energy_vs_dual_a_pct": {
+      "S0": {
+        "mode64": -35.2786,
+        "mode128": -34.1805
+      },
+      "S1": {
+        "mode64": -35.0957,
+        "mode128": -34.1788
+      },
+      "A": {
+        "mode64": 0.0,
+        "mode128": 0.0
+      },
+      "B": {
+        "mode64": -61.9867,
+        "mode128": -32.117
+      }
+    },
+    "s1_vs_s0_raw_delta": {
+      "mode64": {
+        "power_mw": 0.11251,
+        "energy_nj": 0.1102598
+      },
+      "mode128": {
+        "power_mw": 0.00108,
+        "energy_nj": 0.0019872
+      }
+    },
+    "power_s0_vs_b_pct": {
+      "mode64": 70.2599,
+      "mode128": -3.0399
+    },
+    "scope": "B is a non-merged power control; no idle-only B VCD exists."
+  }
+}

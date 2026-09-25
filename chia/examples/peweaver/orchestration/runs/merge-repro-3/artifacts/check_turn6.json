@@ -1,0 +1,17 @@
+{
+ "verdict": "REJECT",
+ "level": 1,
+ "feedback": "gate 'functional' failed:   ^~~~~~~ |         ... See the manual at https://verilator.org/verilator_doc.html?v=5.051 for more assistance. | %Error: /work/peweaver/runs/merge-repro-3/source/physical/rtl/peweaver_shared_fft.v:724:25: Illegal character in decimal constant: D |   724 |     assign wn_re[ 90] = 16'DAD8; assign wn_im[ 90] = 16'h7A7D; |       |                         ^~~~~~~ | %Error: Exiting due to 2 error(s) | ",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": "clean"
+  },
+  "functional": {
+   "passed": false,
+   "retry": false,
+   "note": "  ^~~~~~~ |         ... See the manual at https://verilator.org/verilator_doc.html?v=5.051 for more assistance. | %Error: /work/peweaver/runs/merge-repro-3/source/physical/rtl/peweaver_shared_fft.v:724:25: Illegal character in decimal constant: D |   724 |     assign wn_re[ 90] = 16'DAD8; assign wn_im[ 90] = 16'h7A7D; |       |                         ^~~~~~~ | %Error: Exiting due to 2 error(s) | "
+  }
+ }
+}

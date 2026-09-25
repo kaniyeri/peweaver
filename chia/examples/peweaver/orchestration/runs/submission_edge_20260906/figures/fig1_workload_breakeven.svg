@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400" width="650" height="400" style="background:#ffffff; font-family:sans-serif;">
+<!-- Title -->
+<text x="325" y="30" font-size="16" font-weight="bold" text-anchor="middle" fill="#1e293b">Workload Energy per FFT vs. Active Duty Cycle (Mode 64)</text>
+<line x1="80" y1="330" x2="600" y2="330" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="330" x2="80" y2="70" stroke="#64748b" stroke-width="2"/>
+<line x1="80" y1="330.0" x2="600" y2="330.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="334.0" font-size="11" text-anchor="end" fill="#64748b">0</text>
+<line x1="80" y1="278.0" x2="600" y2="278.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="282.0" font-size="11" text-anchor="end" fill="#64748b">200</text>
+<line x1="80" y1="226.0" x2="600" y2="226.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="230.0" font-size="11" text-anchor="end" fill="#64748b">400</text>
+<line x1="80" y1="174.0" x2="600" y2="174.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="178.0" font-size="11" text-anchor="end" fill="#64748b">600</text>
+<line x1="80" y1="122.0" x2="600" y2="122.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="126.0" font-size="11" text-anchor="end" fill="#64748b">800</text>
+<line x1="80" y1="70.0" x2="600" y2="70.0" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4"/>
+<text x="70" y="74.0" font-size="11" text-anchor="end" fill="#64748b">1000</text>
+<text x="35" y="200.0" font-size="12" font-weight="bold" text-anchor="middle" transform="rotate(-90 35 200.0)" fill="#334155">Energy per Transform (nJ)</text>
+<line x1="80.0" y1="330" x2="80.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="80.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">0%</text>
+<line x1="184.0" y1="330" x2="184.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="184.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">20%</text>
+<line x1="288.0" y1="330" x2="288.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="288.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">40%</text>
+<line x1="392.0" y1="330" x2="392.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="392.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">60%</text>
+<line x1="496.0" y1="330" x2="496.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="496.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">80%</text>
+<line x1="600.0" y1="330" x2="600.0" y2="335" stroke="#64748b" stroke-width="1.5"/>
+<text x="600.0" y="350" font-size="11" text-anchor="middle" fill="#64748b">100%</text>
+<text x="340.0" y="370" font-size="12" font-weight="bold" text-anchor="middle" fill="#334155">Active Duty Cycle (%)</text>
+<path d="M 106.0,81.0 L 132.0,203.8 L 210.0,277.5 L 340.0,302.0 L 470.0,310.2 L 600.0,314.3 L 600.0,319.9 L 470.0,317.4 L 340.0,312.6 L 210.0,298.1 L 132.0,254.5 L 106.0,181.9 Z" fill="#10b981" fill-opacity="0.15"/>
+<path d="M 106.0,81.0 L 132.0,203.8 L 210.0,277.5 L 340.0,302.0 L 470.0,310.2 L 600.0,314.3" fill="none" stroke="#ef4444" stroke-width="3"/>
+<path d="M 106.0,181.9 L 132.0,254.5 L 210.0,298.1 L 340.0,312.6 L 470.0,317.4 L 600.0,319.9" fill="none" stroke="#059669" stroke-width="3"/>
+<circle cx="106.0" cy="81.0" r="4" fill="#ef4444"/>
+<circle cx="132.0" cy="203.8" r="4" fill="#ef4444"/>
+<circle cx="210.0" cy="277.5" r="4" fill="#ef4444"/>
+<circle cx="340.0" cy="302.0" r="4" fill="#ef4444"/>
+<circle cx="470.0" cy="310.2" r="4" fill="#ef4444"/>
+<circle cx="600.0" cy="314.3" r="4" fill="#ef4444"/>
+<circle cx="106.0" cy="181.9" r="4" fill="#059669"/>
+<circle cx="132.0" cy="254.5" r="4" fill="#059669"/>
+<circle cx="210.0" cy="298.1" r="4" fill="#059669"/>
+<circle cx="340.0" cy="312.6" r="4" fill="#059669"/>
+<circle cx="470.0" cy="317.4" r="4" fill="#059669"/>
+<circle cx="600.0" cy="319.9" r="4" fill="#059669"/>
+<rect x="180" y="90" width="200" height="48" rx="4" fill="#ecfdf5" stroke="#10b981" stroke-width="1"/>
+<text x="280" y="110" font-size="11" font-weight="bold" fill="#065f46" text-anchor="middle">35.28% – 40.52% Modeled Savings</text>
+<text x="280" y="126" font-size="10" fill="#047857" text-anchor="middle">Nominal mode-64; not idle-VCD data</text>
+<rect x="430" y="85" width="160" height="60" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="440" y1="103" x2="465" y2="103" stroke="#ef4444" stroke-width="3"/>
+<circle cx="452" cy="103" r="3.5" fill="#ef4444"/>
+<text x="475" y="107" font-size="11" fill="#334155">Dual Baseline (A)</text>
+<line x1="440" y1="127" x2="465" y2="127" stroke="#059669" stroke-width="3"/>
+<circle cx="452" cy="127" r="3.5" fill="#059669"/>
+<text x="475" y="131" font-size="11" fill="#334155">Shared FFT (S0)</text>
+</svg>

@@ -1,0 +1,54 @@
+{
+ "schema": "peweaver-msweep-area-calibration-1",
+ "created": 1789588010.781087,
+ "floor_ratio": 0.8,
+ "reference_cells": {
+  "peweaver_ppa_fft64": 19175,
+  "peweaver_ppa_fft128": 27322
+ },
+ "reference_sum_cells": 46497,
+ "floor_cells": 37197,
+ "metric": "unweighted Yosys generic cell count after 'synth -top' (proxy only; not mapped or placed area)",
+ "candidates": [
+  {
+   "path": "/work/peweaver/runs/merge-clean-1/best/peweaver_shared_fft.v",
+   "present": true,
+   "synth_ok": true,
+   "cell_count": 28741,
+   "reduction_pct": 38.19,
+   "passes_floor": true
+  },
+  {
+   "path": "/work/peweaver/runs/merge-repro-1/best/peweaver_shared_fft.v",
+   "present": true,
+   "synth_ok": true,
+   "cell_count": 27706,
+   "reduction_pct": 40.41,
+   "passes_floor": true
+  },
+  {
+   "path": "/work/peweaver/runs/merge-repro-2/best/peweaver_shared_fft.v",
+   "present": true,
+   "synth_ok": true,
+   "cell_count": 28749,
+   "reduction_pct": 38.17,
+   "passes_floor": true
+  },
+  {
+   "path": "/work/peweaver/runs/merge-repro-3/best/peweaver_shared_fft.v",
+   "present": true,
+   "synth_ok": true,
+   "cell_count": 28728,
+   "reduction_pct": 38.22,
+   "passes_floor": true
+  },
+  {
+   "path": "/work/peweaver/runs/ps-fft-6/best/peweaver_shared_fft.v",
+   "present": true,
+   "synth_ok": true,
+   "cell_count": 28045,
+   "reduction_pct": 39.68,
+   "passes_floor": true
+  }
+ ]
+}

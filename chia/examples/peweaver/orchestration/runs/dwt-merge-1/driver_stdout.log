@@ -1,0 +1,21 @@
+2026-09-17 15:10:32,774	INFO worker.py:1810 -- Connecting to existing Ray cluster at address: 10.160.0.2:6379...
+2026-09-17 15:10:32,798	INFO worker.py:2004 -- Connected to Ray cluster. View the dashboard at [1m[32m127.0.0.1:8265 [39m[22m
+/work/peweaver/toolchains/miniforge3/envs/chia_env/lib/python3.10/site-packages/ray/_private/worker.py:2052: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+OpenCodeLLM is experimental: only exercised by unit tests so far, not validated in production.
+VertexGeminiLLM is experimental: only exercised by unit tests so far, not validated in production.
+*** SIGTERM received at time=1789658053 on cpu 5 ***
+PC: @     0x72db32318d1f  (unknown)  poll
+    @     0x72db32242520  (unknown)  (unknown)
+[2026-09-17 15:14:13,441 E 187725 187725] logging.cc:474: *** SIGTERM received at time=1789658053 on cpu 5 ***
+[2026-09-17 15:14:13,441 E 187725 187725] logging.cc:474: PC: @     0x72db32318d1f  (unknown)  poll
+[2026-09-17 15:14:13,441 E 187725 187725] logging.cc:474:     @     0x72db32242520  (unknown)  (unknown)
+2026-09-17 15:17:44,002	INFO worker.py:1669 -- Using address local set in the environment variable RAY_ADDRESS
+2026-09-17 15:17:51,535	INFO worker.py:2004 -- Started a local Ray instance. View the dashboard at [1m[32m127.0.0.1:8266 [39m[22m
+/work/peweaver/toolchains/miniforge3/envs/chia_env/lib/python3.10/site-packages/ray/_private/worker.py:2052: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+OpenCodeLLM is experimental: only exercised by unit tests so far, not validated in production.
+[resume] turn=1 best_level=0 accepted=False
+VertexGeminiLLM is experimental: only exercised by unit tests so far, not validated in production.
+[turn 2] ACCEPTED level=6
+{"run_id": "dwt-merge-1", "accepted": true, "best_level": 6, "turns": ["accepted"]}

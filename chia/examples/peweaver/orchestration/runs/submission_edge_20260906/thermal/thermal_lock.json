@@ -1,0 +1,30 @@
+{
+  "tool": "HotSpot",
+  "source_repository": "https://github.com/uvahotspot/HotSpot.git",
+  "pinned_commit": "f18831e48cef5d62580585cca0d7fab6c71bc3cc",
+  "build_date": "2026-09-07",
+  "compiler": "gcc -O3 -DVERBOSE=1 -DMATHACCEL=0 -DSUPERLU=0",
+  "verified_examples": ["examples/example1", "examples/example2"],
+  "model_type": "grid (Layer 0 silicon extracted)",
+  "grid_resolutions": ["32x32"],
+  "baseline_package": "standard_quad_flat_package",
+  "boundary_conditions": {
+    "ambient_temperature_k": [300.0, 310.15],
+    "convection_resistance_k_per_w_sweep": [0.1, 0.5, 1.0, 2.0, 5.0, 10.0],
+    "heatsink_side_m": 0.06,
+    "heatsink_thickness_m": 0.0069,
+    "heatsink_material": "aluminum",
+    "spreader_side_m": 0.03,
+    "spreader_thickness_m": 0.001,
+    "spreader_material": "aluminum"
+  },
+  "material_properties": {
+    "silicon_thermal_conductivity_w_per_m_k": 130.0,
+    "silicon_specific_heat_j_per_m3_k": 1630300.0,
+    "silicon_thickness_m": 0.00015
+  },
+  "spatial_map_gate_decision": {
+    "status": "UNIFORM_BLOCK_SENSITIVITY_MODEL",
+    "rationale": "OpenSTA report_power does not provide per-instance power reporting across 53k instances. In accordance with Section 5 mandatory gate, a uniform-block thermal sensitivity model is delivered without heuristic sub-block partitioning, and fine-grained spatial sub-block hotspot conclusions are marked unavailable."
+  }
+}

@@ -1,0 +1,91 @@
+=== Starting OpenROAD Backend for dual_b at Sun Sep  6 19:20:22 UTC 2026 ===
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 8 thread(s).
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0422] No routing tracks pass through the center of Term VSS.
+[WARNING DRT-0422] No routing tracks pass through the center of Term VDD.
+[INFO DRT-0167] List of default vias:
+  Layer via
+    default via: M1M2_PR
+  Layer via2
+    default via: M2M3_PR
+  Layer via3
+    default via: M3M4_PR
+  Layer via4
+    default via: M4M5_PR
+[INFO DRT-0168] Init region query.
+[INFO DRT-0033] FR_MASTERSLICE shape region query size = 0.
+[INFO DRT-0033] licon shape region query size = 0.
+[INFO DRT-0033] li1 shape region query size = 1315925.
+[INFO DRT-0033] mcon shape region query size = 0.
+[INFO DRT-0033] met1 shape region query size = 190526.
+[INFO DRT-0033] via shape region query size = 61250.
+[INFO DRT-0033] met2 shape region query size = 36819.
+[INFO DRT-0033] via2 shape region query size = 49000.
+[INFO DRT-0033] met3 shape region query size = 36750.
+[INFO DRT-0033] via3 shape region query size = 49000.
+[INFO DRT-0033] met4 shape region query size = 14735.
+[INFO DRT-0033] via4 shape region query size = 2415.
+[INFO DRT-0033] met5 shape region query size = 2553.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0036] FR_MASTERSLICE guide region query size = 0.
+[INFO DRT-0036] licon guide region query size = 0.
+[INFO DRT-0036] li1 guide region query size = 100651.
+[INFO DRT-0036] mcon guide region query size = 0.
+[INFO DRT-0036] met1 guide region query size = 67256.
+[INFO DRT-0036] via guide region query size = 0.
+[INFO DRT-0036] met2 guide region query size = 29602.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] met3 guide region query size = 1526.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] met4 guide region query size = 648.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] met5 guide region query size = 2.
+[INFO DRT-0179] Init gr pin query.
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0435] Reading extraction model file /work/peweaver/source/chia/examples/peweaver/physical/pdk/sky130hd/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation peweaver_ppa_dual_fft_icg (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 149328 rc segments
+[INFO RCX-0439] Coupling Cap extraction peweaver_ppa_dual_fft_icg ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0442] 26% of 296909 wires extracted
+[INFO RCX-0442] 54% of 296909 wires extracted
+[INFO RCX-0442] 73% of 296909 wires extracted
+[INFO RCX-0442] 100% of 296909 wires extracted
+[INFO RCX-0045] Extract 40518 nets, 189846 rsegs, 189846 caps, 305842 ccs
+[INFO RCX-0443] 40518 nets finished
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 127481 pin activities.
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 127481 pin activities.
+[WARNING STA-0305] read_power_activities is deprecated. Use read_vcd.
+Annotated 127481 pin activities.
+Design area 428894 u^2 48% utilization.
+PEWEAVER_PHYSICAL_FLOW_DONE
+=== OpenROAD Backend Completed Successfully at Sun Sep  6 21:06:31 UTC 2026 ===
+=== Running assemble_results.py --design dual_b ===
+  VCD window: 294.000 cycles (2.940000 us)
+assemble_results.py: wrote /work/peweaver/source/chia/examples/peweaver/physical/results/dual_b_sky130.json
+  synth: 38531 cells, 361784.5 um2
+  pnr:   53257 instances, 428894.0 um2, 48.0% util, setup=0.436 ns, hold=-0.316 ns, recovery=8.905 ns, removal=0.381 ns, timing_met=False
+  power (streaming): total=23.2406 mW (internal=16.3678, switching=6.8726, leakage=0.000157)
+  power (scenario):  total=34.3048 mW
+  energy/FFT: mode64=22.776 nJ, mode128=76.509 nJ
+  placed reduction vs standalone sum: -0.944%
+  annotated pins: streaming=127481, scenario=127481
+=== ALL DONE FOR DUAL_B at Sun Sep  6 21:06:32 UTC 2026 ===

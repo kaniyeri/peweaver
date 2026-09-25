@@ -1,0 +1,140 @@
+Startpoint: _28623_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _28639_ (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.105886    1.105886   clock network delay (propagated)
+   0.000000    1.105886 ^ _28623_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.298586    1.404472 ^ _28623_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.000062    1.404534 ^ _28639_/D (sky130_fd_sc_hd__dfxtp_1)
+               1.404534   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.279825    1.279825   clock network delay (propagated)
+   0.050000    1.329826   clock uncertainty
+   0.000000    1.329826   clock reconvergence pessimism
+               1.329826 ^ _28639_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.026853    1.302973   library hold time
+               1.302973   data required time
+-----------------------------------------------------------------
+               1.302973   data required time
+              -1.404534   data arrival time
+-----------------------------------------------------------------
+               0.101562   slack (MET)
+
+
+Startpoint: _27618_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _27634_ (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.110140    1.110140   clock network delay (propagated)
+   0.000000    1.110140 ^ _27618_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.299115    1.409255 ^ _27618_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.000060    1.409315 ^ _27634_/D (sky130_fd_sc_hd__dfxtp_1)
+               1.409315   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.279088    1.279088   clock network delay (propagated)
+   0.050000    1.329088   clock uncertainty
+   0.000000    1.329088   clock reconvergence pessimism
+               1.329088 ^ _27634_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.027002    1.302086   library hold time
+               1.302086   data required time
+-----------------------------------------------------------------
+               1.302086   data required time
+              -1.409315   data arrival time
+-----------------------------------------------------------------
+               0.107229   slack (MET)
+
+
+Startpoint: _27539_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _27555_ (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.109721    1.109721   clock network delay (propagated)
+   0.000000    1.109721 ^ _27539_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.300325    1.410046 ^ _27539_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.000069    1.410115 ^ _27555_/D (sky130_fd_sc_hd__dfxtp_1)
+               1.410115   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.277914    1.277914   clock network delay (propagated)
+   0.050000    1.327914   clock uncertainty
+   0.000000    1.327914   clock reconvergence pessimism
+               1.327914 ^ _27555_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.027097    1.300817   library hold time
+               1.300817   data required time
+-----------------------------------------------------------------
+               1.300817   data required time
+              -1.410115   data arrival time
+-----------------------------------------------------------------
+               0.109298   slack (MET)
+
+
+Startpoint: _27723_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _27739_ (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.111137    1.111137   clock network delay (propagated)
+   0.000000    1.111137 ^ _27723_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.301430    1.412567 ^ _27723_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.000071    1.412638 ^ _27739_/D (sky130_fd_sc_hd__dfxtp_1)
+               1.412638   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.278015    1.278015   clock network delay (propagated)
+   0.050000    1.328014   clock uncertainty
+   0.000000    1.328014   clock reconvergence pessimism
+               1.328014 ^ _27739_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.027210    1.300805   library hold time
+               1.300805   data required time
+-----------------------------------------------------------------
+               1.300805   data required time
+              -1.412638   data arrival time
+-----------------------------------------------------------------
+               0.111834   slack (MET)
+
+
+Startpoint: _27912_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _27928_ (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+      Delay        Time   Description
+-----------------------------------------------------------------
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.107619    1.107619   clock network delay (propagated)
+   0.000000    1.107619 ^ _27912_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.303174    1.410793 ^ _27912_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.000080    1.410873 ^ _27928_/D (sky130_fd_sc_hd__dfxtp_1)
+               1.410873   data arrival time
+
+   0.000000    0.000000   clock core_clock (rise edge)
+   1.276579    1.276579   clock network delay (propagated)
+   0.050000    1.326579   clock uncertainty
+   0.000000    1.326579   clock reconvergence pessimism
+               1.326579 ^ _27928_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.027844    1.298736   library hold time
+               1.298736   data required time
+-----------------------------------------------------------------
+               1.298736   data required time
+              -1.410873   data arrival time
+-----------------------------------------------------------------
+               0.112137   slack (MET)
+
+

@@ -1,0 +1,12 @@
+{
+ "verdict": "REJECT",
+ "level": 0,
+ "feedback": "gate 'lint' failed: missing port: mode; missing port: di_re; missing port: di_im; missing port: di_en; missing port: do_re; missing port: do_im; missing port: do_en; module peweaver_shared_fft not found",
+ "detail": {
+  "lint": {
+   "passed": false,
+   "retry": false,
+   "note": "missing port: mode; missing port: di_re; missing port: di_im; missing port: di_en; missing port: do_re; missing port: do_im; missing port: do_en; module peweaver_shared_fft not found"
+  }
+ }
+}

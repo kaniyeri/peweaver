@@ -1,0 +1,24 @@
+sweep queue: 12 pending / 12 total; gpt window: 00:00
+[start] msweep-impl-glm-r1 (gemini/gemini-3.8-flash -> opencode-go/glm-5.3-flash)
+[start] msweep-impl-kimi-r1 (gemini/gemini-3.8-flash -> opencode-go/kimi-k2.7-code)
+[start] msweep-impl-minimax-r1 (gemini/gemini-3.8-flash -> opencode-go/minimax-m3)
+[done] msweep-impl-glm-r1 in 1104s
+[start] msweep-adv-claude-r2 (openrouter/anthropic/claude-sonnet-4.6 -> gemini/gemini-3.8-flash)
+[done] msweep-adv-claude-r2 in 306s
+[start] msweep-adv-deepseek-r2 (opencode-go/deepseek-v4.1-flash -> gemini/gemini-3.8-flash)
+[done] msweep-adv-deepseek-r2 in 1656s
+[start] msweep-adv-glm-r2 (opencode-go/glm-5.3-flash -> gemini/gemini-3.8-flash)
+[done] msweep-impl-minimax-r1 in 3429s
+[start] msweep-adv-kimi-r2 (opencode-go/kimi-k2.7-code -> gemini/gemini-3.8-flash)
+[done] msweep-adv-kimi-r2 in 529s
+[start] msweep-adv-minimax-r2 (opencode-go/minimax-m3 -> gemini/gemini-3.8-flash)
+[done] msweep-adv-minimax-r2 in 536s
+[start] msweep-impl-deepseek-r2 (gemini/gemini-3.8-flash -> opencode-go/deepseek-v4.1-flash)
+[done] msweep-adv-glm-r2 in 2625s
+[start] msweep-impl-glm-r2 (gemini/gemini-3.8-flash -> opencode-go/glm-5.3-flash)
+[done] msweep-impl-deepseek-r2 in 2482s
+[start] msweep-impl-kimi-r2 (gemini/gemini-3.8-flash -> opencode-go/kimi-k2.7-code)
+[done] msweep-impl-kimi-r1 in 8140s
+[start] msweep-impl-minimax-r2 (gemini/gemini-3.8-flash -> opencode-go/minimax-m3)
+[done] msweep-impl-glm-r2 in 4338s
+[done] msweep-impl-minimax-r2 in 4275s

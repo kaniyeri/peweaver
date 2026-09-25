@@ -1,0 +1,60 @@
+{
+  "obligations": [
+    {
+      "obligation": "Bit-exact arithmetic equivalence",
+      "checker": "fft64_oracle.py / fft128_oracle.py / SymbiYosys BMC depth 12",
+      "evidence_class": "Oracle simulation & bounded formal",
+      "gates": [
+        "oracle",
+        "holdout"
+      ],
+      "claim_limitation": "Proves agreement on tested randomized/directed frames; BMC bounded to depth 12."
+    },
+    {
+      "obligation": "Exact first-valid emission latency (71/137 cycles)",
+       "checker": "controller-owned hidden holdout testbench (archived report records pass/fail only)",
+       "evidence_class": "Archived controller holdout report",
+      "gates": [
+        "holdout",
+        "gls"
+      ],
+       "claim_limitation": "The exact 71/137-cycle contract is declared by the controller testbench, but this archive does not preserve a latency trace; do not treat it as a newly reconstructed mapped-GLS latency measurement."
+    },
+    {
+      "obligation": "Physical timing closure (setup/hold slack >= 0)",
+      "checker": "OpenSTA 2.0 (propagated clocks, 0.10ns setup / 0.05ns hold uncertainty)",
+      "evidence_class": "Post-OpenRCX parasitic STA report",
+      "gates": [
+        "timing"
+      ],
+      "claim_limitation": "Evaluated at tt_025C_1v80 corner only; not multi-corner signoff."
+    },
+    {
+      "obligation": "Zero physical design rule violations (DRC = 0)",
+      "checker": "OpenROAD detailed_route -output_drc",
+      "evidence_class": "Router DRC report",
+      "gates": [
+        "drc"
+      ],
+      "claim_limitation": "Router DRC only; independent streamed-layout DRC/LVS decks are pinned but execution remains pending."
+    },
+    {
+      "obligation": "Hardware sharing floor / architectural structure",
+      "checker": "Yosys stat pass / cell counting filter",
+      "evidence_class": "Synthesized netlist cell audit",
+      "gates": [
+        "structure"
+      ],
+      "claim_limitation": "Generic cell count for MAC/FIR; mapped placed area floor for FFT."
+    },
+    {
+      "obligation": "Artifact and execution provenance integrity",
+      "checker": "chia_merge hash-bound manifest & config fingerprinting",
+      "evidence_class": "SHA-256 manifest and resume guard",
+      "gates": [
+        "provenance"
+      ],
+       "claim_limitation": "Binds the referenced source, reports, and derived artifacts by SHA-256; it does not independently prove an unarchived execution context."
+    }
+  ]
+}

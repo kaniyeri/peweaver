@@ -1,0 +1,37 @@
+{
+  "all_artifacts_equal": true,
+  "artifacts_equal": {
+    "def": true,
+    "drc": true,
+    "metrics": true,
+    "netlist": true,
+    "power_scenario": true,
+    "power_streaming": true,
+    "spef": true,
+    "sta_hold_paths": true,
+    "sta_max_paths": true,
+    "sta_min_paths": true,
+    "sta_recovery_paths": true,
+    "sta_removal_paths": true,
+    "sta_setup_paths": true,
+    "vcd_scenario": true,
+    "vcd_stream": true
+  },
+  "canonical_rules": {
+    "other_artifacts": "compare raw sha256",
+    "recorder": "both captures must use the same reproducibility.py sha256",
+    "result": "compare all result fields except artifacts; artifact hashes include volatile tool logs",
+    "spef": "compare without_date_sha256 (remove only *DATE line)",
+    "vcd": "compare normalized VCD raw sha256 byte-for-byte"
+  },
+  "design": "fft64",
+  "recorder_equal": true,
+  "result_semantics_equal": true,
+  "result_sha256": {
+    "run1": "b939689910b76a3ac7909dfb80a0bd76b13cc2b49f39d755022df8bc682995d7",
+    "run2": "641a76056c249095a9a751efeec6defa99df2f3bf76a35d329344718eb8b9bcc"
+  },
+  "run1": "results/reproducibility/fft64_run1.json",
+  "run2": "results/reproducibility/fft64_run2.json",
+  "schema": "peweaver-reproducibility-comparison-1"
+}

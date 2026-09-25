@@ -1,0 +1,259 @@
+OpenROAD v2.0-17598-ga008522d8 
+Features included (+) or not (-): +Charts +GPU +GUI +Python : None
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 12 thread(s).
+[INFO ODB-0227] LEF file: /home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef, created 14 layers, 25 vias
+[WARNING ODB-0220] WARNING (LEFPARS-2008): NOWIREEXTENSIONATPIN statement is obsolete in version 5.6 or later.
+The NOWIREEXTENSIONATPIN statement will be ignored. See file /home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef at line 2.
+
+[INFO ODB-0227] LEF file: /home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef, created 437 library cells
+[WARNING IFP-0028] Core area lower left (5.000, 5.000) snapped to (5.060, 5.440).
+[INFO IFP-0001] Added 218 rows of 1293 site unithd.
+Found 0 macro blocks.
+Using 2 tracks default min distance between IO pins.
+[INFO PPL-0001] Number of slots           2202
+[INFO PPL-0002] Number of I/O             68
+[INFO PPL-0003] Number of I/O w/sink      68
+[INFO PPL-0004] Number of I/O w/o sink    0
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 21634.20 um.
+[INFO TAP-0005] Inserted 4730 tapcells.
+[INFO PDN-0001] Inserting grid: grid
+[INFO GPL-0002] DBU: 1000
+[INFO GPL-0003] SiteSize: (  0.460  2.720 ) um
+[INFO GPL-0004] CoreBBox: (  5.060  5.440 ) ( 599.840 598.400 ) um
+[INFO GPL-0006] NumInstances:             20552
+[INFO GPL-0007] NumPlaceInstances:        15822
+[INFO GPL-0008] NumFixedInstances:         4730
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                  15857
+[INFO GPL-0011] NumPins:                  52393
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 605.020 605.020 ) um
+[INFO GPL-0013] CoreBBox: (  5.060  5.440 ) ( 599.840 598.400 ) um
+[INFO GPL-0016] CoreArea:            352680.749 um^2
+[INFO GPL-0017] NonPlaceInstsArea:     5918.176 um^2
+[INFO GPL-0018] PlaceInstsArea:      141619.574 um^2
+[INFO GPL-0019] Util:                    40.840 %
+[INFO GPL-0020] StdInstsArea:        141619.574 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[InitialPlace]  Iter: 1 CG residual: 0.02743835 HPWL: 173170280
+[InitialPlace]  Iter: 2 CG residual: 0.02976505 HPWL: 141251630
+[InitialPlace]  Iter: 3 CG residual: 0.03448175 HPWL: 139106575
+[InitialPlace]  Iter: 4 CG residual: 0.03056919 HPWL: 137162852
+[InitialPlace]  Iter: 5 CG residual: 0.01613422 HPWL: 132624879
+[InitialPlace]  Iter: 6 CG residual: 0.09170461 HPWL: 132133426
+[InitialPlace]  Iter: 7 CG residual: 0.02367594 HPWL: 148560460
+[InitialPlace]  Iter: 8 CG residual: 0.03287173 HPWL: 144835698
+[InitialPlace]  Iter: 9 CG residual: 0.02088729 HPWL: 135151343
+[InitialPlace]  Iter: 10 CG residual: 0.02823590 HPWL: 134153193
+[InitialPlace]  Iter: 11 CG residual: 0.01617734 HPWL: 131154237
+[InitialPlace]  Iter: 12 CG residual: 0.01540137 HPWL: 130084602
+[InitialPlace]  Iter: 13 CG residual: 0.01158328 HPWL: 127706291
+[InitialPlace]  Iter: 14 CG residual: 0.00879842 HPWL: 126871804
+[InitialPlace]  Iter: 15 CG residual: 0.00443103 HPWL: 124482240
+[InitialPlace]  Iter: 16 CG residual: 0.00153036 HPWL: 123697586
+[InitialPlace]  Iter: 17 CG residual: 0.00021100 HPWL: 122105850
+[InitialPlace]  Iter: 18 CG residual: 0.00007003 HPWL: 121651074
+[InitialPlace]  Iter: 19 CG residual: 0.00007537 HPWL: 121563657
+[InitialPlace]  Iter: 20 CG residual: 0.00004897 HPWL: 121530399
+[INFO GPL-0031] FillerInit:NumGCells:     23623
+[INFO GPL-0032] FillerInit:NumGNets:      15857
+[INFO GPL-0033] FillerInit:NumGPins:      52393
+[INFO GPL-0023] TargetDensity:            0.600
+[INFO GPL-0024] AvrgPlaceInstArea:        8.951 um^2
+[INFO GPL-0025] IdealBinArea:            14.918 um^2
+[INFO GPL-0026] IdealBinCnt:              23641
+[INFO GPL-0027] TotalBinArea:        352680.749 um^2
+[INFO GPL-0028] BinCnt:       128    128
+[INFO GPL-0029] BinSize: (  4.647  4.633 )
+[INFO GPL-0030] NumBins: 16384
+[NesterovSolve] Iter:    1 overflow: 0.998 HPWL: 34716109
+[NesterovSolve] Iter:   10 overflow: 0.998 HPWL: 33006703
+[NesterovSolve] Iter:   20 overflow: 0.998 HPWL: 33093595
+[NesterovSolve] Iter:   30 overflow: 0.998 HPWL: 33146399
+[NesterovSolve] Iter:   40 overflow: 0.998 HPWL: 33178646
+[NesterovSolve] Iter:   50 overflow: 0.998 HPWL: 33199834
+[NesterovSolve] Iter:   60 overflow: 0.998 HPWL: 33228396
+[NesterovSolve] Iter:   70 overflow: 0.998 HPWL: 33247903
+[NesterovSolve] Iter:   80 overflow: 0.998 HPWL: 33256189
+[NesterovSolve] Iter:   90 overflow: 0.998 HPWL: 33260248
+[NesterovSolve] Iter:  100 overflow: 0.998 HPWL: 33266992
+[NesterovSolve] Iter:  110 overflow: 0.998 HPWL: 33293790
+[NesterovSolve] Iter:  120 overflow: 0.998 HPWL: 33395533
+[NesterovSolve] Iter:  130 overflow: 0.997 HPWL: 33651684
+[NesterovSolve] Iter:  140 overflow: 0.997 HPWL: 34179765
+[NesterovSolve] Iter:  150 overflow: 0.995 HPWL: 35085754
+[NesterovSolve] Iter:  160 overflow: 0.992 HPWL: 36581314
+[NesterovSolve] Iter:  170 overflow: 0.988 HPWL: 38727902
+[NesterovSolve] Iter:  180 overflow: 0.981 HPWL: 41654532
+[NesterovSolve] Iter:  190 overflow: 0.973 HPWL: 45918116
+[NesterovSolve] Iter:  200 overflow: 0.961 HPWL: 52039003
+[NesterovSolve] Iter:  210 overflow: 0.946 HPWL: 60380840
+[NesterovSolve] Iter:  220 overflow: 0.926 HPWL: 70767178
+[NesterovSolve] Iter:  230 overflow: 0.902 HPWL: 82997937
+[NesterovSolve] Iter:  240 overflow: 0.875 HPWL: 96563905
+[NesterovSolve] Iter:  250 overflow: 0.848 HPWL: 110686654
+[NesterovSolve] Iter:  260 overflow: 0.822 HPWL: 126033624
+[NesterovSolve] Iter:  270 overflow: 0.791 HPWL: 141396013
+[NesterovSolve] Iter:  280 overflow: 0.764 HPWL: 154902323
+[NesterovSolve] Iter:  290 overflow: 0.729 HPWL: 167605185
+[NesterovSolve] Iter:  300 overflow: 0.696 HPWL: 181258075
+[NesterovSolve] Iter:  310 overflow: 0.659 HPWL: 190020474
+[NesterovSolve] Iter:  320 overflow: 0.624 HPWL: 191849016
+[NesterovSolve] Iter:  330 overflow: 0.574 HPWL: 212036020
+[NesterovSolve] Iter:  340 overflow: 0.531 HPWL: 221104272
+[NesterovSolve] Iter:  350 overflow: 0.491 HPWL: 229798230
+[NesterovSolve] Iter:  360 overflow: 0.454 HPWL: 228165379
+[NesterovSolve] Iter:  370 overflow: 0.428 HPWL: 223406067
+[NesterovSolve] Iter:  380 overflow: 0.388 HPWL: 225035415
+[NesterovSolve] Iter:  390 overflow: 0.347 HPWL: 225989751
+[NesterovSolve] Iter:  400 overflow: 0.317 HPWL: 224372458
+[NesterovSolve] Iter:  410 overflow: 0.290 HPWL: 222577492
+[NesterovSolve] Iter:  420 overflow: 0.263 HPWL: 221634987
+[NesterovSolve] Iter:  430 overflow: 0.235 HPWL: 220716257
+[NesterovSolve] Iter:  440 overflow: 0.213 HPWL: 220331767
+[NesterovSolve] Iter:  450 overflow: 0.188 HPWL: 220193081
+[NesterovSolve] Iter:  460 overflow: 0.167 HPWL: 220275672
+[NesterovSolve] Iter:  470 overflow: 0.147 HPWL: 220348358
+[NesterovSolve] Iter:  480 overflow: 0.127 HPWL: 220646021
+[NesterovSolve] Iter:  490 overflow: 0.110 HPWL: 220986405
+[NesterovSolve] Finished with Overflow: 0.099721
+[INFO RSZ-0058] Using max wire length 1847um.
+[INFO RSZ-0035] Found 146 fanout violations.
+[INFO RSZ-0038] Inserted 383 buffers in 146 nets.
+[INFO RSZ-0039] Resized 2142 instances.
+Placement Analysis
+---------------------------------
+total displacement      40801.5 u
+average displacement        1.9 u
+max displacement           14.9 u
+original HPWL          265289.1 u
+legalized HPWL         305334.9 u
+delta HPWL                   15 %
+
+[INFO CTS-0050] Root buffer is sky130_fd_sc_hd__clkbuf_4.
+[INFO CTS-0051] Sink buffer is sky130_fd_sc_hd__clkbuf_8.
+[INFO CTS-0052] The following clock buffers will be used for CTS:
+                    sky130_fd_sc_hd__clkbuf_1
+                    sky130_fd_sc_hd__clkbuf_2
+                    sky130_fd_sc_hd__clkbuf_4
+                    sky130_fd_sc_hd__clkbuf_8
+[INFO CTS-0049] Characterization buffer is sky130_fd_sc_hd__clkbuf_8.
+[INFO CTS-0007] Net "clock" found for clock "core_clock".
+[INFO CTS-0010]  Clock net "clock" has 2397 sinks.
+[INFO CTS-0008] TritonCTS found 1 clock nets.
+[INFO CTS-0097] Characterization used 4 buffer(s) types.
+[INFO CTS-0200] 0 placement blockages have been identified.
+[INFO CTS-0201] 0 placed hard macros will be treated like blockages.
+[INFO CTS-0027] Generating H-Tree topology for net clock.
+[INFO CTS-0028]  Total number of sinks: 2397.
+[INFO CTS-0090]  Sinks will be clustered based on buffer max cap.
+[INFO CTS-0030]  Number of static layers: 0.
+[INFO CTS-0020]  Wire segment unit: 13600  dbu (13 um).
+[INFO CTS-0206] Best clustering solution was found from clustering size of 10 and clustering diameter of 50.
+[INFO CTS-0019]  Total number of sinks after clustering: 321.
+[INFO CTS-0024]  Normalized sink region: [(1.11537, 8.4), (34.621, 43.6478)].
+[INFO CTS-0025]     Width:  33.5056.
+[INFO CTS-0026]     Height: 35.2478.
+ Level 1
+    Direction: Vertical
+    Sinks per sub-region: 161
+    Sub-region size: 33.5056 X 17.6239
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 2
+    Direction: Horizontal
+    Sinks per sub-region: 81
+    Sub-region size: 16.7528 X 17.6239
+[INFO CTS-0034]     Segment length (rounded): 8.
+ Level 3
+    Direction: Vertical
+    Sinks per sub-region: 41
+    Sub-region size: 16.7528 X 8.8119
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 4
+    Direction: Horizontal
+    Sinks per sub-region: 21
+    Sub-region size: 8.3764 X 8.8119
+[INFO CTS-0034]     Segment length (rounded): 4.
+ Level 5
+    Direction: Vertical
+    Sinks per sub-region: 11
+    Sub-region size: 8.3764 X 4.4060
+[INFO CTS-0034]     Segment length (rounded): 2.
+[INFO CTS-0032]  Stop criterion found. Max number of sinks is 15.
+[INFO CTS-0035]  Number of sinks covered: 321.
+[INFO CTS-0018]     Created 370 clock buffers.
+[INFO CTS-0012]     Minimum number of buffers in the clock path: 4.
+[INFO CTS-0013]     Maximum number of buffers in the clock path: 4.
+[INFO CTS-0015]     Created 370 clock nets.
+[INFO CTS-0016]     Fanout distribution for the current clock = 2:3, 3:2, 4:3, 5:14, 6:35, 7:86, 8:126, 9:64, 10:9, 11:5, 12:1, 13:3, 14:1, 18:1..
+[INFO CTS-0017]     Max level of the clock tree: 5.
+[INFO CTS-0098] Clock net "clock"
+[INFO CTS-0099]  Sinks 2665
+[INFO CTS-0100]  Leaf buffers 321
+[INFO CTS-0101]  Average sink wire length 584.65 um
+[INFO CTS-0102]  Path depth 3 - 4
+[INFO CTS-0207]  Leaf load cells 268
+[WARNING RSZ-0065] max wire length less than 1847u increases wire delays.
+Placement Analysis
+---------------------------------
+total displacement       3786.0 u
+average displacement        0.2 u
+max displacement           16.1 u
+original HPWL          321033.4 u
+legalized HPWL         322816.2 u
+delta HPWL                    1 %
+
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer mcon
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer via4
+[WARNING DRT-0422] No routing tracks pass through the center of Term VSS.
+[WARNING DRT-0422] No routing tracks pass through the center of Term VDD.
+[INFO DRT-0167] List of default vias:
+  Layer via
+    default via: M1M2_PR
+  Layer via2
+    default via: M2M3_PR
+  Layer via3
+    default via: M3M4_PR
+  Layer via4
+    default via: M4M5_PR
+[INFO DRT-0168] Init region query.
+[INFO DRT-0033] FR_MASTERSLICE shape region query size = 0.
+[INFO DRT-0033] licon shape region query size = 0.
+[INFO DRT-0033] li1 shape region query size = 513454.
+[INFO DRT-0033] mcon shape region query size = 0.
+[INFO DRT-0033] met1 shape region query size = 72968.
+[INFO DRT-0033] via shape region query size = 23545.
+[INFO DRT-0033] met2 shape region query size = 14195.
+[INFO DRT-0033] via2 shape region query size = 18836.
+[INFO DRT-0033] met3 shape region query size = 14127.
+[INFO DRT-0033] via3 shape region query size = 18836.
+[INFO DRT-0033] met4 shape region query size = 5677.
+[INFO DRT-0033] via4 shape region query size = 925.
+[INFO DRT-0033] met5 shape region query size = 1011.
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0036] FR_MASTERSLICE guide region query size = 0.
+[INFO DRT-0036] licon guide region query size = 0.
+[INFO DRT-0036] li1 guide region query size = 40409.
+[INFO DRT-0036] mcon guide region query size = 0.
+[INFO DRT-0036] met1 guide region query size = 26358.
+[INFO DRT-0036] via guide region query size = 0.
+[INFO DRT-0036] met2 guide region query size = 11367.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] met3 guide region query size = 575.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] met4 guide region query size = 264.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] met5 guide region query size = 0.
+[INFO DRT-0179] Init gr pin query.

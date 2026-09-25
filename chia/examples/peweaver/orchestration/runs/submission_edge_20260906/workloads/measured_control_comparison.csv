@@ -1,0 +1,7 @@
+design,role,mode,energy_per_fft_nj,streaming_power_mw,placed_cell_area_um2,timing_met,drc_lines
+S0,shared,64,39.0222182,39.81859,286970.0,True,0
+S0,shared,128,74.4164448,40.44372,286970.0,True,0
+A,ungated dual control,64,60.2926184,61.52308,429130.0,True,0
+A,ungated dual control,128,113.0614128,61.44642,429130.0,True,0
+B,power-managed dual control,64,22.9192012,23.38694,429655.0,True,0
+B,power-managed dual control,128,76.749528,41.7117,429655.0,True,0

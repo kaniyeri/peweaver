@@ -1,0 +1,16 @@
+{
+ "mode": "MergeDiscovery",
+ "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b",
+ "files": [
+  "inputs/Butterfly.v",
+  "inputs/CONTRACT.md",
+  "inputs/DelayBuffer.v",
+  "inputs/FFT128.v",
+  "inputs/FFT64.v",
+  "inputs/Multiply.v",
+  "inputs/SdfUnit.v",
+  "inputs/SdfUnit2.v",
+  "inputs/Twiddle128.v",
+  "inputs/Twiddle64.v"
+ ]
+}

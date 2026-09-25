@@ -1,0 +1,602 @@
+run,role,model,ts,attempt,input_tokens,output_tokens,reasoning_tokens,cache_read,cache_write,cost_usd,failure,src
+chia-generated-deepseek-2-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:29:21,1,27206,7938,24062,36864,,0.023391492,,chia-generated-deepseek-2-20260919/artifacts/model/opencode_20260919_062425.usage.jsonl
+chia-generated-deepseek-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:22:20,1,,,,,,,unexpected: [Errno 2] No such file or directory: 'opencode',chia-generated-deepseek-20260919/artifacts/model/opencode_20260919_062218.usage.jsonl
+chia-generated-deepseek-3-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:33:47,1,23769,2158,,,,0.00486015,,chia-generated-deepseek-3-20260919/artifacts/model/opencode_20260919_063329.usage.jsonl
+chia-generated-deepseek-constrained-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:42:22,1,23850,184,,,,0.0036879,,chia-generated-deepseek-constrained-20260919/artifacts/model/opencode_20260919_064208.usage.jsonl
+chia-generated-deepseek-constrained-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:45:41,1,,,,,,,,chia-generated-deepseek-constrained-20260919/artifacts/model/opencode_20260919_064208.usage.jsonl
+chia-generated-deepseek-constrained2-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T07:06:29,1,2178870,97270,,13251456,,0.4249468680000001,,chia-generated-deepseek-constrained2-20260919/artifacts/model/opencode_20260919_064618.usage.jsonl
+chia-generated-deepseek-constrained2-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T07:19:00,1,36031,13324,,,,0.01339905,,chia-generated-deepseek-constrained2-20260919/artifacts/model/opencode_20260919_064618.usage.jsonl
+chia-generated-deepseek-repair-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:36:26,1,23769,10555,,,,0.00989835,,chia-generated-deepseek-repair-20260919/artifacts/model/opencode_20260919_063548.usage.jsonl
+chia-generated-deepseek-repair-20260919,model,opencode-go/deepseek-v4.1-flash,2026-09-19T06:37:30,1,35155,20469,,45440,,0.01769097,,chia-generated-deepseek-repair-20260919/artifacts/model/opencode_20260919_063548.usage.jsonl
+diag-capture-1,lead,openrouter/openai/gpt-5.6-sol,,1,87,646,,,,0.006634,,ledger-diag-capture-1.jsonl
+diag-capture-1,worker,gemini/gemini-3.7-flash,,1,28848,1310,,,,0.0,,ledger-diag-capture-1.jsonl
+merged-e2e-gemini-1,lead,gemini/gemini-3.7-flash,,1,92,479,,,,0.0,,ledger-merged-e2e-gemini-1.jsonl
+merged-e2e-gemini-1,worker,gemini/gemini-3.7-flash,,1,28975,10875,,,,0.0,,ledger-merged-e2e-gemini-1.jsonl
+merged-e2e-gemini-2,lead,gemini/gemini-3.7-flash,,1,92,414,,,,0.0,,ledger-merged-e2e-gemini-2.jsonl
+merged-e2e-gemini-3,lead,gemini/gemini-3.7-flash,,1,92,387,,,,0.0,,ledger-merged-e2e-gemini-3.jsonl
+merged-e2e-gemini-4,lead,gemini/gemini-3.7-flash,,1,92,473,,,,0.0,,ledger-merged-e2e-gemini-4.jsonl
+merged-e2e-gemini-5,lead,gemini/gemini-3.7-flash,,1,92,423,,,,0.0,,ledger-merged-e2e-gemini-5.jsonl
+merged-e2e-gemini-5,worker,opencode/opencode-go/deepseek-v4-flash,,1,31896,23884,,,,0.032881552,,ledger-merged-e2e-gemini-5.jsonl
+merged-e2e-gemini-6,lead,gemini/gemini-3.7-flash,,1,92,448,,,,0.0,,ledger-merged-e2e-gemini-6.jsonl
+merged-e2e-gemini-6,worker,opencode/opencode-go/deepseek-v4-flash,,1,82120,24518,,,,0.047746232,,ledger-merged-e2e-gemini-6.jsonl
+merged-e2e-gemini-6,worker,opencode/opencode-go/deepseek-v4-flash,,1,105914,29601,,,,0.060112792,,ledger-merged-e2e-gemini-6.jsonl
+merged-e2e-gemini-6,worker,opencode/opencode-go/deepseek-v4-flash,,1,,,,,,,stalled,ledger-merged-e2e-gemini-6.jsonl
+merged-e2e-gemini-6,worker,gemini/gemini-3.7-flash,,1,,,,,,,deadline_exceeded,ledger-merged-e2e-gemini-6.jsonl
+merged-e2e-gemini-7,lead,openrouter/openai/gpt-5.6-sol,,1,87,773,,,,0.007904,,ledger-merged-e2e-gemini-7.jsonl
+merged-e2e-gemini-7,worker,gemini/gemini-3.7-flash,,1,28819,13096,,,,0.0,,ledger-merged-e2e-gemini-7.jsonl
+msweep-codex-luna-r1,advise,openai/gpt-5.6-sol,2026-09-17T19:06:58,1,19816,2584,4783,,,,,msweep-codex-luna-r1/artifacts/chia-advise_20260917_190325.usage.jsonl
+msweep-codex-luna-r1,advise,openai/gpt-5.6-sol,2026-09-17T19:12:35,1,23097,1018,582,7040,,,,msweep-codex-luna-r1/artifacts/chia-advise_20260917_190325.usage.jsonl
+msweep-codex-luna-r1,implement,openai/gpt-5.6-luna,2026-09-17T19:08:44,1,23552,2861,2624,,,,,msweep-codex-luna-r1/artifacts/chia-implement_20260917_190658.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T18:20:29,1,22292,64000,,20396,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T19:00:37,1,118327,16095,,84144,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T19:16:39,1,106335,9189,,105489,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T19:28:14,1,42913,2326,,46609,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T19:47:50,1,49003,2167,,49169,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,advise,opencode-go/union-alpha,2026-09-17T20:04:47,1,69019,4259,,31108,,,,msweep-free-union-r1/artifacts/chia-advise_20260917_181142.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T18:40:30,1,,,,,,,timeout after 1200s,msweep-free-union-r1/artifacts/chia-implement_20260917_182029.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T18:53:56,2,31286,64000,,22956,,,,msweep-free-union-r1/artifacts/chia-implement_20260917_182029.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T19:14:40,1,31408,64000,,21676,,,,msweep-free-union-r1/artifacts/chia-implement_20260917_190037.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T19:27:23,1,30050,64000,,22956,,,,msweep-free-union-r1/artifacts/chia-implement_20260917_191639.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T19:33:55,1,,,,,,,"unknown: {""type"":""api_error"",""message"":""Streaming response failed: [api_error] Upstream provider failed mid-stream""}",msweep-free-union-r1/artifacts/chia-implement_20260917_192814.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T19:46:59,2,27626,64000,,25516,,,,msweep-free-union-r1/artifacts/chia-implement_20260917_192814.usage.jsonl
+msweep-free-union-r1,implement,opencode-go/union-alpha,2026-09-17T20:02:30,1,35492,64000,,17836,,,,msweep-free-union-r1/artifacts/chia-implement_20260917_194750.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:25:32,1,3,13286,,,30330,0.3130365,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_062254.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:30:00,1,3,13599,,,43255,0.36620025,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_062711.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:33:47,1,3,13400,,,43708,0.364914,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_063109.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:36:58,1,3,13122,,,43556,0.360174,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_063420.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:46:16,1,3,32000,,,43444,0.642924,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_063835.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T06:49:34,1,3,13249,,,43525,0.36196275,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_064648.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:00:49,1,3,32000,,,43484,0.643074,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_065206.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:03:55,1,3,14167,,,43484,0.375579,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_065206.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:13:15,1,3,32000,,,43518,0.6432015,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_070527.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:17:25,1,3,14370,,,43497,0.37867275,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_071443.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:20:29,1,3,13150,,,43563,0.36062025,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_071751.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:24:57,1,3,13757,,,43603,0.36987525,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_072209.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:33:51,1,3,32000,,,43480,0.643059,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_072633.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:38:13,1,3,12759,,,43585,0.35483775,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_073541.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:43:30,1,3,12989,,,43674,0.3586215,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_074053.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:46:59,1,3,12857,,,43520,0.356064,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_074434.usage.jsonl
+msweep2-impl-claude-r1,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T07:56:21,1,3,32000,,,43600,0.643509,,msweep2-impl-claude-r1/artifacts/chia-implement_20260917_074828.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:12:56,1,3,12941,,,29908,0.306279,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_091024.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:17:08,1,3,12889,,,42704,0.353484,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_091431.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:21:26,1,3,13455,,,42731,0.36207525,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_091842.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:25:47,1,3,13163,,,42627,0.35730525,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_092307.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:29:44,1,3,13244,,,42772,0.359064,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_092657.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:33:30,1,3,12715,,,42686,0.3508065,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_093059.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:37:17,1,3,14034,,,42346,0.3693165,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_093414.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:40:19,1,3,13165,,,42624,0.357324,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_093737.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:45:37,1,3,13146,,,42816,0.357759,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_094257.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:50:42,1,3,14306,,,43067,0.37610025,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_094749.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:54:55,1,3,13545,,,42979,0.36435525,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_095209.usage.jsonl
+msweep2-impl-claude-r2,implement,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T09:59:37,1,3,13574,,,42993,0.36484275,,msweep2-impl-claude-r2/artifacts/chia-implement_20260917_095655.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:23:23,1,27602,10594,,,,0.0104967,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_062247.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:24:22,1,51594,12143,,176512,,0.015554436,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_062333.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:30:38,1,75304,34582,,553984,,0.033706752000000006,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_062640.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:31:40,1,37970,10135,,,,0.0117765,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_063105.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:32:26,1,37731,10689,,,,0.01207305,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_063151.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:34:42,1,57818,25962,,748160,,0.026494379999999998,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_063250.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:35:51,1,37879,10395,,,,0.01191885,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_063517.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:40:07,1,38027,27666,,,,0.02230365,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_063814.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:40:51,1,37569,10734,,,,0.01207575,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_064015.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:42:47,1,46771,22919,,123648,,0.021137994,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_064109.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:44:35,1,44653,24747,,119168,,0.021903654,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_064255.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:45:42,1,50197,11503,,87936,,0.014695158,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_064459.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:50:16,1,38161,32000,,,,0.02492415,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_064759.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:51:00,1,37966,10435,,,,0.0119559,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_065026.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:55:35,1,38011,32000,,,,0.02490165,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_065314.usage.jsonl
+msweep2-impl-deepseek-r1,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T06:56:23,1,37964,11130,,,,0.0123726,,msweep2-impl-deepseek-r1/artifacts/chia-implement_20260917_065548.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T09:53:26,1,26301,9444,,,,0.00961155,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_095256.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T09:54:14,1,25928,11709,,,,0.0109146,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_095335.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T09:54:57,1,37608,10745,,,,0.0120882,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_095423.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T09:59:36,1,37963,32000,,,,0.02489445,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_095703.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:00:33,1,41231,12453,,159616,,0.014135298000000001,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_095945.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:02:43,1,37995,11032,,,,0.01231845,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_100208.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:06:49,1,56235,35810,,344448,,0.030954594,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_100420.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:07:33,1,37571,11378,,,,0.01246245,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_100657.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:11:06,1,39385,29971,,220672,,0.024552366,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_100857.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:14:11,1,44121,14947,,167296,,0.016088237999999998,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_101311.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:17:27,1,38259,24898,,,,0.02067765,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_101555.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:19:37,1,51723,14785,,95360,,0.016915529999999998,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_101843.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:23:39,1,60624,20537,,267136,,0.022217208000000002,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_102140.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:27:28,1,37901,32000,,,,0.02488515,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_102512.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:29:08,1,54592,22698,,192384,,0.022384752,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_102736.usage.jsonl
+msweep2-impl-deepseek-r2,implement,opencode-go/deepseek-v4.1-flash,2026-09-17T10:32:31,1,14015,22296,,155008,,0.015944874,,msweep2-impl-deepseek-r2/artifacts/chia-implement_20260917_103058.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:30:37,1,133,32000,,26624,,0.01681867,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:34:09,2,127,32000,,26624,,0.01681777,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:37:18,3,26751,32000,,,,0.02001265,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:41:43,1,127,32000,,26624,,0.01681777,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:46:29,2,127,32000,,26624,,0.01681777,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:50:10,3,127,32000,,26624,,0.01681777,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_062258.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T06:54:17,1,26714,32000,,,,0.0200071,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:08:47,2,26727,32000,,,,0.02000905,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:11:55,3,26202,32000,,512,,0.01994566,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:15:33,1,26714,32000,,,,0.0200071,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:19:34,2,90,32000,,26624,,0.01681222,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:22:34,3,90,32000,,26624,,0.01681222,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_065022.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:25:52,1,27003,32000,,,,0.02005045,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:28:27,2,379,32000,,26624,,0.01685557,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:31:16,3,123,32000,,26880,,0.01682485,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:34:32,1,123,32000,,26880,,0.01682485,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:41:16,2,27016,32000,,,,0.0200524,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:45:21,3,25979,32000,,1024,,0.01992757,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_072245.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:48:33,1,23363,32000,,3072,,0.01959661,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:52:04,2,67,32000,,26368,,0.01680109,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:55:02,3,67,32000,,26368,,0.01680109,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T07:59:24,1,67,32000,,26368,,0.01680109,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:03:11,2,67,32000,,26368,,0.01680109,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:06:32,3,26435,32000,,,,0.01996525,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_074531.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:10:07,1,26816,32000,,,,0.0200224,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:14:25,2,26816,32000,,,,0.0200224,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:18:31,3,192,32000,,26624,,0.01682752,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:36:40,1,26829,32000,,,,0.02002435,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:40:26,2,26816,32000,,,,0.0200224,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:43:44,3,448,32000,,26368,,0.01685824,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_080644.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:48:05,1,26543,32000,,,,0.01998145,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:51:38,2,175,32000,,26368,,0.01681729,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:54:48,3,26543,32000,,,,0.01998145,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T08:59:32,1,175,32000,,26368,,0.01681729,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:03:32,2,175,32000,,26368,,0.01681729,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:07:25,3,26543,32000,,,,0.01998145,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_084400.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:11:07,1,23330,32000,,3072,,0.01959166,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:14:34,2,290,32000,,26112,,0.01682686,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:18:52,3,34,32000,,26368,,0.01679614,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:22:21,1,34,32000,,26368,,0.01679614,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:29:08,2,40,32000,,26368,,0.01679704,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:32:16,3,26402,32000,,,,0.0199603,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_090736.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:35:56,1,23849,32000,,3072,,0.01966951,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_093231.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:39:17,2,26921,32000,,,,0.02003815,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_093231.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:42:33,3,41,32000,,26880,,0.01681255,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_093231.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:45:56,1,26921,32000,,,,0.02003815,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_093231.usage.jsonl
+msweep2-impl-glm-r1,implement,opencode-go/glm-5.3-flash,2026-09-17T09:49:33,2,41,32000,,26880,,0.01681255,unknown: empty response,msweep2-impl-glm-r1/artifacts/chia-implement_20260917_093231.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:04:41,1,27269,32000,,,,0.02009035,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:08:09,2,133,32000,,27136,,0.01683403,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:11:39,3,133,32000,,27136,,0.01683403,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:15:33,1,133,32000,,27136,,0.01683403,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:18:54,2,27269,32000,,,,0.02009035,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:23:05,3,133,32000,,27136,,0.01683403,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_100041.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:26:13,1,367,11642,,26368,,0.00666709,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_102318.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:31:39,1,38794,32000,,,,0.0218191,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_102758.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:34:27,2,138,32000,,38656,,0.01718038,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_102758.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:48:07,3,82969,15273,,72960,,0.02227065,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_102758.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T10:52:07,1,38876,32000,,,,0.0218314,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_104856.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:00:29,2,38889,28849,,,,0.02025785,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_104856.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:05:21,1,38742,32000,,,,0.0218113,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:13:53,2,51493,99492,,174592,,0.06270771,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:20:16,3,14894,56758,,221696,,0.03726398,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:25:32,1,1498,49891,,116224,,0.028656920000000002,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:31:55,2,39180,53756,,38656,,0.03391468,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:35:56,3,86,32000,,38656,,0.01717258,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_110155.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:39:25,1,38703,32000,,,,0.02180545,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_113608.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:42:54,1,38703,32000,,,,0.02180545,unknown: empty response,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_113608.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T11:50:19,2,38716,31385,,,,0.0214999,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_113608.usage.jsonl
+msweep2-impl-glm-r2,implement,opencode-go/glm-5.3-flash,2026-09-17T12:00:06,1,3113,57266,,154368,,0.03373099,,msweep2-impl-glm-r2/artifacts/chia-implement_20260917_115047.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:06:19,1,23348,11688,20312,2352,,0.1196317176,,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_065705.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:15:16,1,20,13153,18847,25680,,0.107356524,,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_065705.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:20:21,1,23459,8870,23130,2368,,0.1197129858,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_071534.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:24:50,2,25827,7360,24640,,,0.1209590274,,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_071534.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:35:36,1,19,5190,26810,25808,,0.1073788578,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_071534.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T07:46:18,2,19,4278,27722,25808,,0.1073788578,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_071534.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:06:16,3,19,5949,26051,25808,,0.1073788578,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_071534.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:12:09,1,23358,5246,26754,2368,,0.1196416596,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:17:46,2,30,5196,26804,25696,,0.107366466,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:23:24,3,30,5327,26673,25696,,0.107366466,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:43:34,1,,,,,,,timeout after 1200s,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T08:48:26,2,30,4922,27078,25696,,0.107366466,unknown: empty response,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T09:01:29,3,23884,15855,35585,51408,,0.1912427208,,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_080627.usage.jsonl
+msweep2-impl-kimi-r1,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T09:07:17,1,23100,14354,17073,2368,,0.11762013,,msweep2-impl-kimi-r1/artifacts/chia-implement_20260917_090138.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:15:05,1,41307,19852,16710,25920,,0.1512006234,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_100606.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:20:15,1,39858,7301,24699,2368,,0.1312939596,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_101516.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:27:33,1,18,18324,9616,42208,,0.0972975516,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_101516.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:32:19,1,42334,3067,28933,,,0.1326162708,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:40:42,2,39966,2093,29907,2368,,0.1313702292,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:49:36,3,30,4385,27615,42304,,0.110355906,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T10:58:52,1,30,2633,29367,42304,,0.110355906,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:09:35,2,30,2269,29731,42304,,0.110355906,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:18:44,3,30,4640,27360,42304,,0.110355906,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_102837.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:27:36,1,40170,8368,23632,2368,,0.131514294,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:30:50,2,41642,4442,27558,896,,0.1322888604,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:40:21,3,26,8859,23141,42512,,0.1103905212,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:48:19,1,26,5861,26139,42512,,0.1103905212,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T11:56:12,2,26,6661,25339,42512,,0.1103905212,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T12:04:23,3,26,9083,22917,42512,,0.1103905212,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_111925.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T12:10:53,1,40061,7319,24681,2368,,0.1314373182,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_120441.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T12:17:31,2,29,5381,26619,42400,,0.1103724798,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_120441.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T12:24:24,3,29,8905,23095,42400,,0.1103724798,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_120441.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T12:30:40,1,29,14768,15969,42400,,0.1063182498,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_120441.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T13:45:58,1,40031,8755,23245,2368,,0.1314161322,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_133659.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T13:52:27,1,31,6862,25138,42368,,0.1103681322,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_133659.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T13:55:00,1,42175,8767,23233,,,0.132503985,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:02:30,2,39807,8289,23711,2368,,0.1312579434,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:09:26,3,31,7369,24631,42144,,0.1103278122,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:17:30,1,31,4855,27145,42144,,0.1103278122,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:26:58,2,31,5653,26347,42144,,0.1103278122,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:38:07,3,31,5321,26679,42144,,0.1103278122,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_135251.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:47:31,1,39933,6176,25824,2368,,0.1313469246,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_143824.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T14:54:08,2,29,5712,20515,42272,,0.0918181098,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_143824.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:04:11,1,29,4878,27122,42272,,0.1103494398,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_143824.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:12:42,2,29,14944,17056,42272,,0.1103494398,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_143824.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:14:13,1,,,,,,,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151303.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:27:18,1,40281,6988,25012,2368,,0.1315926822,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:36:25,2,25,5602,26398,42624,,0.110409975,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:46:05,3,25,4814,27186,42624,,0.110409975,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:49:45,1,42649,4549,27451,,,0.1328387238,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T15:58:21,2,25,5422,26578,42624,,0.110409975,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T16:07:11,3,25,7072,24928,42624,,0.110409975,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_151723.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T16:15:37,1,40145,6314,25686,2368,,0.131496639,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_160738.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T16:35:11,2,26676,19912,29137,84992,,0.1915844412,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_160738.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T16:46:41,1,39969,5309,26691,2368,,0.1313723478,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_163638.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:02:25,2,73053,19551,44557,312960,,0.3137095086,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_163638.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:09:28,1,17,3915,28085,42320,,0.1103496054,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_163638.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:17:31,2,17,4462,27538,42320,,0.1103496054,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_163638.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:25:36,3,17,7013,24987,42320,,0.1103496054,,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_163638.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:31:55,1,40004,7937,24063,2368,,0.1313970648,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_172601.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:39:45,2,20,5639,26361,42352,,0.110357484,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_172601.usage.jsonl
+msweep2-impl-kimi-r2,implement,openrouter/moonshotai/kimi-k2.7-code,2026-09-17T17:49:13,3,20,5231,26769,42352,,0.110357484,unknown: empty response,msweep2-impl-kimi-r2/artifacts/chia-implement_20260917_172601.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T07:58:35,1,25603,10977,,128,,0.02086098,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_075705.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:01:45,1,37038,11467,,128,,0.02487948,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_080033.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:03:42,1,36773,11061,,128,,0.02431278,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_080218.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:06:24,1,37052,11277,,128,,0.02465568,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_080503.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:09:20,1,37121,11553,,128,,0.02500758,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_080805.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:11:30,1,36907,11186,,,,0.0244953,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_080945.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:14:49,1,37078,11449,,,,0.0248622,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_081303.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:17:14,1,36802,11643,,128,,0.02501988,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_081530.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:21:12,1,37117,11257,,,,0.0246435,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_081928.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:24:08,1,37057,11481,,128,,0.02490198,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_082246.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:25:34,1,36746,10851,,128,,0.02405268,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_082422.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:29:58,1,37090,10155,,128,,0.02332068,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_082757.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:33:13,1,37067,11886,,128,,0.02539098,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_083150.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:36:47,1,37174,11596,,,,0.0250674,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_083502.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:40:50,1,37061,11032,,128,,0.02436438,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_083932.usage.jsonl
+msweep2-impl-minimax-r1,implement,opencode-go/minimax-m3,2026-09-17T08:47:33,1,36937,32000,,128,,0.04948878,,msweep2-impl-minimax-r1/artifacts/chia-implement_20260917_084255.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:34:49,1,26389,10655,,128,,0.02071038,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_103356.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:37:54,1,36819,11413,,128,,0.02474898,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_103706.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:41:03,1,37138,12169,,128,,0.02575188,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_104006.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:42:47,1,49392,12789,,74733,,0.03464838,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_104153.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:45:00,1,36995,12056,,128,,0.02557338,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_104153.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:46:15,1,36776,10800,,128,,0.02400048,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_104511.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:48:55,1,37093,10708,,,,0.0239775,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_104708.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:51:42,1,37140,10681,,128,,0.02396688,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_105051.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:54:06,1,36727,11437,,,,0.0247425,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_105158.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:57:25,1,37057,32000,,128,,0.04952478,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_105521.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T10:58:25,1,36456,10983,,128,,0.02412408,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_105736.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:03:33,1,36917,32000,,128,,0.04948278,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_105854.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:04:53,1,36782,10536,,128,,0.02368548,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_110340.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:05:29,1,36607,1295,,128,,0.01254378,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_110515.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:12:46,1,37113,43268,,36480,,0.0652443,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_110540.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:14:13,1,36663,11217,,128,,0.02446698,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_111254.usage.jsonl
+msweep2-impl-minimax-r2,implement,opencode-go/minimax-m3,2026-09-17T11:16:03,1,36622,11143,,128,,0.02436588,,msweep2-impl-minimax-r2/artifacts/chia-implement_20260917_111419.usage.jsonl
+msweep2-impl-sol-r1,implement,openai/gpt-5.6-sol,2026-09-17T08:54:50,1,24567,7123,1902,,,,,msweep2-impl-sol-r1/artifacts/chia-implement_20260917_085201.usage.jsonl
+msweep2-impl-sol-r1,implement,openai/gpt-5.6-sol,2026-09-17T09:00:30,1,31625,7100,2748,,,,,msweep2-impl-sol-r1/artifacts/chia-implement_20260917_085712.usage.jsonl
+msweep2-impl-sol-r1,implement,openai/gpt-5.6-sol,2026-09-17T09:05:31,1,32119,7141,1614,,,,,msweep2-impl-sol-r1/artifacts/chia-implement_20260917_090247.usage.jsonl
+msweep2-impl-sol-r1,implement,openai/gpt-5.6-sol,2026-09-17T09:09:09,1,31951,6941,2626,,,,,msweep2-impl-sol-r1/artifacts/chia-implement_20260917_090606.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:22:37,1,25362,6753,2102,,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_111950.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:27:32,1,31946,6621,2693,,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_112438.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:35:14,1,32072,6550,3364,,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_112946.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:39:42,1,31929,6502,703,,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_113725.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:44:24,1,30239,7047,1463,2048,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_114144.usage.jsonl
+msweep2-impl-sol-r2,implement,openai/gpt-5.6-sol,2026-09-17T11:47:42,1,32105,6554,2698,,,,,msweep2-impl-sol-r2/artifacts/chia-implement_20260917_114449.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:10:59,1,24531,4455,1252,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_090911.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:15:02,1,29047,4861,1616,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_091259.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:18:24,1,29014,4874,1025,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_091632.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:22:12,1,29163,4349,892,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_092029.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:25:40,1,29080,5159,1287,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_092337.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:29:03,1,29301,4641,809,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_092718.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:33:01,1,27644,4407,1627,1536,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_093105.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:35:16,1,27643,4347,1082,1536,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_093331.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:38:47,1,27482,4383,1318,1536,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_093542.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:42:23,1,29117,4343,1908,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_094023.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:47:11,1,28980,4703,1774,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_094504.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:51:00,1,29197,4392,921,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_094918.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:54:34,1,29187,4422,1181,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_095245.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T09:58:14,1,29163,4320,1552,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_095616.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T10:01:55,1,27678,4663,2342,1536,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_095943.usage.jsonl
+msweep2-impl-terra-r1,implement,openai/gpt-5.6-terra,2026-09-17T10:05:21,1,29164,4356,1070,,,,,msweep2-impl-terra-r1/artifacts/chia-implement_20260917_100336.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T11:50:27,1,24914,4874,989,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_114832.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T11:52:53,1,28259,4890,1408,1536,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_115053.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T11:55:13,1,29803,4455,1392,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_115316.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T11:59:21,1,29902,4190,1923,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_115723.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:01:41,1,29824,4422,1419,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_115950.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:06:12,1,28480,4488,4042,1536,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_120331.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:10:14,1,28374,3755,3224,1536,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_120754.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:11:58,1,29554,4344,677,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_121021.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:16:38,1,29912,4911,1579,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_121434.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T12:20:11,1,29940,4059,1111,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_121832.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:41:27,1,29948,4468,1535,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_133838.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:43:06,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_134155.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:44:46,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_134328.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:48:41,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_134728.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:50:31,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_134914.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:53:42,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_135222.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:56:54,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_135535.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T13:59:47,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_135830.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T14:02:51,1,,,,,,,run_failed,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_140135.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T14:05:59,1,30120,3749,718,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_140432.usage.jsonl
+msweep2-impl-terra-r2,implement,openai/gpt-5.6-terra,2026-09-17T14:08:31,1,29796,4381,1900,,,,,msweep2-impl-terra-r2/artifacts/chia-implement_20260917_140631.usage.jsonl
+msweep3-c2g-r1,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T12:07:09,1,3,3207,,,24365,0.13948275,,msweep3-c2g-r1/artifacts/chia-advise_20260917_120559.usage.jsonl
+msweep3-c2g-r2,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T12:09:18,1,3,3325,,,24365,0.14125275,,msweep3-c2g-r2/artifacts/chia-advise_20260917_120808.usage.jsonl
+msweep3-c2g-r2,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T12:18:55,1,5,7219,,25040,17229,0.18042075000000002,,msweep3-c2g-r2/artifacts/chia-advise_20260917_120808.usage.jsonl
+msweep3-c2g-r3,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T12:11:01,1,3,3199,,,24365,0.13936275,,msweep3-c2g-r3/artifacts/chia-advise_20260917_120955.usage.jsonl
+msweep3-c2g-r4,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T12:12:55,1,3,3419,,,24365,0.14266275,,msweep3-c2g-r4/artifacts/chia-advise_20260917_121139.usage.jsonl
+msweep3-c2s-r1,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T14:20:15,1,3,3235,,,24365,0.13990275,,msweep3-c2s-r1/artifacts/chia-advise_20260917_141905.usage.jsonl
+msweep3-c2s-r1,implement,openai/gpt-5.6-sol,2026-09-17T14:22:55,1,21960,5152,3149,2048,,,,msweep3-c2s-r1/artifacts/chia-implement_20260917_142015.usage.jsonl
+msweep3-c2s-r2,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T14:21:30,1,3,3278,,,24365,0.14054775,,msweep3-c2s-r2/artifacts/chia-advise_20260917_142019.usage.jsonl
+msweep3-c2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:24:55,1,22019,7648,3351,2048,,,,msweep3-c2s-r2/artifacts/chia-implement_20260917_142130.usage.jsonl
+msweep3-c2s-r3,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T14:24:11,1,3,3170,,,24365,0.13892775,,msweep3-c2s-r3/artifacts/chia-advise_20260917_142302.usage.jsonl
+msweep3-c2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:27:20,1,21906,7328,2819,2048,,,,msweep3-c2s-r3/artifacts/chia-implement_20260917_142411.usage.jsonl
+msweep3-c2s-r4,advise,openrouter/anthropic/claude-sonnet-4.6,2026-09-17T14:24:39,1,3,3305,,,24365,0.14095275,,msweep3-c2s-r4/artifacts/chia-advise_20260917_142326.usage.jsonl
+msweep3-c2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:27:41,1,23968,7351,2393,,,,,msweep3-c2s-r4/artifacts/chia-implement_20260917_142439.usage.jsonl
+msweep3-d2g-r1,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T12:14:00,1,23391,2775,,44544,,0.005307282,,msweep3-d2g-r1/artifacts/chia-advise_20260917_121337.usage.jsonl
+msweep3-d2g-r2,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T12:15:46,1,21878,2059,,,,0.0045171,,msweep3-d2g-r2/artifacts/chia-advise_20260917_121529.usage.jsonl
+msweep3-d2g-r2,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T12:18:16,1,5964,1284,,,,0.001665,,msweep3-d2g-r2/artifacts/chia-advise_20260917_121529.usage.jsonl
+msweep3-d2g-r3,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T12:17:25,1,52300,3308,,47232,,0.009971496,,msweep3-d2g-r3/artifacts/chia-advise_20260917_121700.usage.jsonl
+msweep3-d2g-r4,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T12:20:47,1,78258,4678,,122752,,0.014913756,,msweep3-d2g-r4/artifacts/chia-advise_20260917_121959.usage.jsonl
+msweep3-d2g-r4,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T13:37:18,1,63789,3473,,308352,,0.012577206,,msweep3-d2g-r4/artifacts/chia-advise_20260917_133643.usage.jsonl
+msweep3-d2g-r4,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T13:39:46,1,3883,1139,,,,0.00126585,,msweep3-d2g-r4/artifacts/chia-advise_20260917_133643.usage.jsonl
+msweep3-d2s-r1,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:25:55,1,41871,4373,,87808,,0.009167874,,msweep3-d2s-r1/artifacts/chia-advise_20260917_142525.usage.jsonl
+msweep3-d2s-r1,implement,openai/gpt-5.6-sol,2026-09-17T14:28:54,1,22679,7040,2584,2048,,,,msweep3-d2s-r1/artifacts/chia-implement_20260917_142555.usage.jsonl
+msweep3-d2s-r2,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:28:14,1,28086,3008,,22016,,0.006083748,,msweep3-d2s-r2/artifacts/chia-advise_20260917_142751.usage.jsonl
+msweep3-d2s-r2,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:31:56,1,6772,1707,,,,0.00204,,msweep3-d2s-r2/artifacts/chia-advise_20260917_142751.usage.jsonl
+msweep3-d2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:31:30,1,23915,7792,2545,,,,,msweep3-d2s-r2/artifacts/chia-implement_20260917_142814.usage.jsonl
+msweep3-d2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:34:43,1,31736,7446,1438,,,,,msweep3-d2s-r2/artifacts/chia-implement_20260917_143156.usage.jsonl
+msweep3-d2s-r3,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:28:29,1,21878,1978,,,,0.0044685,,msweep3-d2s-r3/artifacts/chia-advise_20260917_142813.usage.jsonl
+msweep3-d2s-r3,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:32:17,1,5899,1126,,,,0.00156045,,msweep3-d2s-r3/artifacts/chia-advise_20260917_142813.usage.jsonl
+msweep3-d2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:31:55,1,21049,7421,3053,2048,,,,msweep3-d2s-r3/artifacts/chia-implement_20260917_142829.usage.jsonl
+msweep3-d2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:34:39,1,30393,6351,1100,,,,,msweep3-d2s-r3/artifacts/chia-implement_20260917_143217.usage.jsonl
+msweep3-d2s-r4,advise,opencode-go/deepseek-v4.1-flash,2026-09-17T14:29:41,1,21878,2142,,,,0.0045669,,msweep3-d2s-r4/artifacts/chia-advise_20260917_142924.usage.jsonl
+msweep3-d2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:32:51,1,21183,5822,2956,2048,,,,msweep3-d2s-r4/artifacts/chia-implement_20260917_142941.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:34:09,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143406.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:34:50,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143447.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:35:21,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143517.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:36:18,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143615.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:37:17,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143714.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:38:03,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143801.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:38:52,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143850.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:39:08,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143905.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:39:29,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143926.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:39:47,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_143945.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:05,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144002.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:22,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144020.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:37,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144034.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:55,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144052.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:07,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144104.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:28,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144123.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:54,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144151.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:09,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144206.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:29,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144226.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:42,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144239.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:15,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144312.usage.jsonl
+msweep3-g2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:28,1,,,,,,,run_failed,msweep3-g2gor-r1/artifacts/chia-implement_20260917_144325.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:35:31,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143528.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:36:09,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143606.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:36:41,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143638.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:37:23,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143720.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:38:37,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143834.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:39:57,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_143954.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:52,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144049.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:07,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144104.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:19,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144117.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:35,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144132.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:46,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144143.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:03,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144200.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:17,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144214.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:32,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144229.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:45,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144242.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:57,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144254.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:18,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144315.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:33,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144330.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:45,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144342.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:58,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144356.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:10,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144408.usage.jsonl
+msweep3-g2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:35,1,,,,,,,run_failed,msweep3-g2gor-r2/artifacts/chia-implement_20260917_144433.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:36:29,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_143627.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:37:00,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_143657.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:38:02,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_143759.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:38:44,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_143841.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:39:31,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_143928.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:40:19,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144016.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:15,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144113.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:28,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144125.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:41:48,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144145.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:03,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144200.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:20,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144217.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:35,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144232.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:42:52,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144249.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:10,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144308.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:30,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144327.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:43:48,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144344.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:06,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144403.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:23,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144421.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:43,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144440.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:44:58,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144456.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:45:20,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144517.usage.jsonl
+msweep3-g2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:45:38,1,,,,,,,run_failed,msweep3-g2gor-r3/artifacts/chia-implement_20260917_144535.usage.jsonl
+msweep3-g2s-r1,implement,openai/gpt-5.6-sol,2026-09-17T13:40:16,1,25274,5802,2871,,,,,msweep3-g2s-r1/artifacts/chia-implement_20260917_133727.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:40:07,1,25776,7088,2567,,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_133705.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:41:33,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134018.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:43:08,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134151.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:44:42,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134327.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:46:27,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134509.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:48:12,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134655.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:50:02,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_134847.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:51:57,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135042.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:53:20,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135206.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:54:53,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135332.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:56:16,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135501.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:57:45,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135628.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T13:59:12,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135754.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:00:42,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_135926.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:02:04,1,,,,,,,run_failed,msweep3-g2s-r2/artifacts/chia-implement_20260917_140048.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:05:32,1,30507,7637,879,2048,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_140215.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:08:16,1,32744,7190,946,,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_140542.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:11:08,1,32684,7313,1289,,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_140826.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:13:44,1,32428,7255,445,,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_141117.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:16:37,1,30629,7631,988,2048,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_141353.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:19:51,1,30686,7706,2094,2048,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_141645.usage.jsonl
+msweep3-g2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:22:58,1,32790,7415,2138,,,,,msweep3-g2s-r2/artifacts/chia-implement_20260917_141959.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:42:22,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_134105.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:44:19,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_134301.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:46:04,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_134448.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:47:56,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_134638.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:49:52,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_134839.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:51:58,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135037.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:54:49,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135329.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:56:28,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135507.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:58:01,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135644.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T13:59:30,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135817.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:01:07,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_135951.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:02:35,1,,,,,,,run_failed,msweep3-g2s-r3/artifacts/chia-implement_20260917_140119.usage.jsonl
+msweep3-g2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:05:23,1,23232,5103,2689,2048,,,,msweep3-g2s-r3/artifacts/chia-implement_20260917_140254.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:42:47,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_134128.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:44:26,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_134311.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:46:40,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_134525.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:48:26,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_134712.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:50:21,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_134902.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:52:23,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135104.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:54:28,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135312.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:55:59,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135439.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:57:33,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135615.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T13:58:59,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135744.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:00:38,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_135919.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:02:28,1,,,,,,,run_failed,msweep3-g2s-r4/artifacts/chia-implement_20260917_140110.usage.jsonl
+msweep3-g2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:05:53,1,148,6072,2579,25216,,,,msweep3-g2s-r4/artifacts/chia-implement_20260917_140240.usage.jsonl
+msweep3-s2g-r1,advise,openai/gpt-5.6-sol,2026-09-17T12:03:19,1,19815,2683,3987,,,,,msweep3-s2g-r1/artifacts/chia-advise_20260917_120005.usage.jsonl
+msweep3-s2g-r2,advise,openai/gpt-5.6-sol,2026-09-17T12:03:03,1,19815,2785,3106,,,,,msweep3-s2g-r2/artifacts/chia-advise_20260917_120017.usage.jsonl
+msweep3-s2g-r3,advise,openai/gpt-5.6-sol,2026-09-17T12:05:42,1,19815,2515,3624,,,,,msweep3-s2g-r3/artifacts/chia-advise_20260917_120307.usage.jsonl
+msweep3-s2g-r4,advise,openai/gpt-5.6-sol,2026-09-17T12:08:29,1,17767,2519,5012,2048,,,,msweep3-s2g-r4/artifacts/chia-advise_20260917_120428.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:46:12,1,17767,2624,4221,2048,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:49:27,1,17767,2789,3430,2048,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:53:03,1,17767,2427,4142,2048,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:55:29,1,17767,2596,4142,2048,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:59:21,1,19815,2594,4142,,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:02:17,1,19815,2642,2887,,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:04:09,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:05:23,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:06:43,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:07:58,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:09:15,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:10:31,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:11:53,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:13:11,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:14:13,1,,,,,,,,msweep3-s2gor-r1/artifacts/chia-advise_20260917_144332.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:18:25,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:19:40,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:20:55,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:22:13,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:23:26,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:24:43,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,advise,openai/gpt-5.6-sol,2026-09-17T15:26:02,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:46:15,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_144612.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:49:30,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_144927.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:53:05,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_145303.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:55:31,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_145529.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:59:24,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_145921.usage.jsonl
+msweep3-s2gor-r1,implement,openrouter/google/gemini-3.8-flash,2026-09-17T15:02:19,1,,,,,,,run_failed,msweep3-s2gor-r1/artifacts/chia-implement_20260917_150217.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T14:47:57,1,17767,2866,5660,2048,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T14:51:22,1,19815,2361,4142,,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T14:54:24,1,19815,2829,4976,,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T14:57:36,1,17767,2372,3809,2048,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:00:17,1,103,2722,3018,19712,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:03:14,1,17767,2823,4059,2048,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:05:03,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:06:22,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:07:39,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:08:56,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:10:11,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:11:33,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:12:49,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:14:02,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:14:13,1,,,,,,,,msweep3-s2gor-r2/artifacts/chia-advise_20260917_144439.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:18:25,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:19:44,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:21:06,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:22:22,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:23:34,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:24:55,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,advise,openai/gpt-5.6-sol,2026-09-17T15:26:09,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:48:00,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_144757.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:51:24,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_145122.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:54:27,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_145424.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:57:39,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_145736.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T15:00:20,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_150017.usage.jsonl
+msweep3-s2gor-r2,implement,openrouter/google/gemini-3.8-flash,2026-09-17T15:03:17,1,,,,,,,run_failed,msweep3-s2gor-r2/artifacts/chia-implement_20260917_150314.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T14:49:45,1,19815,2770,5386,,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T14:52:01,1,17767,2710,3624,2048,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T14:54:43,1,19815,2593,3624,,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T14:58:01,1,103,2609,4660,19712,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:02:12,1,17767,2950,4308,2048,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:03:57,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:05:46,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:07:03,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:08:19,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:09:38,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:10:51,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:12:10,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:13:25,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:14:13,1,,,,,,,,msweep3-s2gor-r3/artifacts/chia-advise_20260917_144542.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:18:21,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:19:40,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:20:59,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:22:14,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:23:31,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:24:51,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:26:10,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,advise,openai/gpt-5.6-sol,2026-09-17T15:27:27,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-advise_20260917_151706.usage.jsonl
+msweep3-s2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:49:48,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-implement_20260917_144945.usage.jsonl
+msweep3-s2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:52:03,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-implement_20260917_145201.usage.jsonl
+msweep3-s2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:54:46,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-implement_20260917_145443.usage.jsonl
+msweep3-s2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T14:58:04,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-implement_20260917_145801.usage.jsonl
+msweep3-s2gor-r3,implement,openrouter/google/gemini-3.8-flash,2026-09-17T15:02:15,1,,,,,,,run_failed,msweep3-s2gor-r3/artifacts/chia-implement_20260917_150212.usage.jsonl
+msweep3-s2s-r1,advise,openai/gpt-5.6-sol,2026-09-17T14:09:45,1,17767,2567,5063,2048,,,,msweep3-s2s-r1/artifacts/chia-advise_20260917_140556.usage.jsonl
+msweep3-s2s-r1,implement,openai/gpt-5.6-sol,2026-09-17T14:12:39,1,21608,6218,2830,2048,,,,msweep3-s2s-r1/artifacts/chia-implement_20260917_140945.usage.jsonl
+msweep3-s2s-r2,advise,openai/gpt-5.6-sol,2026-09-17T14:09:07,1,19815,2599,3106,,,,,msweep3-s2s-r2/artifacts/chia-advise_20260917_140623.usage.jsonl
+msweep3-s2s-r2,implement,openai/gpt-5.6-sol,2026-09-17T14:12:11,1,21474,7220,2130,2048,,,,msweep3-s2s-r2/artifacts/chia-implement_20260917_140907.usage.jsonl
+msweep3-s2s-r3,advise,openai/gpt-5.6-sol,2026-09-17T14:16:41,1,17767,2478,5178,2048,,,,msweep3-s2s-r3/artifacts/chia-advise_20260917_141243.usage.jsonl
+msweep3-s2s-r3,implement,openai/gpt-5.6-sol,2026-09-17T14:19:48,1,21464,8121,1899,2048,,,,msweep3-s2s-r3/artifacts/chia-implement_20260917_141641.usage.jsonl
+msweep3-s2s-r4,advise,openai/gpt-5.6-sol,2026-09-17T14:15:29,1,19815,2602,4638,,,,,msweep3-s2s-r4/artifacts/chia-advise_20260917_141312.usage.jsonl
+msweep3-s2s-r4,implement,openai/gpt-5.6-sol,2026-09-17T14:18:33,1,23679,6171,3706,,,,,msweep3-s2s-r4/artifacts/chia-implement_20260917_141529.usage.jsonl
+msweep4-impl-grok-r1,implement,opencode-go/grok-4.6,2026-09-17T16:01:41,1,78901,8819,28686,128,,0.382896,,msweep4-impl-grok-r1/artifacts/chia-implement_20260917_155232.usage.jsonl
+msweep4-impl-grok-r2,implement,opencode-go/grok-4.6,2026-09-17T16:06:44,1,77514,8815,35346,49664,,0.44482600000000005,,msweep4-impl-grok-r2/artifacts/chia-implement_20260917_155515.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:12:11,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_151057.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:14:13,1,,,,,,,,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_151303.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:18:41,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_151726.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:20:23,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_151906.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:22:13,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_152058.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:24:04,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_152248.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:26:15,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_152459.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:28:18,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_152704.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:29:49,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_152835.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:31:41,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153026.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:33:28,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153211.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:34:59,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153345.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:36:59,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153544.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:38:33,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153718.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:40:22,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_153905.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:42:04,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154044.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:43:38,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154226.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:45:13,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154355.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:46:41,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154526.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:48:29,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154712.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:50:11,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_154852.usage.jsonl
+msweep4-impl-luna-r1-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:51:47,1,,,,,,,run_failed,msweep4-impl-luna-r1-routefail/artifacts/chia-implement_20260917_155032.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:18:58,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_151742.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:20:45,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_151925.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:22:30,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_152114.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:24:17,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_152301.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:26:15,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_152458.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:28:50,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_152730.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:31:03,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_152946.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:32:34,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153114.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:34:03,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153247.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:35:38,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153415.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:37:17,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153557.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:39:08,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153756.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:40:42,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_153923.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:42:17,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154058.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:43:50,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154232.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:45:18,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154403.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:46:51,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154536.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:48:19,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154704.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:49:50,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_154835.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:51:28,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_155009.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:52:55,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_155142.usage.jsonl
+msweep4-impl-luna-r2-routefail,implement,openai/gpt-5.6-luna,2026-09-17T15:54:28,1,,,,,,,run_failed,msweep4-impl-luna-r2-routefail/artifacts/chia-implement_20260917_155308.usage.jsonl

@@ -1,0 +1,314 @@
+RC=0
+== STDOUT ==
+c:189:logic_reduce$6666, Q = \SU0.TW.ff_im [11], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$13459 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$6864, Q = \SU0.TW.ff_im [12], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$13460 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$7062, Q = \SU0.TW.ff_im [13], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$13461 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$7260, Q = \SU0.TW.ff_im [14], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26303 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$20593, Q = \SU1.TW.ff_re [0], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26304 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$20788, Q = \SU1.TW.ff_re [1], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26305 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$20983, Q = \SU1.TW.ff_re [2], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26306 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$21178, Q = \SU1.TW.ff_re [3], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26307 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$21373, Q = \SU1.TW.ff_re [4], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26308 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$21568, Q = \SU1.TW.ff_re [5], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26309 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$21763, Q = \SU1.TW.ff_re [6], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26310 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$21958, Q = \SU1.TW.ff_re [7], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26311 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$22153, Q = \SU1.TW.ff_re [8], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26312 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$22348, Q = \SU1.TW.ff_re [9], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26313 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$22543, Q = \SU1.TW.ff_re [10], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26314 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$22738, Q = \SU1.TW.ff_re [11], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26315 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$22933, Q = \SU1.TW.ff_re [12], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26316 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$23128, Q = \SU1.TW.ff_re [13], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26317 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$23323, Q = \SU1.TW.ff_re [14], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26319 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$17360, Q = \SU1.TW.ff_im [0], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26320 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$17558, Q = \SU1.TW.ff_im [1], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26321 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$17756, Q = \SU1.TW.ff_im [2], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26322 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$17954, Q = \SU1.TW.ff_im [3], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26323 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$18152, Q = \SU1.TW.ff_im [4], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26324 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$18350, Q = \SU1.TW.ff_im [5], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26325 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$18548, Q = \SU1.TW.ff_im [6], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26326 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$18746, Q = \SU1.TW.ff_im [7], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26327 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$18944, Q = \SU1.TW.ff_im [8], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26328 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$19142, Q = \SU1.TW.ff_im [9], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26329 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$19340, Q = \SU1.TW.ff_im [10], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$26330 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$19538, Q = \SU1.TW.ff_im [11], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26331 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$19736, Q = \SU1.TW.ff_im [12], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26332 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$19934, Q = \SU1.TW.ff_im [13], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$26333 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$20132, Q = \SU1.TW.ff_im [14], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$36870 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$31354, Q = \SU2.TW.ff_re [1], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$36874 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$32134, Q = \SU2.TW.ff_re [5], rval = 1'0).
+Adding SRST signal on $auto$ff.cc:337:slice$36882 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$33694, Q = \SU2.TW.ff_re [13], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$36883 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$33889, Q = \SU2.TW.ff_re [14], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$36895 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$29906, Q = \SU2.TW.ff_im [10], rval = 1'1).
+Adding SRST signal on $auto$ff.cc:337:slice$36898 ($_DFF_P_) from module peweaver_shared_fft (D = $auto$simplemap.cc:189:logic_reduce$30500, Q = \SU2.TW.ff_im [13], rval = 1'0).
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$36899 ($_DFF_P_) from module peweaver_shared_fft.
+
+2.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \peweaver_shared_fft..
+Removed 1449 unused cells and 14763 unused wires.
+<suppressed ~1457 debug messages>
+
+2.23.5. Rerunning OPT passes. (Removed registers in this run.)
+
+2.23.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module peweaver_shared_fft.
+<suppressed ~784 debug messages>
+
+2.23.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\peweaver_shared_fft'.
+Computing hashes of 31849 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 31833 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 31821 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 31809 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 31803 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 31793 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+<suppressed ~168 debug messages>
+Removed a total of 56 cells.
+
+2.23.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+2.23.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \peweaver_shared_fft..
+Removed 8 unused cells and 48 unused wires.
+<suppressed ~9 debug messages>
+
+2.23.10. Finished fast OPT passes.
+
+2.24. Executing ABC pass (technology mapping using ABC).
+
+2.24.1. Extracting gate netlist of module `\peweaver_shared_fft' to `<abc-temp-dir>/input.blif'..
+
+2.24.1.1. Executed ABC.
+Extracted 27215 gates and 28145 wires to a netlist network with 929 inputs and 738 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Aug 28 2026 12:09:00)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+2.24.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:     4046
+ABC RESULTS:            ANDNOT cells:      421
+ABC RESULTS:               MUX cells:      934
+ABC RESULTS:              NAND cells:     9824
+ABC RESULTS:               NOR cells:       99
+ABC RESULTS:               NOT cells:       41
+ABC RESULTS:               ONE cells:        5
+ABC RESULTS:                OR cells:      681
+ABC RESULTS:             ORNOT cells:      536
+ABC RESULTS:              XNOR cells:      906
+ABC RESULTS:               XOR cells:     6337
+ABC RESULTS:              ZERO cells:        2
+ABC RESULTS:        internal signals:    26478
+ABC RESULTS:           input signals:      929
+ABC RESULTS:          output signals:      738
+Removing temp directory.
+Removing global temp directory.
+
+2.25. Executing OPT pass (performing simple optimizations).
+
+2.25.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module peweaver_shared_fft.
+<suppressed ~3 debug messages>
+
+2.25.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\peweaver_shared_fft'.
+Computing hashes of 28395 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 28392 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 28342 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+<suppressed ~159 debug messages>
+Removed a total of 53 cells.
+
+2.25.3. Executing OPT_DFF pass (perform DFF optimizations).
+Removing never-active SRST on $auto$ff.cc:337:slice$87784 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87786 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87787 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87788 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87819 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87820 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87821 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87822 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87823 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87824 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87825 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87826 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87827 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87828 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87829 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87830 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87831 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87832 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87833 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87834 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87835 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87836 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87837 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87838 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87839 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87840 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87841 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87842 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87843 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87844 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87845 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87846 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87847 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87848 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87850 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87851 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87852 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87853 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87854 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87804 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87805 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87806 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87807 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87808 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87809 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87810 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87811 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87812 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87813 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87814 ($_SDFF_PN1_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87815 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87816 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87817 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Removing never-active SRST on $auto$ff.cc:337:slice$87818 ($_SDFF_PN0_) from module peweaver_shared_fft.
+Setting constant 0-bit at position 0 on $auto$ff.cc:337:slice$36894 ($_DFF_P_) from module peweaver_shared_fft.
+
+2.25.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \peweaver_shared_fft..
+Removed 0 unused cells and 6415 unused wires.
+<suppressed ~148 debug messages>
+
+2.25.5. Rerunning OPT passes. (Removed registers in this run.)
+
+2.25.6. Executing OPT_EXPR pass (perform const folding).
+Optimizing module peweaver_shared_fft.
+<suppressed ~249 debug messages>
+
+2.25.7. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\peweaver_shared_fft'.
+Computing hashes of 28101 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 28097 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+Computing hashes of 28048 cells of `\peweaver_shared_fft'.
+Finding duplicate cells in `\peweaver_shared_fft'.
+<suppressed ~159 debug messages>
+Removed a total of 53 cells.
+
+2.25.8. Executing OPT_DFF pass (perform DFF optimizations).
+
+2.25.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \peweaver_shared_fft..
+Removed 3 unused cells and 303 unused wires.
+<suppressed ~4 debug messages>
+
+2.25.10. Finished fast OPT passes.
+
+2.26. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `peweaver_shared_fft'. Setting top module to peweaver_shared_fft.
+
+2.26.1. Analyzing design hierarchy..
+Top module:  \peweaver_shared_fft
+
+2.26.2. Analyzing design hierarchy..
+Top module:  \peweaver_shared_fft
+Removed 0 unused modules.
+
+2.27. Printing statistics.
+
+=== peweaver_shared_fft ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    24273 wires
+    42308 wire bits
+     1282 public wires
+    19317 public wire bits
+        9 ports
+       69 port bits
+    28045 cells
+      420   $_ANDNOT_
+     3836   $_AND_
+        6   $_DFFE_PP0P_
+       83   $_DFF_PP0_
+     4436   $_DFF_P_
+      934   $_MUX_
+     9820   $_NAND_
+       99   $_NOR_
+       50   $_NOT_
+      536   $_ORNOT_
+      676   $_OR_
+        4   $_SDFF_PN0_
+       12   $_SDFF_PN1_
+      897   $_XNOR_
+     6212   $_XOR_
+       24   $scopeinfo
+
+2.28. Executing CHECK pass (checking for obvious problems).
+Checking module peweaver_shared_fft...
+Found and reported 0 problems.
+
+3. Printing statistics.
+
+=== peweaver_shared_fft ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    24273 wires
+    42308 wire bits
+     1282 public wires
+    19317 public wire bits
+        9 ports
+       69 port bits
+    28045 cells
+      420   $_ANDNOT_
+     3836   $_AND_
+        6   $_DFFE_PP0P_
+       83   $_DFF_PP0_
+     4436   $_DFF_P_
+      934   $_MUX_
+     9820   $_NAND_
+       99   $_NOR_
+       50   $_NOT_
+      536   $_ORNOT_
+      676   $_OR_
+        4   $_SDFF_PN0_
+       12   $_SDFF_PN1_
+      897   $_XNOR_
+     6212   $_XOR_
+       24   $scopeinfo
+
+Warnings: 6 unique messages, 18 total
+End of script. Logfile hash: f57c4b1e3b, time: 8.84s, user: 7.61s, system: 0.29s, MEM: 182.70 MB peak
+Yosys 0.68+136 (git sha1 c30457480-dirty, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 30% 1x abc (3 sec), 19% 27x opt_expr (2 sec), ...
+
+== STDERR ==

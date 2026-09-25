@@ -1,0 +1,106 @@
+# ESP worker image: CHIA layered onto the ESP-provided docker image.
+#
+# ESP (Embedded Scalable Platforms, Columbia SLD) publishes its own images on
+# Docker Hub (columbiasld/esp: centos7-full|centos7-small|ubuntu18-full|
+# ubuntu18-small). The `-full` tags ship the OS deps, all three
+# cross-toolchains (riscv/ariane, riscv32imc/ibex, sparc-elf/leon3) prebuilt,
+# and an ESP checkout with submodules — everything the license-free flows
+# (esp-config/socgen, make soft, make linux, accgen, the RTL accelerator
+# flow) need. We do not rebuild any of that; this image only adds a
+# self-contained CHIA interpreter on top.
+#
+# NO CAD tools are in this image (ESP ships none): simulation/HLS/bitstream
+# flows need the host's tool installs bind-mounted plus license env vars via
+# the node type's docker.run_options, e.g.
+#     run_options:
+#         - -v /path/to/cad/tools:/path/to/cad/tools:ro
+#         - -e CDS_LIC_FILE=<port>@<license-server>
+#
+# Build (from the chia repo root):
+#
+#   docker buildx build \
+#       -f dockerfiles/EspDockerfile \
+#       -t ghcr.io/ucb-bar/chia-esp:latest .
+#
+# NOTE: the upstream tags are dated (Ubuntu 18.04 / CentOS 7) while current
+# ESP docs target Ubuntu 22.04+ — hence the checkout refresh below.
+ARG ESP_BASE_IMAGE=columbiasld/esp:ubuntu18-full
+FROM ${ESP_BASE_IMAGE}
+
+USER root
+
+# Ubuntu 18.04 is EOL: its pockets moved off the primary mirrors, so point
+# apt at old-releases before installing CHIA's transport deps (ssh + rsync
+# for chia's file plumbing, curl/ca-certificates/git for the layers below).
+# The sed is a no-op if the base image already points somewhere that works.
+RUN (apt-get update || \
+        (sed -i -e 's|http://[a-z.]*archive.ubuntu.com|http://old-releases.ubuntu.com|g' \
+                -e 's|http://security.ubuntu.com|http://old-releases.ubuntu.com|g' \
+             /etc/apt/sources.list \
+         && apt-get update)) \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates curl git locales openssh-client rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+# Vivado (used by ESP's xmsim flow to compile the Xilinx simulation
+# libraries) aborts unless the en_US.UTF-8 locale exists on the system;
+# ssh also forwards the host's en_US.UTF-8 LC_* vars into worker shells.
+RUN locale-gen en_US.UTF-8
+
+# CHIA interpreter: relocatable Python 3.10.19 + ray 2.54.0 in a dedicated
+# venv, leaving the image's own python (which ESP's scripts may rely on)
+# untouched. The python-build-standalone build targets glibc 2.17, so it
+# runs on 18.04's 2.27. The pin MUST stay in sync with every other chia
+# worker image so all workers on one Ray cluster run the same interpreter;
+# the venv lives at /home/ray/anaconda3/envs/py_worker — the path chia's
+# worker_provisioner recognizes as a pre-baked interpreter.
+ARG PYTHON_VERSION=3.10.19
+ARG PBS_TAG=20260203
+ARG RAY_VERSION=2.54.0
+
+RUN curl -fsSL \
+      "https://github.com/astral-sh/python-build-standalone/releases/download/${PBS_TAG}/cpython-${PYTHON_VERSION}+${PBS_TAG}-x86_64-unknown-linux-gnu-install_only.tar.gz" \
+        | tar -xzf - -C /opt \
+ && mkdir -p /home/ray/anaconda3/envs \
+ && /opt/python/bin/python3 -m venv /home/ray/anaconda3/envs/py_worker \
+ && /home/ray/anaconda3/envs/py_worker/bin/pip install --no-cache-dir \
+        "ray[default]==${RAY_VERSION}" pyyaml
+
+# chia isn't on PyPI: install it from the build context (the chia repo root).
+COPY . /opt/chia
+RUN /home/ray/anaconda3/envs/py_worker/bin/pip install --no-cache-dir /opt/chia
+
+# The venv is root-installed but the container runs as espuser, which owns
+# the ESP checkout — build artifacts land in socs/<board>/ without
+# permission games. /etc/passwd stays writable for the `--user $(id -u)`
+# synthetic-entry trick.
+RUN chmod -R a+rwX /home/ray && chmod a+rw /etc/passwd
+
+# ESP checkout refresh: the upstream image bakes in a checkout that may be
+# years behind, so track ESP's default branch at image-build time. If the
+# expected path is absent (a -small tag or an upstream layout change), fall
+# back to a fresh recursive clone. Print provenance so flow failures are
+# diagnosable from build logs.
+ARG ESP_HOME=/home/espuser/esp
+ARG ESP_REPO=https://github.com/sld-columbia/esp.git
+USER espuser
+RUN if [ -d "${ESP_HOME}/.git" ]; then \
+        git -C "${ESP_HOME}" fetch origin \
+        && git -C "${ESP_HOME}" checkout -f origin/HEAD \
+        && git -C "${ESP_HOME}" submodule update --init --recursive; \
+    else \
+        git clone --recursive "${ESP_REPO}" "${ESP_HOME}"; \
+    fi \
+    && echo "=== esp provenance ===" \
+    && git -C "${ESP_HOME}" remote -v \
+    && git -C "${ESP_HOME}" rev-parse HEAD
+
+# Make the ESP root discoverable by cluster configs / drivers, and put the
+# CHIA interpreter first so `ray` / `python` in the login shell that `chia up`
+# execs resolve to it. ESP's own env script (esp_env.sh in the image home
+# dir) is NOT sourced here — a login shell doesn't read ~/.bashrc — so node
+# types must source it in worker_setup_commands before `ray start`.
+ENV ESP_ROOT=${ESP_HOME}
+ENV PATH="/home/ray/anaconda3/envs/py_worker/bin:${PATH}"
+ENV HOME=/home/espuser
+WORKDIR /home/espuser

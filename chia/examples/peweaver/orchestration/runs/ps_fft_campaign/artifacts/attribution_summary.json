@@ -1,0 +1,50 @@
+{
+ "schema": "peweaver-attribution-1",
+ "window": "streaming mode-64 (three-frame burst), routed+extracted, propagated clock",
+ "note": "attribution evidence only (name-preserving synthesis, region grouping by driven RTL net); region sums from report_power -instances; reconcile against the authoritative total within tool determinism; NOT signoff power",
+ "grand_total_streaming_W": 0.04001302,
+ "region_total_W": 0.02287984,
+ "reconciliation_pct": 57.18,
+ "regions": {
+  "stage1": {
+   "W": 0.000502962,
+   "internal_W": 0.000183007,
+   "switching_W": 0.000319941,
+   "instances": 3492
+  },
+  "stage2": {
+   "W": 0.000217644,
+   "internal_W": 9.2558e-05,
+   "switching_W": 0.00012508,
+   "instances": 2333
+  },
+  "stage3": {
+   "W": 0.000227158,
+   "internal_W": 4.5794e-05,
+   "switching_W": 0.00018136,
+   "instances": 1253
+  },
+  "clock_root": {
+   "W": 0.019656587,
+   "internal_W": 0.019229623,
+   "switching_W": 0.000426926,
+   "instances": 4606
+  },
+  "io": {
+   "W": 4.3824e-05,
+   "internal_W": 1.9231e-05,
+   "switching_W": 2.4593e-05,
+   "instances": 163
+  },
+  "control_glue": {
+   "W": 0.002231665,
+   "internal_W": 0.000850818,
+   "switching_W": 0.001380761,
+   "instances": 20898
+  }
+ },
+ "evidence_reading": {
+  "clock_tree_share_of_total_pct": 49.1,
+  "note": "clock_root is complete (bucketed by clock-cell class, no net mapping needed); stage-vs-glue split covers only the 57% of instances whose driven nets kept public names. Evidence-backed hypothesis order for PowerSave: (1) dlclkp-gate the mode-128 tail stage and mode-128-only delay-bank segments (cuts clock-tree load and internal power together); (2) gate other provably holding banks in mode 64; (3) operand isolation (stage logic is small per attribution)."
+ }
+}

@@ -1,0 +1,139 @@
+{
+ "schema": "peweaver-model-sweep-preregistration-1",
+ "created": 1789588312.8504772,
+ "created_utc": "2026-09-16T19:51:52Z",
+ "purpose": "Measure which planner/implementer model routes can drive the frozen shared-FFT merge task to an independently judged acceptance, and in how many turns.",
+ "task": {
+  "candidate_filename": "peweaver_shared_fft.v",
+  "contract_sha256": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+  "inputs": {
+   "FFT64.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/FFT64.v",
+    "sha256": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0"
+   },
+   "FFT128.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/FFT128.v",
+    "sha256": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097"
+   },
+   "SdfUnit.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/SdfUnit.v",
+    "sha256": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276"
+   },
+   "SdfUnit2.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/SdfUnit2.v",
+    "sha256": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c"
+   },
+   "Multiply.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/Multiply.v",
+    "sha256": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b"
+   },
+   "Butterfly.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/Butterfly.v",
+    "sha256": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3"
+   },
+   "DelayBuffer.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/DelayBuffer.v",
+    "sha256": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104"
+   },
+   "Twiddle64.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/Twiddle64.v",
+    "sha256": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca"
+   },
+   "Twiddle128.v": {
+    "path": "/work/peweaver/source/chia/examples/peweaver_deployed/third_party/r22sdf/Twiddle128.v",
+    "sha256": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32"
+   }
+  }
+ },
+ "ladder": [
+  "lint: anti-cheat/interface scan",
+  "functional: Verilator bit-exact both modes",
+  "area: unweighted Yosys generic cell count <= floor (proxy)",
+  "holdout: 36 controller-owned hidden cases incl. exact latency"
+ ],
+ "accept_level": 4,
+ "area_floor": {
+  "calibration_file": "/work/peweaver/runs/msweep_area_calibration.json",
+  "calibration_sha256": "3f52bf7a1ae0ee957f60d92af21a93653d1b2b1223793a7efee266495bbfdd8b",
+  "reference_sum_cells": 46497,
+  "floor_ratio": 0.8,
+  "floor_cells": 37197,
+  "metric_note": "unweighted Yosys generic cell count after 'synth -top' (proxy only; not mapped or placed area)"
+ },
+ "models": [
+  {
+   "short": "astra",
+   "route": "openai/gpt-6-astra"
+  },
+  {
+   "short": "sol",
+   "route": "openai/gpt-5.6-sol"
+  },
+  {
+   "short": "claude",
+   "route": "openrouter/anthropic/claude-sonnet-4.6"
+  },
+  {
+   "short": "gemini",
+   "route": "gemini/gemini-3.8-flash"
+  },
+  {
+   "short": "deepseek",
+   "route": "opencode-go/deepseek-v4.1-flash"
+  },
+  {
+   "short": "glm",
+   "route": "opencode-go/glm-5.3-flash"
+  },
+  {
+   "short": "kimi",
+   "route": "opencode-go/kimi-k2.7-code"
+  },
+  {
+   "short": "minimax",
+   "route": "opencode-go/minimax-m3"
+  }
+ ],
+ "design": {
+  "shape": "anchored star: each model measured as planner with the fixed reference implementer and as implementer with the fixed reference planner",
+  "reference_partner": "gemini/gemini-3.8-flash (both roles)",
+  "unique_pairings": 15,
+  "replicates": 2,
+  "runs": 30,
+  "turns_cap": 16,
+  "parallel_workers": 3,
+  "gpt_gate_utc": "21:05"
+ },
+ "analysis_rules": {
+  "accepted": "first check_turn*.json with verdict ACCEPT",
+  "censored": "runs without ACCEPT by the turn cap",
+  "marginals": "per model in each role: mean turns among accepted and success rate; censoring reported",
+  "exclusions": "no run excluded; infrastructure timeouts retried at most once by the runner",
+  "no_cherry_picking": true
+ },
+ "budget": {
+  "openrouter_cap_usd": 50,
+  "openai": "subscription rate window; gated until reset",
+  "opencode_go": "subscription",
+  "gemini": "Google API key credits on server"
+ },
+ "claim_boundary": "Synthesis-level generic cell count is a proxy, not placed area. No P&R in this ladder. Acceptance is by deterministic judges only; models never accept their own output. Model routes differ by adapter transport and are treated as model-provider bundles.",
+ "environment": {
+  "vm": "peweaver-vm",
+  "python": "chia_env",
+  "ray_resources": {
+   "yosys": 3,
+   "opencode_creds": 1,
+   "gemini_creds": 1
+  }
+ },
+ "scripts": {
+  "sweep_fft_driver.py": "3e8b113ea6da3453e5397db47a118a0119358c45c510adf62271a0d03659172d",
+  "sweep_runner.py": "c97918ba13c5b9343d4e65e0dffde11e8b53d813804e0ec3fc885f82180f8f93",
+  "sweep_aggregate.py": "5edb136c13543d9a4f6dc10a9c96b0f95742a930d3c1e4f9af0c4affa6311e31"
+ },
+ "pre_registration_notes": [
+  "msweep-smoke-1 ran before this file as a plumbing test; excluded.",
+  "GPT-route runs wait for the usage-window reset stated by the operator."
+ ]
+}

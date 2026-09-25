@@ -1,0 +1,100 @@
+{
+  "lock_version": "2026-09-07",
+  "scope": "PEWeaver finalization and GDS stream-out / layout DRC",
+  "note": "Separate finalization tool lock; frozen physical/tool-lock.json remains untouched",
+  "tools": {
+    "klayout_cli": {
+      "version": "0.26.2",
+      "binary": "/usr/bin/klayout",
+      "package": "Ubuntu jammy universe (0.26.2-3build3)"
+    },
+    "klayout_python": {
+      "version": "0.30.12",
+      "library": "klayout.db",
+      "package": "PyPI prebuilt manylinux wheel"
+    }
+  },
+  "pdk_artifacts": {
+    "standard_cell_gds": {
+      "path": "sky130A/libs.ref/sky130_fd_sc_hd/gds/sky130_fd_sc_hd.gds",
+      "sha256": "4a768b5b034669f43d45170e1b171fb05b1dbe31671b19e7add34b98a7f842c8",
+      "bytes": 4194544
+    },
+    "drc_full_deck": {
+      "path": "sky130A/libs.tech/klayout/drc/sky130A.lydrc",
+      "sha256": "81cf4f998fc6fb6925ccc8618afba3dc8530058db1d0e31dc1f6ad5299e52372",
+      "bytes": 63820
+    },
+    "drc_mr_deck": {
+      "path": "sky130A/libs.tech/klayout/drc/sky130A_mr.drc",
+      "sha256": "caf4a6b08cb12f78d6bb2d120737424c786b3bae8d6489234b9b269e91107bfc",
+      "bytes": 53154
+    },
+    "tech_file": {
+      "path": "sky130A/libs.tech/klayout/tech/sky130A.lyt",
+      "sha256": "19968a5aed295277a03e8d70e1ea7513e9f9f62ef16fe15055ee621b4fcf0fa9",
+      "bytes": 6323
+    }
+  },
+  "gds_streamout_provenance": {
+    "method": "KLayout LEF/DEF reader with tech LEF + cell LEF + purpose-explicit sky130 GDS layer map (finalization/sky130_gds_layermap.map, derived from PDK sky130A.lyp)",
+    "roundtrip_audit": "written GDS re-imported; every stack layer required nonzero (fail-closed); audit JSON: finalization/gds_roundtrip_audit.json",
+    "stack_shape_counts": {
+      "S0": {
+        "li1": 272150,
+        "mcon": 675646,
+        "met1": 389751,
+        "via": 126432,
+        "met2": 176960,
+        "via2": 37549,
+        "met3": 33942,
+        "via3": 33708,
+        "met4": 11295,
+        "via4": 1625,
+        "met5": 1682
+      },
+      "A": {
+        "li1": 400312,
+        "mcon": 1005746,
+        "met1": 569551,
+        "via": 192503,
+        "met2": 274139,
+        "via2": 57059,
+        "met3": 52816,
+        "via3": 50667,
+        "met4": 17442,
+        "via4": 2419,
+        "met5": 2490
+      }
+    },
+    "designs": {
+      "S0": {
+        "sha256": "acdd02e0c82df4d5ae4dc32d2423471da9108ac26a4936377b1d917e0dbfbeda",
+        "bytes": 29942060,
+        "gds_bbox_um": [
+          787.03,
+          781.12
+        ],
+        "def_diearea_um": [
+          791.79,
+          791.79
+        ],
+        "note": "GDS bbox is geometry extent (excludes die margin); DEF DIEAREA recorded separately"
+      },
+      "A": {
+        "sha256": "d7daecfbf5dc6dc07ca41ad42742ce71ed915ae11ca129593c6a67cf6827391f",
+        "bytes": 43201614,
+        "gds_bbox_um": [
+          951.82,
+          956.35
+        ],
+        "def_diearea_um": [
+          961.55,
+          961.55
+        ],
+        "note": "GDS bbox is geometry extent (excludes die margin); DEF DIEAREA recorded separately"
+      }
+    },
+    "drc_status": "Router DRC 0 violations; S0/A GDS round-trip full-stack audit passed; independent streamed-layout KLayout DRC attempts failed in pinned KLayout 0.26.2 Salt/Ruby startup before report generation (see finalization/layout_verification_status.json), so independent DRC/LVS remains pending"
+  }
+}

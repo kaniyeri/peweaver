@@ -1,0 +1,38 @@
+{
+ "turn": 2,
+ "accepted": true,
+ "best_level": 6,
+ "best_hash": "7f0dc3dda23f3c38a216b9c5f26789584de6a2c747e31b481a881e94db8ee0ce",
+ "last_rejected_hash": "",
+ "last_rejected_dir": "",
+ "infra_retries": 0,
+ "infra_attempts": 0,
+ "best_manifest": {
+  "dwt_shared.v": "27ce1aab1fc04c4608b2787a2dfa9006ba90a121500544ba517b677fec0cf91e",
+  "inputs/CONTRACT.md": "7f3f97b3c63655fca1b47eda4ae59121dc8dd1b3b480118be1ac77f5cb63276d",
+  "inputs/dwt_a.v": "9a15bba5170eb31762688b4f8a749010ffef10517b3c5a72419bde395abbbe4d",
+  "inputs/dwt_b.v": "acbce39e909dcc9a4a2835626f4a5401f8d5b25f1dbcd8673cdbbb9d58d1258c"
+ },
+ "architecture": "",
+ "advice": "### Highest-value next burst: lock down the cycle-accurate shared scheduler before optimizing state\n\nImplement or audit the controller around one shared eight-multiplier low/high filter bank. Use these explicit operation predicates from **old state**:\n\n- `A_L1 = en && !ctx && a_ph`\n- `B_L1 = en &&  ctx && b_ph`\n- `B_L2 = en &&  ctx && !b_ph && b_pending`\n\nRequired behavior:\n\n- Toggle `a_ph` or `b_ph` only when that context accepts a sample.\n- `A_L1` and `B_L1` use `[x, w0, w1, w2]`.\n- On `B_L1`, capture `b_l1_*`, push the freshly computed signed `lo_sum[30:15]` into `b_q0..b_q3`, and toggle pair parity.\n- Set `b_pending` only on B pair indices `1,3,5,\u2026`; consume it on the next enabled B edge with old `b_ph=0`.\n- `B_L2` must use the already-updated q-window, then pulse `b_l2_valid` and clear `b_pending`.\n- Clear all three valid signals every non-reset edge; output data must otherwise hold.\n- `en=0` and inactive contexts must preserve histories, phases, q-window, pending work, and output data.\n- Synchronous reset must clear every state and output field.\n\nBefore any packing or cell-count optimization, verify directed traces showing:\n\n1. A/B L1 valids only at accepted indices `1,3,5,\u2026`.\n2. B L2\u2019s first valid at accepted B index `4`, computed from `[q1,q0,0,0]`.\n3. A pending B-L2 job survives `en=0` and Context-A suspension.\n4. Data holds while valids deassert.\n5. Arithmetic uses eight signed 16\u00d716 products, explicit 40-bit sign extension, modulo-\\(2^{40}\\) sums, and exact `[30:15]` extraction.\n\nThen run the frozen gate ladder and do not proceed until lint plus randomized and directed RTL comparison pass cycle-for-cycle. Afterward, confirm normalized multiplier count is `<= 8` and synthesized generic cells are `< 11142`. If the current RTL already satisfies the traces, preserve it and diagnose the apparent evaluator interruption rather than redesigning the datapath.",
+ "feedback": "",
+ "history": [
+  {
+   "ts": 1789658481.167149,
+   "turn": 2,
+   "status": "accepted",
+   "level": 6,
+   "hash": "7f0dc3dda23f3c38a216b9c5f26789584de6a2c747e31b481a881e94db8ee0ce"
+  }
+ ],
+ "model_status": {
+  "2": {
+   "advise_chars": 1893,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "7f0dc3dda23f3c38a216b9c5f26789584de6a2c747e31b481a881e94db8ee0ce",
+   "verdict": "ACCEPT",
+   "level": 6
+  }
+ }
+}

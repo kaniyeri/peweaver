@@ -1,0 +1,12 @@
+ Reference value :  0.00000e+00
+No compatibility mode selected!
+
+
+Circuit: * nand2_leak.spice — single-cell static leakage sanity check
+
+Doing analysis at TEMP = 25.000000 and TNOM = 27.000000
+
+
+No. of Data Rows : 1
+ileak = 1.861235e-12
+ngspice-36 done

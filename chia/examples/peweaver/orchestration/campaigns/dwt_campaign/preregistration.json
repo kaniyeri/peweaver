@@ -1,0 +1,121 @@
+{
+ "schema": "peweaver-dwt-campaign-preregistration-1",
+ "campaign": "peweaver-dwt-merge",
+ "run_id": "dwt-merge-1",
+ "created_date": "2026-09-17",
+ "status": "PREREGISTERED BEFORE FIRST MODEL CALL",
+ "spec": {
+  "path": "orchestration/campaigns/dwt_campaign/TIGHTENED_CAMPAIGN_SPEC.md",
+  "sha256": "884b8f64eac1bf54adea7576da20d7f15906b1dfa86ee5d64a58e0af8fb51e8e"
+ },
+ "benchmark": "two mutually exclusive independently stateful streaming Q15 db2 DWT contexts; A one level, B two levels; 2:1 decimation",
+ "composition": "unchanged domain-neutral ChiaMerge",
+ "models": {
+  "adviser": "openrouter/openai/gpt-5.6-sol",
+  "implementer": "gemini/gemini-3.8-flash via DirectGeminiLLM reply mode"
+ },
+ "budget": {
+  "turns": 16,
+  "clean_starts": 1,
+  "full_physical_runs": 0,
+  "extension_policy": "additional clean starts require a separately recorded extension and must not delay submission packaging"
+ },
+ "candidate_filename": "dwt_shared.v",
+ "gate_ladder": [
+  "lint/integrity (exact interface, forbidden-construct scan)",
+  "functional: 1502-cycle randomized RTL oracle, seed 0xD17A5EED",
+  "corners: directed impulse/reset/context-switch/extreme/pending-level-2 and mutant-4 truncation-slice cases",
+  "structure: <= 8 normalized multiplication operators (stat -json num_cells_by_type, mul/macc)",
+  "area: unweighted generic Yosys cell count strictly below 60% of the independently synthesized two-reference sum",
+  "holdout: controller-only synthesized generic netlist, 1202 cycles, seed 0x7D17BEEF, Icarus + Yosys simcells; generic failure note only"
+ ],
+ "acceptance": "all six gates pass on the controller-hashed candidate",
+ "thresholds": {
+  "normalized_mul_cap": 8,
+  "area_ratio_of_reference_sum": 0.6,
+  "area_threshold_cells": 11142.0,
+  "pilot_origin": "disclosed model-free pilot calibration; final counts above replace pilot values and reproduce"
+ },
+ "controls": {
+  "model_free_fold_positive": "must pass all six gates",
+  "naive_wrapper_negative": "must fail structure and area, pass functional",
+  "shared_history_cheater": "must fail functional and corners",
+  "mutations": [
+   "coeff_sign",
+   "coeff_swap",
+   "parity_flip",
+   "trunc_slice",
+   "pending_on_disable",
+   "pending_on_switch",
+   "reset_one_context",
+   "phase_on_disable",
+   "shared_history",
+   "valid_hold"
+  ],
+  "local_selftest_valid": true,
+  "vm_selftest_valid": true,
+  "vm_selftest_artifact": "selftest_vm_20260917.json"
+ },
+ "frozen_inputs": {
+  "spec": {
+   "path": "chia/examples/peweaver/orchestration/campaigns/dwt_campaign/TIGHTENED_CAMPAIGN_SPEC.md",
+   "sha256": "a8843b64f0bb2ccba256a6e5fe16308d147d089e3bdd245faa3e34bf6c4a7659",
+   "bytes": 19728
+  },
+  "driver": {
+   "path": "chia/examples/peweaver/orchestration/dwt_merge_driver.py",
+   "sha256": "d7c089bb2ee6b015614bc551531824f4de7b459ad93d99e0625558036e782988",
+   "bytes": 32505
+  },
+  "oracle": {
+   "path": "chia/examples/peweaver/orchestration/dwt_oracle.py",
+   "sha256": "1c5d44ac7f8e6380f8c66252e19ecbed984558e9686e8a369626e995b6c80f02",
+   "bytes": 7994
+  },
+  "evaluator_nodes": {
+   "path": "chia/examples/peweaver/orchestration/evaluator_nodes.py",
+   "sha256": "d4217200f482ca3b17606f85f7f7ddcf62cae25c3c6540893b1ec6e5104c3638",
+   "bytes": 6560
+  },
+  "chia_merge": {
+   "path": "chia/examples/peweaver/orchestration/chia_merge.py",
+   "sha256": "a4d316869890260bcfd708e41ce4c4a627b724b0acd88950ff8d11b3405806a0",
+   "bytes": 35733
+  },
+  "ref_dwt_a": {
+   "path": "chia/examples/peweaver/merge_benchmarks/dwt_reference/dwt_a.v",
+   "sha256": "9a15bba5170eb31762688b4f8a749010ffef10517b3c5a72419bde395abbbe4d",
+   "bytes": 2014
+  },
+  "ref_dwt_b": {
+   "path": "chia/examples/peweaver/merge_benchmarks/dwt_reference/dwt_b.v",
+   "sha256": "acbce39e909dcc9a4a2835626f4a5401f8d5b25f1dbcd8673cdbbb9d58d1258c",
+   "bytes": 3363
+  },
+  "holdout_tb": {
+   "path": "chia/examples/peweaver/merge_benchmarks/dwt_reference/dwt_holdout_tb.sv",
+   "sha256": "7fbca16ce9445c8005a1339c9c7d48e970742b61fb28307dedf96d8370280a7c",
+   "bytes": 2452
+  }
+ },
+ "hidden_assets": {
+  "hidden_seed": "held in controller code (dwt_oracle.HIDDEN_SEED)",
+  "positive_control_rtl": "held in controller driver; never in prompts",
+  "policy": "model prompts contain only references, contract, and public gate feedback"
+ },
+ "isolation": "implementer is a stateless reply-mode text call with no filesystem/tool access; adviser runs with write tools denied; controller kills model processes before holdout evaluation",
+ "stop_conditions": [
+  "first failed semantic gate for a candidate",
+  "protected input hash or config fingerprint change",
+  "16 turns exhausted",
+  "hidden assets exposed to a model process",
+  "control or mutation behavior deviates from the frozen selftest",
+  "operator determines remaining time threatens submission audit"
+ ],
+ "claim_language": "On a frozen streaming Q15 db2 benchmark containing mutually exclusive, independently stateful one- and two-level decomposition contexts, ChiaMerge produced (or did not produce) a candidate that passed directed and randomized bit-exact RTL checks, a controller-only synthesized-netlist holdout, and frozen structural gates. Any accepted candidate is reported with its unweighted generic Yosys cell count, never as mapped area; no physical, timing, power, exhaustive-proof, or signal-quality claim is made.",
+ "operator_confirmation_required": [
+  "campaign run cannot delay final submission audit",
+  "run venue (VM per FIR precedent, or local with GEMINI_API_KEY exported)"
+ ],
+ "refreeze_note": "Re-frozen 2026-09-17 before the first model call: the launch-gate selftest on the VM caught an OSS-derived simcells path bug in the driver (parents[1] vs parents[0]); the driver was fixed and both the local and VM selftests pass with the frozen hash. No model call had occurred."
+}

@@ -1,0 +1,360 @@
+{
+ "turn": 32,
+ "accepted": true,
+ "best_level": 4,
+ "best_hash": "63ecf1f91982123452fe3bd022a5558e1eea85851f8c05c4c34e7b8cf58f4289",
+ "best_manifest": {
+  "inputs/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+  "inputs/CONTRACT.md": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+  "inputs/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+  "inputs/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+  "inputs/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+  "inputs/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+  "inputs/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+  "inputs/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+  "inputs/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+  "inputs/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+  "peweaver_shared_fft.v": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e"
+ },
+ "architecture": "## 1. Architecture\n\nUse one mode-locked radix-\\(2^2\\) SDF pipeline with three shared stages and one conditional radix-2 tail:\n\n```text\ninput\n  -> R22_STAGE0\n  -> R22_STAGE1\n  -> R22_STAGE2\n  -> [R2_TAIL only in 128 mode]\n  -> output\n```\n\n| Block | 64-point configuration | 128-point configuration |\n|---|---:|---:|\n| `R22_STAGE0` | N=64, M=64 | N=128, M=128 |\n| `R22_STAGE1` | N=64, M=16 | N=128, M=32 |\n| `R22_STAGE2` | N=64, M=4, multiplier bypassed | N=128, M=8 |\n| `R2_TAIL` | bypassed and invalid | M=2, RH=0 |\n\nThis is genuinely shared: both modes use the same three pairs of butterflies, feedback storage, control structure, and interstage registers. Only delay taps, counter terminal values, control-bit selection, twiddle addressing, and the final-tail mux depend on mode.\n\n### Shared resources\n\n- Six 16-bit complex butterflies in the three radix-\\(2^2\\) stages:\n  - first butterfly: `RH=0`\n  - second butterfly: `RH=1`\n- Three complex multipliers:\n  - stages 0 and 1 use them in both modes\n  - stage 2 uses its multiplier only in 128 mode\n- One 128-point twiddle constant table, shared by all stages and modes.\n- One radix-2 tail butterfly, needed only by 128 mode.\n- Maximum feedback storage:\n  - stage 0: 64 and 32 complex words\n  - stage 1: 16 and 8 complex words\n  - stage 2: 4 and 2 complex words\n  - tail: 1 complex word\n  - total: 127 complex words\n\nThe selectable delays should be implemented as maximum-depth shift storage with mode-selected taps. Storage shifts every clock, matching `DelayBuffer.v`; it is not gated by valid.\n\n### Twiddle sharing\n\nThe 128-point table subsumes the 64-point table exactly:\n\n```text\nW64[k] = W128[2*k]\n```\n\nFor every address used by the 64-point core, both 16-bit literals match. Thus no separate 64-point ROM is needed.\n\nUse a 7-bit physical address:\n\n```text\nphase_sel = {bf2_count[m-2], bf2_count[m-1]}   // phases 0,2,1,3\nbase      = bf2_count[m-3:0] << (7-m)\ntw_addr   = phase_sel * base\n```\n\nwhere `m=log2(M)`. This directly gives 128-table addresses in both modes. `tw_addr==0` bypasses the multiplier; table entry zero may remain `16'h0000,j16'h0000`. Only reachable addresses need literal cases; unreachable reference `xxxx` entries must never be selected.\n\n### Mode and state ownership\n\nUse:\n\n- `mode_q`: latched operating mode\n- `mode_valid`: indicates that `mode_q` belongs to the current reset epoch\n- `busy`: input frame or pipeline output is outstanding\n- 7-bit frame/sample and stage counters\n- reset-cleared valid/enable state at every stage\n\nRules:\n\n1. Asynchronous reset immediately clears `mode_valid`, `busy`, all counters, stage valid state, and `do_en`.\n2. While idle, `mode_q` may track/capture `mode`; the first accepted sample locks it.\n3. While `busy=1`, changes on external `mode` are ignored.\n4. Continuous frames inherit the locked mode; there is no relatching at frame boundaries while earlier data remains in flight.\n5. A mode transition therefore requires reset, as required by the contract.\n6. Feedback data arrays need not be reset. All valid state is reset, and each selected delay is overwritten before its first legal butterfly read. Consequently stale words from a previous mode can never become valid output.\n7. In 64 mode the tail receives no valid state, and top-level output selects stage 2. In 128 mode output selects the tail.\n\n---\n\n## 2. Per-stage schedule\n\nLet local cycle 0 be the edge accepting that stage's first input. Each stage receives and emits exactly N consecutive valid samples.\n\nFor a radix-\\(2^2\\) stage:\n\n- `di_count`: modulo N while input valid; zero on a pre-frame gap\n- BF1 select: `di_count[m-1]`, period M, blocks of M/2\n- BF1 delay: \\(D_1=M/2\\)\n- `bf1_start`: `di_count == D1-1`\n- BF1 `-j`: `bf1_count[m-1:m-2] == 2'b11`\n- BF2 select: registered `bf1_count[m-2]`, period M/2, blocks of M/4\n- BF2 delay: \\(D_2=M/4\\)\n- `bf2_start`: registered detection of  \n  `bf1_sp_en && bf1_count == D2-1`\n- `bf1_count` and `bf2_count`: modulo N during their N-cycle valid windows\n- Twiddle phase over each M-sample period: `0,2,1,3`\n- Normal radix-\\(2^2\\) latency: \\(D_1+D_2+3\\)\n- M=4 final-stage latency: \\(D_1+D_2+2\\), because multiplier/ROM output is bypassed\n\n### Configuration table\n\n| Stage | Mode | M | BF1 delay | BF2 delay | Counter width/period | Twiddle base and address | Stage latency | First output, top-relative |\n|---|---:|---:|---:|---:|---|---|---:|---:|\n| `R22_STAGE0` | 64 | 64 | 32 | 16 | 7-bit, modulo 64; control period 64 | `base=count[3:0]<<1`; `addr=sel*base` | 51 | 51 |\n| `R22_STAGE0` | 128 | 128 | 64 | 32 | 7-bit, modulo 128; control period 128 | `base=count[4:0]`; `addr=sel*base` | 99 | 99 |\n| `R22_STAGE1` | 64 | 16 | 8 | 4 | 7-bit, modulo 64; control period 16 | `base=count[1:0]<<3`; `addr=sel*base` | 15 | 66 |\n| `R22_STAGE1` | 128 | 32 | 16 | 8 | 7-bit, modulo 128; control period 32 | `base=count[2:0]<<2`; `addr=sel*base` | 27 | 126 |\n| `R22_STAGE2` | 64 | 4 | 2 | 1 | 7-bit, modulo 64; control period 4 | no multiplier; unconditional twiddle bypass | 5 | 71 |\n| `R22_STAGE2` | 128 | 8 | 4 | 2 | 7-bit, modulo 128; control period 8 | `base=count[0]<<4`; `addr=sel*base` | 9 | 135 |\n| `R2_TAIL` | 64 | \u2014 | \u2014 | \u2014 | disabled; valid forced low | bypass stage 2 | 0 | 71 |\n| `R2_TAIL` | 128 | 2 | 1 | \u2014 | `bf_en` toggles on each valid sample; period 2 | none | 2 | 137 |\n\nFor all radix-\\(2^2\\) rows, `count` in the twiddle expression is `bf2_count`, and:\n\n```text\nsel = {bf2_count[m-2], bf2_count[m-1]}\n```\n\nEach listed first-output point begins an uninterrupted N-cycle valid interval. Consecutive same-mode input frames produce consecutive stage-valid and final-output windows with one sample per clock.\n\n### Arithmetic\n\nEvery shared butterfly must explicitly sign-extend operands to 17 bits:\n\n```text\nsum/difference = signed 17-bit operation\nresult = (sum_or_difference + RH) >>> 1\n```\n\nand retain the low 16 result bits.\n\nEach complex multiplier retains four independent signed 16\u00d716 products:\n\n- `arbr`, `arbi`, `aibr`, `aibi`: signed 32-bit\n- each product independently arithmetic-shifted by 15 and truncated to 16 bits\n- `m_re = sc_arbr - sc_aibi`\n- `m_im = sc_arbi + sc_aibr`\n- 16-bit modulo arithmetic, no saturation\n\nDo not replace this with a three-multiply identity: independent product truncations make that non-bit-exact.\n\nThe BF1 `-j` operation is exactly:\n\n```text\nre_out = im_in\nim_out = 16'b0 - re_in\n```\n\n---\n\n## 3. Exact interface and latency\n\nThe top level has no parameters and exactly these ports:\n\n```text\nmodule peweaver_shared_fft (\n    input         clock,\n    input         reset,\n    input         mode,\n    input         di_en,\n    input  [15:0] di_re,\n    input  [15:0] di_im,\n    output        do_en,\n    output [15:0] do_re,\n    output [15:0] do_im\n);\n```\n\n`reset` has active-high asynchronous assertion.\n\nIf the edge accepting input sample 0 is cycle 0:\n\n| Locked mode | Frame size | First `do_en` | Valid duration |\n|---|---:|---:|---:|\n| `mode_q=0` | 64 | cycle 71 | cycles 71\u2013134, exactly 64 cycles |\n| `mode_q=1` | 128 | cycle 137 | cycles 137\u2013264, exactly 128 cycles |\n\nOutputs are scaled by one bit at each radix-2 butterfly, giving total scaling `1/64` or `1/128`, and are emitted in bit-reversed order.\n\n---\n\n## 4. Risks and implementation/verification order\n\n1. **Cycle and valid alignment**\n   - Highest risk because the ROM register, `mu_en`, butterfly data registers, and enable registers have deliberate offsets.\n   - First reproduce each reference stage's latency independently: 51/15/5 and 99/27/9/2.\n   - Then verify cumulative first-valid cycles 71 and 137, including back-to-back frames.\n\n2. **Signed arithmetic and truncation**\n   - Implement and exhaustively/unit-test butterfly boundary values first.\n   - Verify negative odd sums use arithmetic-floor shifting.\n   - Verify each 32-bit multiplier product is shifted independently before the final 16-bit add/sub.\n   - Test `16'h8000`, `16'h7fff`, negative-one, overflow, and `-j` negation of `16'h8000`.\n\n3. **Twiddle address phase ordering**\n   - Preserve the non-obvious selector order `{count[m-2],count[m-1]}`, which produces `0,2,1,3`, not `0,1,2,3`.\n   - Compare every reachable address and literal against each reference.\n   - Explicitly prove the 64-mode mapping `addr128=2*addr64`.\n\n4. **Variable-depth feedback taps**\n   - Check off-by-one behavior for all selected depths: 64/32, 32/16, 16/8, 8/4, 4/2, 2/1, and tail 1.\n   - Verify storage shifts even when valid is low, as in `DelayBuffer.v`.\n   - Confirm stale post-reset data cannot be consumed before overwrite.\n\n5. **Mode/reset ownership**\n   - Verify external `mode` changes are ignored while busy.\n   - Assert reset during input, pipeline drain, and output; `do_en` must drop asynchronously and never reappear from old state.\n   - Test 128\u2192reset\u219264 and 64\u2192reset\u2192128 with adversarial old feedback contents.\n\n6. **64-mode tail bypass**\n   - Ensure bypass changes neither latency nor data and tail valid remains cleared.\n   - Ensure stage 2 multiplier is bypassed only for M=4, while 128-mode M=8 uses it.\n\n7. **Area and 10 ns timing**\n   - Preserve register boundaries around twiddle lookup and multiplication.\n   - Use sparse reachable-address constant decoding rather than two complete tables.\n   - Synthesize early after arithmetic equivalence. The merged design has 7 versus 13 total reference butterflies, 3 versus 5 complex multipliers, and 127 versus 190 complex delay words, providing the primary area margin without risky arithmetic restructuring.",
+ "advice": "### Highest-value instruction: remove the elaboration blocker before implementing FFT logic\n\nThe evaluator is not reaching the datapath. The PPA wrapper instantiates:\n\n```verilog\npeweaver_shared_fft #(.WIDTH(16)) u_core (...)\n```\n\nbut the candidate does not declare `WIDTH`, producing Verilator\u2019s `PINNOTFOUND` error. Add a compatibility-only module-body declaration:\n\n```verilog\nparameter WIDTH = 16;\n```\n\nKeep the required nine-port header exactly unchanged:\n\n```text\nclock, reset, mode, di_en, di_re, di_im, do_en, do_re, do_im\n```\n\nDo not use `WIDTH` to parameterize any datapath; all data remains explicitly 16 bits.\n\nBefore moving on, verify:\n\n1. `peweaver_shared_fft.v`, `peweaver_ppa_shared_fft.v`, and `shared_activity_tb.sv` elaborate together with no `PINNOTFOUND` or parameter errors.\n2. A direct core instantiation still sees exactly the nine contract ports.\n3. Asserting core `reset` between clock edges immediately forces `do_en` low.\n4. With reset released and `di_en=0`, `do_en` remains low.\n5. Remove the current output self-feedback pattern:\n   ```verilog\n   do_en_r <= do_en;\n   assign do_en = do_en_r;\n   ```\n   Final outputs must instead be driven from the selected stage-2 signals in 64 mode or tail signals in 128 mode.\n\nDo not debug butterflies, twiddles, or latency until this elaboration/reset smoke test passes; the present functional result contains no FFT correctness information.",
+ "feedback": "",
+ "history": [
+  {
+   "ts": 1788485345.3133173,
+   "turn": 1,
+   "status": "retry",
+   "level": 0
+  },
+  {
+   "ts": 1788486138.40652,
+   "turn": 2,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788487315.7742329,
+   "turn": 4,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788487541.7856727,
+   "turn": 5,
+   "status": "rejected",
+   "level": 0
+  },
+  {
+   "ts": 1788487804.3644059,
+   "turn": 6,
+   "status": "rejected",
+   "level": 0
+  },
+  {
+   "ts": 1788488716.4443474,
+   "turn": 8,
+   "status": "rejected",
+   "level": 0
+  },
+  {
+   "ts": 1788488760.3672884,
+   "turn": 9,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788489097.8894262,
+   "turn": 10,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788490200.0988238,
+   "turn": 12,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788490701.5337367,
+   "turn": 13,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788491658.958317,
+   "turn": 15,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788491941.2922194,
+   "turn": 16,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788492416.1705096,
+   "turn": 17,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788493077.87677,
+   "turn": 18,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788493801.6273704,
+   "turn": 19,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788494539.3165572,
+   "turn": 20,
+   "status": "implement_failed",
+   "hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  {
+   "ts": 1788495180.7685912,
+   "turn": 22,
+   "status": "promoted",
+   "level": 1,
+   "hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  {
+   "ts": 1788495464.715111,
+   "turn": 23,
+   "status": "stall",
+   "hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  {
+   "ts": 1788495565.631914,
+   "turn": 24,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788495822.9469013,
+   "turn": 25,
+   "status": "stall",
+   "hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  {
+   "ts": 1788496282.6080933,
+   "turn": 26,
+   "status": "stall",
+   "hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  {
+   "ts": 1788496799.0261698,
+   "turn": 27,
+   "status": "stall",
+   "hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  {
+   "ts": 1788497102.5469806,
+   "turn": 28,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788497167.3357625,
+   "turn": 29,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788499119.7758808,
+   "turn": 31,
+   "status": "rejected",
+   "level": 1
+  },
+  {
+   "ts": 1788500397.185725,
+   "turn": 32,
+   "status": "accepted",
+   "level": 4,
+   "hash": "63ecf1f91982123452fe3bd022a5558e1eea85851f8c05c4c34e7b8cf58f4289"
+  }
+ ],
+ "model_status": {
+  "1": {
+   "advise_chars": 9467,
+   "implement_ok": true,
+   "implement_reason": "I'll start by reading all the reference designs to understand the exact architecture.",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b",
+   "verdict": "RETRY",
+   "level": 0
+  },
+  "2": {
+   "advise_chars": 2272,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "4": {
+   "advise_chars": 2745,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "5": {
+   "advise_chars": 2399,
+   "implement_ok": true,
+   "implement_reason": "I'll start by reading the contract and all reference designs.",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b",
+   "verdict": "REJECT",
+   "level": 0
+  },
+  "6": {
+   "advise_chars": 2915,
+   "implement_ok": true,
+   "implement_reason": "Now let me read the remaining reference files:",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b",
+   "verdict": "REJECT",
+   "level": 0
+  },
+  "8": {
+   "advise_chars": 2438,
+   "implement_ok": true,
+   "implement_reason": "Now the top-level references and twiddle tables:",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b",
+   "verdict": "REJECT",
+   "level": 0
+  },
+  "9": {
+   "advise_chars": 2550,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "10": {
+   "advise_chars": 2364,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "12": {
+   "advise_chars": 3064,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "13": {
+   "advise_chars": 2794,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "15": {
+   "advise_chars": 2059,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "16": {
+   "advise_chars": 2526,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "17": {
+   "advise_chars": 2716,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "18": {
+   "advise_chars": 2662,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "19": {
+   "advise_chars": 3290,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "20": {
+   "advise_chars": 2288,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "89eac14ccc3c123909a0606127be404d0d6e076989df7bfcf25e0c0bb5651b2b"
+  },
+  "22": {
+   "advise_chars": 2680,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df",
+   "verdict": "IMPROVE",
+   "level": 1
+  },
+  "23": {
+   "advise_chars": 1097,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  "24": {
+   "advise_chars": 1382,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "22ce3e83751482224b23569c2086be598d2da1bd8cdff617d12592f06119c40c",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "25": {
+   "advise_chars": 1983,
+   "implement_ok": false,
+   "implement_reason": "opencode call failed: unknown: empty response",
+   "manifest_hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  "26": {
+   "advise_chars": 2303,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  "27": {
+   "advise_chars": 2520,
+   "implement_ok": false,
+   "implement_reason": "reply contained no verilog code block",
+   "manifest_hash": "22cfa30534bc6a2fc3e129f86969f47dcd8475aef4bb64e8861f58ef958472df"
+  },
+  "28": {
+   "advise_chars": 2331,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "0e99f9cb9b5c3aa3b7d52adb702bc796b13e9a202e813e1bd15e5a6c44474c67",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "29": {
+   "advise_chars": 1384,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "032a5e9fd4e22f482ec66d15960211a345fe6a7c6eca449e6984e0706f7bdcb6",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "31": {
+   "advise_chars": 2285,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "f90ccfefc2874907b06e57e4c6aa7eaae4c0133e278f9e6fdbfe3ee4fe57edf8",
+   "verdict": "REJECT",
+   "level": 1
+  },
+  "32": {
+   "advise_chars": 1410,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "63ecf1f91982123452fe3bd022a5558e1eea85851f8c05c4c34e7b8cf58f4289",
+   "verdict": "ACCEPT",
+   "level": 4
+  }
+ }
+}

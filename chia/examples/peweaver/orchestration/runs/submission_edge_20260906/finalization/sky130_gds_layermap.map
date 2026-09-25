@@ -1,0 +1,61 @@
+li1 67 20
+li1 NET 67 20
+li1 SPNET 67 20
+li1 VIA 67 44
+mcon 67 44
+mcon NET 67 44
+mcon SPNET 67 44
+mcon VIA 67 44
+mcon PIN 67 48
+met1 68 20
+met1 NET 68 20
+met1 SPNET 68 20
+met1 VIA 68 20
+met1 PIN 68 16
+met1 LABEL 68 5
+via 68 44
+via NET 68 44
+via SPNET 68 44
+via VIA 68 44
+met2 69 20
+met2 NET 69 20
+met2 SPNET 69 20
+met2 VIA 69 20
+met2 PIN 69 16
+met2 LABEL 69 5
+via2 69 44
+via2 NET 69 44
+via2 SPNET 69 44
+via2 VIA 69 44
+met3 70 20
+met3 NET 70 20
+met3 SPNET 70 20
+met3 VIA 70 20
+met3 PIN 70 16
+met3 LABEL 70 5
+via3 70 44
+via3 NET 70 44
+via3 SPNET 70 44
+via3 VIA 70 44
+met4 71 20
+met4 NET 71 20
+met4 SPNET 71 20
+met4 VIA 71 20
+met4 PIN 71 16
+met4 LABEL 71 5
+via4 71 44
+via4 NET 71 44
+via4 SPNET 71 44
+via4 VIA 71 44
+met5 72 20
+met5 NET 72 20
+met5 SPNET 72 20
+met5 VIA 72 20
+met5 PIN 72 16
+met5 LABEL 72 5
+nwell 64 20
+pwell 64 44
+psdm 94 20
+nsdm 93 44
+licon 66 44
+OUTLINE 235 4

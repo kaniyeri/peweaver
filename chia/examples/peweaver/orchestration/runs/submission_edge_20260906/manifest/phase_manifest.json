@@ -1,0 +1,106 @@
+{
+  "phase_id": "submission_edge_20260906",
+  "schema": "peweaver-submission-edge-phase-manifest-1",
+  "manifest_role": "post-outcome scope and identity snapshot; not a pre-outcome preregistration",
+  "outcome_fields_present": true,
+  "created_date": "2026-09-07",
+  "submission_deadline": "2026-09-20 AoE",
+  "authoritative_plan": "ASTRA_RELEASE_REPAIR_PLAN.md",
+  "design_identities": {
+    "S0": {
+      "hash": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+      "role": "Primary accepted shared FFT candidate (discovery run)",
+      "rtl_path": "chia/examples/peweaver/orchestration/runs/merge_clean_1/peweaver_shared_fft.mergerun1.v",
+      "placed_area_um2": 286970.0,
+      "p64_streaming_mw": 39.819,
+      "p128_streaming_mw": 40.444,
+      "e64_3frame_nj": 39.022,
+      "e128_3frame_nj": 74.416
+    },
+    "S1": {
+      "hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+      "role": "ChiaPowerSave promoted Pareto candidate",
+      "rtl_path": "chia/examples/peweaver/orchestration/runs/ps_fft_campaign/best/peweaver_shared_fft.v",
+      "placed_area_um2": 282963.0,
+      "p64_streaming_mw": 39.931,
+      "p128_streaming_mw": 40.445,
+      "e64_3frame_nj": 39.132,
+      "e128_3frame_nj": 74.418
+    },
+    "A": {
+      "hash": "27a4fe51709ede28365ac10a966394f550b6a339e6676b9957f2cb1ec3e55099",
+      "role": "Ungated dual-core reference control (physically measured + repeated)",
+      "rtl_path": "chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft.v",
+      "placed_area_um2": 429130.0,
+      "p64_streaming_mw": 61.523,
+      "p128_streaming_mw": 61.446,
+      "e64_3frame_nj": 60.29,
+      "e128_3frame_nj": 113.06
+    },
+    "B": {
+      "hash": "6f79acd5337a98a84be744197a533d73760e7ac95db5f793a92f343ac3055afb",
+      "role": "Power-managed dual-core control with characterized sky130_fd_sc_hd__dlclkp ICG cells",
+      "rtl_path": "chia/examples/peweaver/physical/rtl/peweaver_ppa_dual_fft_icg.v",
+      "status": "first_valid_physical_pass_after_two_attempts",
+      "placed_area_um2": 429655.0,
+      "p64_streaming_mw": 23.38694,
+      "p128_streaming_mw": 41.7117,
+      "e64_3frame_nj": 22.9192012,
+      "e128_3frame_nj": 76.749528,
+      "setup_slack_ns": 0.444672,
+      "hold_slack_ns": 0.178312,
+      "drc_violation_lines": 0,
+      "physical_result": "chia/examples/peweaver/orchestration/runs/submission_edge_20260906/dual_b/results/physical_attempt2/dual_b_sky130.json",
+      "physical_attempts_used": 2,
+      "physical_budget": 5,
+      "sparse_idle_measurement": "not_available; do not extrapolate B into duty-cycle matrix"
+    },
+    "F": {
+      "hash": "6a56b8326993d091cd989fc45a68ac341e5a25a33aaace47e81fa42a1ab78499",
+      "role": "Historical shared fallback (pre-loop baseline)",
+      "rtl_path": "chia/examples/peweaver/physical/rtl/peweaver_shared_fft.v",
+      "placed_area_um2": 315359.0,
+      "p64_streaming_mw": 40.013,
+      "p128_streaming_mw": 42.162,
+      "e64_3frame_nj": 39.21,
+      "e128_3frame_nj": 77.58
+    }
+  },
+  "hypotheses": {
+    "H1_power_managed_dual": "Model-free clock-gated dual-core (Variant B) eliminates inactive core dynamic power, establishing a fair, power-managed comparison baseline against shared hardware.",
+    "H2_workload_breakeven": "Shared hardware area advantage (33-34%) is invariant to workload; power/energy advantage depends on activity duty cycle and mode-switch frequency. A crossover point may exist at low active fractions if Variant B idle leakage/clock-cutoff is sufficiently low.",
+    "H3_thermal_concentration": "Reduced total power does not unconditionally produce lower peak die temperature; spatial power concentration in a 33% smaller silicon footprint may alter the thermal profile depending on convective and conductive boundary conditions.",
+    "H4_evaluator_efficacy": "Layered evaluation (lint, random oracle, directed holdouts, mapped GLS, STA, DRC, activity provenance) catches distinct error strata that cannot be detected by superficial metrics."
+  },
+  "budgets": {
+    "variant_b_physical_evaluations": 5,
+    "variant_b_attempts_used": 2,
+    "variant_b_repeat_evaluations": 1,
+    "replay_new_physical_runs": 0,
+    "model_generation_campaigns": 0
+  },
+  "workload_matrix": {
+    "active_fractions": [0.05, 0.10, 0.25, 0.50, 0.75, 1.00],
+    "mode64_occupancy": [0.00, 0.50, 1.00],
+    "idle_models": ["lower_bound", "nominal", "upper_bound"],
+    "points_per_idle_model": 18,
+    "schedules": [
+      "continuous_mode64",
+      "continuous_mode128",
+      "alternating_burst_drain",
+      "low_duty_cycle_sparse"
+    ]
+  },
+  "thermal_spec": {
+    "engine": "HotSpot",
+    "grids": ["32x32", "64x64"],
+    "package_model": "baseline_quad_flat_package",
+    "power_reconciliation_threshold": 0.01,
+    "fallback_rule": "If spatial instance power map reconciles to >1% error from authoritative STA total, spatial hotspot claims are marked unavailable and a uniform-block model is used."
+  },
+  "comparator_rules": {
+    "first_valid_b_rule": true,
+    "fail_closed_promotion": true,
+    "serial_physical_execution": true
+  }
+}

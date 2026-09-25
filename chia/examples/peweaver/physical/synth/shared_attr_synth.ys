@@ -1,0 +1,24 @@
+# PEWeaver ATTRIBUTION-ONLY synthesis (shared design) — sky130_fd_sc_hd
+# NOT a signoff flow: this synthesis preserves public RTL net names so
+# per-instance power can be grouped by design region (s1_/s2_/s3_/tw_/...).
+# Its PPA numbers are never compared against the frozen physical result.
+read_verilog -sv \
+    rtl/peweaver_ppa_shared_fft.v \
+    rtl/peweaver_shared_fft.v
+
+hierarchy -check -top peweaver_ppa_shared_fft
+
+# Same synthesis core as the frozen flow, but:
+#  - no -flatten (keep module boundaries; candidate is one module anyway)
+#  - no splitnets / no opt_clean -purge (public net names survive)
+synth -top peweaver_ppa_shared_fft
+read_liberty -lib -ignore_miss_func @LIB_TT@
+dffunmap
+dfflibmap -liberty @LIB_TT@
+techmap -map synth/sky130_simple_map.v
+setundef -zero
+opt_clean
+check
+stat -liberty @LIB_TT@
+
+write_verilog -noattr -noexpr -nodec results/netlists/shared_attr_synth.v

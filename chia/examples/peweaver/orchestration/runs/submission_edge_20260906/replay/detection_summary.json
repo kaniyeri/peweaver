@@ -1,0 +1,92 @@
+{
+  "corpus_total": 31,
+  "strata_breakdown": {
+    "natural_failure": {
+      "total": 5,
+      "defects": 5,
+      "legal": 0,
+      "evaluated_defects": 0,
+      "evaluated_legal": 0,
+      "unevaluated_defects": 5,
+      "unevaluated_legal": 0,
+      "c1_caught": 0,
+      "c2_caught": 0,
+      "c3_caught": 0,
+      "c1_false_reject": 0,
+      "c2_false_reject": 0,
+      "c3_false_reject": 0
+    },
+    "accepted_legal": {
+      "total": 9,
+      "defects": 0,
+      "legal": 9,
+      "evaluated_defects": 0,
+      "evaluated_legal": 3,
+      "unevaluated_defects": 0,
+      "unevaluated_legal": 6,
+      "c1_caught": 0,
+      "c2_caught": 0,
+      "c3_caught": 0,
+      "c1_false_reject": 0,
+      "c2_false_reject": 0,
+      "c3_false_reject": 0
+    },
+    "architectural_control": {
+      "total": 4,
+      "defects": 4,
+      "legal": 0,
+      "evaluated_defects": 0,
+      "evaluated_legal": 0,
+      "unevaluated_defects": 4,
+      "unevaluated_legal": 0,
+      "c1_caught": 0,
+      "c2_caught": 0,
+      "c3_caught": 0,
+      "c1_false_reject": 0,
+      "c2_false_reject": 0,
+      "c3_false_reject": 0
+    },
+    "rtl_mutation": {
+      "total": 9,
+      "defects": 9,
+      "legal": 0,
+      "evaluated_defects": 0,
+      "evaluated_legal": 0,
+      "unevaluated_defects": 9,
+      "unevaluated_legal": 0,
+      "c1_caught": 0,
+      "c2_caught": 0,
+      "c3_caught": 0,
+      "c1_false_reject": 0,
+      "c2_false_reject": 0,
+      "c3_false_reject": 0
+    },
+    "infra_provenance": {
+      "total": 4,
+      "defects": 4,
+      "legal": 0,
+      "evaluated_defects": 0,
+      "evaluated_legal": 0,
+      "unevaluated_defects": 4,
+      "unevaluated_legal": 0,
+      "c1_caught": 0,
+      "c2_caught": 0,
+      "c3_caught": 0,
+      "c1_false_reject": 0,
+      "c2_false_reject": 0,
+      "c3_false_reject": 0
+    }
+  },
+  "overall": {
+    "total_defects": 22,
+    "total_legal": 9,
+    "evaluated_defects": 0,
+    "evaluated_legal": 3,
+    "unevaluated_defects": 22,
+    "unevaluated_legal": 6,
+    "config1_detection_pct": null,
+    "config2_detection_pct": null,
+    "config3_detection_pct": null,
+    "false_rejections_config3": 0
+  }
+}

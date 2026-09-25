@@ -1,0 +1,54 @@
+{
+ "verdict": "ACCEPT",
+ "level": 4,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "[PASS] mode64_single | [PASS] mode128_single | PEWEAVER_ACTIVITY_DONE | - /work/peweaver/runs/.evaluators/power-opt-20260920/source/physical/activity/shared_activity_tb.sv:247: Verilog $finish | - S i m u l a t i o n   R e p o r t: Verilator 5.051 devel | - Verilator: $finish at 14us; walltime 0.002 s; speed 6.154 ms/s | - Verilator: cpu 0.002 s on 1 threads; allocated 4 MB | ",
+   "returncode": 0
+  },
+  "physical": {
+   "passed": true,
+   "retry": false,
+   "note": "ery=8.801 ns, removal=0.327 ns, timing_met=True |   power (streaming): total=40.2014 mW (internal=29.6758, switching=10.5255, leakage=0.000151) |   power (scenario):  total=39.2750 mW |   energy/FFT: mode64=39.397 nJ, mode128=75.220 nJ |   placed reduction vs standalone sum: 32.197% |   annotated pins: streaming=89856, scenario=89856 | run-physical.sh: DONE \u2014 results/shared_baseline_sky130.json | ",
+   "ppa": {
+    "cell_area_um2": 288084.0,
+    "instance_count": 39972,
+    "timing_met": true,
+    "setup_slack_ns": 0.234613,
+    "hold_slack_ns": 0.18809,
+    "total_negative_slack_max_ns": 0.0,
+    "drc_violations": 0,
+    "streaming_power_64_mw": 40.20143,
+    "streaming_power_128_mw": 40.88026
+   },
+   "returncode": 0,
+   "candidate_sha256": "23d4bfc118031b399aaabd8765737ada164e9cd385fd40b32f33dd38eb0ce1f1",
+   "metrics": {
+    "cell_area_um2": 288084.0,
+    "instance_count": 39972,
+    "timing_met": true,
+    "setup_slack_ns": 0.234613,
+    "hold_slack_ns": 0.18809,
+    "total_negative_slack_max_ns": 0.0,
+    "drc_violations": 0,
+    "streaming_power_64_mw": 40.20143,
+    "streaming_power_128_mw": 40.88026
+   }
+  },
+  "portfolio": {
+   "passed": true,
+   "retry": false,
+   "note": "area 288084.0 um^2 = 32.2% below the combined baseline",
+   "area_um2": 288084.0,
+   "reduction_pct": 32.2
+  }
+ }
+}

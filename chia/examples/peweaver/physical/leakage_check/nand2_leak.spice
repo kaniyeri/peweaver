@@ -1,0 +1,56 @@
+* nand2_leak.spice — single-cell static leakage sanity check
+* Cell:   sky130_fd_sc_hd__nand2_1
+* Corner: tt / 25C / 1.8 V (sky130 volare install)
+*
+* Measures the static VDD supply current for one fixed input state per run.
+* VA_VAL / VB_VAL are the input logic levels in volts; run_leakage_check.sh
+* rewrites the two .param lines below to loop over the four input states
+* (0/0, 0/1.8, 1.8/0, 1.8/1.8). This deck is never hand-edited otherwise.
+*
+* Sign convention: i(VVDD) is negative for a supply sourcing current, so
+* leakage = -i(VVDD).
+
+* --- PDK: process corner + device models -----------------------------------
+.lib /home/peweaver-user/.volare/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+.include /home/peweaver-user/.volare/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+
+* Monte-carlo/mismatch switches off: deterministic typical corner.
+.param mc_mm_switch=0
+.param mc_pr_switch=0
+
+* --- Parameterized input state (rewritten per run by the runner) -----------
+.param VA_VAL=0
+.param VB_VAL=0
+
+.temp 25
+
+* --- Cell under test --------------------------------------------------------
+* PDK port order:
+*   .subckt sky130_fd_sc_hd__nand2_1 A B VGND VNB VPB VPWR Y
+Xdut A B VGND VNB VPB VPWR Y sky130_fd_sc_hd__nand2_1
+
+* --- Supplies and explicit body ties ---------------------------------------
+* CRITICAL: VNB and VPB bias the cell's internal devices. Leaving either
+* node floating silently corrupts the DC solution (substrate diodes and
+* body effect), so both rails are driven explicitly here.
+VVDD VPWR 0 DC 1.8
+VVGND VGND 0 DC 0
+VVNB VNB 0 DC 0
+VVPB VPB 0 DC 1.8
+
+* Input drivers at the parameterized logic levels.
+VA A 0 DC {VA_VAL}
+VB B 0 DC {VB_VAL}
+
+* Output load is a pure capacitance: zero DC effect, but guarantees Y is
+* never a dangling node for topology checks.
+CLOAD Y 0 1f
+
+* --- DC operating point ------------------------------------------------------
+.control
+op
+let ileak = -i(VVDD)
+print ileak
+quit
+.endc
+.end

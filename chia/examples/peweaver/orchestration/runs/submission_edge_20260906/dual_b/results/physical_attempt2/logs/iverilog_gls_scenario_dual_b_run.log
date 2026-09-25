@@ -1,0 +1,13 @@
+VCD info: dumpfile /work/peweaver/source/chia/examples/peweaver/physical/results/activity/gls_scenario_dual_b.vcd opened for output.
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:50: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:96: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output4.txt): Not enough words in the file for the requested range [0:255].
+[PASS] mode64_single
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:50: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:50: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input5.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:50: $readmemh(../../benchmarks/halo_fft64_reference/vectors/input4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:152: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output4.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:152: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output5.txt): Not enough words in the file for the requested range [0:255].
+WARNING: /work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:152: $readmemh(../../benchmarks/halo_fft64_reference/vectors/output4.txt): Not enough words in the file for the requested range [0:255].
+[PASS] mode128_single
+PEWEAVER_ACTIVITY_DONE
+/work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:248: $finish called at 13715000 (1ps)

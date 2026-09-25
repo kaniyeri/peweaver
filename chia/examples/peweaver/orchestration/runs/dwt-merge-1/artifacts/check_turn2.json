@@ -1,0 +1,41 @@
+{
+ "verdict": "ACCEPT",
+ "level": 6,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 1504 cycles"
+  },
+  "corners": {
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 73 cycles"
+  },
+  "structure": {
+   "passed": true,
+   "retry": false,
+   "note": "8 normalized multiplication operators <= 8",
+   "normalized_muls": 8
+  },
+  "area": {
+   "passed": true,
+   "retry": false,
+   "note": "generic Yosys cell count 6533 = 64.8% below the two-reference sum 18570 (unweighted generic cell count, not mapped area)",
+   "cand_cell_count": 6533,
+   "baseline_cell_count": 18570,
+   "reduction_pct": 64.82
+  },
+  "holdout": {
+   "passed": true,
+   "retry": false,
+   "note": "post-synthesis bit-exact over 1204 cycles"
+  }
+ }
+}

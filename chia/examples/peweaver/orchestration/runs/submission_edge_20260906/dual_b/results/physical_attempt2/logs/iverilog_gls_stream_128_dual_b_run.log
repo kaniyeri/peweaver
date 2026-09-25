@@ -1,0 +1,3 @@
+VCD info: dumpfile /work/peweaver/source/chia/examples/peweaver/physical/results/activity/gls_stream_128_dual_b.vcd opened for output.
+PEWEAVER_ACTIVITY_DONE
+/work/peweaver/source/chia/examples/peweaver/physical/activity/dual_b_activity_tb.sv:248: $finish called at 5835000 (1ps)

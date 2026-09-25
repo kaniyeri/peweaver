@@ -1,0 +1,5 @@
+PEWEAVER_ACTIVITY_DONE
+- /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/activity/fft64_activity_tb.sv:329: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel
+- Verilator: $finish at 7us; walltime 0.002 s; speed 4.083 ms/s
+- Verilator: cpu 0.002 s on 1 threads; allocated 4 MB

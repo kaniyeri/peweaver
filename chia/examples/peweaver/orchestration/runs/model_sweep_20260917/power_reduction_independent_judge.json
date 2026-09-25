@@ -1,0 +1,113 @@
+{
+  "cycles": 1502,
+  "domains": {
+    "dwt": {
+      "passed": true,
+      "scenarios": {
+        "directed": {
+          "baseline": {
+            "cycles": 25,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 25,
+            "passed": true
+          }
+        },
+        "random": {
+          "baseline": {
+            "cycles": 1502,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 1502,
+            "passed": true
+          }
+        }
+      }
+    },
+    "fir": {
+      "passed": true,
+      "scenarios": {
+        "directed": {
+          "baseline": {
+            "cycles": 34,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 34,
+            "passed": true
+          }
+        },
+        "random": {
+          "baseline": {
+            "cycles": 1502,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 1502,
+            "passed": true
+          }
+        }
+      }
+    },
+    "mac": {
+      "passed": true,
+      "scenarios": {
+        "directed": {
+          "baseline": {
+            "cycles": 33,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 33,
+            "passed": true
+          }
+        },
+        "random": {
+          "baseline": {
+            "cycles": 1502,
+            "passed": true
+          },
+          "optimized": {
+            "cycles": 1502,
+            "passed": true
+          }
+        }
+      }
+    }
+  },
+  "inputs": {
+    "dwt": {
+      "baseline": {
+        "path": "/work/peweaver/runs/chia_power_reduction/dwt/dwt_base_sky130.v",
+        "sha256": "6ace91bc6944c44b1ccb76f5f8ed9573b31ac027bb28c1125520a5b14e27ec11"
+      },
+      "optimized": {
+        "path": "/work/peweaver/runs/chia_power_reduction/dwt/dwt_opt_sky130.v",
+        "sha256": "d7c58d661026b28504fbfc79d5eafbe820a7451521f2fcd97c8e3431e833fc94"
+      }
+    },
+    "fir": {
+      "baseline": {
+        "path": "/work/peweaver/runs/chia_power_reduction/fir/fir_base_sky130.v",
+        "sha256": "6df293c92476e935e7ffd807fa91a9990ff32f0316a22e7799a66c7865f540a3"
+      },
+      "optimized": {
+        "path": "/work/peweaver/runs/chia_power_reduction/fir/fir_opt_sky130.v",
+        "sha256": "05472cc5154cf683cd887dbfecf3c137f5373da1bd121b50e6f7798949d5e606"
+      }
+    },
+    "mac": {
+      "baseline": {
+        "path": "/work/peweaver/runs/chia_power_reduction/mac/mac_base_sky130.v",
+        "sha256": "2d986aa9e179902931453334543f085c5c820309c586b950b8f25205f69ba7d8"
+      },
+      "optimized": {
+        "path": "/work/peweaver/runs/chia_power_reduction/mac/mac_opt_sky130.v",
+        "sha256": "a136f702ab8d27cd21edfd3e9bc0da2bde6a62a9262c1bece8db2c7fbb756a41"
+      }
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,12 @@
+{
+ "passed": true,
+ "retry": false,
+ "note": "physical flow passed",
+ "detail": {
+  "area": 282963.0,
+  "p64": 39.9311,
+  "p128": 40.4448,
+  "e64": 39.132478,
+  "e128": 74.418432
+ }
+}

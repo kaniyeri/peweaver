@@ -1,0 +1,39 @@
+{
+ "verdict": "ACCEPT",
+ "level": 6,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 1200 cycles"
+  },
+  "corners": {
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact on 157 directed corner cycles"
+  },
+  "structure": {
+   "passed": true,
+   "retry": false,
+   "note": "exactly one multiplier"
+  },
+  "area": {
+   "passed": true,
+   "retry": false,
+   "note": "generic Yosys cell count 531 = 44.0% below the two-reference sum 949 (unweighted generic cell count, not mapped area)",
+   "cand_cell_count": 531.0,
+   "baseline_cell_count": 949.0
+  },
+  "formal": {
+   "passed": true,
+   "retry": false,
+   "note": "formal (BMC depth 12, BOUNDED) PASS: sequential contract with symbolic operands under declared protocol assumptions"
+  }
+ }
+}

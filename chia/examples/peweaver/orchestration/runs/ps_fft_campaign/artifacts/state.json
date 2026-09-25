@@ -1,0 +1,137 @@
+{
+ "turn": 7,
+ "accepted": false,
+ "stop_reason": "",
+ "candidates_generated": 6,
+ "physical_runs": 5,
+ "best_hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+ "best_manifest": {
+  "peweaver_shared_fft.v": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700"
+ },
+ "best_metrics": {
+  "area": 282963.0,
+  "p64": 39.9311,
+  "p128": 40.4448,
+  "e64": 39.132478,
+  "e128": 74.418432
+ },
+ "best_verdict": "PARETO",
+ "archive": [
+  {
+   "hash": "ce64c71552f0aa1750ae62c15a081d16d52e92396d9d67243088aeec4723e92e",
+   "turn": 0,
+   "verdict": "PARETO",
+   "metrics": {
+    "area": 286970.0,
+    "p64": 39.81859,
+    "p128": 40.44372,
+    "e64": 39.0222182,
+    "e128": 74.41644480000001
+   }
+  },
+  {
+   "hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700",
+   "turn": 4,
+   "verdict": "PARETO",
+   "metrics": {
+    "area": 282963.0,
+    "p64": 39.9311,
+    "p128": 40.4448,
+    "e64": 39.132478,
+    "e128": 74.418432
+   }
+  }
+ ],
+ "consecutive_dominated": 0,
+ "hypothesis": "## Failure interpretation",
+ "advice": "## Failure interpretation\n\nThe previous run is **not a valid power candidate result**:\n\n- Placement, routing, activity annotation, and power reporting completed.\n- `read_power_activities` deprecation messages are warnings, not the cause of failure.\n- Result assembly failed because both reset timing reports contain only `No paths found.`, while the assembler requires asynchronous recovery/removal path groups.\n- The staged physical RTL also appears to have changed reset processes and twiddle-address logic, while containing no surviving `dlclkp` instance. Therefore it did not cleanly test the intended tail-gating hypothesis.\n- The reported `288,442 \u00b5m\u00b2` must not enter the Pareto archive without a complete result JSON and all hard gates.\n\n## One atomic hypothesis\n\n**Clock-gate only the complete mode-128 radix-2 tail stage (`SU_TAIL`) during mode 64 using exactly one characterized `sky130_fd_sc_hd__dlclkp_1`.**\n\nNo other RTL transformation should accompany it: preserve reset style, twiddle-address generation, shared delay buffers, counters, arithmetic, valid logic, and output selection exactly.\n\n### Required structure\n\n- Instantiate one real `sky130_fd_sc_hd__dlclkp_1`.\n- Source its `CLK` from top-level `clock`.\n- Drive its gate enable from transaction-stable `active_mode`.\n- If synchronous reset requires a clock edge to clear tail state, force the gate open during reset with `active_mode | reset`; this affects only the gate-enable input, never the clock net itself.\n- Connect `GCLK` to the `SU_TAIL.clock` input.\n- This must clock every tail register, including the depth-one `DelayBuffer`.\n- Keep `tail_di_en`, tail inputs, and top-level output muxes unchanged.\n- Never model the synthesized clock as `clock & enable`, a ternary clock, or a generic mux.\n\n## Correctness basis\n\n- **Mode 64:** Tail outputs are unselected, so freezing all tail sequential state cannot affect FFT data, `do_en`, or the exact 71-cycle latency.\n- **Mode 128:** `active_mode` remains asserted for the transaction, passing every source-clock edge and preserving the 137-cycle pipeline exactly.\n- **Reset:** The existing reset semantics must remain intact. If reset is synchronous, opening the gate during reset ensures all resettable tail state receives the required edge.\n- **Continuous frames:** The gate remains enabled throughout mode-128 input, fill, output, drain, and back-to-back frames.\n- **Arithmetic:** No arithmetic path is modified.\n\n## Expected value\n\nThe tail contains roughly 67 clocked bits, so the likely mode-64 reduction is modest, approximately `0.1\u20130.3 mW`. Nevertheless, it has a plausible chance of beating the low-power archive point\u2019s `p64 = 39.81859 mW` while adding little area and only one gate\u2019s mode-128 overhead. It is substantially less disruptive than the six-bank experiment that reached `311,415 \u00b5m\u00b2`, increased `p128` to `42.07478 mW`, and failed timing.\n\n## Mandatory validation\n\n1. Exactly one `sky130_fd_sc_hd__dlclkp_1` survives synthesis.\n2. All tail sequential clock pins descend from its `GCLK`.\n3. No combinational logic directly drives a clock pin.\n4. Directed, randomized, transition, and continuous-frame tests remain bit-exact.\n5. First-valid latency remains exactly 71/137 cycles.\n6. Mapped GLS passes.\n7. Setup, hold, clock-gating, and applicable reset checks all pass with TNS 0.\n8. DRC remains zero and area remains below `339,908 \u00b5m\u00b2`.\n9. Result assembly produces authoritative JSON before any Pareto decision.\n10. Measure both modes; reject if mode-128 overhead outweighs the mode-64 benefit.\n\nNo files were edited.",
+ "feedback": "physical gate failed: timing_met=False drc=0",
+ "history": [
+  {
+   "ts": 1788692179.2697027,
+   "turn": 1,
+   "status": "physical_failed"
+  },
+  {
+   "ts": 1788692489.3940825,
+   "turn": 2,
+   "status": "invalid",
+   "level": 1
+  },
+  {
+   "ts": 1788692892.6632671,
+   "turn": 3,
+   "status": "implement_infra_failed"
+  },
+  {
+   "ts": 1788694083.547235,
+   "turn": 4,
+   "status": "pareto",
+   "metrics": {
+    "area": 282963.0,
+    "p64": 39.9311,
+    "p128": 40.4448,
+    "e64": 39.132478,
+    "e128": 74.418432
+   },
+   "hash": "f4d5ae2fadc63ab075f97344ec0ed4ccae6f6e66c8219a072c4c316a17b9e700"
+  },
+  {
+   "ts": 1788695133.0550475,
+   "turn": 5,
+   "status": "physical_failed"
+  },
+  {
+   "ts": 1788696186.0512645,
+   "turn": 6,
+   "status": "physical_failed"
+  },
+  {
+   "ts": 1788697363.7746975,
+   "turn": 7,
+   "status": "physical_failed"
+  }
+ ],
+ "model_status": {
+  "1": {
+   "advise_chars": 5167,
+   "implement_ok": true,
+   "cheap_verdict": "ACCEPT",
+   "cheap_level": 3
+  },
+  "2": {
+   "advise_chars": 3770,
+   "implement_ok": true,
+   "cheap_verdict": "IMPROVE",
+   "cheap_level": 1
+  },
+  "3": {
+   "advise_chars": 4296,
+   "implement_error": "max_output_tokens on 1eb9d79a0f3fa1cfc09956c360ce2b46560bdd93f09d91d4536f460f: response truncated at max_output_tokens"
+  },
+  "4": {
+   "advise_chars": 4147,
+   "implement_ok": true,
+   "cheap_verdict": "ACCEPT",
+   "cheap_level": 3
+  },
+  "5": {
+   "advise_chars": 3609,
+   "implement_ok": true,
+   "cheap_verdict": "ACCEPT",
+   "cheap_level": 3
+  },
+  "6": {
+   "advise_chars": 3483,
+   "implement_ok": true,
+   "cheap_verdict": "ACCEPT",
+   "cheap_level": 3
+  },
+  "7": {
+   "advise_chars": 3567,
+   "implement_ok": true,
+   "cheap_verdict": "ACCEPT",
+   "cheap_level": 3
+  }
+ }
+}

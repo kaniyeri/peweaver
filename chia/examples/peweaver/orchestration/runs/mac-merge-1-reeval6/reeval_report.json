@@ -1,0 +1,43 @@
+{
+ "candidate_sha256": "1b6df68729dbf570375dab7ff22d080b4ed0c216056b5a63f896251f495a9d5e",
+ "ladder": "6-gate (lint,functional,corners,structure,area,formal)",
+ "outcomes": [
+  {
+   "gate": "lint",
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  {
+   "gate": "functional",
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact over 1200 cycles"
+  },
+  {
+   "gate": "corners",
+   "passed": true,
+   "retry": false,
+   "note": "bit-exact on 157 directed corner cycles"
+  },
+  {
+   "gate": "structure",
+   "passed": true,
+   "retry": false,
+   "note": "exactly one multiplier"
+  },
+  {
+   "gate": "area",
+   "passed": true,
+   "retry": false,
+   "note": "generic Yosys cell count 531 = 44.0% below the two-reference sum 949 (unweighted generic cell count, not mapped area)"
+  },
+  {
+   "gate": "formal",
+   "passed": true,
+   "retry": false,
+   "note": "formal (BMC depth 12, BOUNDED) PASS: sequential contract with symbolic operands under declared protocol assumptions"
+  }
+ ],
+ "all_pass": true
+}

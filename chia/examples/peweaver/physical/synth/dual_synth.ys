@@ -1,0 +1,45 @@
+# PEWeaver ungated dual-core FFT reference synthesis (Yosys) — sky130_fd_sc_hd
+# Same abc mapping path as the two frozen standalone baselines (this wrapper
+# contains exactly those two validated cores; the sky130_simple_map semantic
+# requirement applies only to the shared candidate).
+#
+# Module-name collision handling: FFT64.v/FFT128.v and Twiddle64.v/Twiddle128.v
+# each define same-named modules (FFT, Twiddle) that are genuinely distinct
+# designs, and SdfUnit binds to `Twiddle` by name. The rtl/dual/ files are
+# pure-renamed derivations (logic identical, names FFT128_core / SdfUnit128 /
+# Twiddle128_core) of the frozen fft128 sources so both cores can coexist in
+# one netlist. The fft128 wrapper derivation instantiates FFT128_core and
+# keeps the frozen interface module name peweaver_halo_fft128_reference.
+read_verilog -sv \
+    rtl/peweaver_ppa_dual_fft.v \
+    rtl/peweaver_ppa_fft64.v \
+    rtl/peweaver_ppa_fft128.v \
+    ../benchmarks/halo_fft64_reference/peweaver_halo_fft64_reference.v \
+    rtl/dual/halo_fft128_wrapper.v \
+    ../third_party/r22sdf/FFT64.v \
+    ../third_party/r22sdf/SdfUnit.v \
+    ../third_party/r22sdf/SdfUnit2.v \
+    ../third_party/r22sdf/Butterfly.v \
+    ../third_party/r22sdf/DelayBuffer.v \
+    ../third_party/r22sdf/Multiply.v \
+    ../third_party/r22sdf/Twiddle64.v \
+    rtl/dual/fft128_core.v \
+    rtl/dual/sdfunit128.v \
+    rtl/dual/twiddle128_core.v
+
+hierarchy -check -top peweaver_ppa_dual_fft
+
+synth -top peweaver_ppa_dual_fft -flatten
+
+dfflibmap -liberty @LIB_TT@
+abc -liberty @LIB_TT@ -D 10000
+
+# Two-state policy identical to the frozen baselines.
+setundef -zero
+splitnets
+opt_clean -purge
+
+check
+stat -liberty @LIB_TT@
+
+write_verilog -noattr -noexpr -nodec results/netlists/dual_ppa_synth.v

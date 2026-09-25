@@ -1,0 +1,29 @@
+{
+ "verdict": "ACCEPT",
+ "level": 4,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": "clean"
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "[PASS] mode64_single | [PASS] mode128_single | PEWEAVER_ACTIVITY_DONE | - /work/peweaver/runs/merge-repro-3/source/physical/activity/shared_activity_tb.sv:247: Verilog $finish | - S i m u l a t i o n   R e p o r t: Verilator 5.051 devel | - Verilator: $finish at 14us; walltime 0.002 s; speed 6.807 ms/s | - Verilator: cpu 0.002 s on 1 threads; allocated 4 MB | "
+  },
+  "physical": {
+   "passed": true,
+   "retry": false,
+   "note": "physical flow passed"
+  },
+  "portfolio": {
+   "passed": true,
+   "retry": false,
+   "note": "area 288658.0 um^2 = 32.06% below the combined baseline",
+   "area_um2": 288658.0,
+   "reduction_pct": 32.06
+  }
+ }
+}

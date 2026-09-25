@@ -1,0 +1,64 @@
+{
+  "name": "halo_fft64_reference",
+  "schema_version": 1,
+  "tier": "reference",
+  "oracle_label": "reference",
+  "description": "HALO-inspired stateful FFT proxy (Phase A): curated third-party r22sdf 64-point R2^2SDF streaming FFT reference under a PEWeaver-owned name-isolation wrapper. Reference-only fixture: it has no sharing miter and no expected-equivalence contract, so it is deliberately excluded from the formal-equivalence and synthesis-proxy corpora and is verified by the dedicated directed Verilator regression (fft64_regression.py). Phase 1 of the physical PPA plan adds an independent pure-Python bit-accurate arithmetic oracle (independent_oracle) that reproduces the ModelSim goldens; still no formal proof and no HALO, clinical, or PPA claim.",
+  "sources": [
+    "peweaver_halo_fft64_reference.v",
+    "../../third_party/r22sdf/FFT64.v",
+    "../../third_party/r22sdf/SdfUnit.v",
+    "../../third_party/r22sdf/SdfUnit2.v",
+    "../../third_party/r22sdf/Butterfly.v",
+    "../../third_party/r22sdf/DelayBuffer.v",
+    "../../third_party/r22sdf/Multiply.v",
+    "../../third_party/r22sdf/Twiddle64.v"
+  ],
+  "directed_testbench": "fft64_directed_tb.sv",
+  "directed_top": "peweaver_fft64_directed_tb",
+  "directed_command": "python3 examples/peweaver/fft64_regression.py examples/peweaver/benchmarks/halo_fft64_reference",
+  "independent_oracle": "../../fft64_oracle.py",
+  "upstream": {
+    "url": "https://github.com/nanamake/r22sdf",
+    "revision": "f7dca6e548e1370b69a09382d30609ee14ba4a57",
+    "license": "MIT, Copyright (c) 2017 Nanamaru Namake",
+    "role": "HALO-inspired stateful FFT proxy; not HALO RTL",
+    "vector_files": {
+      "vectors/input4.txt": "fbb38b67aea7457007aafa92aef1dc9b2be713163cc0b19cf5736539933f574c",
+      "vectors/input5.txt": "bdb77eba9f17ceae499006df0413012c59b450de73da431adbc7d22b03d0fae1",
+      "vectors/output4.txt": "d9d3e5bd20e4680e12025beae7beaeeb27f8d7c2a779803f1596de70b20f2058",
+      "vectors/output5.txt": "a32132fbc5dbe01e16f52df6155e081941a838fde27a0e0b550e2afa9e62b94b"
+    }
+  },
+  "contract": {
+    "task_modes": [
+      {"name": "fft64_streaming", "components": ["peweaver_halo_fft64_reference"], "parallel_groups": []}
+    ],
+    "top_level_mutual_exclusion": true,
+    "legal_overlap": [],
+    "interfaces": {
+      "clock": "single clock; all state updates on posedge; asynchronous active-high reset",
+      "reset": "active-high asynchronous; clears control state; delay-line state drains while di_en is low",
+      "input": "di_en with 16-bit two's-complement di_re/di_im; exactly 64 consecutive valid samples per transaction, natural order",
+      "output": "do_en with 16-bit two's-complement do_re/do_im; exactly 64 consecutive valid samples per transaction, bit-reversed order, scaled by 1/64",
+      "fixed_point": "signed Q1.15 (WIDTH=16) samples and twiddles; per-stage arithmetic right shift by 1 with alternating round-half-up bias; modulo wrap on accumulator paths",
+      "backpressure": "none; streaming interface with no ready/stall handshake"
+    },
+    "performance": {"latency_cycles": 71, "sustained_throughput": "one 64-sample transaction per 64 input cycles in streaming use"},
+    "mode_switch": {
+      "preconditions": "no new input acceptance while reset is asserted; in-flight transaction must be abandoned or drained before the next one starts",
+      "drain_inflight": true,
+      "reset_on_switch": true,
+      "state_isolation": true
+    },
+    "stimulus": {
+      "source": "vectors/input4.txt, vectors/input5.txt, vectors/output4.txt, vectors/output5.txt",
+      "provenance": "Upstream r22sdf sim/fft_64 vectors at pinned revision f7dca6e548e1370b69a09382d30609ee14ba4a57 (ModelSim goldens); SHA-256 recorded in upstream.vector_files and third_party/r22sdf/README.md. Used here for interface/control validation and golden reproduction; Phase 1 of the physical PPA plan adds an independent pure-Python arithmetic oracle (independent_oracle) that reproduces these goldens bit-exactly without reading them. The goldens remain upstream ModelSim captures, not a formal proof."
+    },
+    "objective": {
+      "primary": "establish a verified stateful reference instance for later sharing experiments; no optimization claim in Phase A",
+      "constraints": {"correctness": "directed regression reproduces upstream goldens with documented 71-cycle latency", "schedule": "transactions are separated by reset plus idle drain, or stream back-to-back"}
+    }
+  },
+  "formal_boundary": "No formal equivalence proof exists for this fixture. The full 64-point fixed-point arithmetic is not formally proved; verification is the directed Verilator regression, cross-checked by the Phase 1 independent arithmetic oracle (independent_oracle; a simulation model, not a proof)."
+}

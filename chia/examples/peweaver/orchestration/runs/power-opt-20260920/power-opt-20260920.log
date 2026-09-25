@@ -1,0 +1,12 @@
+[driver] copying deployed source tree -> /work/peweaver/runs/.evaluators/power-opt-20260920/source
+2026-09-19 19:59:47,029	INFO worker.py:1669 -- Using address auto set in the environment variable RAY_ADDRESS
+2026-09-19 19:59:47,054	INFO worker.py:1810 -- Connecting to existing Ray cluster at address: 10.160.0.2:6379...
+2026-09-19 19:59:47,077	INFO worker.py:2013 -- Connected to Ray cluster.
+/work/peweaver/toolchains/miniforge3/envs/chia_env/lib/python3.10/site-packages/ray/_private/worker.py:2052: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+OpenCodeLLM is experimental: only exercised by unit tests so far, not validated in production.
+VertexGeminiLLM is experimental: only exercised by unit tests so far, not validated in production.
+VertexGeminiLLM is experimental: only exercised by unit tests so far, not validated in production.
+[turn 1] rejected: gate 'portfolio' failed: timing not met level=4
+[turn 2] ACCEPTED level=4
+{"run_id": "power-opt-20260920", "accepted": true, "best_level": 4, "turns": ["parent_attested", "rejected", "accepted"]}

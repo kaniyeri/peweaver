@@ -1,0 +1,9 @@
+# Keep local-only state out of docker build contexts (several dockerfiles
+# `COPY .` the repo root to install the chia package).
+.git
+.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+*.egg-info
+docs/_build

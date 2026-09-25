@@ -1,0 +1,192 @@
+{
+ "turn": 12,
+ "accepted": false,
+ "best_level": 1,
+ "best_hash": "4864650af1bf9c0e157c0e8fb3e03cc38b2f7aa0bde2aea29ec4aa1808adfe5a",
+ "last_rejected_hash": "",
+ "last_rejected_dir": "",
+ "infra_retries": 33,
+ "infra_attempts": 0,
+ "best_manifest": {
+  "inputs/Butterfly.v": "82c7b18da61d728fd64df3eee9150b120716916ec41756e9bec5df6ddc9ed3d3",
+  "inputs/CONTRACT.md": "275323c42b6e65db5bbf93507e86ebf794f71ce2926797fce964c8e5979ede8f",
+  "inputs/DelayBuffer.v": "9bb52fc0fed7c0d37901bd783d9c3c2b91c840c6a6409a177b592dac3fff7104",
+  "inputs/FFT128.v": "ae36712af9ab76902ff6af07011f891fc8db879833150f6134e3741d187d9097",
+  "inputs/FFT64.v": "e56b335628fcb1bc588a26878dcb0e758df90a484a64f74b047ecada80c78dd0",
+  "inputs/Multiply.v": "d5fda5b3f7e3762a62e7ba0fbdfabf5acab53e9fba0010a76f07baa5948c1a7b",
+  "inputs/SdfUnit.v": "2e66d792173d339e4f1998d19f093a1febd0ad38b732f4d7e16716e3d7656276",
+  "inputs/SdfUnit2.v": "a52f23fc8b2c80309529e48dff235b1ae449988efbb2b0fe92c903b5d8fa570c",
+  "inputs/Twiddle128.v": "9553ed80bf180a56ca419077710e009e9fd76bec58d4e7d5d9581374362bba32",
+  "inputs/Twiddle64.v": "bd93b4e6c6e109eb48d1add52cbcadf13987afa9faf01195b4929fef0c2225ca",
+  "peweaver_shared_fft.v": "86529525a11b8466f1df749a81ca5a2c85bfdf49a564efd65356d1b9928d9b33"
+ },
+ "architecture": "## 1. Shared architecture\n\n### Top-level organization\n\n`peweaver_shared_fft` contains one configurable, seven-butterfly SDF pipeline:\n\n1. `stage0`: configurable radix-\\(2^2\\) SDF unit  \n2. `stage1`: configurable radix-\\(2^2\\) SDF unit  \n3. `stage2`: configurable radix-\\(2^2\\) SDF unit  \n4. `stage3_r2`: configurable radix-2 SDF unit, enabled only for 128-point mode\n\nThis is the 128-point topology, with delay lengths and control periods shortened in 64-point mode and the final radix-2 stage bypassed. No complete mode-specific FFT cores are instantiated.\n\n### Shared resources\n\nBoth modes use the same physical:\n\n- Six radix-2 butterflies in the three radix-\\(2^2\\) stages\n- Three complex multipliers, one per radix-\\(2^2\\) stage\n- Six complex delay stores, with maximum depths:\n  - 64, 32, 16, 8, 4, 2 samples\n- One depth-1 complex delay for the final radix-2 stage\n- Three registered twiddle-table read paths\n- One 128-entry logical twiddle coefficient definition\n- Stage counters, valid controls, and output registers\n\nThe arithmetic cannot be time-multiplexed between stages because all three stages process one sample concurrently during sustained streaming. It is nevertheless shared between FFT sizes: the same three multipliers and six/seven butterflies execute either workload.\n\nMaximum data-delay storage is 127 complex words, versus 63 words for the original 64-point core plus 127 for the original 128-point core. Arithmetic is reduced from 13 to 7 butterflies and from 6 to 3 complex multipliers relative to two side-by-side cores.\n\n### Per-mode configuration\n\nOnly small configuration/control state is mode-dependent:\n\n- `mode_q`: one latched mode bit\n- Effective FFT length: 64 or 128\n- Counter width/terminal comparison: 6/63 or 7/127\n- Six selected delay depths\n- Stage twiddle-resolution exponents\n- Final radix-2 enable/bypass\n- Expected latency and frame length\n\nThere are no duplicated arithmetic pipelines or duplicated frame data stores.\n\n### Delay-store implementation\n\nEach delay store implements an exact clock-delay, not a valid-qualified FIFO. It writes every clock, matching `DelayBuffer.v`. A circular store may replace a physical shift register provided its output is the value from exactly `DEPTH` preceding clock edges and read-before-write behavior is preserved.\n\nThe selected depth is fixed for the entire active/draining interval. Therefore changing a circular modulus cannot corrupt an active frame.\n\n### Twiddle sharing\n\nUse the literal 128-point Q1.15 table as the canonical coefficient set. Every 64-point coefficient equals the corresponding even-indexed 128-point coefficient:\n\n- 128 mode: `rom_addr = tw_addr`\n- 64 mode: `rom_addr = {tw_addr[5:0],1'b0}`\n\nEach radix-\\(2^2\\) stage requires an independent registered read in the same cycle. This is one logical coefficient definition with three read paths, not separate 64- and 128-point tables. Address zero remains literal zero because multiplication is bypassed there. Unreachable `x` entries need not be represented as functional coefficients; every reachable address must contain the exact reference literal.\n\n### Mode and state ownership\n\n`mode_q` is captured only when no accepted sample remains in flight. The first post-reset sample may atomically capture `mode` and use that same value for all mode-sensitive decisions on its acceptance edge. Once any sample is outstanding, all controls use `mode_q`; changes on the external `mode` input are ignored until the design is idle again.\n\nMaintain an 8-bit `outstanding` count:\n\n- Increment for `di_en && !do_en`\n- Decrement for `do_en && !di_en`\n- Hold when both or neither are asserted\n- Idle means `outstanding == 0`\n\nThe maximum steady-state occupancy is bounded by the 137-cycle pipeline latency, so 8 bits are sufficient.\n\nAsynchronous reset clears:\n\n- All stage enable/valid state\n- All counters and butterfly scheduling state\n- `outstanding`\n- `do_en`\n- Any output-valid pipeline state\n\nDelay memories and arithmetic data registers need not be reset because no post-reset output is declared valid until newly accepted data has filled all required delays. Thus stale data cannot become externally observable. A legal mode transition occurs only after drain and reset; the new mode is then captured before or with its first accepted sample.\n\n---\n\n## 2. Resource and schedule table\n\nLet:\n\n- `L = 6` in 64 mode, `7` in 128 mode\n- `N = 2^L`\n- For each radix-\\(2^2\\) stage, `m = log2(M)`\n- Stage sample counters are physically 7 bits; 64 mode compares/wraps at 63 and ignores bit 6\n\n| Resource | Physical maximum | 64-point configuration | 128-point configuration |\n|---|---:|---:|---:|\n| FFT length | 7-bit control | `N=64`, `L=6` | `N=128`, `L=7` |\n| `stage0` resolution | `m<=7` | `M=64`, `m=6` | `M=128`, `m=7` |\n| `stage0.db1` | 64 complex | depth 32 | depth 64 |\n| `stage0.db2` | 32 complex | depth 16 | depth 32 |\n| `stage1` resolution | `m<=5` | `M=16`, `m=4` | `M=32`, `m=5` |\n| `stage1.db1` | 16 complex | depth 8 | depth 16 |\n| `stage1.db2` | 8 complex | depth 4 | depth 8 |\n| `stage2` resolution | `m<=3` | `M=4`, `m=2` | `M=8`, `m=3` |\n| `stage2.db1` | 4 complex | depth 2 | depth 4 |\n| `stage2.db2` | 2 complex | depth 1 | depth 2 |\n| `stage3_r2.db` | 1 complex | bypassed | depth 1, enabled |\n| Butterflies | 7 total | first 6 active | all 7 active |\n| Complex multipliers | 3 total | one per active R22 stage | same three |\n| Output latency | \u2014 | 71 clocks | 137 clocks |\n| Output run | \u2014 | 64 consecutive clocks | 128 consecutive clocks |\n\n### Common radix-\\(2^2\\) scheduling\n\nFor each stage with local exponent `m`:\n\n- Input counter `di_count`:\n  - Increments on consecutive `di_en`\n  - Returns to zero when `di_en=0`\n  - Period is `N`\n- First butterfly select:\n  - `bf1_bf = di_count[m-1]`\n- First delay:\n  - `D1 = 2^(m-1)`\n- First-output start:\n  - Trigger when `di_count == D1-1`\n- First single-path active interval:\n  - Exactly `N` samples\n- `-j` selection:\n  - `bf1_count[m-1:m-2] == 2'b11`\n  - Mapping is `(re,im) -> (im,-re mod 2^16)`\n- Second butterfly select:\n  - Registered copy of `bf1_count[m-2]`\n- Second delay:\n  - `D2 = 2^(m-2)`\n- Second-output start:\n  - Registered trigger when `bf1_count == D2-1` while first-path valid\n- Second single-path active interval:\n  - Exactly `N` samples\n- Multiplier output valid:\n  - Delayed exactly as in the reference unit\n- For `m=2`, multiplier output is bypassed and the second-butterfly registered result is used directly\n\n### Twiddle schedule\n\nFor each radix-\\(2^2\\) stage:\n\n- `tw_sel = {bf2_count[m-2], bf2_count[m-1]}`\n- `tw_num` reproduces the reference-width truncation of  \n  `bf2_count << (L-m)` into `L-2` bits\n- Local address: `tw_addr = tw_num * tw_sel`\n- Canonical table address:\n  - 64 mode: `table_addr = 2 * tw_addr`\n  - 128 mode: `table_addr = tw_addr`\n- Coefficient lookup has one registered-clock latency\n- `mu_en` is the correspondingly registered test `tw_addr != 0`\n- Address zero selects the unmultiplied butterfly data\n\nThe resulting stage address patterns include:\n\n| Stage | 64-point local address basis | 128-point address basis |\n|---|---|---|\n| `stage0` | low 4 count bits \u00d7 selector, then table index doubled | low 5 bits \u00d7 selector |\n| `stage1` | low 2 bits shifted by 2 \u00d7 selector, then doubled | low 3 bits shifted by 2 \u00d7 selector |\n| `stage2` | multiplier bypass (`m=2`) | low 1 bit shifted by 4 \u00d7 selector |\n\n### Arithmetic rules\n\n- First butterfly in each radix-\\(2^2\\) stage: `RH=0`\n- Second butterfly: `RH=1`\n- Final radix-2 butterfly: `RH=0`\n- Butterfly intermediates are signed 17-bit add/subtract results\n- Stored result is `(value + RH) >>> 1`\n- Each complex multiply uses four independent signed 16\u00d716 products\n- Each product is arithmetically shifted right by 15 before add/subtract\n- Final complex add/subtract wraps modulo \\(2^{16}\\), with no saturation\n- Do not replace the four-product multiply with a three-multiplier identity; independent truncation would change results\n\n---\n\n## 3. Exact interface and timing contract\n\nThe sole external module is:\n\n```text\nmodule peweaver_shared_fft (\n    input         clock,\n    input         reset,\n    input         mode,\n    input         di_en,\n    input  [15:0] di_re,\n    input  [15:0] di_im,\n    output        do_en,\n    output [15:0] do_re,\n    output [15:0] do_im\n);\n```\n\n- `reset` has active-high asynchronous assertion.\n- `mode=0` selects 64-point operation.\n- `mode=1` selects 128-point operation.\n- A frame is exactly `N` consecutive clocks with `di_en=1`.\n- Samples are accepted at one per clock with no backpressure.\n- Input order is natural order.\n- From the edge accepting sample 0:\n  - 64 mode: first `do_en` exactly 71 clocks later\n  - 128 mode: first `do_en` exactly 137 clocks later\n- `do_en` remains asserted for exactly `N` consecutive clocks.\n- Output is bit-reversed and scaled by exactly `1/N` according to the reference fixed-point operations.\n- Same-mode frames may be accepted back-to-back every `N` clocks.\n- Output runs for back-to-back frames are consequently contiguous.\n- Mode is fixed from first acceptance through complete output drain.\n- A mode change requires idle drain and reset.\n- Reset immediately invalidates all pending output; no sample belonging to an earlier frame or mode may subsequently assert `do_en`.\n\n---\n\n## 4. Ranked implementation and verification risks\n\n1. **Cycle-exact control and latency**  \n   Implement first. Reproduce all registered start conditions, enable delays, bypass points, and nonblocking-assignment timing. Verify valid-only models for isolated frames, gaps, and back-to-back frames before adding arithmetic.\n\n2. **Configurable delay semantics**  \n   Verify each selectable circular delay against `DelayBuffer.v`, including read-before-write behavior and writes during invalid clocks. An off-by-one delay changes both data and butterfly pairing.\n\n3. **Twiddle addressing and table unification**  \n   Implement the exact expression widths and truncation rules, then prove that every reachable 64-point address maps to the doubled 128-table address. Compare all reachable coefficients literally.\n\n4. **Signed arithmetic fidelity**  \n   Unit-test butterfly overflow, negative odd values, `RH=0/1`, `-32768` negation, multiplication shifts, and modulo-16-bit complex recombination. Avoid implicit unsigned expressions and unsized constants.\n\n5. **64-point final-stage bypass**  \n   Confirm that bypassing `stage3_r2` removes both its data delay and its valid delay; the 64-point path must remain exactly 71 clocks.\n\n6. **Reset, drain, and mode capture**  \n   Test reset during input, between input and output, and during output. Ensure asynchronous control clearing prevents any stale `do_en`, and ensure `mode_q` cannot change with `outstanding != 0`.\n\n7. **Continuous multi-frame state rollover**  \n   Compare several back-to-back frames per mode, especially counter wrap boundaries and the transition between adjacent output frames.\n\n8. **Synthesis/P&R closure**  \n   Preserve pipeline registers around twiddle lookup and multiplication. Check that variable-depth delay implementation does not create a long combinational read mux. If inferred memories are unsuitable in sky130, use fixed maximum arrays with registered/timed taps while retaining exact delay semantics. Arithmetic sharing should provide the main area margin below 424,885 \u00b5m\u00b2.",
+ "advice": "## Highest-value burst: fix and exhaustively verify the configurable delay store\n\nThe immediate blocker is compilation: `buf_im[0:DEPTH-1]` references undefined `DEPTH`. Fix the delay module interface so storage uses a **compile-time maximum depth** (for example, parameter `MAX_DEPTH`) while a mode-selected input controls the **runtime effective depth**.\n\nConcretely:\n\n- Declare both arrays identically:\n  - `buf_re[0:MAX_DEPTH-1]`\n  - `buf_im[0:MAX_DEPTH-1]`\n- Keep an appropriately sized circular pointer `wr_ptr`.\n- On **every** rising edge, regardless of `di_en`:\n  1. Capture `buf_re[wr_ptr]` / `buf_im[wr_ptr]` as the delayed output.\n  2. Write current `di_re` / `di_im` into that same location.\n  3. Wrap `wr_ptr` at `effective_depth - 1`.\n- Ensure explicit read-before-write semantics; do not rely on ambiguous inferred-RAM collision behavior.\n- Keep `effective_depth` constant while samples are outstanding, deriving it from `mode_q`, not live `mode`.\n\nInstantiate/configure the seven stores for these depth pairs:\n\n- `stage0.db1`: 32 / 64\n- `stage0.db2`: 16 / 32\n- `stage1.db1`: 8 / 16\n- `stage1.db2`: 4 / 8\n- `stage2.db1`: 2 / 4\n- `stage2.db2`: 1 / 2\n- `stage3_r2.db`: bypass / 1\n\nFor the 64-point final-stage bypass, bypass both data and valid timing entirely; do not pass through a depth-1 store.\n\n## Verification required before proceeding\n\nFirst rerun Verilator lint/compile and require **zero errors**, specifically confirming no remaining `DEPTH` references or invalid zero-width pointer declarations.\n\nThen unit-test each effective depth independently with a unique value every clock, including clocks where `di_en=0`. For every cycle `t >= depth`, require:\n\n```text\ndo_re(t) == di_re(t-depth)\ndo_im(t) == di_im(t-depth)\n```\n\nExercise:\n\n- Every supported depth: `1, 2, 4, 8, 16, 32, 64`\n- Pointer wrap for at least three full revolutions\n- A write/read collision at every wrap boundary\n- Random `di_en` gaps, proving delay advancement is clock-based rather than valid-qualified\n- Signed-looking and boundary bit patterns, although the store must preserve all 16 bits opaquely\n- Asynchronous reset of control followed by refill, proving stale memory is never marked valid\n- Mode/depth changes only after `outstanding == 0` and reset\n\nFinally, run a valid-only pipeline test and confirm the externally visible first-output timing remains:\n\n- Mode 0: `do_en` begins exactly 71 clocks after acceptance of sample 0 and lasts 64 clocks\n- Mode 1: `do_en` begins exactly 137 clocks after acceptance of sample 0 and lasts 128 clocks\n\nDo not debug twiddles or arithmetic until this compile blocker and exact-delay semantics pass; every butterfly pairing depends on them.",
+ "feedback": "gate 'functional' failed: ~ | %Error: /work/peweaver/runs/.evaluators/merge-clean-20260919-newarch/source/physical/rtl/peweaver_shared_fft.v:405:30: Can't find definition of variable: 'DEPTH' |   405 |     reg [WIDTH-1:0] buf_im[0:DEPTH-1]; |       |                              ^~~~~ |         ... See the manual at https://verilator.org/verilator_doc.html?v=5.051 for more assistance. | %Error: Exiting due to 1 error(s) | ",
+ "history": [
+  {
+   "ts": 1789814907.872988,
+   "turn": 1,
+   "status": "promoted",
+   "level": 1,
+   "hash": "4864650af1bf9c0e157c0e8fb3e03cc38b2f7aa0bde2aea29ec4aa1808adfe5a"
+  },
+  {
+   "ts": 1789816775.8569367,
+   "turn": 2,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 3
+  },
+  {
+   "ts": 1789818630.6833239,
+   "turn": 3,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 6
+  },
+  {
+   "ts": 1789820515.7343795,
+   "turn": 4,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 9
+  },
+  {
+   "ts": 1789822369.8361197,
+   "turn": 5,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 12
+  },
+  {
+   "ts": 1789824287.8096397,
+   "turn": 6,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 15
+  },
+  {
+   "ts": 1789826064.965888,
+   "turn": 7,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 18
+  },
+  {
+   "ts": 1789827941.787317,
+   "turn": 8,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 21
+  },
+  {
+   "ts": 1789829804.9667237,
+   "turn": 9,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 24
+  },
+  {
+   "ts": 1789831644.1504726,
+   "turn": 10,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 27
+  },
+  {
+   "ts": 1789833381.056193,
+   "turn": 11,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 30
+  },
+  {
+   "ts": 1789835132.3734078,
+   "turn": 12,
+   "status": "retry",
+   "level": 2,
+   "infra_retries": 33
+  }
+ ],
+ "model_status": {
+  "1": {
+   "advise_chars": 11322,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "4864650af1bf9c0e157c0e8fb3e03cc38b2f7aa0bde2aea29ec4aa1808adfe5a",
+   "verdict": "IMPROVE",
+   "level": 1
+  },
+  "2": {
+   "advise_chars": 1964,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "3": {
+   "advise_chars": 1936,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "4": {
+   "advise_chars": 2241,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "5": {
+   "advise_chars": 1866,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "6": {
+   "advise_chars": 1687,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "7": {
+   "advise_chars": 1713,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "e28d1407fe8fd0ea5f7697fe2ca17d904fd4afe402139247eac7daef022ff317"
+  },
+  "8": {
+   "advise_chars": 2083,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "9": {
+   "advise_chars": 1874,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "10": {
+   "advise_chars": 1830,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "b2f52822d35065caeab31e6f38e93dd0ed6d30c7e094a1f9afbd2c9028c568d7"
+  },
+  "11": {
+   "advise_chars": 2100,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "953ee0e5393e8f15ac6e0084b015b904a855dc01987abea2f1bcd1d6ccd988b9"
+  },
+  "12": {
+   "advise_chars": 2680,
+   "implement_ok": true,
+   "implement_reason": "candidate written from model reply",
+   "manifest_hash": "e28d1407fe8fd0ea5f7697fe2ca17d904fd4afe402139247eac7daef022ff317"
+  }
+ },
+ "mode": "MergeDiscovery",
+ "parent_hash": "",
+ "parent_attested": false,
+ "config_hash": "bcf2b07b54141975145e985a50e68de30fbdba554c1e8c2a80c763b0a33f3054"
+}

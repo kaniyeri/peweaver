@@ -1,0 +1,4 @@
+instance_count 39886
+worst_slack_max_ns 0.10868817264945517
+total_negative_slack_max_ns 0.0
+worst_slack_min_ns 0.1304490996590616

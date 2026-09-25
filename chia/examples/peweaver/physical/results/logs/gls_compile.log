@@ -1,0 +1,6 @@
+make: Entering directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_rtl_v3'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/verilator_rtl_v3'
+- V e r i l a t i o n   R e p o r t: Verilator 5.051 devel rev v5.050-281-g1ad9acd22 (mod)
+- Verilator: Built from 0.000 MB sources in 0 modules, into 0.000 MB in 0 C++ files needing 0.000 MB
+- Verilator: Walltime 0.011 s (elab=0.000, cvt=0.000, bld=0.010); cpu 0.001 s on 1 threads; allocated 9.000 MB

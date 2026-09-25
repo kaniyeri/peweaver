@@ -1,0 +1,12 @@
+{
+  "attempt": 1,
+  "design": "peweaver_ppa_dual_fft_icg (Variant B)",
+  "status": "REJECTED_FAIL_CLOSED",
+  "reason": "timing_met=False: hold slack -0.316 ns (5 input-port data hold paths: di_en, di_re[1] -> core flops); setup +0.436 ns MET; DRC 0",
+  "note": "Do not use attempt-1 power numbers as claims. For scientific context only: p64 streaming 23.241 mW, p128 41.581 mW vs A 61.523/61.446 mW; e64 22.78 nJ. ICG cells altered the clock spine increasing endpoint clock delay vs fast input arrivals.",
+  "area_um2": 428894.0,
+  "instances": 53257,
+  "primary_artifact_vm": "/work/peweaver/source/chia/examples/peweaver/physical/results/dual_b_sky130.json (attempt 1; to be overwritten only by a passing attempt per first-valid-B rule)",
+  "flow": "dual_d050_frontend.tcl (no hold repair) + fft64_backend.tcl",
+  "budget_state": "1 of 5 physical evaluations consumed"
+}

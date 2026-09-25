@@ -1,0 +1,44 @@
+{
+  "name": "unsafe_simultaneous_mac",
+  "schema_version": 1,
+  "description": "Two independent same-cycle signed 4x4 MAC outputs with signed 8-bit accumulation are not equivalent to a one-multiplier selected-lane implementation.",
+  "source": "case.sv",
+  "top": "peweaver_unsafe_miter",
+  "simulation_testbench": "sim_tb.sv",
+  "simulation_top": "peweaver_unsafe_sim_tb",
+  "miter_output": "mismatch",
+  "expected_equivalent": false,
+  "synthesis": {"baseline_top": "peweaver_unsafe_baseline", "candidate_top": "peweaver_unsafe_shared_candidate"},
+  "scheduling_contract": "both logical PE outputs are required simultaneously; no exclusivity assumption is allowed",
+  "contract": {
+    "task_modes": [
+      {"name": "simultaneous", "components": ["mac0", "mac1"], "parallel_groups": [["mac0", "mac1"]]}
+    ],
+    "top_level_mutual_exclusion": false,
+    "legal_overlap": [["mac0", "mac1"]],
+    "interfaces": {
+      "clock": "none; combinational transaction",
+      "reset": "none",
+      "input": "signed a0,b0,a1,b1 and signed 8-bit acc0,acc1",
+      "output": "two independent signed 8-bit outputs y0,y1",
+      "fixed_point": "two's-complement signed 4-bit operands and signed 8-bit accumulator/output; modulo 2^8 wrap",
+      "backpressure": "none; both outputs required in the same cycle"
+    },
+    "performance": {"latency_cycles": 0, "sustained_throughput": "1 simultaneous pair/cycle"},
+    "mode_switch": {
+      "preconditions": "none; both logical components may be active together",
+      "drain_inflight": false,
+      "reset_on_switch": false,
+      "state_isolation": true
+    },
+    "stimulus": {
+      "source": "formal unconstrained bit-vector inputs",
+      "provenance": "Yosys SAT exploration; synthetic concurrent-use stimulus"
+    },
+    "objective": {
+      "primary": "test whether one multiplier can replace two concurrent MAC resources",
+      "constraints": {"correctness": "formal mismatch must be discovered", "schedule": "both outputs are required simultaneously"}
+    }
+  },
+  "formal_command": "prep -top peweaver_unsafe_miter -flatten; sat -verify -prove mismatch 0"
+}

@@ -1,0 +1,34 @@
+{
+  "lock_schema_version": 1,
+  "scope": "native RTL/formal toolchain; CHIA/Ray intentionally deferred",
+  "host": {
+    "distribution": "Ubuntu 22.04.5 LTS",
+    "architecture": "x86_64",
+    "system_python": "Python 3.10.12"
+  },
+  "downloads": {
+    "oss_cad_suite": {
+      "release": "2026-08-28",
+      "url": "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2026-08-28/oss-cad-suite-linux-x64-20260828.tgz",
+      "sha256": "a7f1b795aa10271ff8a0f96de0e5ee77ac9df86b71808cbe506159cb8117eed1"
+    },
+    "miniforge": {
+      "status": "installed but unused until CHIA is enabled",
+      "release": "26.3.2-2",
+      "url": "https://github.com/conda-forge/miniforge/releases/download/26.3.2-2/Miniforge3-26.3.2-2-Linux-x86_64.sh",
+      "sha256": "42260ffe3830fb953d5eee1bbb32229ff06aa7c3833c1ed7a9a0420a95685d94"
+    }
+  },
+  "tools": {
+    "yosys": "Yosys 0.68+136 (git sha1 c30457480-dirty, Release)",
+    "symbiyosys": "SBY v0.68",
+    "verilator": "Verilator 5.051 devel rev v5.050-281-g1ad9acd22 (mod)",
+    "iverilog": "Icarus Verilog version 14.0 (devel) (s20260301-391-g64f13540a-dirty)",
+    "z3": "Z3 version 4.15.5 - 64 bit",
+    "boolector": "provided by OSS CAD Suite 2026-08-28",
+    "cmake": "cmake version 3.22.1",
+    "ninja": "1.10.1",
+    "graphviz": "dot - graphviz version 2.43.20190912.0211",
+    "jq": "jq-1.6"
+  }
+}

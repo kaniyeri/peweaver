@@ -1,0 +1,20 @@
+sweep queue: 9 pending / 9 total; gpt window: 00:00
+[start] msweep-adv-astra-r1 (openai/gpt-6-astra -> gemini/gemini-3.8-flash)
+[start] msweep-adv-sol-r1 (openai/gpt-5.6-sol -> gemini/gemini-3.8-flash)
+[start] msweep-impl-astra-r1 (gemini/gemini-3.8-flash -> openai/gpt-6-astra)
+[done] msweep-adv-astra-r1 in 153s
+[start] msweep-impl-sol-r1 (gemini/gemini-3.8-flash -> openai/gpt-5.6-sol)
+[done] msweep-impl-astra-r1 in 335s
+[start] msweep-impl-claude-r2 (gemini/gemini-3.8-flash -> openrouter/anthropic/claude-sonnet-4.6)
+[done] msweep-adv-sol-r1 in 543s
+[start] msweep-adv-astra-r2 (openai/gpt-6-astra -> gemini/gemini-3.8-flash)
+[done] msweep-adv-astra-r2 in 148s
+[start] msweep-adv-sol-r2 (openai/gpt-5.6-sol -> gemini/gemini-3.8-flash)
+[done] msweep-adv-sol-r2 in 386s
+[start] msweep-impl-astra-r2 (gemini/gemini-3.8-flash -> openai/gpt-6-astra)
+[done] msweep-impl-astra-r2 in 235s
+[start] msweep-impl-sol-r2 (gemini/gemini-3.8-flash -> openai/gpt-5.6-sol)
+[done] msweep-impl-sol-r1 in 1552s
+[done] msweep-impl-sol-r2 in 575s
+[done] msweep-impl-claude-r2 in 3087s
+{"completed": 17, "pending": 0}

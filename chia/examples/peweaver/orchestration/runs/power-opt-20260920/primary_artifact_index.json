@@ -1,0 +1,81 @@
+{
+  "optimization": {
+    "accepted_rtl": {
+      "path": "best_peweaver_shared_fft.v",
+      "sha256": "be7448b949f5054391fe86a419506e3192f8296d4fdeb216949d44116dbd7a9b",
+      "size_bytes": 27075
+    },
+    "recovered_parent_rtl": {
+      "path": "candidates/recovered_parent_23d4bfc1.v",
+      "sha256": "23d4bfc118031b399aaabd8765737ada164e9cd385fd40b32f33dd38eb0ce1f1",
+      "size_bytes": 27918
+    },
+    "rejected_turn1_rtl": {
+      "path": "candidates/rejected_turn1_ddb3b0c1.v",
+      "sha256": "ddb3b0c12e1a3e162910df12c1f022838260611da5c74898f8a4b47776db9793",
+      "size_bytes": 28913
+    },
+    "state": {
+      "path": "artifacts/state.json",
+      "sha256": "e9c76888b47df1e9a34377cb8b5134904e0c665ffcb82ca6ceb3ced4b51393da",
+      "size_bytes": 16237
+    },
+    "parent_check": {
+      "path": "artifacts/check_parent.json",
+      "sha256": "f79c13611d5e0534f05e42ca931ed25fbc55a7687de7020941cb6ee59b138a8d",
+      "size_bytes": 1999
+    },
+    "turn1_check": {
+      "path": "artifacts/check_turn1.json",
+      "sha256": "ae2607b2e269183cab2c95805ba014ee67bf4d72976e7f131033bc3e602211d2",
+      "size_bytes": 1984
+    },
+    "turn2_check": {
+      "path": "artifacts/check_turn2.json",
+      "sha256": "a2a64d7c9a68feaf53e21e9f80e41f01e587a868abc5e373e961506953c421a7",
+      "size_bytes": 2003
+    },
+    "turn1_manifest": {
+      "path": "artifacts/manifest_turn1.json",
+      "sha256": "ae8e5f98b0bf621784939f5ac474101163c5eeed3d6bc243f1e0d88895e6898b",
+      "size_bytes": 998
+    },
+    "turn2_manifest": {
+      "path": "artifacts/manifest_turn2.json",
+      "sha256": "a14328070ad76e4809ad4ac59f692b5e0d6f9ec8c5bd042380180f79a56d1feb",
+      "size_bytes": 998
+    },
+    "lineage": {
+      "path": "artifacts/lineage.sqlite3",
+      "sha256": "3831980797b43380f0695c5cea27a4519f2b0013bb4ef66bc4aa59c0903c002c",
+      "size_bytes": 98304
+    },
+    "controller_log": {
+      "path": "power-opt-20260920.log",
+      "sha256": "3891be3df31803eab5bcab7133d7459a4128e8e91772bf311f431012167837a8",
+      "size_bytes": 1280
+    }
+  },
+  "precursor": {
+    "turn12_candidate": {
+      "path": "precursor/turn12_candidate.v",
+      "sha256": "23d4bfc118031b399aaabd8765737ada164e9cd385fd40b32f33dd38eb0ce1f1",
+      "size_bytes": 27918
+    },
+    "state": {
+      "path": "precursor/artifacts/state.json",
+      "sha256": "31a8fa0a297bd44b8ac6ebdf5e5bd5d641c6dc4b16ebe8b385f6a979866923f6",
+      "size_bytes": 20293
+    },
+    "turn12_check": {
+      "path": "precursor/artifacts/check_turn12.json",
+      "sha256": "46a90e8e44dda1241ab869477afb3e227417ae9479ded789b24e150dab014f83",
+      "size_bytes": 856
+    },
+    "controller_log": {
+      "path": "precursor/controller.log",
+      "sha256": "6836cae176289483bf4ebacb1ba48b741b206ca5499d1c3923ac56be38e7083f",
+      "size_bytes": 7275
+    }
+  }
+}

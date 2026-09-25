@@ -1,0 +1,112 @@
+  [PASS] zeros_64: bit-exact
+  [PASS] plus_full_64: bit-exact
+  [PASS] minus_full_64: bit-exact
+  [PASS] alternate_64: bit-exact
+  [PASS] impulse_64: bit-exact
+  [PASS] ramp_64: bit-exact
+  [PASS] random0_64: bit-exact
+  [PASS] random1_64: bit-exact
+  [PASS] random2_64: bit-exact
+  [PASS] random3_64: bit-exact
+  [PASS] random4_64: bit-exact
+  [PASS] random5_64: bit-exact
+  [PASS] burst0_64: bit-exact
+  [PASS] burst1_64: bit-exact
+  [PASS] abort0_64: bit-exact (abort pulse 64 cycles)
+  [PASS] abort1_64: bit-exact (abort pulse 64 cycles)
+  [PASS] midreset_64: bit-exact
+  [PASS] zeros_128: bit-exact
+  [PASS] plus_full_128: bit-exact
+  [PASS] minus_full_128: bit-exact
+  [PASS] alternate_128: bit-exact
+  [PASS] impulse_128: bit-exact
+  [PASS] ramp_128: bit-exact
+  [PASS] random0_128: bit-exact
+  [PASS] random1_128: bit-exact
+  [PASS] random2_128: bit-exact
+  [PASS] random3_128: bit-exact
+  [PASS] random4_128: bit-exact
+  [PASS] random5_128: bit-exact
+  [PASS] burst0_128: bit-exact
+  [PASS] burst1_128: bit-exact
+  [PASS] abort0_128: bit-exact (abort pulse 128 cycles)
+  [PASS] abort1_128: bit-exact (abort pulse 128 cycles)
+  [PASS] midreset_128: bit-exact
+  [PASS] switch_64_to_128: bit-exact
+  [PASS] switch_128_to_64: bit-exact
+  [PASS] zeros_64: bit-exact
+  mismatch at emitted sample 4: got (01f7,02e7) expected (fdc2,02e7)
+  mismatch at emitted sample 5: got (fbc2,0e4b) expected (fff6,0e4b)
+  mismatch at emitted sample 6: got (efa8,fd6c) expected (efa8,007d)
+  mismatch at emitted sample 7: got (02ad,046f) expected (02ad,015e)
+  [FAIL] random0_64: 60/64 mismatches
+  mismatch at emitted sample 4: got (ea92,0387) expected (ecd3,0387)
+  mismatch at emitted sample 5: got (0351,02f8) expected (0110,02f8)
+  mismatch at emitted sample 6: got (fc31,fab4) expected (fc31,fb71)
+  mismatch at emitted sample 7: got (0769,ffb2) expected (0769,fef5)
+  [FAIL] burst0_64: 180/192 mismatches
+  [PASS] zeros_128: bit-exact
+  mismatch at emitted sample 4: got (021e,02e5) expected (01e0,02e5)
+  mismatch at emitted sample 5: got (00ad,02e8) expected (00eb,02e8)
+  mismatch at emitted sample 6: got (e7b7,0469) expected (ee81,0469)
+  mismatch at emitted sample 7: got (1000,04de) expected (0936,04de)
+  [FAIL] random0_128: 124/128 mismatches
+  mismatch at emitted sample 4: got (ed93,f66a) expected (f604,f66a)
+  mismatch at emitted sample 5: got (15ed,ec20) expected (0d7c,ec20)
+  mismatch at emitted sample 6: got (05a2,0015) expected (0423,0015)
+  mismatch at emitted sample 7: got (fe52,fe68) expected (ffd2,fe68)
+  [FAIL] burst0_128: 372/384 mismatches
+  mutation scale_shift: failed_as_expected=True
+  [PASS] zeros_64: bit-exact
+  [PASS] random0_64: bit-exact
+  [PASS] burst0_64: bit-exact
+  [PASS] zeros_128: bit-exact
+  [PASS] random0_128: bit-exact
+  mismatch at emitted sample 89: got (faab,001b) expected (faaa,001c)
+  mismatch at emitted sample 90: got (0157,fc67) expected (0156,fc67)
+  mismatch at emitted sample 91: got (117b,0244) expected (117b,0245)
+  mismatch at emitted sample 92: got (04a8,fd59) expected (04a9,fd59)
+  [FAIL] burst0_128: 6/384 mismatches
+  mutation literal_lsb: failed_as_expected=True
+{
+ "candidate": "/work/peweaver/runs/merge-repro-1/best/peweaver_shared_fft.v",
+ "suite": {
+  "passed": true,
+  "cases": 36,
+  "failed": []
+ },
+ "sensitivity": {
+  "twiddle_re5": {
+   "applied": false,
+   "error": "twiddle_re5 target not found"
+  },
+  "twiddle_im5": {
+   "applied": false,
+   "error": "twiddle_im5 target not found"
+  },
+  "scale_shift": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "random0_64",
+    "burst0_64",
+    "random0_128",
+    "burst0_128"
+   ]
+  },
+  "counter_wrap": {
+   "applied": false,
+   "error": "counter_wrap target not found"
+  },
+  "literal_lsb": {
+   "applied": true,
+   "suite_failed_as_expected": true,
+   "failed_cases": [
+    "burst0_128"
+   ]
+  }
+ },
+ "verdict": "reproducible-pass-and-sensitive",
+ "elapsed_seconds": 29.0
+}
+VERDICT: reproducible-pass-and-sensitive

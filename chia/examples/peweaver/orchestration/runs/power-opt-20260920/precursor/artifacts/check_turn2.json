@@ -1,0 +1,25 @@
+{
+ "verdict": "RETRY",
+ "level": 2,
+ "feedback": "infrastructure failure at gate 'physical': physical result JSON missing",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "[PASS] mode64_single | [PASS] mode128_single | PEWEAVER_ACTIVITY_DONE | - /work/peweaver/runs/.evaluators/merge-clean-20260919-newarch/source/physical/activity/shared_activity_tb.sv:247: Verilog $finish | - S i m u l a t i o n   R e p o r t: Verilator 5.051 devel | - Verilator: $finish at 14us; walltime 0.002 s; speed 6.190 ms/s | - Verilator: cpu 0.002 s on 1 threads; allocated 4 MB | ",
+   "returncode": 0
+  },
+  "physical": {
+   "passed": false,
+   "retry": true,
+   "note": "physical result JSON missing",
+   "error": "physical result JSON missing",
+   "metrics": {}
+  }
+ }
+}

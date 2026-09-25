@@ -1,0 +1,71 @@
+{
+ "created": 1788590652.7707083,
+ "note": "VM campaign evidence pulled 2026-09-05 (state/check/advice/holdout/mutation/reeval reports + best candidates)",
+ "artifacts": [
+  {
+   "path": "mac-merge-1-reeval6/cand/shared_mac.v",
+   "sha256": "1b6df68729dbf570375dab7ff22d080b4ed0c216056b5a63f896251f495a9d5e",
+   "bytes": 755
+  },
+  {
+   "path": "mac-merge-3/best/shared_mac.v",
+   "sha256": "7a9a2fb7e64a04d26e3e73324be4a25549cb18fd19b0810e8062b0e020ab15ed",
+   "bytes": 679
+  },
+  {
+   "path": "mac-merge-2/best/shared_mac.v",
+   "sha256": "3340103b408aaf617ce0e2396d5bedc723303ec0e14f9ab5d19b42aa976f6c6a",
+   "bytes": 857
+  },
+  {
+   "path": "merge-repro-3/best/peweaver_shared_fft.v",
+   "sha256": "150d5b25712e269040a17571c4ee6379de1c2c2deb0d2f649fb0824d4020504f",
+   "bytes": 26630
+  },
+  {
+   "path": "mac-mutants-1/acc_hold_mode1/shared_mac.v",
+   "sha256": "6e5291aaa425216fa14953abf1c9cfdcd010ce242cb9f67a3924f01d8559ad2d",
+   "bytes": 437
+  },
+  {
+   "path": "mac-mutants-1/unshared_recompute/shared_mac.v",
+   "sha256": "485624594df6d88f83aad5cb97c651a4334b5ea5764d8a888e635b50d429a551",
+   "bytes": 431
+  },
+  {
+   "path": "mac-mutants-1/signedness/shared_mac.v",
+   "sha256": "edf765edf223b8ecc0e4b609d87738a63bfc6e5567152017ce4e9288e2acb5c5",
+   "bytes": 401
+  },
+  {
+   "path": "mac-mutants-1/reset_ignored/shared_mac.v",
+   "sha256": "7beb24c845d2090b647e282d125c80e0263fb682628a9353d675a6e4a1cd7bd8",
+   "bytes": 400
+  },
+  {
+   "path": "mac-mutants-1/enable_ignored/shared_mac.v",
+   "sha256": "4a980d8111386a0a8d4a9fe8a047c7f5403dae946da55cd116173bf77b747974",
+   "bytes": 420
+  },
+  {
+   "path": "mac-mutants-1/output_truncation/shared_mac.v",
+   "sha256": "d8fcc1d58a5618cf9ef282b6f1ab70b9ae7a8af9d3635d52d5b4304968aa0ea2",
+   "bytes": 467
+  },
+  {
+   "path": "mac-merge-1/best/shared_mac.v",
+   "sha256": "1b6df68729dbf570375dab7ff22d080b4ed0c216056b5a63f896251f495a9d5e",
+   "bytes": 755
+  },
+  {
+   "path": "merge-repro-1/best/peweaver_shared_fft.v",
+   "sha256": "589585de33d164a1b5ee56c0fa19452caa0ce856789cfa0f0e1fd4b8bbaa2ee3",
+   "bytes": 21181
+  },
+  {
+   "path": "merge-repro-2/best/peweaver_shared_fft.v",
+   "sha256": "e5f104b82f44e8972f5bbfd33f556a532ca2291bea347064a243ff894bd4d2d7",
+   "bytes": 25623
+  }
+ ]
+}

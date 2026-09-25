@@ -1,0 +1,14 @@
+{
+ "candidate": "examples/peweaver/orchestration/runs/mac-merge-2/best/shared_mac.v",
+ "judge": "second-seed hidden (0x7EEDBEEF) + directed corners",
+ "hidden_seed": 2129510127,
+ "hidden_randomized": {
+  "passed": false,
+  "note": "compile failed: With current working directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2/hidden_seed'\n%Error: Exiting due to 1 error(s)\n"
+ },
+ "directed_corners": {
+  "passed": false,
+  "note": "compile failed: h current working directory '/home/peweaver-user/Documents/chialoop/chia/examples/peweaver/orchestration/runs/submission_edge_20260906/mac_hidden_judge/m2/hidden_corners'\n%Error: Exiting due to 1 error(s)\n"
+ },
+ "verified": false
+}

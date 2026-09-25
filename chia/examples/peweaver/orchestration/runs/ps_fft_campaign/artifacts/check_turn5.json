@@ -1,0 +1,22 @@
+{
+ "verdict": "ACCEPT",
+ "level": 3,
+ "feedback": "",
+ "detail": {
+  "lint": {
+   "passed": true,
+   "retry": false,
+   "note": ""
+  },
+  "functional": {
+   "passed": true,
+   "retry": false,
+   "note": "PEWEAVER_ACTIVITY_DONE\n- /work/peweaver/runs/ps-fft-6/source/physical/activity/shared_activity_tb.sv:247: Verilog $finish\n- S i m u l a t i o n   R e p o r t: Verilator 5.051 devel\n- Verilator: $finish at 14us; walltime 0.003 s; speed 5.443 ms/s\n- Verilator: cpu 0.003 s on 1 threads; allocated 4 MB\n"
+  },
+  "area_proxy": {
+   "passed": true,
+   "retry": false,
+   "note": "synth cell count 28944 (incumbent 32745) ok"
+  }
+ }
+}

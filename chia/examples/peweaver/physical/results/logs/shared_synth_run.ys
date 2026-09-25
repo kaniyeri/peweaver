@@ -1,0 +1,15 @@
+# PEWeaver Shared FFT candidate synthesis (Yosys) — sky130_fd_sc_hd tt_025C_1v80
+read_verilog -sv \
+    rtl/peweaver_ppa_shared_fft.v \
+    rtl/peweaver_shared_fft.v
+
+hierarchy -check -top peweaver_ppa_shared_fft
+synth -top peweaver_ppa_shared_fft -flatten
+dfflibmap -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_shared_tt_synth.lib
+abc -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_shared_tt_synth.lib -D 10000
+setundef -zero
+splitnets
+opt_clean -purge
+check
+stat -liberty /home/peweaver-user/Documents/chialoop/chia/examples/peweaver/physical/results/work/lib_shared_tt_synth.lib
+write_verilog -noattr -noexpr -nodec results/netlists/shared_ppa_synth.v

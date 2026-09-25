@@ -1,0 +1,397 @@
+{
+  "sweep_conditions": {
+    "ambients_k": [
+      300.0,
+      310.15
+    ],
+    "r_convec_k_per_w": [
+      0.1,
+      0.5,
+      1.0,
+      2.0,
+      5.0,
+      10.0
+    ],
+    "grid_resolution": 32
+  },
+  "geometry1_actual_die": {
+    "amb_300K": [
+      {
+        "r_convec_k_per_w": 0.1,
+        "mode64": {
+          "s0_peak_rise_k": 0.44,
+          "a_peak_rise_k": 0.48,
+          "delta_k_s0_minus_a": -0.04,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.44,
+          "a_peak_rise_k": 0.47,
+          "delta_k_s0_minus_a": -0.03,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 0.5,
+        "mode64": {
+          "s0_peak_rise_k": 0.45,
+          "a_peak_rise_k": 0.5,
+          "delta_k_s0_minus_a": -0.05,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.46,
+          "a_peak_rise_k": 0.5,
+          "delta_k_s0_minus_a": -0.04,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 1.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.47,
+          "a_peak_rise_k": 0.53,
+          "delta_k_s0_minus_a": -0.06,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.48,
+          "a_peak_rise_k": 0.53,
+          "delta_k_s0_minus_a": -0.05,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 2.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.51,
+          "a_peak_rise_k": 0.59,
+          "delta_k_s0_minus_a": -0.08,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.52,
+          "a_peak_rise_k": 0.59,
+          "delta_k_s0_minus_a": -0.07,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 5.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.63,
+          "a_peak_rise_k": 0.78,
+          "delta_k_s0_minus_a": -0.15,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.64,
+          "a_peak_rise_k": 0.78,
+          "delta_k_s0_minus_a": -0.14,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 10.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.83,
+          "a_peak_rise_k": 1.09,
+          "delta_k_s0_minus_a": -0.26,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.85,
+          "a_peak_rise_k": 1.09,
+          "delta_k_s0_minus_a": -0.24,
+          "thermal_win": "S0 (Shared)"
+        }
+      }
+    ],
+    "amb_310K": [
+      {
+        "r_convec_k_per_w": 0.1,
+        "mode64": {
+          "s0_peak_rise_k": 0.44,
+          "a_peak_rise_k": 0.48,
+          "delta_k_s0_minus_a": -0.04,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.44,
+          "a_peak_rise_k": 0.47,
+          "delta_k_s0_minus_a": -0.03,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 0.5,
+        "mode64": {
+          "s0_peak_rise_k": 0.45,
+          "a_peak_rise_k": 0.5,
+          "delta_k_s0_minus_a": -0.05,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.46,
+          "a_peak_rise_k": 0.5,
+          "delta_k_s0_minus_a": -0.04,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 1.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.47,
+          "a_peak_rise_k": 0.53,
+          "delta_k_s0_minus_a": -0.06,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.48,
+          "a_peak_rise_k": 0.53,
+          "delta_k_s0_minus_a": -0.05,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 2.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.51,
+          "a_peak_rise_k": 0.59,
+          "delta_k_s0_minus_a": -0.08,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.52,
+          "a_peak_rise_k": 0.59,
+          "delta_k_s0_minus_a": -0.07,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 5.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.63,
+          "a_peak_rise_k": 0.78,
+          "delta_k_s0_minus_a": -0.15,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.64,
+          "a_peak_rise_k": 0.78,
+          "delta_k_s0_minus_a": -0.14,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 10.0,
+        "mode64": {
+          "s0_peak_rise_k": 0.83,
+          "a_peak_rise_k": 1.09,
+          "delta_k_s0_minus_a": -0.26,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_peak_rise_k": 0.85,
+          "a_peak_rise_k": 1.09,
+          "delta_k_s0_minus_a": -0.24,
+          "thermal_win": "S0 (Shared)"
+        }
+      }
+    ]
+  },
+  "geometry2_common_die": {
+    "amb_300K": [
+      {
+        "r_convec_k_per_w": 0.1,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.34,
+          "a_peak_rise_k": 0.48,
+          "delta_k": -0.14,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.34,
+          "a_peak_rise_k": 0.47,
+          "delta_k": -0.13,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 0.5,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.35,
+          "a_peak_rise_k": 0.5,
+          "delta_k": -0.15,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.36,
+          "a_peak_rise_k": 0.5,
+          "delta_k": -0.14,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 1.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.37,
+          "a_peak_rise_k": 0.53,
+          "delta_k": -0.16,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.38,
+          "a_peak_rise_k": 0.53,
+          "delta_k": -0.15,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 2.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.41,
+          "a_peak_rise_k": 0.59,
+          "delta_k": -0.18,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.42,
+          "a_peak_rise_k": 0.59,
+          "delta_k": -0.17,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 5.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.54,
+          "a_peak_rise_k": 0.78,
+          "delta_k": -0.24,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.54,
+          "a_peak_rise_k": 0.78,
+          "delta_k": -0.24,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 10.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.74,
+          "a_peak_rise_k": 1.09,
+          "delta_k": -0.35,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.75,
+          "a_peak_rise_k": 1.09,
+          "delta_k": -0.34,
+          "thermal_win": "S0 (Shared)"
+        }
+      }
+    ],
+    "amb_310K": [
+      {
+        "r_convec_k_per_w": 0.1,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.34,
+          "a_peak_rise_k": 0.48,
+          "delta_k": -0.14,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.34,
+          "a_peak_rise_k": 0.47,
+          "delta_k": -0.13,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 0.5,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.35,
+          "a_peak_rise_k": 0.5,
+          "delta_k": -0.15,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.36,
+          "a_peak_rise_k": 0.5,
+          "delta_k": -0.14,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 1.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.37,
+          "a_peak_rise_k": 0.53,
+          "delta_k": -0.16,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.38,
+          "a_peak_rise_k": 0.53,
+          "delta_k": -0.15,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 2.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.41,
+          "a_peak_rise_k": 0.59,
+          "delta_k": -0.18,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.42,
+          "a_peak_rise_k": 0.59,
+          "delta_k": -0.17,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 5.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.54,
+          "a_peak_rise_k": 0.78,
+          "delta_k": -0.24,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.54,
+          "a_peak_rise_k": 0.78,
+          "delta_k": -0.24,
+          "thermal_win": "S0 (Shared)"
+        }
+      },
+      {
+        "r_convec_k_per_w": 10.0,
+        "mode64": {
+          "s0_common_peak_rise_k": 0.74,
+          "a_peak_rise_k": 1.09,
+          "delta_k": -0.35,
+          "thermal_win": "S0 (Shared)"
+        },
+        "mode128": {
+          "s0_common_peak_rise_k": 0.75,
+          "a_peak_rise_k": 1.09,
+          "delta_k": -0.34,
+          "thermal_win": "S0 (Shared)"
+        }
+      }
+    ]
+  },
+  "power_density_comparison": {
+    "S0_mode64_W_per_mm2": 0.0635,
+    "S0_mode128_W_per_mm2": 0.0645,
+    "A_mode64_W_per_mm2": 0.0665,
+    "A_mode128_W_per_mm2": 0.0665,
+    "ratio_S0_vs_A_mode64_power": 0.6472,
+    "ratio_S0_vs_A_mode64_density": 0.9545
+  }
+}

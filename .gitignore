@@ -1,0 +1,11 @@
+__pycache__/
+obj/
+*.pyc
+.pytest_cache/
+/chia/examples/peweaver/results/
+*.usage.jsonl
+*.vcd
+*.spef
+*.odb
+*.gds
+*.tgz
