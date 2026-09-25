@@ -15,10 +15,6 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 | S1, PowerSave | 282,963 | 39.931 / 40.445 |
 | Dual B, clock gated | 429,655 | 23.387 / 41.712 |
 
-S0 uses 33.13% less placed area than Dual A. S1 reduces area further but does not demonstrate a power reduction.
-
-Other merges were checked at the synthesis level. These are **generic Yosys cell counts**, not placed area or power.
-
 | Design | Shared / two references | Reduction |
 |---|---:|---:|
 | MAC | 531 / 949 | 44.0% |
