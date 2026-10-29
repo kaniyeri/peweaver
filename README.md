@@ -21,7 +21,13 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 | FIR | 4,484 / 5,071 | 11.6% |
 | DWT | 6,533 / 18,570 | 64.8% |
 
-**Joint DWT optimization.** An exploratory, post-selected ChiaMergePowerSave candidate used **68.14% less mapped area and 26.32% less estimated power** than the separate reference designs for the tested workload. Results are Sky130 mapped-netlist estimates without placement or routing.
+**Joint DWT optimization**
+
+| Design | Mapped area reduction | Estimated power reduction |
+|---|---:|---:|
+| ChiaMergePowerSave DWT | 68.14% | 26.32% |
+
+The candidate was selected after the search; results are Sky130 mapped-netlist estimates without placement or routing.
 ## Model cost
 
 | Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode Advisor cost estimate |
@@ -36,9 +42,9 @@ Turns include failed attempts. Costs are ccusage estimates from OpenCode session
 
 Direct Gemini API estimates for the joint DWT search:
 
-| Campaign | Model calls | Estimated API cost |
-|---|---:|---:|
-| Joint DWT | 104 | $2.26 |
+| Campaign | Gemini API calls | Advisor | Implementer | Gemini API cost estimate |
+|---|---:|---|---|---:|
+| Joint DWT | 104 | Gemini 4 Argon | Gemini 3.8 Flash | $2.26 |
 
 This estimate excludes VM and other infrastructure costs.
 ## Code
