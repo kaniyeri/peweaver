@@ -27,8 +27,6 @@ FFT results are single-run SkyWater 130 estimates at one corner. Power is measur
 |---|---:|---:|
 | ChiaMergePowerSave DWT | 68.14% | 26.32% |
 
-The candidate was selected after the search; results are Sky130 mapped-netlist estimates without placement or routing.
-
 ## Model cost
 
 | Campaign | Turns | OpenCode sessions | Advisor | Implementer | OpenCode Advisor cost estimate |
@@ -46,8 +44,6 @@ Direct Gemini API estimates for the joint DWT search:
 | Campaign | Gemini API calls | Advisor | Implementer | Gemini API cost estimate |
 |---|---:|---|---|---:|
 | Joint DWT | 104 | Gemini 4 Argon | Gemini 3.8 Flash | $2.26 |
-
-This estimate excludes VM and other infrastructure costs.
 
 ## Code
 
